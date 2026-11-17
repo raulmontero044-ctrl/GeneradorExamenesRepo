@@ -16,7 +16,7 @@
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { RUTAS, esPrincipal } from './lib/config.mjs';
-import { validarPregunta } from './lib/esquema.mjs';
+import { huellaPreguntas, validarPregunta } from './lib/esquema.mjs';
 import { buscarParecidas, compararPreguntas, normalizarTexto } from './lib/similitud.mjs';
 
 export function leerBanco(ruta = RUTAS.banco) {
@@ -70,6 +70,9 @@ export function comparar(candidatas, banco) {
 export function registrar(examen, { ruta = RUTAS.banco, ahora = new Date(), validar = validarPregunta } = {}) {
   if (examen?.falsador?.veredicto !== 'APROBADO') {
     throw new Error('el examen no está APROBADO por el falsador; no se registra');
+  }
+  if (examen.falsador.huella !== huellaPreguntas(examen.preguntas)) {
+    throw new Error('el examen ha cambiado después de que el falsador lo aprobara; no se registra');
   }
   const banco = leerBanco(ruta);
   const ids = new Set(banco.map((p) => p.id));

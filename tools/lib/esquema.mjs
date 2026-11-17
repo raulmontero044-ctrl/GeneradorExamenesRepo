@@ -23,6 +23,11 @@ export function asignarId(p) {
   return `${p.tema}-${h}`;
 }
 
+// Huella del contenido de las preguntas: cualquier cambio posterior a la aprobación la altera.
+export function huellaPreguntas(preguntas) {
+  return createHash('sha256').update(JSON.stringify(preguntas)).digest('hex');
+}
+
 const cacheTitulos = new Map();
 function titulosDe(ruta) {
   if (!cacheTitulos.has(ruta)) {
