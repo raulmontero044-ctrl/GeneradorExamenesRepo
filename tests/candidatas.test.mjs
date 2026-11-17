@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { avisosMezcla, comprobarFichero, reunir } from '../tools/candidatas.mjs';
+import { avisosMezcla, comprobarFichero, filtrar, reunir } from '../tools/candidatas.mjs';
 import { preguntaBase } from './helpers.mjs';
 
 const REF = [{ archivo: 'wiki/programacion/tema-08-arquitectura/contenido.md', seccion: '2. La Arquitectura por Capas (Layered Architecture)' }];
@@ -44,4 +44,16 @@ test('reunir asigna ids, separa inválidas, detecta enunciados repetidos y compa
   assert.equal(r.invalidas.length, 2);
   assert.ok(r.invalidas.some((x) => /idéntico a otra candidata/.test(x.errores.join())));
   assert.equal(r.similitud[0].banco.nivel, 'identica');
+});
+
+test('filtrar entrega a cada evaluador solo sus temas y, si se pide, solo lo no evaluado', () => {
+  const a = { id: 'prog-08-a', tema: 'prog-08' };
+  const b = { id: 'prog-09-b', tema: 'prog-09' };
+  const c = { id: 'dws-01-c', tema: 'dws-01' };
+  const similitud = [a, b, c].map((p) => ({ id: p.id, tema: p.tema }));
+  const r = filtrar({ candidatas: [a, b, c], similitud, temas: ['prog-08', 'prog-09'] });
+  assert.deepEqual(r.preguntas.map((p) => p.id), ['prog-08-a', 'prog-09-b']);
+  assert.deepEqual(r.similitud.map((s) => s.id), ['prog-08-a', 'prog-09-b']);
+  const s = filtrar({ candidatas: [a, b, c], similitud, temas: ['prog-08', 'prog-09'], evaluadas: new Set(['prog-08-a']) });
+  assert.deepEqual(s.preguntas.map((p) => p.id), ['prog-09-b']);
 });

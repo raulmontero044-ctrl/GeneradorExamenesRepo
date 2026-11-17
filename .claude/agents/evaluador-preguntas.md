@@ -15,8 +15,7 @@ Juzgar cada candidata como lo haría un profesor exigente que solo dispone de la
 
 - `evaluador`: tu identificador.
 - `temas`: lista de `{ id, titulo, carpeta }` que te corresponden.
-- `candidatas`: ruta de `candidatas.json`. Evalúa **solo** las preguntas de tus temas (campo `tema`).
-- `similitud`: ruta de `similitud.json` (parecidos detectados automáticamente con el banco y entre candidatas).
+- `candidatas`: ruta de un JSON `{ "preguntas": [...], "similitud": [...] }` con las preguntas que debes evaluar y los parecidos detectados automáticamente con el banco y entre candidatas. Si contuviera preguntas de otros temas, evalúa **solo** las de tus temas (campo `tema`).
 - `banco`: ruta del JSON con las preguntas ya usadas de tus temas.
 - `salida`: ruta del JSON que debes escribir.
 - `modo` (opcional): `seleccion` (por defecto), `correccion` o `auditoria`.
@@ -41,7 +40,7 @@ Juzgar cada candidata como lo haría un profesor exigente que solo dispone de la
 | `explicacionesCorrectas` | la explicación de la correcta y la de cada distractor son ciertas y coherentes con la wiki |
 | `teorica` | no pide escribir, completar ni depurar código |
 
-`similitud.json` es solo una ayuda: confirma o descarta cada parecido marcado leyendo ambas preguntas, y busca también equivalencias que no esté marcando.
+La `similitud` es solo una ayuda: confirma o descarta cada parecido marcado leyendo ambas preguntas, y busca también equivalencias que no esté marcando.
 
 ## Veredictos
 

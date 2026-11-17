@@ -27,8 +27,14 @@ Lanza cada evaluador con `subagent_type: "evaluador-preguntas"`; si ese tipo no 
 
 Entrada: `examenId` con `examenes/<id>/trabajo/candidatas.json` y `similitud.json` (de `/k-preguntas`).
 
-1. Si no existe, prepara el banco por evaluador: `node tools/banco.mjs resumen --tema <t> --salida …` para cada tema y júntalos en `trabajo/banco-<evaluador>.json` (o reutiliza `banco-<asignatura>.json` de `/k-preguntas`).
-2. Lanza **en un solo mensaje** los 4 evaluadores con: `evaluador`, `temas` (id, título, `dirWiki`), `candidatas`, `similitud`, `banco`, `salida: trabajo/evaluaciones/<evaluador>.json`, `modo: seleccion`.
+1. Prepara la entrada de cada evaluador, solo con sus temas (no le pases las 70 candidatas):
+
+   ```bash
+   node tools/candidatas.mjs filtrar --dir examenes/<id>/trabajo --temas prog-08,prog-09 --salida examenes/<id>/trabajo/evaluar-ev-1.json
+   ```
+
+   (una vez por evaluador; en una ronda de refuerzo añade `--sin-evaluar` para que solo reciba las candidatas nuevas). El banco es `trabajo/banco-<asignatura>.json` de `/k-preguntas`.
+2. Lanza **en un solo mensaje** los 4 evaluadores con: `evaluador`, `temas` (id, título, `dirWiki`), `candidatas: trabajo/evaluar-<evaluador>.json` (incluye la similitud de esas candidatas), `banco`, `salida: trabajo/evaluaciones/<evaluador>.json` (en refuerzo, `<evaluador>-refuerzo-<n>.json`), `modo: seleccion`.
 3. `node tools/seleccionar.mjs comprobar --examen-id <id>`. Si faltan evaluaciones o están mal formadas, relanza solo el evaluador afectado indicándole los errores (máximo 2 veces).
 4. `node tools/seleccionar.mjs seleccionar --examen-id <id>`:
    - Excluye `RECHAZADA`, repetidas del banco y `MEJORABLE` sin corrección documentada.

@@ -6,7 +6,10 @@
 //   node tools/candidatas.mjs reunir <dir> --salida <candidatas.json> [--similitud <similitud.json>]
 //       Junta todos los <dir>/*.json, asigna ids, separa las inválidas y compara
 //       las válidas con el banco y entre sí.
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+//   node tools/candidatas.mjs filtrar --dir <trabajo> --temas <t1,t2> --salida <f.json> [--sin-evaluar]
+//       Entrada de un evaluador: solo las candidatas de sus temas (y, con --sin-evaluar,
+//       solo las que aún no tienen evaluación en <trabajo>/evaluaciones), con su similitud.
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { cargarTemario, esPrincipal } from './lib/config.mjs';
 import { asignarId, validarPregunta } from './lib/esquema.mjs';
@@ -55,6 +58,12 @@ export function reunir(ficheros, { banco = leerBanco(), opciones } = {}) {
   return { preguntas, invalidas, similitud: comparar(preguntas, banco) };
 }
 
+export function filtrar({ candidatas, similitud, temas, evaluadas = new Set() }) {
+  const preguntas = candidatas.filter((p) => temas.includes(p.tema) && !evaluadas.has(p.id));
+  const ids = new Set(preguntas.map((p) => p.id));
+  return { preguntas, similitud: similitud.filter((s) => ids.has(s.id)) };
+}
+
 function opcion(args, nombre) {
   const i = args.indexOf(nombre);
   return i >= 0 ? args[i + 1] : undefined;
@@ -85,8 +94,21 @@ function main(args) {
       console.log(`${t.id}: ${n} válidas${repetidas ? `, ${repetidas} idénticas a preguntas del banco` : ''}`);
     }
     console.log(`Válidas: ${preguntas.length}. Inválidas: ${invalidas.length}. Ficheros: ${ficheros.length}`);
+  } else if (orden === 'filtrar') {
+    const dir = opcion(args, '--dir');
+    const temas = opcion(args, '--temas')?.split(',');
+    const salida = opcion(args, '--salida');
+    if (!dir || !temas || !salida) throw new Error('Uso: filtrar --dir <trabajo> --temas <t1,t2> --salida <f> [--sin-evaluar]');
+    const leer = (f) => JSON.parse(readFileSync(join(dir, f), 'utf8'));
+    const dirEval = join(dir, 'evaluaciones');
+    const evaluadas = new Set(args.includes('--sin-evaluar') && existsSync(dirEval)
+      ? readdirSync(dirEval).filter((f) => f.endsWith('.json')).flatMap((f) => leer(join('evaluaciones', f))).map((e) => e.id)
+      : []);
+    const r = filtrar({ candidatas: leer('candidatas.json').preguntas, similitud: leer('similitud.json'), temas, evaluadas });
+    writeFileSync(salida, JSON.stringify(r, null, 2) + '\n');
+    console.log(`${r.preguntas.length} candidatas de ${temas.join(', ')} → ${salida}`);
   } else {
-    console.log('Uso: node tools/candidatas.mjs comprobar <fichero> | reunir <dir> --salida <f> [--similitud <f>]');
+    console.log('Uso: node tools/candidatas.mjs comprobar <fichero> | reunir <dir> --salida <f> [--similitud <f>] | filtrar --dir <trabajo> --temas <t> --salida <f> [--sin-evaluar]');
     process.exitCode = 2;
   }
 }
