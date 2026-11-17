@@ -1,0 +1,142 @@
+[
+  {
+    "id": "prog-08-e7b44471",
+    "tema": "prog-08",
+    "enunciado": "Un BookRepositoryImpl tenía el atributo private BookDao bookDao y, en su constructor sin parámetros, hacía this.bookDao = new BookDaoMySql(). Se refactoriza para recibir el BookDao por constructor en un atributo private final BookDao bookDao. ¿Qué consecuencia de este cambio se deduce de la wiki?",
+    "respuesta": "Pasar de BookDaoMySql a BookDaoJson solo requiere modificar una línea en el ensamblado, sin tocar el código interno del repositorio ni del servicio.",
+    "conocimiento": "Al pasar de crear la dependencia con new a recibirla por constructor, la clase deja de elegir la implementación y cambiar de persistencia solo requiere modificar una línea del ensamblado."
+  },
+  {
+    "id": "prog-08-1cc1670d",
+    "tema": "prog-08",
+    "enunciado": "Llega una petición para dar de alta un libro con isbn, title y basePrice, y la respuesta debe devolver el precio final calculado. ¿Qué reparto de responsabilidades es coherente con la arquitectura por capas y los DTO descritos en la wiki?",
+    "respuesta": "El controlador valida formalmente los datos recibidos, el dominio aplica la regla que obtiene el precio final y el mapper lo traslada al BookResponse.",
+    "conocimiento": "En el alta de un libro, la presentación valida formalmente, el dominio aplica el cálculo del precio final y el mapper lo traslada al Response DTO; el Request DTO de creación no lleva ID."
+  },
+  {
+    "id": "prog-08-799f6038",
+    "tema": "prog-08",
+    "enunciado": "En el contenedor de IoC casero (IoCContainer) construido con el patrón Factoría, ¿cómo se crean y conectan los componentes y qué hace la clase Main?",
+    "respuesta": "El contenedor crea el DAO, lo inyecta en el repositorio, este en el servicio y este en el controlador; Main solo crea el contenedor, le pide el controlador y llama a run().",
+    "conocimiento": "El IoCContainer casero crea e inyecta los componentes de abajo arriba (DAO, repositorio, servicio, controlador) y Main solo crea el contenedor, le pide el controlador y lo ejecuta."
+  },
+  {
+    "id": "prog-08-cc607ddc",
+    "tema": "prog-08",
+    "enunciado": "Según el tema, ¿qué afirmación describe con precisión la relación entre la Inyección de Dependencias (DI) y la Inversión de Control (IoC)?",
+    "respuesta": "La DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior; la IoC es un principio más amplio en el que el control del flujo y de la creación de objetos se delega a un componente externo.",
+    "conocimiento": "La DI es un patrón de diseño (recibir dependencias desde fuera) y la IoC un principio más amplio (delegar el control del flujo y de la creación de objetos a un componente externo)."
+  },
+  {
+    "id": "prog-08-db5b957b",
+    "tema": "prog-08",
+    "enunciado": "Sobre los Java Records que se usan como DTO, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+    "respuesta": "El compilador genera un constructor canónico y, para cada campo, un método de acceso y otro de modificación.",
+    "conocimiento": "Un Java Record genera constructor canónico, accesores sin prefijo get, equals/hashCode por valor y toString, pero no métodos de modificación porque es inmutable."
+  },
+  {
+    "id": "prog-09-03d34db7",
+    "tema": "prog-09",
+    "enunciado": "Un cliente envía una petición POST a /api/v1/books con un objeto JSON que contiene isbn, title y basePrice. Según la wiki, ¿qué describe correctamente lo que ocurre en el servidor?",
+    "respuesta": "El parser convierte el objeto JSON en un DTO, el servidor asigna el ID al nuevo recurso y, si todo va bien, responde 201 Created.",
+    "conocimiento": "En un POST, el parser convierte el JSON en un DTO, el servidor asigna el ID y responde 201 Created; un fallo de validación del DTO es 400, no 500."
+  },
+  {
+    "id": "prog-09-a8de2fa1",
+    "tema": "prog-09",
+    "enunciado": "Un cliente quiere cambiar únicamente el precio del libro con ID 12, sin enviar el resto de sus campos. Siguiendo las buenas prácticas de la wiki, ¿qué petición debe hacer y qué código de éxito es el habitual?",
+    "respuesta": "PATCH /books/12 con el precio en el cuerpo de la petición, y respuesta 200 OK.",
+    "conocimiento": "Para modificar solo algunos campos de un recurso se usa PATCH con los datos en el cuerpo, cuyo código de éxito habitual es 200 OK."
+  },
+  {
+    "id": "prog-09-d12e97f8",
+    "tema": "prog-09",
+    "enunciado": "Según la wiki, ¿cuál de las siguientes comparaciones entre métodos HTTP es correcta?",
+    "respuesta": "DELETE, como GET, transmite sus datos en la URL (mediante un Path Param), y su respuesta habitual es 204 No Content, sin cuerpo.",
+    "conocimiento": "GET y DELETE llevan los datos en la URL (DELETE con Path Param y respuesta habitual 204), mientras POST, PUT y PATCH los llevan en el cuerpo y PUT responde habitualmente 200."
+  },
+  {
+    "id": "prog-09-6754cd44",
+    "tema": "prog-09",
+    "enunciado": "Dos peticiones intentan acceder al mismo recurso restringido de una API: la primera llega sin que el cliente se haya autenticado; la segunda, de un cliente autenticado que no tiene permisos sobre ese recurso. ¿Qué códigos de estado corresponden, respectivamente, según la wiki?",
+    "respuesta": "401 Unauthorized para la primera y 403 Forbidden para la segunda.",
+    "conocimiento": "Una petición sin autenticar recibe 401 Unauthorized y una petición autenticada sin permisos recibe 403 Forbidden."
+  },
+  {
+    "id": "prog-09-a292c6d6",
+    "tema": "prog-09",
+    "enunciado": "En la URL https://api.miservidor.com/api/v1/books?page=2&limit=10, ¿qué es /api/v1/books según la anatomía de una URL descrita en el tema?",
+    "respuesta": "La ruta (Path / URI), que identifica el recurso concreto dentro del servidor.",
+    "conocimiento": "La ruta (Path / URI) de una URL identifica el recurso concreto dentro del servidor, distinta del host y de los parámetros de consulta."
+  },
+  {
+    "id": "prog-10-520c798d",
+    "tema": "prog-10",
+    "enunciado": "En producción, el paquete del proyecto está configurado con nivel INFO y una clase ejecuta log.debug(\"Libro {} recuperado\", id) con un logger de SLF4J. ¿Qué ocurre con ese evento según la wiki?",
+    "respuesta": "No se registra, y gracias al marcador {} el texto del mensaje ni siquiera llega a formatearse.",
+    "conocimiento": "Un evento DEBUG con el paquete en INFO no se registra y, al usar marcadores {} de SLF4J, su texto no se formatea porque el nivel no está activo."
+  },
+  {
+    "id": "prog-10-04c47f60",
+    "tema": "prog-10",
+    "enunciado": "Llega a una aplicación Spring Boot una petición POST /api/v1/books con un cuerpo JSON y hay un filtro de auditoría registrado. ¿En qué orden se procesa la petición según la wiki?",
+    "respuesta": "Cadena de filtros, DispatcherServlet, Handler Mapping localiza el controlador y método, deserialización del JSON a DTO, invocación del método y serialización del resultado.",
+    "conocimiento": "Orden de procesamiento en Spring Boot: filtros, DispatcherServlet, Handler Mapping (ruta y verbo), deserialización JSON a DTO, invocación del controlador y serialización de la respuesta."
+  },
+  {
+    "id": "prog-10-0c5409a1",
+    "tema": "prog-10",
+    "enunciado": "Tres equipos tratan de forma distinta una BookNotFoundException lanzada por el Service: el primero no hace nada, el segundo envuelve cada llamada al Service en un try-catch dentro del @RestController y el tercero usa un manejador global con @RestControllerAdvice. Según la wiki, ¿qué valoración es correcta?",
+    "respuesta": "El try-catch puede dar respuestas correctas, pero duplica código en todos los endpoints y mezcla la presentación con la gestión de errores, que el manejador global centraliza en un único punto.",
+    "conocimiento": "Comparación entre no tratar la excepción (Whitelabel 500), el antipatrón try-catch en el controlador (duplica código y mezcla responsabilidades) y el manejador global centralizado."
+  },
+  {
+    "id": "prog-10-0d0e6253",
+    "tema": "prog-10",
+    "enunciado": "Sobre el procesamiento de una petición HTTP en Spring Boot según el diagrama de componentes del tema, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+    "respuesta": "La cadena de filtros forma parte del contexto de Spring (IoC Container), junto al DispatcherServlet y los controladores.",
+    "conocimiento": "La cadena de filtros está en Tomcat pero fuera del contexto de Spring, y actúa antes del DispatcherServlet, que usa Handler Mapping y Http Message Converter."
+  },
+  {
+    "id": "prog-10-79777f8d",
+    "tema": "prog-10",
+    "enunciado": "Según la wiki, ¿qué diferencia correctamente un filtro HTTP de una clase anotada con @RestControllerAdvice en Spring Boot?",
+    "respuesta": "El filtro intercepta la petición antes de que alcance el DispatcherServlet para tratar aspectos transversales, mientras que el @RestControllerAdvice actúa cuando una excepción escapa de un controlador para traducirla a una respuesta HTTP.",
+    "conocimiento": "Los filtros HTTP actúan antes del DispatcherServlet para aspectos transversales, y el @RestControllerAdvice actúa cuando una excepción escapa de un controlador para traducirla a respuesta HTTP."
+  },
+  {
+    "id": "prog-12-4a5ea9ab",
+    "tema": "prog-12",
+    "enunciado": "Una petición llega a una ruta protegida sin cabecera Authorization. Según el funcionamiento de AccessTokenFilter y del controlador descritos en la wiki, ¿qué ocurre?",
+    "respuesta": "El filtro no obtiene token, continúa la cadena sin Principal y el controlador, al encontrar el contexto vacío, lanza AuthenticationRequiredException.",
+    "conocimiento": "Sin cabecera Authorization, AccessTokenFilter continúa la cadena sin Principal y es el controlador de la ruta protegida quien lanza AuthenticationRequiredException."
+  },
+  {
+    "id": "prog-12-e34d667f",
+    "tema": "prog-12",
+    "enunciado": "Según la wiki, ¿qué consigue, y qué no, la rotación del refresh token en cada renovación?",
+    "respuesta": "No impide el robo de una credencial, pero permite detectar que se vuelve a presentar un refresh token ya consumido y responder revocando la sesión completa, aunque el cliente legítimo también la pierda.",
+    "conocimiento": "La rotación del refresh token no impide el robo, pero permite detectar su reutilización y revocar toda la familia, aunque el cliente legítimo pierda también la sesión."
+  },
+  {
+    "id": "prog-12-1b3e136a",
+    "tema": "prog-12",
+    "enunciado": "Según la wiki, al comparar dónde guardar el Principal mientras se procesa una petición web síncrona, ¿qué afirmación es correcta?",
+    "respuesta": "Un ThreadLocal asocia el valor al hilo actual, lo que evita mezclar identidades de distintos clientes, pero hay que limpiarlo en finally porque Tomcat reutiliza los hilos.",
+    "conocimiento": "Frente a una variable local o un campo static mutable, ThreadLocal guarda el Principal por hilo sin mezclar identidades, pero debe limpiarse porque los hilos se reutilizan."
+  },
+  {
+    "id": "prog-12-ac147b70",
+    "tema": "prog-12",
+    "enunciado": "Según la wiki, ¿qué diferencia correctamente el token de acceso del refresh token devueltos por el login?",
+    "respuesta": "El token de acceso, de duración corta, se envía en cada petición protegida, normalmente en la cabecera Authorization con el esquema Bearer; el refresh token, más duradero, solo se envía para renovar el par.",
+    "conocimiento": "El token de acceso es de duración corta y se envía en cada petición protegida (Bearer); el refresh token dura más y solo se envía para renovar el par."
+  },
+  {
+    "id": "prog-12-2adb68ca",
+    "tema": "prog-12",
+    "enunciado": "Según el tema, ¿qué caracteriza a un token opaco?",
+    "respuesta": "Es una cadena aleatoria cuyo contenido no interpreta el cliente; el servidor la valida consultando el estado que conserva sobre ella, como su vencimiento o revocación.",
+    "conocimiento": "Un token opaco es una cadena aleatoria que el cliente no interpreta y que el servidor valida consultando su estado (hash, tipo, vencimiento, revocación)."
+  }
+]

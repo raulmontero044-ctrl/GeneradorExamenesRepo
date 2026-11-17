@@ -1,0 +1,305 @@
+[
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "¿Qué relación existe entre la arquitectura limpia y las arquitecturas hexagonal y de cebolla?",
+    "opciones": {
+      "A": "La arquitectura limpia es una estructura concreta de tres paquetes (controller, domain y persistence), y la hexagonal y la de cebolla son alternativas incompatibles con ella.",
+      "B": "La arquitectura limpia es un concepto general que protege las reglas de negocio y dirige las dependencias hacia el núcleo, y la hexagonal y la de cebolla son enfoques distintos que aplican esas ideas.",
+      "C": "La arquitectura limpia es un estilo de despliegue, mientras que la hexagonal y la de cebolla son formas de organizar internamente el código de cada despliegue.",
+      "D": "La arquitectura limpia y la de cebolla son la misma propuesta con distinto nombre, y la hexagonal es la única que separa el núcleo de los sistemas externos."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki indica que la arquitectura limpia es un concepto general: protege las reglas de negocio y dirige las dependencias hacia el núcleo. La hexagonal, la de cebolla y la arquitectura por capas con inversión de dependencias son enfoques distintos que aplican estas ideas.",
+    "explicacionesDistractores": {
+      "A": "La arquitectura limpia no es una estructura concreta de paquetes, sino un concepto general; y la hexagonal y la de cebolla no son incompatibles con ella, sino enfoques que la aplican.",
+      "C": "La arquitectura limpia no es un estilo de despliegue; los estilos de despliegue son monolito, monolito modular y microservicios, un criterio distinto de la organización interna.",
+      "D": "La wiki presenta la de cebolla como un enfoque distinto que aplica las ideas de la arquitectura limpia, no como un sinónimo; además, la de cebolla también protege el dominio, con dependencias que apuntan hacia el núcleo."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [{ "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "1. Principios de arquitectura limpia" }],
+    "conocimiento": "La arquitectura limpia es un concepto general y la hexagonal, la de cebolla y las capas con inversión de dependencias son enfoques distintos que aplican sus ideas.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "Un equipo va a desarrollar una aplicación CRUD pequeña y valora desplegarla como un monolito clásico. ¿Qué valoración de ventajas e inconvenientes es correcta según la wiki?",
+    "opciones": {
+      "A": "Es una opción descartable, porque un monolito implica código desordenado y no puede organizarse por capas con inversión de dependencias.",
+      "B": "Es adecuada por su despliegue independiente de cada componente, aunque obliga a que cada componente tenga su propia base de datos.",
+      "C": "Es adecuada solo si se organiza en módulos con APIs internas explícitas, porque sin ellos un monolito no puede aplicar principios de arquitectura limpia.",
+      "D": "Puede ser adecuada: ofrece una operación sencilla y no implica código desordenado, aunque, si crece, puede acabar con un alto acoplamiento."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La tabla de estilos de despliegue atribuye al monolito una operación sencilla y el riesgo de crecer con alto acoplamiento; la wiki añade que un monolito no implica código desordenado, que puede ser adecuado para una aplicación pequeña como un CRUD y que puede aplicar principios de arquitectura limpia.",
+    "explicacionesDistractores": {
+      "A": "La wiki afirma expresamente que un monolito no implica código desordenado y que puede aplicar principios de arquitectura limpia; la organización interna y el despliegue son criterios independientes.",
+      "B": "El despliegue independiente y el control de datos propios de cada servicio son características de los microservicios; el monolito es una única aplicación desplegable cuyos componentes pueden compartir almacenamiento.",
+      "C": "Los módulos con APIs internas explícitas caracterizan al monolito modular, pero no son requisito para aplicar arquitectura limpia: la wiki dice que un monolito puede aplicar sus principios."
+    },
+    "dificultad": "media",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [{ "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.1 Monolito, monolito modular y microservicios" }],
+    "conocimiento": "El monolito ofrece operación sencilla y puede ser adecuado para una aplicación pequeña sin implicar código desordenado, pero puede crecer con alto acoplamiento.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "Al comparar el diagrama de la arquitectura por capas de referencia con el de la arquitectura de cebolla, ¿qué diferencia hay en la ubicación de sus elementos?",
+    "opciones": {
+      "A": "En la de capas el servicio está en domain junto al modelo y la interfaz Repository; en la de cebolla el servicio está en el anillo de aplicación, mientras que Repository y Model forman el núcleo de dominio.",
+      "B": "En la de capas la interfaz Repository está en persistence junto a su implementación; en la de cebolla está en el núcleo de dominio y RepositoryImpl en infraestructura.",
+      "C": "En la de capas el servicio está en domain; en la de cebolla el servicio está en el núcleo de dominio y el modelo pasa al anillo intermedio de aplicación.",
+      "D": "En ambas el servicio, el modelo y la interfaz Repository están en el mismo paquete o anillo; solo cambia que la cebolla coloca RepositoryImpl en infraestructura."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "En la arquitectura por capas de referencia, domain contiene la interfaz Service, ServiceImpl, Model y la interfaz Repository. En el diagrama de cebolla, Service está en el anillo intermedio (Aplicación), mientras que la interfaz Repository y Model están en el núcleo (Dominio); RepositoryImpl está en el anillo exterior de infraestructura.",
+    "explicacionesDistractores": {
+      "B": "En la arquitectura por capas la interfaz Repository se define en domain y persistence la implementa (inversión de dependencias); no está en persistence.",
+      "C": "Está invertido: en la cebolla el modelo está en el núcleo de dominio y el servicio en el anillo intermedio de aplicación.",
+      "D": "En la cebolla el servicio no comparte anillo con Model y Repository: está en el anillo de aplicación, separado del núcleo de dominio."
+    },
+    "dificultad": "dificil",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "2.1 Arquitectura por capas" },
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "2.3 Arquitectura de cebolla" }
+    ],
+    "conocimiento": "En la arquitectura por capas el servicio está en domain con el modelo y la interfaz Repository, mientras que en la de cebolla el servicio está en el anillo de aplicación y Repository y Model en el núcleo de dominio.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "¿Qué diferencia hay entre los enfoques API First y Code First?",
+    "opciones": {
+      "A": "En API First el contrato se deriva del código mediante anotaciones; en Code First se escribe primero un archivo OpenAPI y luego se implementa.",
+      "B": "API First exige que el contrato sea un archivo YAML o JSON, mientras que Code First exige declararlo en una interfaz Java con anotaciones.",
+      "C": "En API First se diseña el contrato antes de implementar y guía y permite acordar el trabajo de clientes y servidor; en Code First se implementa primero y el contrato se deriva después del código.",
+      "D": "En API First el contrato expone directamente los modelos internos para acelerar el desarrollo; en Code First se diseñan DTO específicos tras implementar."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La tabla del tema define API First como diseñar el contrato antes de implementar, de modo que guía y permite acordar el trabajo de clientes y servidor, y Code First como implementar primero y derivar el contrato después del código, por ejemplo con anotaciones.",
+    "explicacionesDistractores": {
+      "A": "Invierte los enfoques: derivar el contrato del código con anotaciones es Code First, y diseñar el contrato antes de implementar es API First.",
+      "B": "API First no exige un archivo OpenAPI: la wiki indica que una interfaz Java como OrderHttpApi puede diseñarse antes del controlador y formar parte de un flujo API First.",
+      "D": "La wiki dice que en API First el contrato describe lo que necesita el cliente y no expone automáticamente los modelos internos."
+    },
+    "dificultad": "facil",
+    "tipo": "diferencias",
+    "wikiRef": [{ "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "1. API First y Code First" }],
+    "conocimiento": "API First diseña y acuerda el contrato antes de implementar; Code First implementa primero y deriva el contrato del código.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "¿Qué afirmación distingue correctamente OpenAPI, Swagger y Swagger UI?",
+    "opciones": {
+      "A": "OpenAPI es una especificación para describir APIs HTTP en YAML o JSON; Swagger es un conjunto de herramientas para trabajar con ella, y Swagger UI presenta el contrato como documentación interactiva.",
+      "B": "Swagger es la especificación que describe rutas, parámetros y respuestas; OpenAPI es la herramienta que la presenta como documentación interactiva, y Swagger UI la valida.",
+      "C": "OpenAPI es una especificación en YAML o JSON; Swagger UI es la herramienta que comprueba que la implementación cumple ese contrato, por lo que sustituye a las pruebas HTTP.",
+      "D": "OpenAPI es una biblioteca de Spring que genera documentación a partir de anotaciones; Swagger es su formato de archivo, y Swagger UI su editor de contratos."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "Según la wiki, OpenAPI es una especificación para describir APIs HTTP en YAML o JSON (rutas, operaciones, parámetros, esquemas, respuestas y restricciones); Swagger es un conjunto de herramientas para trabajar con OpenAPI, y Swagger UI presenta el contrato como documentación interactiva.",
+    "explicacionesDistractores": {
+      "B": "Intercambia los papeles: OpenAPI es la especificación y Swagger el conjunto de herramientas; Swagger UI presenta el contrato como documentación interactiva, no lo valida.",
+      "C": "Swagger UI ayuda a explorar el contrato, pero abrirlo no demuestra por sí solo la conformidad; la documentación no sustituye las pruebas.",
+      "D": "La herramienta de Spring que genera documentación OpenAPI a partir de anotaciones es springdoc-openapi; OpenAPI es la especificación, no una biblioteca."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "2. OpenAPI y Swagger" },
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "4. Cambios y comprobaciones" }
+    ],
+    "conocimiento": "OpenAPI es la especificación (YAML o JSON), Swagger el conjunto de herramientas que trabaja con ella y Swagger UI la presenta como documentación interactiva sin demostrar conformidad.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "Un proyecto usa orders-api.yaml como fuente de verdad y OpenAPI Generator para generar interfaces y DTO. El equipo quiere eliminar un campo de la respuesta de una operación y un desarrollador propone borrarlo directamente de la clase DTO generada en target/generated-sources/openapi. ¿Qué valoración es correcta?",
+    "opciones": {
+      "A": "La propuesta es válida, porque una vez generadas las clases pasan a ser la fuente de verdad del contrato y el archivo YAML solo sirve como documentación.",
+      "B": "Hay que modificar orders-api.yaml y regenerar el código, y además, como eliminar un campo puede romper clientes, el cambio no debe hacerse sin una transición acordada.",
+      "C": "Hay que modificar orders-api.yaml y regenerar el código; al ser una eliminación y no un cambio de tipo, es compatible y no requiere transición con los consumidores.",
+      "D": "Hay que modificar orders-api.yaml y regenerar el código, y basta con abrir Swagger UI y ver que el campo ya no aparece para demostrar que la implementación cumple el contrato."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "Las clases generadas se pueden consultar pero no se deben modificar directamente: si cambia el contrato, se vuelve a generar el código. Además, eliminar un campo es un ejemplo de cambio que puede romper clientes, y al revisar cambios se comprueba que no rompan compatibilidad sin una transición acordada.",
+    "explicacionesDistractores": {
+      "A": "La fuente de verdad es el archivo OpenAPI; las clases generadas no deben modificarse directamente y, si cambia el contrato, se regeneran.",
+      "C": "La wiki cita eliminar un campo, junto con cambiar su tipo o alterar el significado de una respuesta, como cambios que pueden romper clientes.",
+      "D": "Abrir Swagger UI no demuestra por sí solo la conformidad; las pruebas HTTP de controller verifican el comportamiento integrado y hay que comprobar que la implementación se ajusta al archivo OpenAPI."
+    },
+    "dificultad": "dificil",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "OpenAPI Generator y Maven" },
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "4. Cambios y comprobaciones" }
+    ],
+    "conocimiento": "Para cambiar el contrato con OpenAPI Generator se modifica el archivo OpenAPI y se regenera (no se editan las clases generadas), y eliminar un campo puede romper clientes y requiere transición acordada.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "¿Qué diferencia hay entre las anotaciones de presencia @NotNull, @NotBlank y @NotEmpty de Jakarta Validation?",
+    "opciones": {
+      "A": "@NotNull exige que la cadena tenga contenido, @NotBlank que haya valor y @NotEmpty que la colección no esté vacía.",
+      "B": "@NotNull exige que haya valor, @NotBlank que la colección no esté vacía y @NotEmpty que la cadena tenga contenido.",
+      "C": "Las tres comprueban lo mismo, que el valor no sea nulo, y solo difieren en el mensaje de error por defecto.",
+      "D": "@NotNull exige que haya valor, @NotBlank que la cadena tenga contenido y @NotEmpty que la colección no esté vacía."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki precisa el matiz de las tres anotaciones de presencia: @NotNull exige que haya valor; @NotBlank, que la cadena tenga contenido; @NotEmpty, que la colección no esté vacía.",
+    "explicacionesDistractores": {
+      "A": "Intercambia @NotNull y @NotBlank: @NotNull exige valor y @NotBlank exige que la cadena tenga contenido.",
+      "B": "Intercambia @NotBlank y @NotEmpty: @NotBlank se refiere a cadenas con contenido y @NotEmpty a colecciones no vacías.",
+      "C": "La wiki distingue qué comprueba cada una (valor, cadena con contenido, colección no vacía); no son equivalentes."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [{ "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.1 Constraints estándar" }],
+    "conocimiento": "@NotNull exige valor, @NotBlank cadena con contenido y @NotEmpty colección no vacía.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "En una constraint personalizada para el IBAN, ¿cómo se reparten las responsabilidades entre la anotación @ValidIban, la clase IbanFormatValidator y @NotBlank?",
+    "opciones": {
+      "A": "@ValidIban contiene la expresión ^ES\\d{22}$ y IbanFormatValidator solo declara el mensaje; si el valor es null, la validadora devuelve false para garantizar la obligatoriedad.",
+      "B": "@ValidIban solo declara el mensaje y dónde aplica; IbanFormatValidator comprueba ^ES\\d{22}$ y devuelve true si el valor es null, porque la obligatoriedad corresponde a @NotBlank.",
+      "C": "@ValidIban solo declara el mensaje y dónde aplica; IbanFormatValidator devuelve false si el valor es null, de modo que no hace falta añadir @NotBlank al campo.",
+      "D": "@ValidIban y IbanFormatValidator forman una única clase inseparable, que solo puede probarse mediante pruebas de integración HTTP del DTO."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La anotación @ValidIban (con @Constraint(validatedBy = IbanFormatValidator.class)) solo declara el mensaje y dónde aplica. La lógica está en IbanFormatValidator, cuyo isValid devuelve true si el valor es null, porque la obligatoriedad corresponde a @NotBlank, y en otro caso comprueba ^ES\\d{22}$.",
+    "explicacionesDistractores": {
+      "A": "Invierte los papeles: la expresión regular está en la validadora, no en la anotación; y ante null la validadora devuelve true, no false.",
+      "C": "Ante null la validadora devuelve true: la obligatoriedad no es responsabilidad de esta constraint, sino de @NotBlank.",
+      "D": "La validadora se separa de la anotación y se prueba directamente con valores que cumplen y que no cumplen."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.3 Constraints personalizadas" },
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "5. Pruebas" }
+    ],
+    "conocimiento": "En una constraint personalizada la anotación solo declara mensaje y ámbito, la clase validadora contiene la lógica y devuelve true ante null porque la obligatoriedad corresponde a @NotBlank.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "Un equipo ya tiene IbanTest con pruebas unitarias del value object Iban. En CreateAccountValidationTest (@WebMvcTest con MockMvc) añade un test por cada IBAN inválido de IbanTest y, en las pruebas de cada operación, vuelve a comprobar el formato ProblemDetail de los errores. ¿Qué valoración es correcta?",
+    "opciones": {
+      "A": "Es el reparto adecuado, porque la validación declarada con anotaciones la aplica Spring y estas pruebas deben verificar exhaustivamente que el framework funciona.",
+      "B": "Es redundante en el IBAN, pero el formato ProblemDetail sí debe comprobarse en cada operación, porque cada una devuelve campos distintos en errors.",
+      "C": "Repite casos ya cubiertos por el value object, cuyas pruebas unitarias son las más baratas; las de integración HTTP deben verificar el rechazo de cada ruta errónea, y el formato del manejador se prueba una sola vez.",
+      "D": "Lo correcto sería lo contrario: probar los IBAN inválidos solo vía HTTP y eliminar IbanTest, porque un value object no puede probarse sin levantar el framework."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki reparte las pruebas: los value objects se prueban con tests unitarios sin framework ni mocks (las piezas más baratas de probar); las pruebas de integración HTTP del DTO verifican el rechazo y no repiten los casos ya cubiertos por el value object; y el formato del manejador de errores se prueba una vez, no en cada operación.",
+    "explicacionesDistractores": {
+      "A": "La wiki indica que la validación declarada con anotaciones la aplica el framework y que probar Spring no es responsabilidad de estos tests.",
+      "B": "Todas las operaciones comparten el mismo formato de error porque lo produce un manejador compartido; por eso su formato se prueba una vez, no en cada operación.",
+      "D": "Los value objects se prueban con tests unitarios sin framework ni mocks; precisamente son las piezas más baratas de probar."
+    },
+    "dificultad": "dificil",
+    "tipo": "situacion-practica",
+    "wikiRef": [{ "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "5. Pruebas" }],
+    "conocimiento": "Las pruebas HTTP del DTO no repiten casos del value object (probado unitariamente sin framework) y el formato del manejador de errores se prueba una sola vez.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "En Spring Modulith, ¿qué diferencia hay entre las anotaciones @NamedInterface y @ApplicationModule?",
+    "opciones": {
+      "A": "@ApplicationModule, en el package-info.java de un subpaquete como catalog.dto, lo expone con un nombre; @NamedInterface, en el paquete raíz del módulo, declara sus dependencias permitidas.",
+      "B": "Ambas se colocan en el package-info.java del subpaquete catalog.dto: @NamedInterface lo hace público y @ApplicationModule indica qué módulos pueden depender de él.",
+      "C": "@NamedInterface, en el package-info.java de un subpaquete como catalog.dto, lo expone como interfaz con nombre; @ApplicationModule, en el del paquete raíz de un módulo como orders, declara sus dependencias permitidas.",
+      "D": "@NamedInterface declara un paquete hijo del paquete base como módulo, y @ApplicationModule lo verifica al compilar, impidiendo dependencias no permitidas."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "Según la wiki, @NamedInterface (por ejemplo, @NamedInterface(\"dto\") en el package-info.java de com.example.store.catalog.dto) expone explícitamente un subpaquete como interfaz con nombre; @ApplicationModule se declara en el package-info.java del paquete raíz de un módulo (por ejemplo, orders) para fijar sus dependencias permitidas, como allowedDependencies = \"catalog::dto\".",
+    "explicacionesDistractores": {
+      "A": "Intercambia las anotaciones: la que expone un subpaquete es @NamedInterface y la que declara dependencias permitidas es @ApplicationModule.",
+      "B": "@ApplicationModule no va en el subpaquete expuesto ni indica quién depende de él: lo declara el paquete raíz del módulo consumidor (orders) para fijar de qué puede depender.",
+      "D": "Los módulos se detectan por defecto como paquetes hijos directos del paquete base, sin anotación; y la verificación de Spring Modulith se hace en un test, no es una protección en tiempo de compilación."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [{ "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "5. Spring Modulith: detección y verificación de módulos" }],
+    "conocimiento": "@NamedInterface expone un subpaquete como interfaz con nombre y @ApplicationModule, en el paquete raíz de un módulo, declara sus dependencias permitidas.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "En el módulo de catálogo, un caso de uso necesita una operación que ya ejecuta otro caso de uso del mismo módulo. Un desarrollador propone que el primero invoque directamente al segundo para reutilizarlo. ¿Qué valoración es correcta?",
+    "opciones": {
+      "A": "Es desaconsejable: acoplaría ambos flujos y podría arrastrar las decisiones de acceso del caso invocado; la operación común debe compartirse mediante el servicio.",
+      "B": "Es recomendable, porque así se reutiliza también la comprobación de autorización del caso invocado y se evita repetirla en el nuevo flujo.",
+      "C": "Es desaconsejable; la operación común debe trasladarse al controlador, que es donde se coordinan los flujos iniciados por la persona usuaria.",
+      "D": "Es desaconsejable; el primer caso de uso debe llamar a CatalogModule, ya que la API pública del módulo es el punto de reutilización de operaciones."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki indica que los casos de uso representan flujos de entrada, no operaciones reutilizables: si un caso de uso llamara a otro, acoplaría ambos flujos y podría arrastrar las decisiones de acceso propias del caso invocado. Cuando varios flujos necesitan la misma operación, la comparten mediante el servicio.",
+    "explicacionesDistractores": {
+      "B": "Arrastrar las decisiones de acceso del caso invocado es precisamente el inconveniente que señala la wiki, no una ventaja.",
+      "C": "Llevar la lógica al controlador la mezcla con HTTP y obliga a repetirla en otras entradas; la wiki dice que la operación común se comparte mediante el servicio.",
+      "D": "La API pública CatalogModule es la entrada para otros módulos; dentro del flujo de usuario, la operación compartida se reutiliza mediante el servicio. Además, ArchUnit puede comprobar que CatalogModule no dependa de los casos de uso."
+    },
+    "dificultad": "dificil",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [{ "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "3. Separar los flujos de entrada con casos de uso" }],
+    "conocimiento": "Un caso de uso no debe invocar a otro porque acopla los flujos y arrastra sus decisiones de acceso; las operaciones comunes se comparten mediante el servicio.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "¿Qué diferencia hay entre un monolito organizado solo por capas y un monolito modular?",
+    "opciones": {
+      "A": "El monolito modular genera un artefacto desplegable por cada módulo de negocio, mientras que el monolito por capas se despliega como una única aplicación.",
+      "B": "El monolito modular sustituye las capas técnicas por módulos de negocio, de modo que dentro de cada módulo ya no existen controller, domain ni persistence.",
+      "C": "El problema del monolito por capas es desplegarse como una unidad, y el monolito modular lo resuelve permitiendo desplegar cada capa por separado.",
+      "D": "Ambos mantienen un único despliegue, pero el monolito modular organiza el código en módulos de negocio con límites explícitos y verificables, conservando las capas dentro de cada módulo."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki define el monolito modular como el que mantiene un único despliegue pero organiza el código en módulos de negocio con límites explícitos y verificables; según la tabla comparativa, conserva las capas dentro de cada módulo de negocio.",
+    "explicacionesDistractores": {
+      "A": "El monolito modular sigue siendo una aplicación con un único despliegue; no genera un artefacto por módulo.",
+      "B": "El monolito modular conserva las capas dentro de cada módulo; la implementación queda en internal organizada con las capas ya existentes.",
+      "C": "La wiki aclara que el problema no es que la aplicación se construya y despliegue como una unidad, sino que el código no tenga límites claros entre sus capacidades."
+    },
+    "dificultad": "facil",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "6. Qué cambia y qué permanece" },
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "04 - Monolito modular" }
+    ],
+    "conocimiento": "El monolito modular mantiene un único despliegue y conserva las capas dentro de cada módulo, pero organiza el código en módulos de negocio con límites explícitos y verificables.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17"
+  }
+]

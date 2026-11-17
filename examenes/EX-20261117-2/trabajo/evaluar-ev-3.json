@@ -1,0 +1,752 @@
+{
+  "preguntas": [
+    {
+      "id": "dws-01-09e9730b",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "¿Qué relación existe entre la arquitectura limpia y las arquitecturas hexagonal y de cebolla?",
+      "opciones": {
+        "A": "La arquitectura limpia es una estructura concreta de tres paquetes (controller, domain y persistence), y la hexagonal y la de cebolla son alternativas incompatibles con ella.",
+        "B": "La arquitectura limpia es un concepto general que protege las reglas de negocio y dirige las dependencias hacia el núcleo, y la hexagonal y la de cebolla son enfoques distintos que aplican esas ideas.",
+        "C": "La arquitectura limpia es un estilo de despliegue, mientras que la hexagonal y la de cebolla son formas de organizar internamente el código de cada despliegue.",
+        "D": "La arquitectura limpia y la de cebolla son la misma propuesta con distinto nombre, y la hexagonal es la única que separa el núcleo de los sistemas externos."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica que la arquitectura limpia es un concepto general: protege las reglas de negocio y dirige las dependencias hacia el núcleo. La hexagonal, la de cebolla y la arquitectura por capas con inversión de dependencias son enfoques distintos que aplican estas ideas.",
+      "explicacionesDistractores": {
+        "A": "La arquitectura limpia no es una estructura concreta de paquetes, sino un concepto general; y la hexagonal y la de cebolla no son incompatibles con ella, sino enfoques que la aplican.",
+        "C": "La arquitectura limpia no es un estilo de despliegue; los estilos de despliegue son monolito, monolito modular y microservicios, un criterio distinto de la organización interna.",
+        "D": "La wiki presenta la de cebolla como un enfoque distinto que aplica las ideas de la arquitectura limpia, no como un sinónimo; además, la de cebolla también protege el dominio, con dependencias que apuntan hacia el núcleo."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "1. Principios de arquitectura limpia"
+        }
+      ],
+      "conocimiento": "La arquitectura limpia es un concepto general y la hexagonal, la de cebolla y las capas con inversión de dependencias son enfoques distintos que aplican sus ideas.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-01-b56b154b",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Un equipo va a desarrollar una aplicación CRUD pequeña y valora desplegarla como un monolito clásico. ¿Qué valoración de ventajas e inconvenientes es correcta según la wiki?",
+      "opciones": {
+        "A": "Es una opción descartable, porque un monolito implica código desordenado y no puede organizarse por capas con inversión de dependencias.",
+        "B": "Es adecuada por su despliegue independiente de cada componente, aunque obliga a que cada componente tenga su propia base de datos.",
+        "C": "Es adecuada solo si se organiza en módulos con APIs internas explícitas, porque sin ellos un monolito no puede aplicar principios de arquitectura limpia.",
+        "D": "Puede ser adecuada: ofrece una operación sencilla y no implica código desordenado, aunque, si crece, puede acabar con un alto acoplamiento."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La tabla de estilos de despliegue atribuye al monolito una operación sencilla y el riesgo de crecer con alto acoplamiento; la wiki añade que un monolito no implica código desordenado, que puede ser adecuado para una aplicación pequeña como un CRUD y que puede aplicar principios de arquitectura limpia.",
+      "explicacionesDistractores": {
+        "A": "La wiki afirma expresamente que un monolito no implica código desordenado y que puede aplicar principios de arquitectura limpia; la organización interna y el despliegue son criterios independientes.",
+        "B": "El despliegue independiente y el control de datos propios de cada servicio son características de los microservicios; el monolito es una única aplicación desplegable cuyos componentes pueden compartir almacenamiento.",
+        "C": "Los módulos con APIs internas explícitas caracterizan al monolito modular, pero no son requisito para aplicar arquitectura limpia: la wiki dice que un monolito puede aplicar sus principios."
+      },
+      "dificultad": "media",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.1 Monolito, monolito modular y microservicios"
+        }
+      ],
+      "conocimiento": "El monolito ofrece operación sencilla y puede ser adecuado para una aplicación pequeña sin implicar código desordenado, pero puede crecer con alto acoplamiento.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-01-e99be59d",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Al comparar el diagrama de la arquitectura por capas de referencia con el de la arquitectura de cebolla, ¿qué diferencia hay en la ubicación de sus elementos?",
+      "opciones": {
+        "A": "En la de capas el servicio está en domain junto al modelo y la interfaz Repository; en la de cebolla el servicio está en el anillo de aplicación, mientras que Repository y Model forman el núcleo de dominio.",
+        "B": "En la de capas la interfaz Repository está en persistence junto a su implementación; en la de cebolla está en el núcleo de dominio y RepositoryImpl en infraestructura.",
+        "C": "En la de capas el servicio está en domain; en la de cebolla el servicio está en el núcleo de dominio y el modelo pasa al anillo intermedio de aplicación.",
+        "D": "En ambas el servicio, el modelo y la interfaz Repository están en el mismo paquete o anillo; solo cambia que la cebolla coloca RepositoryImpl en infraestructura."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "En la arquitectura por capas de referencia, domain contiene la interfaz Service, ServiceImpl, Model y la interfaz Repository. En el diagrama de cebolla, Service está en el anillo intermedio (Aplicación), mientras que la interfaz Repository y Model están en el núcleo (Dominio); RepositoryImpl está en el anillo exterior de infraestructura.",
+      "explicacionesDistractores": {
+        "B": "En la arquitectura por capas la interfaz Repository se define en domain y persistence la implementa (inversión de dependencias); no está en persistence.",
+        "C": "Está invertido: en la cebolla el modelo está en el núcleo de dominio y el servicio en el anillo intermedio de aplicación.",
+        "D": "En la cebolla el servicio no comparte anillo con Model y Repository: está en el anillo de aplicación, separado del núcleo de dominio."
+      },
+      "dificultad": "dificil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.1 Arquitectura por capas"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.3 Arquitectura de cebolla"
+        }
+      ],
+      "conocimiento": "En la arquitectura por capas el servicio está en domain con el modelo y la interfaz Repository, mientras que en la de cebolla el servicio está en el anillo de aplicación y Repository y Model en el núcleo de dominio.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-7e286607",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "¿Qué diferencia hay entre los enfoques API First y Code First?",
+      "opciones": {
+        "A": "En API First el contrato se deriva del código mediante anotaciones; en Code First se escribe primero un archivo OpenAPI y luego se implementa.",
+        "B": "API First exige que el contrato sea un archivo YAML o JSON, mientras que Code First exige declararlo en una interfaz Java con anotaciones.",
+        "C": "En API First se diseña el contrato antes de implementar y guía y permite acordar el trabajo de clientes y servidor; en Code First se implementa primero y el contrato se deriva después del código.",
+        "D": "En API First el contrato expone directamente los modelos internos para acelerar el desarrollo; en Code First se diseñan DTO específicos tras implementar."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La tabla del tema define API First como diseñar el contrato antes de implementar, de modo que guía y permite acordar el trabajo de clientes y servidor, y Code First como implementar primero y derivar el contrato después del código, por ejemplo con anotaciones.",
+      "explicacionesDistractores": {
+        "A": "Invierte los enfoques: derivar el contrato del código con anotaciones es Code First, y diseñar el contrato antes de implementar es API First.",
+        "B": "API First no exige un archivo OpenAPI: la wiki indica que una interfaz Java como OrderHttpApi puede diseñarse antes del controlador y formar parte de un flujo API First.",
+        "D": "La wiki dice que en API First el contrato describe lo que necesita el cliente y no expone automáticamente los modelos internos."
+      },
+      "dificultad": "facil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "1. API First y Code First"
+        }
+      ],
+      "conocimiento": "API First diseña y acuerda el contrato antes de implementar; Code First implementa primero y deriva el contrato del código.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-7690fbcd",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "¿Qué afirmación distingue correctamente OpenAPI, Swagger y Swagger UI?",
+      "opciones": {
+        "A": "OpenAPI es una especificación para describir APIs HTTP en YAML o JSON; Swagger es un conjunto de herramientas para trabajar con ella, y Swagger UI presenta el contrato como documentación interactiva.",
+        "B": "Swagger es la especificación que describe rutas, parámetros y respuestas; OpenAPI es la herramienta que la presenta como documentación interactiva, y Swagger UI la valida.",
+        "C": "OpenAPI es una especificación en YAML o JSON; Swagger UI es la herramienta que comprueba que la implementación cumple ese contrato, por lo que sustituye a las pruebas HTTP.",
+        "D": "OpenAPI es una biblioteca de Spring que genera documentación a partir de anotaciones; Swagger es su formato de archivo, y Swagger UI su editor de contratos."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Según la wiki, OpenAPI es una especificación para describir APIs HTTP en YAML o JSON (rutas, operaciones, parámetros, esquemas, respuestas y restricciones); Swagger es un conjunto de herramientas para trabajar con OpenAPI, y Swagger UI presenta el contrato como documentación interactiva.",
+      "explicacionesDistractores": {
+        "B": "Intercambia los papeles: OpenAPI es la especificación y Swagger el conjunto de herramientas; Swagger UI presenta el contrato como documentación interactiva, no lo valida.",
+        "C": "Swagger UI ayuda a explorar el contrato, pero abrirlo no demuestra por sí solo la conformidad; la documentación no sustituye las pruebas.",
+        "D": "La herramienta de Spring que genera documentación OpenAPI a partir de anotaciones es springdoc-openapi; OpenAPI es la especificación, no una biblioteca."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "2. OpenAPI y Swagger"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "4. Cambios y comprobaciones"
+        }
+      ],
+      "conocimiento": "OpenAPI es la especificación (YAML o JSON), Swagger el conjunto de herramientas que trabaja con ella y Swagger UI la presenta como documentación interactiva sin demostrar conformidad.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-9907510d",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un proyecto usa orders-api.yaml como fuente de verdad y OpenAPI Generator para generar interfaces y DTO. El equipo quiere eliminar un campo de la respuesta de una operación y un desarrollador propone borrarlo directamente de la clase DTO generada en target/generated-sources/openapi. ¿Qué valoración es correcta?",
+      "opciones": {
+        "A": "La propuesta es válida, porque una vez generadas las clases pasan a ser la fuente de verdad del contrato y el archivo YAML solo sirve como documentación.",
+        "B": "Hay que modificar orders-api.yaml y regenerar el código, y además, como eliminar un campo puede romper clientes, el cambio no debe hacerse sin una transición acordada.",
+        "C": "Hay que modificar orders-api.yaml y regenerar el código; al ser una eliminación y no un cambio de tipo, es compatible y no requiere transición con los consumidores.",
+        "D": "Hay que modificar orders-api.yaml y regenerar el código, y basta con abrir Swagger UI y ver que el campo ya no aparece para demostrar que la implementación cumple el contrato."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Las clases generadas se pueden consultar pero no se deben modificar directamente: si cambia el contrato, se vuelve a generar el código. Además, eliminar un campo es un ejemplo de cambio que puede romper clientes, y al revisar cambios se comprueba que no rompan compatibilidad sin una transición acordada.",
+      "explicacionesDistractores": {
+        "A": "La fuente de verdad es el archivo OpenAPI; las clases generadas no deben modificarse directamente y, si cambia el contrato, se regeneran.",
+        "C": "La wiki cita eliminar un campo, junto con cambiar su tipo o alterar el significado de una respuesta, como cambios que pueden romper clientes.",
+        "D": "Abrir Swagger UI no demuestra por sí solo la conformidad; las pruebas HTTP de controller verifican el comportamiento integrado y hay que comprobar que la implementación se ajusta al archivo OpenAPI."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "OpenAPI Generator y Maven"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "4. Cambios y comprobaciones"
+        }
+      ],
+      "conocimiento": "Para cambiar el contrato con OpenAPI Generator se modifica el archivo OpenAPI y se regenera (no se editan las clases generadas), y eliminar un campo puede romper clientes y requiere transición acordada.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-01-43e56e66",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Una aplicación sigue la arquitectura hexagonal del tema: BusinessService usa el puerto NotificationPort, que hoy implementa EmailAdapter conectado al servicio de correo. Se decide enviar las notificaciones por SMS. Si se respeta la arquitectura, ¿qué cambio se hace?",
+      "opciones": {
+        "A": "Se modifica NotificationPort para que exponga las operaciones del proveedor de SMS, y BusinessService se adapta a la nueva interfaz",
+        "B": "Se añade un adaptador de SMS que implementa el NotificationPort existente; el núcleo, con BusinessService y sus puertos, no cambia",
+        "C": "Se cambia BusinessService para que dependa directamente del nuevo adaptador de SMS en lugar de EmailAdapter",
+        "D": "Se añade un nuevo puerto de entrada para el SMS, que RestController invoca para enviar la notificación desde el adaptador de entrada"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "En la arquitectura hexagonal el núcleo define los puertos (qué necesita) y los adaptadores, fuera del núcleo, los implementan y conectan con tecnologías concretas. La comparativa indica que este enfoque facilita sustituir tecnologías, y el principio de independencia de agentes externos dice que el negocio no depende de servicios externos concretos: basta con otro adaptador que implemente NotificationPort.",
+      "explicacionesDistractores": {
+        "A": "Los puertos los define el núcleo según lo que necesita, no según una tecnología concreta; adaptar el puerto al proveedor haría que el negocio dependiera de un servicio externo concreto.",
+        "C": "BusinessService usa el puerto NotificationPort, no un adaptador; depender de un adaptador invertiría la dirección de las dependencias, que deben apuntar hacia el núcleo.",
+        "D": "El puerto de entrada (InputPort) define cómo se usa el núcleo y lo invoca el adaptador de entrada; la notificación es una necesidad del núcleo, que se expresa con un puerto de salida."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.2 Arquitectura hexagonal (Ports and Adapters)"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "1. Principios de arquitectura limpia"
+        }
+      ],
+      "conocimiento": "En la arquitectura hexagonal, sustituir una tecnología externa consiste en añadir otro adaptador que implemente el puerto de salida existente, sin modificar el núcleo.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-01-0fd5f32a",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "En el diagrama de secuencia de la comunicación síncrona entre microservicios, un Cliente envía una solicitud al Servicio A, que necesita datos del Servicio B. Un día el Servicio B tarda mucho en contestar. ¿Qué ocurre con la solicitud del Cliente?",
+      "opciones": {
+        "A": "El Servicio A devuelve el resultado al Cliente de inmediato y la petición al Servicio B se procesa después, cuando este esté disponible",
+        "B": "El Servicio B, al terminar, envía la respuesta directamente al Cliente, de modo que el Servicio A queda libre mientras tanto",
+        "C": "La petición al Servicio B pasa automáticamente por el broker de mensajes, que la reintenta hasta que se confirma su procesamiento",
+        "D": "El Servicio A espera la respuesta del Servicio B antes de devolver el resultado, así que la respuesta al Cliente se retrasa con B"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "En la secuencia síncrona HTTP el orden es: Cliente → A «solicitud», A → B «petición HTTP», B → A «respuesta», A → Cliente «resultado». En la comunicación síncrona el emisor hace una llamada y espera una respuesta, por lo que depende de la disponibilidad y el tiempo de respuesta del receptor.",
+      "explicacionesDistractores": {
+        "A": "Procesar después, sin esperar, describe la comunicación asíncrona mediante eventos, no la llamada HTTP síncrona del diagrama.",
+        "B": "En el diagrama el Servicio B responde al Servicio A, y es A quien devuelve el resultado al Cliente.",
+        "C": "El broker solo interviene en la comunicación asíncrona mediante eventos (publicar, entregar, confirmar); la petición HTTP síncrona va directamente de A a B."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.2 Tipos de comunicación"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "Diagrama de secuencia: tres formas de comunicación"
+        }
+      ],
+      "conocimiento": "En la comunicación síncrona HTTP entre microservicios el servicio emisor espera la respuesta del receptor antes de responder al cliente, por lo que depende de su disponibilidad y tiempo de respuesta.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-01-73ad1693",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Una aplicación sigue la arquitectura por capas de referencia, con inversión de dependencias en el acceso a datos. El equipo decide cambiar la tecnología de base de datos. Si la arquitectura se ha respetado, ¿qué parte del código debe cambiar?",
+      "opciones": {
+        "A": "Solo la capa persistence, donde están RepositoryImpl y el DAO con su interfaz e implementación; la interfaz Repository y ServiceImpl de domain no cambian",
+        "B": "La interfaz Repository de domain, para adaptarla a la nueva tecnología, mientras que RepositoryImpl en persistence puede mantenerse igual",
+        "C": "ServiceImpl, porque utiliza Repository y debe conocer la nueva tecnología, aunque la interfaz Repository se mantenga en domain",
+        "D": "Solo DAOImpl, porque la interfaz DAO y la interfaz Repository están ambas en domain y protegen al resto de cambios"
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "domain define la interfaz Repository que necesita y persistence la implementa (RepositoryImpl), que a su vez usa el DAO; tanto la interfaz DAO como DAOImpl están dentro de persistence. Esta inversión de dependencias evita que el dominio dependa de la tecnología de persistencia y aplica la independencia de la base de datos: se cambia la persistencia sin reescribir las reglas.",
+      "explicacionesDistractores": {
+        "B": "La interfaz Repository la define el dominio según lo que necesita; adaptarla a la tecnología haría depender al dominio de la persistencia, justo lo que la inversión de dependencias evita.",
+        "C": "ServiceImpl solo utiliza la interfaz Repository definida en domain y no conoce la tecnología de persistencia, por lo que no tiene que cambiar.",
+        "D": "La interfaz DAO no está en domain: tanto DAO como DAOImpl se encuentran en persistence; solo la interfaz Repository está en domain."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.1 Arquitectura por capas"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "1. Principios de arquitectura limpia"
+        }
+      ],
+      "conocimiento": "Gracias a la inversión de dependencias, cambiar la tecnología de base de datos en la arquitectura por capas solo afecta a persistence (RepositoryImpl y DAO), sin tocar la interfaz Repository ni los servicios del dominio.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-e59b3fbc",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un proyecto usa orders-api.yaml como fuente de verdad y genera el código con OpenAPI Generator. Un desarrollador necesita un campo nuevo en un DTO y lo añade editando la clase generada en target/generated-sources/openapi. ¿Qué valoración es correcta?",
+      "opciones": {
+        "A": "Es correcto si después se ejecuta mvn compile, porque el plugin actualiza orders-api.yaml a partir de las clases modificadas",
+        "B": "Es correcto, porque las clases generadas pasan a formar parte del código escrito a mano y el contrato se deriva de ellas",
+        "C": "No es correcto: las clases generadas se consultan pero no se modifican; hay que cambiar orders-api.yaml y volver a generar el código",
+        "D": "No es correcto: el campo debe declararse con anotaciones de springdoc-openapi en el controlador, que regenera el DTO al compilar"
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki indica que las clases generadas se pueden consultar, pero no se deben modificar directamente; si cambia el contrato, se vuelve a generar el código. OpenAPI Generator obtiene código Java a partir del archivo OpenAPI, que es la fuente de verdad.",
+      "explicacionesDistractores": {
+        "A": "OpenAPI Generator va del archivo OpenAPI al código Java, no al revés; mvn compile invoca la generación desde orders-api.yaml, no actualiza el YAML.",
+        "B": "Con un archivo OpenAPI como fuente de verdad el contrato no se deriva del código; las clases generadas no deben modificarse.",
+        "D": "springdoc-openapi genera documentación OpenAPI a partir del código Spring; no regenera DTO, y mezclarlo con el YAML crearía dos contratos."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "OpenAPI Generator y Maven"
+        }
+      ],
+      "conocimiento": "Las clases que genera OpenAPI Generator se consultan pero no se modifican; para cambiar un DTO se modifica el archivo OpenAPI y se regenera el código.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-5b631f34",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "En una nueva versión de la API, el equipo cambia el tipo del campo total de la respuesta de un pedido, que pasa de número a texto. Swagger UI muestra ya la documentación actualizada. ¿Qué valoración es correcta?",
+      "opciones": {
+        "A": "Es un cambio que puede romper clientes, porque les obliga a cambiar cómo interpretan la respuesta, y no debería publicarse sin una transición acordada",
+        "B": "Es un cambio compatible, porque solo afecta a una respuesta y los consumidores no tienen que modificar sus solicitudes",
+        "C": "Es un cambio compatible, porque Swagger UI ya refleja el nuevo tipo y eso demuestra que la implementación es conforme",
+        "D": "Solo sería incompatible si se eliminara el campo; cambiar su tipo mantiene la compatibilidad porque el nombre sigue siendo el mismo"
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Un cambio es incompatible si obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas; cambiar el tipo de un campo es uno de los ejemplos que pueden romper clientes. Al revisar cambios hay que comprobar que no se rompe la compatibilidad sin una transición acordada.",
+      "explicacionesDistractores": {
+        "B": "La definición incluye también cambiar cómo se interpretan las respuestas, no solo las solicitudes.",
+        "C": "Abrir Swagger UI no demuestra por sí solo la conformidad, y la documentación no sustituye la revisión de compatibilidad.",
+        "D": "La wiki cita como ejemplos de cambios que pueden romper clientes tanto eliminar un campo como cambiar su tipo."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "4. Cambios y comprobaciones"
+        }
+      ],
+      "conocimiento": "Cambiar el tipo de un campo de la respuesta es un cambio incompatible porque obliga a los consumidores a cambiar cómo interpretan las respuestas, y no debe hacerse sin una transición acordada.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-b626b0d6",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "En el flujo que parte del archivo orders-api.yaml, un miembro del equipo espera que OpenAPI Generator le entregue la API terminada. ¿Qué describe correctamente lo que se genera y lo que sigue haciendo el equipo?",
+      "opciones": {
+        "A": "Se generan los controladores con su lógica y los modelos del dominio, de modo que el equipo solo tiene que configurar el plugin de Maven",
+        "B": "Se generan las interfaces de la API y la documentación con Swagger UI, y el equipo escribe a mano los DTO, que coinciden con los modelos del dominio",
+        "C": "Se generan los DTO a partir del contrato, que se usan directamente como modelos del dominio, y el equipo escribe a mano las interfaces de la API",
+        "D": "Se generan las interfaces de la API y los DTO; el equipo implementa esas interfaces en sus Controller y mapea los DTO a los modelos internos"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "OpenAPI Generator lee orders-api.yaml y genera las interfaces de la API y las clases de modelo (los DTO) definidas en el contrato. El equipo implementa las operaciones de las interfaces generadas en sus Controller. En ambos enfoques los DTO HTTP describen los datos públicos y se mapean a modelos internos; no se exponen directamente los modelos del dominio.",
+      "explicacionesDistractores": {
+        "A": "El generador no produce la lógica de los controladores ni los modelos del dominio: el equipo implementa las interfaces generadas en sus Controller.",
+        "B": "Los DTO también se generan a partir del contrato, y no tienen por qué coincidir con los modelos internos; la documentación con Swagger UI es lo que produce springdoc-openapi desde el código.",
+        "C": "Las interfaces de la API también se generan, y los DTO HTTP se mapean a modelos internos en lugar de usarse como modelos del dominio."
+      },
+      "dificultad": "dificil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "OpenAPI Generator y Maven"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Comparativa de fuentes del contrato"
+        }
+      ],
+      "conocimiento": "OpenAPI Generator genera interfaces de la API y DTO; el equipo implementa las interfaces en sus Controller y mapea los DTO HTTP a los modelos internos sin exponer el dominio.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-01-7a29662a",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Entre los principios de arquitectura limpia figuran la regla de dependencia y la inversión de dependencias (DIP). ¿Cuál es la definición correcta de la regla de dependencia?",
+      "opciones": {
+        "A": "El núcleo define las abstracciones que necesita y los detalles externos, como la persistencia, se encargan de implementarlas.",
+        "B": "El código depende hacia las políticas de negocio, no hacia los detalles, de modo que las dependencias apuntan hacia el dominio.",
+        "C": "Cada capa depende solo de la capa inmediatamente inferior, de forma que el dominio depende de la persistencia y esta de la base de datos.",
+        "D": "Las dependencias apuntan desde el dominio hacia los anillos exteriores, que son los que contienen los detalles técnicos."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La tabla de principios define la regla de dependencia como «el código depende hacia las políticas de negocio, no hacia los detalles»; en todos los diagramas del tema las flechas apuntan hacia el dominio o núcleo.",
+      "explicacionesDistractores": {
+        "A": "Es la definición de la inversión de dependencias (DIP), no de la regla de dependencia. La wiki las distingue: la regla dice hacia dónde apuntan las dependencias y la DIP es el mecanismo para conseguirlo.",
+        "C": "La wiki insiste en evitar que el dominio dependa de tecnologías: domain define la interfaz Repository y persistence la implementa, así que el dominio no depende de la persistencia.",
+        "D": "Invierte el sentido: en la arquitectura de cebolla y en general, las dependencias apuntan desde los anillos externos hacia el núcleo, no al revés."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "1. Principios de arquitectura limpia"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/conceptos.md",
+          "seccion": "Regla de dependencia"
+        }
+      ],
+      "conocimiento": "La regla de dependencia establece que el código depende hacia las políticas de negocio y no hacia los detalles, y se distingue de la DIP, que es el mecanismo por el que el núcleo define abstracciones que implementan los detalles.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-01-1e76be6f",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Sobre los estilos de despliegue y la comunicación entre módulos, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "Un monolito no implica código desordenado y puede ser una opción adecuada para una aplicación pequeña, como un CRUD.",
+        "B": "Los eventos entre módulos de una aplicación no implican comunicación de red ni crean por sí solos una transacción independiente.",
+        "C": "En un monolito modular la base de datos puede ser compartida, siempre que cada módulo acceda solo a los datos de los que es propietario.",
+        "D": "Un monolito, al desplegarse como una única aplicación, no puede aplicar los principios de arquitectura limpia en su organización interna."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "Es falsa: la wiki advierte que no hay que confundir cómo se organiza el código con cómo se despliega y afirma expresamente que «un monolito puede aplicar principios de arquitectura limpia».",
+      "explicacionesDistractores": {
+        "A": "Es cierta: la wiki dice que un monolito no implica código desordenado y puede ser adecuado para una aplicación pequeña, como un CRUD.",
+        "B": "Es cierta: la wiki indica que los eventos entre módulos no implican comunicación de red ni crean por sí solos aislamiento o una transacción independiente.",
+        "C": "Es cierta: según el matiz del diagrama, en el monolito modular la base de datos puede ser compartida, pero cada módulo solo accede a los datos de los que es propietario."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.1 Monolito, monolito modular y microservicios"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.2 Tipos de comunicación"
+        }
+      ],
+      "conocimiento": "Un monolito puede aplicar principios de arquitectura limpia porque organización interna y despliegue son criterios distintos; además, un monolito no implica desorden, los eventos entre módulos no implican red y el monolito modular puede compartir base de datos con datos propiedad de cada módulo.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-01-2918e1f8",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "¿Qué establece el principio de arquitectura limpia denominado independencia de agentes externos?",
+      "opciones": {
+        "A": "Que el negocio no depende de servicios externos concretos, como un servicio de correo determinado.",
+        "B": "Que el framework es una herramienta y no el centro de la aplicación, de modo que las reglas no giran a su alrededor.",
+        "C": "Que la misma lógica de negocio puede exponerse mediante interfaces distintas sin modificarla.",
+        "D": "Que se puede cambiar la tecnología de persistencia sin tener que reescribir las reglas del negocio."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La tabla de principios define la independencia de agentes externos como «el negocio no depende de servicios externos concretos»; en la hexagonal se refleja con puertos como NotificationPort implementados por adaptadores como EmailAdapter.",
+      "explicacionesDistractores": {
+        "B": "Es el principio de independencia de frameworks, que la wiki pide no confundir con la independencia de agentes externos.",
+        "C": "Es el principio de independencia de la interfaz.",
+        "D": "Es el principio de independencia de la base de datos."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "1. Principios de arquitectura limpia"
+        }
+      ],
+      "conocimiento": "La independencia de agentes externos significa que el negocio no depende de servicios externos concretos, y se distingue de las independencias de frameworks, interfaz y base de datos.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-e829493e",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "En el tema de API First se mencionan OpenAPI, Swagger y Swagger UI. ¿Qué es OpenAPI?",
+      "opciones": {
+        "A": "Un conjunto de herramientas para trabajar con contratos de APIs HTTP, entre las que se incluye un visor interactivo.",
+        "B": "Una herramienta que presenta el contrato de una API como documentación interactiva para poder explorarlo.",
+        "C": "Una especificación para describir APIs HTTP en YAML o JSON, con rutas, operaciones, parámetros, esquemas, respuestas y restricciones.",
+        "D": "Una biblioteca de Spring que genera la documentación de la API a partir de las anotaciones del código del controlador."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki define OpenAPI como una especificación para describir APIs HTTP en YAML o JSON que define rutas y operaciones, parámetros, esquemas de datos, respuestas y restricciones.",
+      "explicacionesDistractores": {
+        "A": "Describe Swagger, que la wiki define como un conjunto de herramientas para trabajar con OpenAPI; OpenAPI es la especificación.",
+        "B": "Describe Swagger UI, que presenta el contrato como documentación interactiva y ayuda a explorarlo.",
+        "D": "Describe springdoc-openapi, que en Spring genera un documento OpenAPI y Swagger UI a partir de las anotaciones del código."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "2. OpenAPI y Swagger"
+        }
+      ],
+      "conocimiento": "OpenAPI es una especificación para describir APIs HTTP en YAML o JSON, distinta de Swagger (herramientas), Swagger UI (documentación interactiva) y springdoc-openapi (generador desde código Spring).",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-065258c4",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un proyecto usa orders-api.yaml como fuente de verdad y genera código con OpenAPI Generator. Sobre las clases generadas, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "Suelen quedar en una carpeta como target/generated-sources/openapi, aunque la ruta concreta depende de la configuración.",
+        "B": "Si cambia el contrato, pueden ajustarse directamente a mano para reflejar el cambio sin necesidad de volver a generarlas.",
+        "C": "Puede que no aparezcan entre los archivos escritos a mano y haga falta ejecutar Maven y actualizar el proyecto en el IDE.",
+        "D": "Incluyen las interfaces de la API y las clases de modelo (DTO) definidas en el contrato, y los Controller implementan esas interfaces."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Es falsa: la wiki indica que las clases generadas se pueden consultar, pero no se deben modificar directamente; si cambia el contrato, se vuelve a generar el código.",
+      "explicacionesDistractores": {
+        "A": "Es cierta: suelen quedar en una carpeta como target/generated-sources/openapi, aunque la ruta depende de la configuración.",
+        "C": "Es cierta: no siempre aparecen entre los archivos escritos a mano y puede ser necesario ejecutar Maven y actualizar el proyecto en el IDE.",
+        "D": "Es cierta: OpenAPI Generator genera las interfaces de la API y las clases de modelo (DTO), y el equipo implementa sus operaciones en los Controller."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "OpenAPI Generator y Maven"
+        }
+      ],
+      "conocimiento": "Las clases generadas por OpenAPI Generator se pueden consultar pero no modificar directamente; si cambia el contrato se regeneran, suelen ubicarse en target/generated-sources/openapi según la configuración y quizá haya que actualizar el IDE para verlas.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-195fd45e",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Al revisar la evolución de un contrato HTTP, ¿qué define con precisión un cambio incompatible?",
+      "opciones": {
+        "A": "Un cambio en el archivo OpenAPI que obliga a regenerar las interfaces y los DTO del servidor antes de compilar.",
+        "B": "Un cambio en los modelos internos del dominio, aunque los DTO HTTP que se exponen no se modifiquen.",
+        "C": "Un cambio que hace que el documento OpenAPI deje de superar la validación de su sintaxis.",
+        "D": "Un cambio que obliga a los consumidores a modificar sus solicitudes o la forma en que interpretan las respuestas."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki define como incompatible el cambio que obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas; por ejemplo, eliminar un campo, cambiar su tipo o alterar el significado de una respuesta.",
+      "explicacionesDistractores": {
+        "A": "La regeneración de código en el servidor es consecuencia de cualquier cambio del contrato; la incompatibilidad se define por el efecto sobre los consumidores, no sobre el servidor.",
+        "B": "Los DTO HTTP describen los datos públicos y se mapean a modelos internos; un cambio solo interno que no altera el contrato no obliga a los consumidores a cambiar nada.",
+        "C": "Validar la sintaxis OpenAPI es una de las comprobaciones posibles, pero un cambio incompatible puede ser sintácticamente válido; la definición se basa en el impacto sobre los consumidores."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "4. Cambios y comprobaciones"
+        }
+      ],
+      "conocimiento": "Un cambio incompatible es el que obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  ],
+  "similitud": [
+    {
+      "id": "dws-01-09e9730b",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-b56b154b",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-e99be59d",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "revisar",
+        "parecidas": [
+          {
+            "id": "dws-01-d89ede9e",
+            "nivel": "revisar",
+            "motivos": [
+              "parecido parcial (0.35)"
+            ]
+          }
+        ]
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-7e286607",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-7690fbcd",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-9907510d",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-43e56e66",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-0fd5f32a",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-73ad1693",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-e59b3fbc",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-5b631f34",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-b626b0d6",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-7a29662a",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-1e76be6f",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-2918e1f8",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-e829493e",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-065258c4",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-195fd45e",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+Línea: 1
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node tools/examen.mjs validar --examen-id EX-20261117-2` → "EXAMEN VÁLIDO", código 0. La validación comprueba que hay 40 preguntas y 5 por tema (comentario en tools/examen.mjs, línea 5). La salida de `node tools/banco.mjs comparar examenes/EX-20261117-2/examen.json` lista 8 temas con 5 preguntas cada uno: prog-08, prog-09, prog-10, prog-12, dws-01, dws-02, dws-03 y dws-04.
+
+Línea: 2
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node tools/examen.mjs validar --examen-id EX-20261117-2` → "EXAMEN VÁLIDO", código 0. tools/lib/esquema.mjs comprueba lo siguiente: que las opciones sean exactamente A–D (línea 57), que haya una explicación por cada uno de los tres distractores (líneas 71-74) y que cada wikiRef pertenezca a la wiki del tema y apunte a un fichero y una sección que existen (líneas 81-90).
+
+Línea: 3
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node tools/banco.mjs comparar examenes/EX-20261117-2/examen.json` → código 0. Da 38 preguntas con nivel "distinta". Otras 2 tienen nivel "revisar" por "parecido parcial": prog-09-6368e1f6 frente a prog-09-6754cd44 (0.36) y dws-01-e99be59d frente a dws-01-d89ede9e (0.35). He leído las dos parejas en examen.json y en banco/preguntas.jsonl, y no son repeticiones. En la primera, una pregunta trata la secuencia 201/204/404/500 y la otra la diferencia entre 401 y 403. En la segunda, una compara dónde están los elementos en la arquitectura por capas y en la de cebolla, y la otra dónde están el Repository y el DAO dentro de la arquitectura por capas. Además, `validar` (código 0) comprueba que no haya repeticiones dentro del examen ni con el banco (tools/examen.mjs, línea 6).
+
+Línea: 4
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node tools/examen.mjs validar --examen-id EX-20261117-2` → "EXAMEN VÁLIDO", código 0. tools/examen.mjs exige que haya al menos una pregunta de cada nivel de dificultad (línea 63), que las de dificultad media y difícil sean más que las fáciles (línea 64; como mucho 10 fáciles, línea 16) y que aparezca cada uno de los seis TIPOS (línea 65).
+
+Línea: 5
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node tools/probar-html.mjs --examen-id EX-20261117-2` → "OK plan mix: nota 2.43 (14 aciertos, 13 errores, 13 en blanco)", "OK plan correctas: nota 10 (40 aciertos…)", "OK plan errores: nota 0", "OK plan blanco: nota 0", "HTML FUNCIONAL", código 0. Comprobación del plan mix: (14 − 13 × 0,33) / 40 × 10 = 2,43.
+
+Línea: 6
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node --test tests/puntuacion.test.mjs` → tests 4, pass 4, fail 0, código 0. Entre ellos están "la penalización de −0,33 se aplica y la nota no baja de 0" y "fórmula exacta: (puntuación / 40) × 10".
+
+Línea: 7
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node --test tests/historial.test.mjs` → tests 4, pass 4, fail 0, código 0. Entre ellos están "validarResultado recalcula y rechaza resultados manipulados o incompletos" y "cada intento es un fichero nuevo y nunca se sobrescribe".
+
+Veredicto: APROBADO

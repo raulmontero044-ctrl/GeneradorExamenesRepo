@@ -1,0 +1,446 @@
+[
+  {
+    "id": "dws-03-13d8cd48",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 5,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Es una definición directa de la tabla de 2.1 y de la frase 'Matiz de las tres anotaciones de presencia'; no exige comprender un mecanismo, por lo que la etiqueta 'media' no corresponde.",
+      "Los distractores A y B son meras permutaciones de la correcta: evalúan memoria más que comprensión."
+    ],
+    "duplicadaDe": [],
+    "cambios": [
+      "dificultad: 'media' -> 'facil', porque la respuesta es la definición literal de la wiki (2.1)."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "¿Qué diferencia hay entre las anotaciones de presencia @NotNull, @NotBlank y @NotEmpty de Jakarta Validation?",
+      "opciones": {
+        "A": "@NotNull exige que la cadena tenga contenido, @NotBlank que haya valor y @NotEmpty que la colección no esté vacía.",
+        "B": "@NotNull exige que haya valor, @NotBlank que la colección no esté vacía y @NotEmpty que la cadena tenga contenido.",
+        "C": "Las tres comprueban lo mismo, que el valor no sea nulo, y solo difieren en el mensaje de error por defecto.",
+        "D": "@NotNull exige que haya valor, @NotBlank que la cadena tenga contenido y @NotEmpty que la colección no esté vacía."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki precisa el matiz de las tres anotaciones de presencia: @NotNull exige que haya valor; @NotBlank, que la cadena tenga contenido; @NotEmpty, que la colección no esté vacía.",
+      "explicacionesDistractores": {
+        "A": "Intercambia @NotNull y @NotBlank: @NotNull exige valor y @NotBlank exige que la cadena tenga contenido.",
+        "B": "Intercambia @NotBlank y @NotEmpty: @NotBlank se refiere a cadenas con contenido y @NotEmpty a colecciones no vacías.",
+        "C": "La wiki distingue qué comprueba cada una (valor, cadena con contenido, colección no vacía); no son equivalentes."
+      },
+      "dificultad": "facil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.1 Constraints estándar" }
+      ],
+      "conocimiento": "@NotNull exige valor, @NotBlank cadena con contenido y @NotEmpty colección no vacía.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-03-564299dd",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Evalúa el mismo núcleo (la validadora devuelve true ante null porque la obligatoriedad es de @NotBlank) que dws-03-8cc8cfb2 y dws-03-d5fdcd4d."
+    ],
+    "duplicadaDe": ["dws-03-8cc8cfb2", "dws-03-d5fdcd4d"],
+    "cambios": []
+  },
+  {
+    "id": "dws-03-8889a85c",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Evalúa la misma estrategia de pruebas (no repetir casos del value object en las HTTP, manejador una sola vez) que dws-03-260cd907 y dws-03-d1f34f27."
+    ],
+    "duplicadaDe": ["dws-03-260cd907", "dws-03-d1f34f27"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-e6fa9abe",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Solapa parcialmente con la del banco dws-04-1c640d69 (función de @NamedInterface), pero añade el papel y la ubicación de @ApplicationModule, de modo que no es equivalente.",
+      "Evalúa el mismo conocimiento (ubicación y papel de @NamedInterface frente a @ApplicationModule) que dws-04-20dc19e4, cuya respuesta correcta es justo el intercambio de ambas."
+    ],
+    "duplicadaDe": ["dws-04-20dc19e4"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-d9931ab6",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": false, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La explicación del distractor D añade 'ArchUnit puede comprobar que CatalogModule no dependa de los casos de uso', que es cierto, pero se refiere a la dependencia contraria (CatalogModule -> caso de uso) a la que plantea la opción (caso de uso -> CatalogModule): no refuta el distractor y confunde.",
+      "Aplica directamente la regla del recuadro 'Importante' de la sección 3; corresponde a 'media' (aplicar una regla), no a 'dificil'.",
+      "Evalúa el mismo conocimiento que dws-04-d97be926 y dws-04-ccee55d3."
+    ],
+    "duplicadaDe": ["dws-04-d97be926", "dws-04-ccee55d3"],
+    "cambios": [
+      "explicacionesDistractores.D: se elimina la frase sobre ArchUnit y CatalogModule, que alude a la dependencia en sentido contrario y no refuta la opción; se apoya en que la API pública es la entrada entre módulos.",
+      "dificultad: 'dificil' -> 'media', porque basta con aplicar la regla explícita de la wiki."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En el módulo de catálogo, un caso de uso necesita una operación que ya ejecuta otro caso de uso del mismo módulo. Un desarrollador propone que el primero invoque directamente al segundo para reutilizarlo. ¿Qué valoración es correcta?",
+      "opciones": {
+        "A": "Es desaconsejable: acoplaría ambos flujos y podría arrastrar las decisiones de acceso del caso invocado; la operación común debe compartirse mediante el servicio.",
+        "B": "Es recomendable, porque así se reutiliza también la comprobación de autorización del caso invocado y se evita repetirla en el nuevo flujo.",
+        "C": "Es desaconsejable; la operación común debe trasladarse al controlador, que es donde se coordinan los flujos iniciados por la persona usuaria.",
+        "D": "Es desaconsejable; el primer caso de uso debe llamar a CatalogModule, ya que la API pública del módulo es el punto de reutilización de operaciones."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que los casos de uso representan flujos de entrada, no operaciones reutilizables: si un caso de uso llamara a otro, acoplaría ambos flujos y podría arrastrar las decisiones de acceso propias del caso invocado. Cuando varios flujos necesitan la misma operación, la comparten mediante el servicio.",
+      "explicacionesDistractores": {
+        "B": "Arrastrar las decisiones de acceso del caso invocado es precisamente el inconveniente que señala la wiki, no una ventaja.",
+        "C": "Llevar la lógica al controlador la mezcla con HTTP y obliga a repetirla en otras entradas; la wiki dice que la operación común se comparte mediante el servicio.",
+        "D": "La API pública CatalogModule es la entrada para las llamadas de otros módulos (CatalogModule -> CatalogModuleImpl -> CatalogService); cuando varios flujos del propio módulo necesitan la misma operación, la wiki indica que la comparten mediante el servicio."
+      },
+      "dificultad": "media",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "3. Separar los flujos de entrada con casos de uso" }
+      ],
+      "conocimiento": "Un caso de uso no debe invocar a otro porque acopla los flujos y arrastra sus decisiones de acceso; las operaciones comunes se comparten mediante el servicio.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-04-7f4136c5",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "La opción correcta es bastante más larga y matizada que los distractores, lo que facilita adivinarla; aun así, los distractores atacan conceptos erróneos relevantes (despliegue por módulo, eliminar capas)."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-03-8cc8cfb2",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Evalúa el mismo conocimiento (IbanFormatValidator devuelve true ante null; la obligatoriedad es de @NotBlank) que dws-03-564299dd y dws-03-d5fdcd4d. De las tres, es la mejor construida por plantearlo como situación práctica."
+    ],
+    "duplicadaDe": ["dws-03-564299dd", "dws-03-d5fdcd4d"],
+    "cambios": []
+  },
+  {
+    "id": "dws-03-a764c07a",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-03-260cd907",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Evalúa la misma estrategia de pruebas que dws-03-8889a85c (casi el mismo escenario) y dws-03-d1f34f27."
+    ],
+    "duplicadaDe": ["dws-03-8889a85c", "dws-03-d1f34f27"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-906f76dc",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Evalúa la regla de detección por defecto (hijos directos del paquete base), igual que dws-04-a00e42c8; esta la aplica a un caso y además toca los subpaquetes internos, por lo que es la de más valor."
+    ],
+    "duplicadaDe": ["dws-04-a00e42c8"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-d97be926",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": false, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La explicación del distractor C habla de CatalogModuleImpl, pero el escenario está en el módulo de pedidos (RefundOrderUseCase, CancelOrderUseCase): la referencia es incoherente con el enunciado.",
+      "Aplica directamente la regla del recuadro 'Importante' de la sección 3; corresponde a 'media', no a 'dificil'.",
+      "Evalúa el mismo conocimiento que dws-04-d9931ab6 y dws-04-ccee55d3."
+    ],
+    "duplicadaDe": ["dws-04-d9931ab6", "dws-04-ccee55d3"],
+    "cambios": [
+      "explicacionesDistractores.C: se generaliza la ruta de la API pública (API pública -> su implementación -> servicio, como CatalogModule -> CatalogModuleImpl -> CatalogService) para no atribuir al módulo de pedidos una clase del catálogo.",
+      "dificultad: 'dificil' -> 'media', porque basta con aplicar la regla explícita de la wiki."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En un módulo con capa usecase, RefundOrderUseCase necesita cancelar el pedido y un desarrollador propone que invoque a CancelOrderUseCase para aprovechar su lógica. ¿Qué valoración es correcta según el tema?",
+      "opciones": {
+        "A": "Es adecuado, porque así la devolución reutiliza también las comprobaciones de autorización ya escritas en CancelOrderUseCase",
+        "B": "No es adecuado: acoplaría ambos flujos y arrastraría las decisiones de acceso del caso invocado; la operación común se comparte mediante el servicio",
+        "C": "No es adecuado: RefundOrderUseCase debería invocar la cancelación a través de la API pública del módulo, que la redirige al caso de uso",
+        "D": "Es adecuado si ambos casos de uso están en el mismo módulo; la restricción solo prohíbe invocar casos de uso de otros módulos"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Los casos de uso representan flujos de entrada, no operaciones reutilizables. Si un caso de uso llamara a otro, acoplaría ambos flujos y podría arrastrar las decisiones de acceso propias del caso invocado; cuando varios flujos necesitan la misma operación, la comparten mediante el servicio. ArchUnit puede comprobar que los casos de uso no se invoquen entre sí.",
+      "explicacionesDistractores": {
+        "A": "Arrastrar las decisiones de acceso del caso invocado es precisamente el problema que la wiki señala.",
+        "C": "La API pública de un módulo delega en su implementación y de ahí en el servicio (como CatalogModule -> CatalogModuleImpl -> CatalogService), nunca en un caso de uso: un módulo no pasa por un caso de uso de usuario. Además, la operación común se comparte mediante el servicio.",
+        "D": "La wiki no limita la regla a otros módulos: los casos de uso no deben invocarse entre sí."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "3. Separar los flujos de entrada con casos de uso" }
+      ],
+      "conocimiento": "Un caso de uso no debe invocar a otro porque acoplaría los flujos y arrastraría decisiones de acceso; las operaciones comunes se comparten mediante el servicio.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-04-37ca2f59",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Las opciones B y C de dws-04-20dc19e4 evalúan este mismo matiz (DTO en el paquete raíz públicos por defecto; package-info.java solo para @ApplicationModule)."
+    ],
+    "duplicadaDe": ["dws-04-20dc19e4"],
+    "cambios": []
+  },
+  {
+    "id": "dws-03-f3d29679",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Pide literalmente 'la definición precisa' de value object; es una definición directa de la sección 3, por lo que corresponde a 'facil', no a 'media'."
+    ],
+    "duplicadaDe": [],
+    "cambios": [
+      "dificultad: 'media' -> 'facil', porque se resuelve con la definición literal de la wiki."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "¿Cuál es la definición precisa de value object que da el tema de validación e invariancias?",
+      "opciones": {
+        "A": "Un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su propia construcción.",
+        "B": "Un tipo pequeño e inmutable, comparado por identidad, que valida sus datos con anotaciones de Jakarta Validation cuando un framework lo construye.",
+        "C": "Un tipo de la capa de presentación que describe el contrato de una operación y cuyos campos llevan anotadas las restricciones de formato.",
+        "D": "Un tipo pequeño y comparado por valor que puede crearse con datos inválidos y ofrece un método para validarlos antes de persistirlo."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki define el value object como un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su propia construcción: si los datos no son válidos, el objeto no existe.",
+      "explicacionesDistractores": {
+        "B": "Se compara por valor, no por identidad, y no usa Jakarta Validation: esas anotaciones solo actúan donde un framework valida y su dependencia está prohibida en el dominio.",
+        "C": "Describe el DTO de entrada, que la wiki pide no confundir con el value object.",
+        "D": "Contradice la idea central: el value object valida en su construcción y, si los datos no son válidos, el objeto no llega a existir."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "3. Invariancias con value objects" }
+      ],
+      "conocimiento": "Un value object es un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su construcción, de modo que no existe en estado inválido.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-03-d5fdcd4d",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": false, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La opción B ('se prueba directamente con valores que cumplen y que no cumplen') se apoya en la sección 5, que no figura en wikiRef; la 2.3 solo dice que 'se puede comprobar directamente (ver §5)'.",
+      "La afirmación falsa se reduce a la regla de null -> true, explícita en 2.3; es aplicar una regla ('media'), no relacionar conceptos con distractores muy próximos ('dificil').",
+      "Evalúa el mismo conocimiento que dws-03-564299dd y dws-03-8cc8cfb2."
+    ],
+    "duplicadaDe": ["dws-03-564299dd", "dws-03-8cc8cfb2"],
+    "cambios": [
+      "wikiRef: se añade '5. Pruebas', que respalda la opción B.",
+      "dificultad: 'dificil' -> 'media', porque basta con conocer la regla explícita de null en la validadora."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Sobre la constraint personalizada @ValidIban y su clase validadora IbanFormatValidator, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "La anotación solo declara el mensaje y dónde aplica, y delega la lógica en la clase validadora indicada en @Constraint.",
+        "B": "La clase validadora está separada de la anotación y se prueba directamente con valores que cumplen y que no cumplen.",
+        "C": "Como IbanFormatValidator rechaza los valores null, el campo IBAN del DTO no necesita @NotBlank para ser obligatorio.",
+        "D": "Ante un valor no nulo, isValid comprueba si cumple la expresión de ES seguido de veintidós dígitos."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Es falsa: IbanFormatValidator devuelve true cuando value es null, porque la obligatoriedad corresponde a @NotBlank y no a esta constraint.",
+      "explicacionesDistractores": {
+        "A": "Es cierta: @ValidIban lleva @Constraint(validatedBy = IbanFormatValidator.class) y la wiki dice que la anotación solo declara el mensaje y dónde aplica.",
+        "B": "Es cierta: la validadora se separa de la anotación y la estrategia de pruebas indica probarla directamente con valores que cumplen y que no cumplen.",
+        "D": "Es cierta: si el valor no es null, isValid devuelve si cumple ^ES\\d{22}$, es decir, ES seguido de 22 dígitos."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.3 Constraints personalizadas" },
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "5. Pruebas" }
+      ],
+      "conocimiento": "La validadora de una constraint personalizada como IbanFormatValidator acepta null porque la obligatoriedad corresponde a @NotBlank; la anotación solo declara mensaje y ámbito.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-03-d1f34f27",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Evalúa la misma estrategia de pruebas que dws-03-8889a85c y dws-03-260cd907, aunque de forma directa en lugar de situación práctica."
+    ],
+    "duplicadaDe": ["dws-03-8889a85c", "dws-03-260cd907"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-a00e42c8",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 5,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Definición directa con distractores poco plausibles (A y C no tienen apoyo alguno en la wiki); dws-04-906f76dc evalúa la misma regla aplicada a un caso y con más profundidad."
+    ],
+    "duplicadaDe": ["dws-04-906f76dc"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-20dc19e4",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La afirmación falsa (A) es un simple intercambio de las dos anotaciones, fácil de detectar si se conoce su función; no exige relacionar conceptos con distractores muy próximos, por lo que corresponde a 'media'.",
+      "Evalúa el mismo conocimiento que dws-04-e6fa9abe (ubicación y papel de @NamedInterface y @ApplicationModule) y, en sus opciones B y C, el de dws-04-37ca2f59."
+    ],
+    "duplicadaDe": ["dws-04-e6fa9abe", "dws-04-37ca2f59"],
+    "cambios": [
+      "dificultad: 'dificil' -> 'media', porque la afirmación falsa es un intercambio directo de las dos anotaciones."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "Sobre cómo se expone la API pública de un módulo y se declaran sus dependencias en Spring Modulith, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "@ApplicationModule se declara en el package-info.java del subpaquete que se quiere exponer, y @NamedInterface en el paquete raíz del módulo consumidor.",
+        "B": "Si los DTO se colocan directamente en el paquete raíz del módulo, son públicos por defecto y no hace falta @NamedInterface para exponerlos.",
+        "C": "Aunque los DTO estén en el paquete raíz, package-info.java puede seguir usándose para declarar @ApplicationModule y sus dependencias permitidas.",
+        "D": "En allowedDependencies, la cadena catalog::dto designa la interfaz con nombre dto del módulo catalog."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Es falsa porque intercambia las anotaciones: @NamedInterface va en el package-info.java del subpaquete que se expone (p. ej. catalog.dto) y @ApplicationModule en el del paquete raíz del módulo que declara sus dependencias permitidas (p. ej. orders).",
+      "explicacionesDistractores": {
+        "B": "Es cierta: la wiki aconseja que los DTO pueden ir en el paquete raíz del módulo, donde son públicos por defecto sin @NamedInterface ni package-info.java.",
+        "C": "Es cierta: la wiki aclara que, aun así, package-info.java puede utilizarse para declarar @ApplicationModule y sus dependencias permitidas.",
+        "D": "Es cierta: la sintaxis «catalog::dto» designa la interfaz con nombre dto del módulo catalog."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "Dependencias permitidas" },
+        { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "API pública y subpaquetes internos" }
+      ],
+      "conocimiento": "@NamedInterface se coloca en el package-info.java del subpaquete expuesto y @ApplicationModule en el del paquete raíz del módulo; los DTO en el paquete raíz son públicos por defecto.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-04-ccee55d3",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": false, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La explicación del distractor B cita que 'ArchUnit puede comprobar que CatalogModule no dependa de los casos de uso', que se refiere a la dependencia contraria a la que plantea la opción (casos de uso -> CatalogModule): no refuta el distractor y puede inducir a error.",
+      "La opción A desvela en exceso la respuesta al recoger casi literalmente el argumento que la wiki rechaza; distractor poco plausible.",
+      "Evalúa el mismo conocimiento que dws-04-d9931ab6 y dws-04-d97be926."
+    ],
+    "duplicadaDe": ["dws-04-d9931ab6", "dws-04-d97be926"],
+    "cambios": [
+      "explicacionesDistractores.B: se elimina la referencia a la regla de ArchUnit sobre CatalogModule, que alude a la dependencia en sentido contrario, y se justifica solo con el papel de la API pública y con que la operación común se comparte mediante el servicio."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En el módulo de catálogo, dos flujos iniciados por personas usuarias necesitan ejecutar la misma operación. Según el papel que la wiki asigna a los casos de uso, ¿cómo debe compartirse esa operación?",
+      "opciones": {
+        "A": "Haciendo que el caso de uso de uno de los flujos invoque al otro, para reutilizar también sus comprobaciones de autorización.",
+        "B": "Llamando desde ambos casos de uso a la API pública CatalogModule, que es la entrada reutilizable del módulo.",
+        "C": "Mediante el servicio, porque los casos de uso representan flujos de entrada y no operaciones reutilizables para otros flujos.",
+        "D": "Moviendo la operación al controlador, que la expone a ambos flujos sin pasar por la capa usecase."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki indica que los casos de uso representan flujos de entrada, no operaciones reutilizables; cuando varios flujos necesitan la misma operación, la comparten mediante el servicio.",
+      "explicacionesDistractores": {
+        "A": "La wiki lo desaconseja: si un caso de uso llamara a otro, acoplaría ambos flujos y podría arrastrar las decisiones de acceso propias del caso invocado.",
+        "B": "CatalogModule es la entrada para las llamadas de otros módulos (CatalogModule -> CatalogModuleImpl -> CatalogService); cuando varios flujos necesitan la misma operación, la wiki indica que la comparten mediante el servicio.",
+        "D": "Colocar lógica de flujo en el controlador la mezcla con HTTP y obliga a repetirla en otras entradas; el flujo HTTP es Controller → UseCase → Service."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "3. Separar los flujos de entrada con casos de uso" }
+      ],
+      "conocimiento": "Los casos de uso son flujos de entrada y no deben invocarse entre sí; cuando varios flujos necesitan la misma operación, la comparten mediante el servicio.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  }
+]

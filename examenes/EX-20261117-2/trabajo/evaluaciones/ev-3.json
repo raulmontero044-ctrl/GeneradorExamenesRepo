@@ -1,0 +1,409 @@
+[
+  {
+    "id": "dws-01-09e9730b",
+    "evaluador": "ev-3",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "La respuesta correcta reproduce casi literalmente la nota «Importante» de la sección 1; es recordar una definición directa, no comprender un mecanismo: corresponde a 'facil', no a 'media'."
+    ],
+    "duplicadaDe": [],
+    "cambios": [
+      "dificultad: 'media' -> 'facil', porque la respuesta es una afirmación literal de la wiki (definición directa)."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "¿Qué relación existe entre la arquitectura limpia y las arquitecturas hexagonal y de cebolla?",
+      "opciones": {
+        "A": "La arquitectura limpia es una estructura concreta de tres paquetes (controller, domain y persistence), y la hexagonal y la de cebolla son alternativas incompatibles con ella.",
+        "B": "La arquitectura limpia es un concepto general que protege las reglas de negocio y dirige las dependencias hacia el núcleo, y la hexagonal y la de cebolla son enfoques distintos que aplican esas ideas.",
+        "C": "La arquitectura limpia es un estilo de despliegue, mientras que la hexagonal y la de cebolla son formas de organizar internamente el código de cada despliegue.",
+        "D": "La arquitectura limpia y la de cebolla son la misma propuesta con distinto nombre, y la hexagonal es la única que separa el núcleo de los sistemas externos."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica que la arquitectura limpia es un concepto general: protege las reglas de negocio y dirige las dependencias hacia el núcleo. La hexagonal, la de cebolla y la arquitectura por capas con inversión de dependencias son enfoques distintos que aplican estas ideas.",
+      "explicacionesDistractores": {
+        "A": "La arquitectura limpia no es una estructura concreta de paquetes, sino un concepto general; y la hexagonal y la de cebolla no son incompatibles con ella, sino enfoques que la aplican.",
+        "C": "La arquitectura limpia no es un estilo de despliegue; los estilos de despliegue son monolito, monolito modular y microservicios, un criterio distinto de la organización interna.",
+        "D": "La wiki presenta la de cebolla como un enfoque distinto que aplica las ideas de la arquitectura limpia, no como un sinónimo; además, la de cebolla también protege el dominio, con dependencias que apuntan hacia el núcleo."
+      },
+      "dificultad": "facil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "1. Principios de arquitectura limpia" }
+      ],
+      "conocimiento": "La arquitectura limpia es un concepto general y la hexagonal, la de cebolla y las capas con inversión de dependencias son enfoques distintos que aplican sus ideas.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-01-b56b154b",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Solapa con dws-01-1e76be6f: ambas evalúan que un monolito no implica código desordenado, es adecuado para un CRUD y puede aplicar arquitectura limpia (aquí en los distractores A y C, allí como respuesta)."
+    ],
+    "duplicadaDe": ["dws-01-1e76be6f"],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-e99be59d",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Parecido marcado con dws-01-d89ede9e (banco) descartado: aquella evalúa la ubicación de Repository frente a DAO; esta compara capas y cebolla (ubicación de Service y Model). Solo el distractor B roza el conocimiento del banco."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-7e286607",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Menor: la opción correcta C es sensiblemente más larga que las demás y copia la tabla, lo que puede delatarla."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-7690fbcd",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Evalúa el mismo conocimiento que dws-02-e829493e (naturaleza de OpenAPI frente a Swagger y Swagger UI)."
+    ],
+    "duplicadaDe": ["dws-02-e829493e"],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-9907510d",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Comparte con dws-02-e59b3fbc y dws-02-065258c4 el conocimiento de que las clases generadas no se modifican y se regenera desde el YAML, y con dws-02-5b631f34 el de que eliminar o cambiar el tipo de un campo puede romper clientes y exige transición acordada."
+    ],
+    "duplicadaDe": ["dws-02-e59b3fbc", "dws-02-065258c4", "dws-02-5b631f34"],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-43e56e66",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Relacionada con dws-01-3f0b4e77 del banco (qué es NotificationPort), pero esta evalúa la aplicación del patrón al sustituir una tecnología: no equivalente."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-0fd5f32a",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Relacionada con dws-01-86b82494 del banco (síncrona frente a asíncrona), cuya respuesta se centra en la asíncrona y las entregas duplicadas; esta evalúa el flujo síncrono HTTP y su dependencia del receptor: no equivalente."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-73ad1693",
+    "evaluador": "ev-3",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": false, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "El distractor D («Solo DAOImpl») es falso solo por su justificación (la interfaz DAO no está en domain); la parte «solo cambia DAOImpl» es defendible, ya que la interfaz DAO también aísla a RepositoryImpl de la tecnología. Un alumno podría defender D como correcta en su conclusión. Además, D reutiliza el conocimiento del banco dws-01-d89ede9e (ubicación de la interfaz DAO)."
+    ],
+    "duplicadaDe": [],
+    "cambios": [
+      "Opción D sustituida por un distractor sin conclusión defendible y basado en la dirección de las dependencias: «Toda la aplicación, incluidos Controller y ServiceImpl, porque en la arquitectura por capas las dependencias apuntan desde domain hacia persistence», ya que la D original tenía una conclusión defendible y repetía el conocimiento del banco dws-01-d89ede9e.",
+      "Explicación del distractor D reescrita en consecuencia.",
+      "explicacionCorrecta: se elimina la mención redundante a la ubicación del DAO para centrarla en la inversión de dependencias."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Una aplicación sigue la arquitectura por capas de referencia, con inversión de dependencias en el acceso a datos. El equipo decide cambiar la tecnología de base de datos. Si la arquitectura se ha respetado, ¿qué parte del código debe cambiar?",
+      "opciones": {
+        "A": "Solo la capa persistence, donde están RepositoryImpl y el DAO con su interfaz e implementación; la interfaz Repository y ServiceImpl de domain no cambian",
+        "B": "La interfaz Repository de domain, para adaptarla a la nueva tecnología, mientras que RepositoryImpl en persistence puede mantenerse igual",
+        "C": "ServiceImpl, porque utiliza Repository y debe conocer la nueva tecnología, aunque la interfaz Repository se mantenga en domain",
+        "D": "Toda la aplicación, incluidos Controller y ServiceImpl, porque en la arquitectura por capas las dependencias apuntan desde domain hacia persistence"
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "domain define la interfaz Repository que necesita y persistence la implementa (RepositoryImpl, que a su vez usa el DAO). Esta inversión de dependencias evita que el dominio dependa de la tecnología de persistencia y aplica la independencia de la base de datos: se cambia la persistencia sin reescribir las reglas.",
+      "explicacionesDistractores": {
+        "B": "La interfaz Repository la define el dominio según lo que necesita; adaptarla a la tecnología haría depender al dominio de la persistencia, justo lo que la inversión de dependencias evita.",
+        "C": "ServiceImpl solo utiliza la interfaz Repository definida en domain y no conoce la tecnología de persistencia, por lo que no tiene que cambiar.",
+        "D": "Invierte el sentido de las dependencias: persistence implementa la interfaz Repository de domain, de modo que todas las dependencias apuntan hacia domain y el dominio no depende de la persistencia; por eso el cambio no se propaga a ServiceImpl ni a Controller."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "2.1 Arquitectura por capas" },
+        { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "1. Principios de arquitectura limpia" }
+      ],
+      "conocimiento": "Gracias a la inversión de dependencias, cambiar la tecnología de base de datos en la arquitectura por capas solo afecta a persistence (RepositoryImpl y DAO), sin tocar la interfaz Repository ni los servicios del dominio.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-02-e59b3fbc",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Evalúa el mismo conocimiento que dws-02-065258c4 y que parte de dws-02-9907510d: las clases generadas no se modifican y, si cambia el contrato, se modifica el YAML y se regenera."
+    ],
+    "duplicadaDe": ["dws-02-065258c4", "dws-02-9907510d"],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-5b631f34",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Evalúa el concepto de cambio incompatible, igual que dws-02-195fd45e (definición) y que parte de dws-02-9907510d (eliminar un campo puede romper clientes)."
+    ],
+    "duplicadaDe": ["dws-02-195fd45e", "dws-02-9907510d"],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-b626b0d6",
+    "evaluador": "ev-3",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La etiqueta 'dificil' es excesiva: los distractores contradicen afirmaciones directas de la wiki (se generan interfaces y DTO; el Controller implementa la interfaz; los DTO se mapean) y no son muy próximos; corresponde a 'media' (comprender el flujo del generador).",
+      "Solapa parcialmente con el banco dws-02-26a7af0d (el plugin genera interfaces y DTO) y con la afirmación D de dws-02-065258c4, pero añade la implementación en Controller y el mapeo de DTO a modelos internos: no se considera repetida."
+    ],
+    "duplicadaDe": [],
+    "cambios": [
+      "dificultad: 'dificil' -> 'media', porque evalúa la comprensión de un flujo descrito directamente en la wiki con distractores claramente distinguibles."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "En el flujo que parte del archivo orders-api.yaml, un miembro del equipo espera que OpenAPI Generator le entregue la API terminada. ¿Qué describe correctamente lo que se genera y lo que sigue haciendo el equipo?",
+      "opciones": {
+        "A": "Se generan los controladores con su lógica y los modelos del dominio, de modo que el equipo solo tiene que configurar el plugin de Maven",
+        "B": "Se generan las interfaces de la API y la documentación con Swagger UI, y el equipo escribe a mano los DTO, que coinciden con los modelos del dominio",
+        "C": "Se generan los DTO a partir del contrato, que se usan directamente como modelos del dominio, y el equipo escribe a mano las interfaces de la API",
+        "D": "Se generan las interfaces de la API y los DTO; el equipo implementa esas interfaces en sus Controller y mapea los DTO a los modelos internos"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "OpenAPI Generator lee orders-api.yaml y genera las interfaces de la API y las clases de modelo (los DTO) definidas en el contrato. El equipo implementa las operaciones de las interfaces generadas en sus Controller. En ambos enfoques los DTO HTTP describen los datos públicos y se mapean a modelos internos; no se exponen directamente los modelos del dominio.",
+      "explicacionesDistractores": {
+        "A": "El generador no produce la lógica de los controladores ni los modelos del dominio: el equipo implementa las interfaces generadas en sus Controller.",
+        "B": "Los DTO también se generan a partir del contrato, y no tienen por qué coincidir con los modelos internos; la documentación con Swagger UI es lo que produce springdoc-openapi desde el código.",
+        "C": "Las interfaces de la API también se generan, y los DTO HTTP se mapean a modelos internos en lugar de usarse como modelos del dominio."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "OpenAPI Generator y Maven" },
+        { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "Comparativa de fuentes del contrato" }
+      ],
+      "conocimiento": "OpenAPI Generator genera interfaces de la API y DTO; el equipo implementa las interfaces en sus Controller y mapea los DTO HTTP a los modelos internos sin exponer el dominio.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-01-7a29662a",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-1e76be6f",
+    "evaluador": "ev-3",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La afirmación falsa (D) contradice literalmente la nota «Importante» más destacada de la sección 3.1, y las verdaderas son frases casi literales de la wiki; el formato negativo no basta para 'dificil': corresponde a 'media'.",
+      "Solapa con dws-01-b56b154b (monolito no implica desorden, adecuado para CRUD, puede aplicar arquitectura limpia)."
+    ],
+    "duplicadaDe": ["dws-01-b56b154b"],
+    "cambios": [
+      "dificultad: 'dificil' -> 'media', porque la afirmación incorrecta se refuta con una frase literal y destacada de la wiki."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Sobre los estilos de despliegue y la comunicación entre módulos, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "Un monolito no implica código desordenado y puede ser una opción adecuada para una aplicación pequeña, como un CRUD.",
+        "B": "Los eventos entre módulos de una aplicación no implican comunicación de red ni crean por sí solos una transacción independiente.",
+        "C": "En un monolito modular la base de datos puede ser compartida, siempre que cada módulo acceda solo a los datos de los que es propietario.",
+        "D": "Un monolito, al desplegarse como una única aplicación, no puede aplicar los principios de arquitectura limpia en su organización interna."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "Es falsa: la wiki advierte que no hay que confundir cómo se organiza el código con cómo se despliega y afirma expresamente que «un monolito puede aplicar principios de arquitectura limpia».",
+      "explicacionesDistractores": {
+        "A": "Es cierta: la wiki dice que un monolito no implica código desordenado y puede ser adecuado para una aplicación pequeña, como un CRUD.",
+        "B": "Es cierta: la wiki indica que los eventos entre módulos no implican comunicación de red ni crean por sí solos aislamiento o una transacción independiente.",
+        "C": "Es cierta: según el matiz del diagrama, en el monolito modular la base de datos puede ser compartida, pero cada módulo solo accede a los datos de los que es propietario."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.1 Monolito, monolito modular y microservicios" },
+        { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.2 Tipos de comunicación" }
+      ],
+      "conocimiento": "Un monolito puede aplicar principios de arquitectura limpia porque organización interna y despliegue son criterios distintos; además, un monolito no implica desorden, los eventos entre módulos no implican red y el monolito modular puede compartir base de datos con datos propiedad de cada módulo.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-01-2918e1f8",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-e829493e",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Evalúa el mismo conocimiento que dws-02-7690fbcd (OpenAPI es la especificación, Swagger las herramientas, Swagger UI la documentación interactiva)."
+    ],
+    "duplicadaDe": ["dws-02-7690fbcd"],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-065258c4",
+    "evaluador": "ev-3",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Las cuatro afirmaciones son paráfrasis casi literales de un único párrafo de la wiki y la falsa contradice una frase explícita («no se deben modificar directamente»); evalúa sobre todo memoria de detalles, por lo que 'dificil' es excesivo: corresponde a 'media'.",
+      "Evalúa el mismo conocimiento central que dws-02-e59b3fbc y parte de dws-02-9907510d."
+    ],
+    "duplicadaDe": ["dws-02-e59b3fbc", "dws-02-9907510d"],
+    "cambios": [
+      "dificultad: 'dificil' -> 'media', porque la afirmación incorrecta se refuta con una frase literal de la wiki y no exige relacionar conceptos."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un proyecto usa orders-api.yaml como fuente de verdad y genera código con OpenAPI Generator. Sobre las clases generadas, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "Suelen quedar en una carpeta como target/generated-sources/openapi, aunque la ruta concreta depende de la configuración.",
+        "B": "Si cambia el contrato, pueden ajustarse directamente a mano para reflejar el cambio sin necesidad de volver a generarlas.",
+        "C": "Puede que no aparezcan entre los archivos escritos a mano y haga falta ejecutar Maven y actualizar el proyecto en el IDE.",
+        "D": "Incluyen las interfaces de la API y las clases de modelo (DTO) definidas en el contrato, y los Controller implementan esas interfaces."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Es falsa: la wiki indica que las clases generadas se pueden consultar, pero no se deben modificar directamente; si cambia el contrato, se vuelve a generar el código.",
+      "explicacionesDistractores": {
+        "A": "Es cierta: suelen quedar en una carpeta como target/generated-sources/openapi, aunque la ruta depende de la configuración.",
+        "C": "Es cierta: no siempre aparecen entre los archivos escritos a mano y puede ser necesario ejecutar Maven y actualizar el proyecto en el IDE.",
+        "D": "Es cierta: OpenAPI Generator genera las interfaces de la API y las clases de modelo (DTO), y el equipo implementa sus operaciones en los Controller."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "OpenAPI Generator y Maven" }
+      ],
+      "conocimiento": "Las clases generadas por OpenAPI Generator se pueden consultar pero no modificar directamente; si cambia el contrato se regeneran, suelen ubicarse en target/generated-sources/openapi según la configuración y quizá haya que actualizar el IDE para verlas.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-02-195fd45e",
+    "evaluador": "ev-3",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Pide la definición literal de cambio incompatible (tipo 'definicion'); según la definición de dificultad corresponde a 'facil', no a 'media'.",
+      "Evalúa el mismo concepto que dws-02-5b631f34 (aplicación del concepto de cambio incompatible)."
+    ],
+    "duplicadaDe": ["dws-02-5b631f34"],
+    "cambios": [
+      "dificultad: 'media' -> 'facil', porque la respuesta es la definición directa de la wiki."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Al revisar la evolución de un contrato HTTP, ¿qué define con precisión un cambio incompatible?",
+      "opciones": {
+        "A": "Un cambio en el archivo OpenAPI que obliga a regenerar las interfaces y los DTO del servidor antes de compilar.",
+        "B": "Un cambio en los modelos internos del dominio, aunque los DTO HTTP que se exponen no se modifiquen.",
+        "C": "Un cambio que hace que el documento OpenAPI deje de superar la validación de su sintaxis.",
+        "D": "Un cambio que obliga a los consumidores a modificar sus solicitudes o la forma en que interpretan las respuestas."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki define como incompatible el cambio que obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas; por ejemplo, eliminar un campo, cambiar su tipo o alterar el significado de una respuesta.",
+      "explicacionesDistractores": {
+        "A": "La regeneración de código en el servidor es consecuencia de cualquier cambio del contrato; la incompatibilidad se define por el efecto sobre los consumidores, no sobre el servidor.",
+        "B": "Los DTO HTTP describen los datos públicos y se mapean a modelos internos; un cambio solo interno que no altera el contrato no obliga a los consumidores a cambiar nada.",
+        "C": "Validar la sintaxis OpenAPI es una de las comprobaciones posibles, pero un cambio incompatible puede ser sintácticamente válido; la definición se basa en el impacto sobre los consumidores."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "4. Cambios y comprobaciones" }
+      ],
+      "conocimiento": "Un cambio incompatible es el que obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  }
+]

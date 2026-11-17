@@ -1,0 +1,760 @@
+{
+  "preguntas": [
+    {
+      "id": "prog-08-8c4b6005",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Una aplicación de consola tiene todo su código en una única clase. Ahora se quiere ofrecer el mismo cálculo de precios a través de una API Web, pero no es posible aprovechar ese código porque el cálculo está entrelazado con la lectura de teclado y la impresión por pantalla. ¿Qué problema del código sin estructurar, según la wiki, describe exactamente esta situación?",
+      "opciones": {
+        "A": "Alta rigidez: cambiar el soporte de almacenamiento obliga a modificar y reescribir la lógica de negocio y la interfaz.",
+        "B": "Dificultad para trabajar en equipo: varios desarrolladores tocan la misma clase y generan constantes conflictos de código.",
+        "C": "Falta de reusabilidad: la lógica de negocio está mezclada con la entrada/salida de datos y no puede reutilizarse en otro entorno.",
+        "D": "Imposibilidad de pruebas unitarias: el cálculo no puede probarse sin ejecutar a la vez el acceso a datos o la interacción con el usuario."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki define la falta de reusabilidad como el problema de que la lógica de negocio esté mezclada con la entrada/salida de datos, lo que impide reutilizarla en otros entornos, y pone justo el ejemplo de pasar de una aplicación de consola a una API Web.",
+      "explicacionesDistractores": {
+        "A": "La alta rigidez se refiere a que cambiar una parte del sistema, como pasar de un fichero de texto a una base de datos SQL, obliga a reescribir la lógica y la interfaz; el caso planteado no es un cambio de almacenamiento sino reutilizar la lógica en otro entorno.",
+        "B": "La dificultad para trabajar en equipo trata de los merge conflicts que surgen cuando varios desarrolladores tocan la misma clase; en el caso no interviene el trabajo simultáneo de varias personas.",
+        "D": "La imposibilidad de pruebas unitarias se refiere a no poder probar el cálculo de forma aislada; el obstáculo descrito es reutilizar la lógica en una API Web, que la wiki asocia a la falta de reusabilidad."
+      },
+      "dificultad": "media",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Problemas del código sin estructurar"
+        }
+      ],
+      "conocimiento": "El código espagueti presenta falta de reusabilidad porque la lógica de negocio mezclada con la entrada/salida impide reutilizarla en otro entorno, como pasar de consola a API Web, a diferencia de la rigidez, los conflictos de equipo o la falta de pruebas.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-08-e81b53ab",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Un equipo va a reorganizar la estructura interna de la entidad de dominio Book y de la base de datos, pero los clientes de la API deben seguir recibiendo exactamente el mismo JSON. Frente a exponer directamente la entidad, ¿qué característica de los DTO descrita en la wiki es la que permite hacerlo?",
+      "opciones": {
+        "A": "El desacoplamiento: la estructura interna del dominio o de la base de datos puede modificarse sin romper la interfaz externa de la aplicación.",
+        "B": "La seguridad y privacidad: el DTO oculta al usuario datos sensibles o internos, como claves internas, contraseñas o borrados lógicos.",
+        "C": "La especialización Request/Response: el Request DTO transporta solo los campos requeridos para la acción, como crear un libro sin ID.",
+        "D": "La inmutabilidad de los Java Records: como sus componentes son private final, la estructura del DTO no se ve alterada por los cambios del dominio."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Entre las características de los DTO, la wiki enumera el desacoplamiento: permite modificar la estructura interna del dominio o de la base de datos sin romper la interfaz externa de la aplicación, que es justo lo que necesita el equipo.",
+      "explicacionesDistractores": {
+        "B": "La seguridad y privacidad consiste en ocultar datos sensibles o internos que el usuario no necesita ver; no es la característica que garantiza que la interfaz externa se mantenga cuando cambia la estructura interna.",
+        "C": "La especialización distingue el DTO de entrada del de salida según los campos que necesita cada operación; no trata de aislar la interfaz externa de los cambios internos.",
+        "D": "La inmutabilidad de los records significa que, una vez instanciado, sus valores no pueden modificarse; se refiere a los datos de cada instancia durante el transporte, no a proteger la interfaz frente a cambios de estructura del dominio."
+      },
+      "dificultad": "media",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "3. DTOs (Data Transfer Objects) y Java Records"
+        }
+      ],
+      "conocimiento": "El desacoplamiento que aportan los DTO permite cambiar la estructura interna del dominio o de la base de datos sin romper la interfaz externa, a diferencia de la privacidad, la especialización o la inmutabilidad.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-08-9a0a1406",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "En el ejemplo de libros del tema aparecen tres clases que representan un libro: Book, BookEntity y BookResponse. Según el diagrama de componentes y el mapper descritos en la wiki, ¿qué afirmación diferencia correctamente su papel?",
+      "opciones": {
+        "A": "BookEntity es la entidad de dominio que utiliza BookServiceImpl, mientras que Book es la clase con la que BookDaoImpl lee y escribe en la base de datos o fichero.",
+        "B": "Book y BookResponse son records con accesores sin prefijo get, mientras que BookEntity es la única de las tres que es una clase convencional con getters.",
+        "C": "BookController devuelve directamente la entidad Book al exterior y emplea BookResponse únicamente como DTO de entrada para recibir los datos.",
+        "D": "Book es la entidad de dominio que utiliza BookServiceImpl; BookEntity pertenece a la persistencia y la utiliza BookDaoImpl; BookResponse es un DTO de salida que utiliza BookController."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "El diagrama sitúa la entidad Book en la capa de dominio, utilizada por BookServiceImpl; BookEntity en la capa de persistencia, utilizada por BookDaoImpl; y BookResponse en la capa de presentación como DTO de salida que utiliza BookController. El mapper toResponse convierte Book en BookResponse.",
+      "explicacionesDistractores": {
+        "A": "Invierte los papeles: según el diagrama, BookServiceImpl utiliza la entidad de dominio Book y es BookDaoImpl quien utiliza BookEntity y lee/escribe en la base de datos o fichero.",
+        "B": "La wiki indica que la entidad Book es una clase convencional con getters (getIsbn()), mientras que los DTO, como BookResponse, son records con accesores como isbn().",
+        "C": "La wiki desaconseja exponer directamente las entidades del dominio; BookResponse es el DTO de salida (con el precio final calculado), no de entrada. El de entrada es el Request DTO."
+      },
+      "dificultad": "dificil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Diagrama de componentes del ejemplo (libros)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Conversión entre objetos: Mapeadores (Mappers)"
+        }
+      ],
+      "conocimiento": "Book es la entidad de dominio (clase convencional con getters) usada por el servicio, BookEntity es la clase de persistencia usada por el DAO y BookResponse es el DTO de salida (record) usado por el controlador.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-09-3a6562a9",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un equipo necesita dos endpoints de lectura: uno para obtener los autores del libro con ID 12 y otro para listar los libros de la categoría fiction. Siguiendo las buenas prácticas de diseño de endpoints de la wiki, ¿qué pareja de peticiones es la adecuada?",
+      "opciones": {
+        "A": "GET /books/12/authors para los autores y GET /books/category/fiction para el filtrado, anidando también la categoría en la ruta.",
+        "B": "GET /books/12/authors para los autores y GET /books?category=fiction para el filtrado por categoría mediante un Query Parameter.",
+        "C": "GET /getAuthors/12 para los autores y GET /books?category=fiction para el filtrado, indicando en la ruta la acción que se realiza.",
+        "D": "POST /books/12/authors para los autores y POST /books con la categoría en el cuerpo, para no exponer el criterio en la URL."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki recomienda anidar recursos para expresar relaciones jerárquicas (GET /books/12/authors obtiene los autores del libro 12) y filtrar y paginar mediante Query Parameters (GET /books?category=fiction&page=1).",
+      "explicacionesDistractores": {
+        "A": "La anidación se reserva para relaciones jerárquicas; para filtrar, la buena práctica de la wiki es usar Query Parameters, no segmentos de la ruta.",
+        "C": "La wiki exige sustantivos en plural y nunca verbos en la URL, porque la acción la determina el método HTTP; /getAuthors es un ejemplo de lo incorrecto.",
+        "D": "Son lecturas, que corresponden a GET, con los datos en la URL; POST es el método de creación y envía los datos en el cuerpo."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Buenas prácticas en el diseño de Endpoints"
+        }
+      ],
+      "conocimiento": "Las relaciones jerárquicas se expresan anidando recursos en la ruta (/books/12/authors), mientras que el filtrado y la paginación se hacen con Query Parameters (/books?category=fiction).",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-09-932ad6e7",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Una API responde a GET /books con un array de dos libros entre corchetes y recibe en POST /books un único libro entre llaves con isbn, title y basePrice. Según la wiki, ¿qué diferencia correctamente cómo se corresponde cada estructura JSON en el servidor?",
+      "opciones": {
+        "A": "El objeto entre llaves se corresponde con un List de pares clave-valor, y la colección entre corchetes con un único DTO que agrupa todos los libros.",
+        "B": "Ambas se corresponden con DTOs, pero el parser solo actúa al recibir datos; para enviar el array, el controlador debe construir el texto JSON a mano.",
+        "C": "El parser convierte el objeto entre llaves directamente en la entidad de dominio, y la colección entre corchetes en una lista de entidades de dominio.",
+        "D": "La colección entre corchetes se corresponde con un List de DTOs y el objeto entre llaves con un único DTO; el parser hace ambas conversiones automáticamente."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que un objeto JSON ({ }) se corresponde con un DTO y una colección JSON ([ ]) con un List de DTOs, y que el parser convierte automáticamente el texto JSON en Java Records (DTOs) y al revés cuando el controlador recibe o envía datos.",
+      "explicacionesDistractores": {
+        "A": "Invierte la correspondencia: el objeto entre llaves mapea con un DTO y la colección entre corchetes con un List.",
+        "B": "El parser convierte en ambos sentidos (JSON a DTO y DTO a JSON), tanto al recibir como al enviar datos; no hay que construir el JSON a mano.",
+        "C": "El parser convierte el JSON en clases Java Record que actúan como DTO, no en entidades de dominio; la conversión entre DTO y dominio es tarea de otra pieza."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "4. Formato de Intercambio: JSON"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Colección JSON (Mapea con un List)"
+        }
+      ],
+      "conocimiento": "Un objeto JSON entre llaves se corresponde con un DTO y una colección JSON entre corchetes con un List de DTOs, y el parser convierte automáticamente en ambos sentidos.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-09-04a8aaf6",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un equipo propone dos endpoints: para crear un libro, POST /createBook?isbn=…&title=…&basePrice=…; para borrarlo, DELETE /books enviando {\"id\": 12} en el cuerpo de la petición. Según la wiki, ¿qué valoración es correcta?",
+      "opciones": {
+        "A": "Ambos incumplen la wiki: la creación debe ser POST /books con los datos en el cuerpo, y el borrado debe identificar el recurso con un Path Param, como DELETE /books/12.",
+        "B": "Solo el primero incumple, por el verbo en la URL; DELETE, igual que POST, PUT y PATCH, transmite sus datos en el cuerpo de la petición.",
+        "C": "Solo el segundo incumple; POST /createBook es aceptable porque la acción queda clara en el método y en la URL, y POST admite los datos en Query Params.",
+        "D": "Ambos incumplen solo por el nombre del endpoint; con sustantivos en plural, POST podría enviar sus datos en Query Params y DELETE en el cuerpo."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki exige sustantivos en plural y no verbos (POST /createBook aparece como incorrecto), indica que POST lleva los datos en el cuerpo y que DELETE los lleva en la URL mediante un Path Param. Ambos diseños incumplen esas reglas.",
+      "explicacionesDistractores": {
+        "B": "Según la tabla de métodos, DELETE lleva los datos en la URL (Path Param); solo POST, PUT y PATCH los envían en el cuerpo.",
+        "C": "POST /createBook es justo el ejemplo incorrecto de la wiki, porque la acción la determina el método HTTP y no la URL; además, POST envía los datos en el cuerpo.",
+        "D": "No es solo cuestión de nombres: la wiki establece dónde viajan los datos de cada método, cuerpo para POST y Path Param en la URL para DELETE."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Buenas prácticas en el diseño de Endpoints"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Matices que conviene retener"
+        }
+      ],
+      "conocimiento": "Un endpoint de creación debe ser un sustantivo en plural con POST y datos en el cuerpo, y un borrado debe identificar el recurso con un Path Param en la URL; usar verbos o mover los datos de sitio incumple las buenas prácticas.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-08-742ab333",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Para ahorrarse una llamada, un desarrollador hace que BookController invoque directamente a BookDaoImpl para leer los libros, sin pasar por BookService ni por BookRepository. Según las reglas de comunicación entre capas del tema, ¿qué ocurre con este diseño?",
+      "opciones": {
+        "A": "Es válido, porque la llamada sigue yendo hacia abajo y el flujo unidireccional solo prohíbe que una capa llame a las capas superiores.",
+        "B": "Incumple la regla de aislamiento, porque al recibir la llamada el DAO pasa a conocer al controlador que lo invoca.",
+        "C": "Incumple la prohibición del salto de capas: el controlador nunca debe comunicarse directamente con la persistencia, sino a través de la capa de dominio.",
+        "D": "Solo sería incorrecto si el controlador usara la clase BookDaoImpl; invocando la interfaz BookDao se respetarían las reglas de comunicación."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Entre las reglas de comunicación, la wiki establece «Prohibido el salto de capas: el controlador nunca debe comunicarse directamente con la capa de persistencia». Las llamadas deben seguir Controller → Service → Repository, y el diagrama subraya que el controlador no salta a la persistencia.",
+      "explicacionesDistractores": {
+        "A": "Que la llamada vaya hacia abajo no basta: además del flujo unidireccional, la wiki prohíbe expresamente el salto de capas, que es justo lo que hace el controlador al llamar al DAO.",
+        "B": "La regla de aislamiento dice que una capa inferior nunca debe conocer ni llamar a las superiores; aquí el DAO no llama al controlador ni depende de él. La regla incumplida es la del salto de capas.",
+        "D": "Depender de interfaces no autoriza el salto: la wiki prohíbe que el controlador se comunique directamente con la persistencia, sea a través de una interfaz o de su implementación."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Reglas de Comunicación entre Capas"
+        }
+      ],
+      "conocimiento": "Que el controlador invoque directamente a la persistencia incumple la prohibición del salto de capas, aunque la llamada vaya hacia abajo y aunque use una interfaz.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-08-5e90aa71",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Según el ejemplo BookMapper del tema, ¿qué describe correctamente cómo trabaja el mapeador al convertir entre BookCreateRequest, Book y BookResponse?",
+      "opciones": {
+        "A": "toDomain lee el record con sus accesores sin prefijo get (como dto.isbn()); toResponse usa los getters de la entidad Book y es la llamada a getFinalPrice() la que aplica el cálculo del dominio; ambos devuelven null si reciben null.",
+        "B": "toDomain lee el record con sus accesores sin prefijo get (como dto.isbn()); toResponse calcula el precio final dentro del propio mapeador a partir de basePrice, para que la regla quede en la frontera entre presentación y dominio.",
+        "C": "El mapeador trabaja en la frontera entre dominio y persistencia: toDomain convierte el BookCreateRequest en una BookEntity y toResponse convierte esa BookEntity en un BookResponse.",
+        "D": "toDomain crea el Book asignándole un ID provisional, ya que BookCreateRequest no lo incluye; ambos métodos lanzan una excepción si reciben null en lugar de un objeto."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que toDomain crea un Book con dto.isbn(), dto.title() y dto.basePrice() (accesores propios del record, sin get), que toResponse construye el BookResponse con los getters de la entidad (domain.getIsbn(), domain.getFinalPrice()) y que la llamada a getFinalPrice() es donde se aplica la regla o cálculo del dominio. Ambos métodos devuelven null si reciben null.",
+      "explicacionesDistractores": {
+        "B": "El mapeador no calcula el precio: según la wiki, la regla se aplica al llamar a getFinalPrice() de la entidad Book, es decir, en el dominio. El mapper solo convierte un tipo en otro.",
+        "C": "La wiki sitúa la conversión al cruzar la frontera entre la capa de presentación y la de dominio, entre DTO y entidad de dominio (Book), no entre dominio y persistencia ni con BookEntity.",
+        "D": "toDomain solo usa isbn, title y basePrice; el ID lo asigna el sistema y el mapper no lo inventa. Además, ambos métodos devuelven null cuando reciben null, no lanzan una excepción."
+      },
+      "dificultad": "dificil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Conversión entre objetos: Mapeadores (Mappers)"
+        }
+      ],
+      "conocimiento": "BookMapper convierte en la frontera presentación-dominio usando accesores de record en toDomain y getters de la entidad en toResponse, donde getFinalPrice() aplica la regla del dominio, y devuelve null si recibe null.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-08-4e750deb",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Un equipo quiere probar la lógica de negocio de BookServiceImpl sin ejecutar la base de datos real, pero el constructor de BookServiceImpl crea internamente su repositorio con new. Según el tema, ¿qué cambio permite hacer esa prueba aislada?",
+      "opciones": {
+        "A": "Declarar el repositorio como atributo static para poder sustituirlo desde la prueba, manteniendo su creación con new dentro del constructor.",
+        "B": "Cambiar el new del constructor para que el repositorio use BookDaoJson, ya que un fichero JSON no necesita base de datos y la prueba queda aislada.",
+        "C": "Trasladar la lógica de negocio al controlador, que no accede a datos, y probarla allí sin necesidad de persistencia.",
+        "D": "Que BookServiceImpl reciba la interfaz BookRepository por su constructor, para que la prueba pueda entregarle un objeto simulado (Mock) en lugar de la implementación real."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki señala que crear las dependencias con new impide las pruebas unitarias aisladas, y que con DI la clase recibe sus dependencias desde fuera. Entre las ventajas de IoC/DI cita la facilidad para pruebas unitarias: es posible pasar al constructor un objeto simulado (Mock) para probar la lógica de negocio aisladamente.",
+      "explicacionesDistractores": {
+        "A": "Si la clase sigue creando su dependencia con new, sigue decidiendo internamente la implementación concreta, que es el error que la wiki señala. La solución que propone es recibir la dependencia por constructor, no un atributo static.",
+        "B": "Cambiar el new sigue obligando a modificar el código interno de la clase y la prueba seguiría ejecutando una implementación real de persistencia, no un Mock. Es el mismo acoplamiento que la wiki critica.",
+        "C": "La capa de presentación no debe contener lógica de negocio según la wiki; trasladarla rompería la arquitectura por capas en lugar de hacer el servicio testable."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Ventajas de IoC / DI"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "4. Gestión de Dependencias: DI e IoC"
+        }
+      ],
+      "conocimiento": "Para probar la lógica de negocio sin la persistencia real, la clase debe recibir la interfaz de su dependencia por constructor, de modo que se le pueda pasar un Mock.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-09-c60ceb07",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Una API de libros necesita dos operaciones de consulta: listar los libros de la categoría fiction mostrando la primera página, y obtener los autores del libro con ID 12. ¿Qué par de endpoints sigue las buenas prácticas de diseño del tema?",
+      "opciones": {
+        "A": "GET /getBooks?category=fiction&page=1 y GET /books/12/authors",
+        "B": "GET /books?category=fiction&page=1 y GET /books/12/authors",
+        "C": "GET /books/fiction/page/1 y GET /authors?book=12",
+        "D": "POST /books/search con la categoría y la página en el cuerpo, y GET /books/12/authors"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki recomienda sustantivos en plural sin verbos (GET /books), filtrar y paginar mediante Query Parameters (GET /books?category=fiction&page=1) y anidar recursos para expresar relaciones jerárquicas (GET /books/12/authors obtiene los autores del libro 12).",
+      "explicacionesDistractores": {
+        "A": "/getBooks incluye un verbo en la URL; la wiki lo pone como ejemplo incorrecto, porque la acción la determina el método HTTP.",
+        "C": "El filtrado y la paginación deben ir en Query Parameters, no en la ruta; y la relación jerárquica libro-autores se expresa anidando el recurso (/books/12/authors), no con un parámetro de consulta.",
+        "D": "Una consulta es una lectura y corresponde a GET con los datos en la URL; POST es el método de creación, y además /search no es un sustantivo de recurso."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Buenas prácticas en el diseño de Endpoints"
+        }
+      ],
+      "conocimiento": "Buenas prácticas de endpoints: sustantivos en plural sin verbos, filtrado y paginación con Query Parameters y anidamiento de recursos para relaciones jerárquicas.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-09-6368e1f6",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un cliente realiza, en este orden, cuatro peticiones a una API de libros: crea un libro con POST /books; borra con DELETE /books/12 el libro 12, que existía; consulta con GET /books/12 ese mismo libro ya borrado; y lanza una búsqueda que provoca una excepción no controlada en el código del servidor. Según los códigos habituales del tema, ¿qué secuencia de estados recibe?",
+      "opciones": {
+        "A": "200 OK, 204 No Content, 404 Not Found y 500 Internal Server Error",
+        "B": "201 Created, 204 No Content, 403 Forbidden y 500 Internal Server Error",
+        "C": "201 Created, 204 No Content, 404 Not Found y 400 Bad Request",
+        "D": "201 Created, 204 No Content, 404 Not Found y 500 Internal Server Error"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "Según la wiki, POST responde 201 Created; DELETE responde habitualmente 204 No Content; si la URL o el recurso solicitado no existe se devuelve 404 Not Found; y una excepción o fallo no controlado dentro del código del servidor produce 500 Internal Server Error.",
+      "explicacionesDistractores": {
+        "A": "La creación con POST se responde con 201 Created; 200 OK es el habitual de GET, PUT y PATCH.",
+        "B": "El recurso borrado ya no existe, lo que corresponde a 404 Not Found; 403 Forbidden indica que el cliente no tiene permisos para acceder al recurso.",
+        "C": "400 Bad Request es un error del cliente por datos incorrectos; una excepción no controlada en el código del servidor es un error 5xx, 500 Internal Server Error."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "5. Códigos de Estado HTTP"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Relación entre método y código de éxito habitual"
+        }
+      ],
+      "conocimiento": "Asignar el código de estado a una secuencia: creación 201, borrado 204, recurso inexistente 404 y fallo no controlado del servidor 500.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-09-e9d06d11",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un endpoint de consulta envía al cliente un array JSON entre corchetes con dos libros, cada uno con los campos isbn, title y basePrice. Según el tema, ¿con qué se corresponde esa estructura en el lado Java del servidor y quién realiza la conversión?",
+      "opciones": {
+        "A": "Con un List de DTOs (Java Records); la conversión la hace automáticamente el parser, la librería del servidor que transforma JSON en DTOs y al revés.",
+        "B": "Con un único DTO que tiene un campo por cada libro del array; la conversión la hace automáticamente el parser del servidor.",
+        "C": "Con un List de entidades de dominio Book; la conversión la escribe a mano el controlador en cada endpoint.",
+        "D": "Con un Map cuyas claves son isbn, title y basePrice; la conversión la hace automáticamente el parser del servidor."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki explica que una colección JSON (un array entre corchetes con varios objetos de la misma estructura) se corresponde con un List de DTOs, y que la librería del servidor, el parser, convierte automáticamente el texto JSON en clases Java Record (DTOs) y al revés.",
+      "explicacionesDistractores": {
+        "B": "Un único DTO se corresponde con un objeto JSON entre llaves; un array entre corchetes con varios objetos se corresponde con un List.",
+        "C": "La wiki dice que el parser realiza la conversión automáticamente y que el JSON se corresponde con DTOs (Java Records), no con las entidades del dominio.",
+        "D": "Cada objeto JSON de pares clave-valor se corresponde con un DTO, y el array completo con un List de DTOs; la wiki no lo relaciona con un Map."
+      },
+      "dificultad": "facil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Colección JSON (Mapea con un List)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "4. Formato de Intercambio: JSON"
+        }
+      ],
+      "conocimiento": "Una colección JSON entre corchetes se corresponde con un List de DTOs y el parser del servidor realiza la conversión automáticamente en ambos sentidos.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-08-b2e191a9",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Según la wiki, ¿qué describe con precisión a la capa de dominio o negocio (paquete domain) en la arquitectura por capas?",
+      "opciones": {
+        "A": "Recibe los datos del usuario, los valida formalmente y devuelve el resultado formateado, sin acceder a datos ni contener lógica de negocio.",
+        "B": "Se comunica con el soporte físico (base de datos, ficheros JSON/CSV, APIs externas) y convierte esa información en objetos manejables.",
+        "C": "Contiene las entidades del modelo y aplica las reglas de negocio, siendo totalmente independiente de cómo se muestran los datos o dónde se almacenan.",
+        "D": "Contiene las entidades del modelo y aplica las reglas de negocio, pero depende de la implementación concreta de persistencia para cargarlas."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La tabla de capas define la capa de dominio como el corazón de la aplicación: contiene las entidades del modelo, aplica las reglas de negocio (cálculos, validaciones complejas, permisos) y es totalmente independiente de cómo se muestran los datos o dónde se almacenan.",
+      "explicacionesDistractores": {
+        "A": "Es la descripción de la capa de presentación (controller), que solo hace validación formal y no contiene lógica de negocio ni accede a datos.",
+        "B": "Es la descripción de la capa de persistencia o acceso a datos (persistence).",
+        "D": "La wiki afirma que el dominio es totalmente independiente de dónde se almacenan los datos; además, cada capa depende de interfaces, no de implementaciones concretas."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Principales Capas del Sistema"
+        }
+      ],
+      "conocimiento": "La capa de dominio contiene las entidades y las reglas de negocio (cálculos, validaciones complejas, permisos) y es totalmente independiente de la presentación y del almacenamiento.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-08-c3aa7cae",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Sobre las reglas de comunicación entre capas y el diagrama de componentes del ejemplo de libros, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "BookController consume directamente la implementación BookServiceImpl, ya que la capa de presentación debe conocer la clase concreta del dominio.",
+        "B": "Una capa inferior nunca debe conocer ni llamar a las capas superiores, de modo que las llamadas siempre van hacia abajo.",
+        "C": "BookServiceImpl consume BookRepository, accediendo a la capa de persistencia de nuevo a través de una interfaz.",
+        "D": "En el diagrama, BookDaoImpl es el único componente que lee y escribe en la base de datos o fichero."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Es falsa: en el diagrama BookController consume BookService, la interfaz del dominio, y no su implementación. Cada capa depende de la interfaz de la capa inmediatamente inferior.",
+      "explicacionesDistractores": {
+        "B": "Es correcta: la regla de aislamiento dice que una capa inferior nunca debe conocer ni llamar a las superiores, y el flujo unidireccional que las llamadas van hacia abajo (Controller → Service → Repository).",
+        "C": "Es correcta: la relación 5 del diagrama indica que BookServiceImpl consume BookRepository, de nuevo a través de una interfaz.",
+        "D": "Es correcta: la wiki indica que solo el DAO toca el soporte físico; BookDaoImpl lee y escribe en la Base de Datos / Fichero."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Reglas de Comunicación entre Capas"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Diagrama de componentes del ejemplo (libros)"
+        }
+      ],
+      "conocimiento": "En el diagrama de libros el controlador consume la interfaz BookService (no BookServiceImpl), cada capa depende de la interfaz de la inferior y solo el DAO toca el soporte físico.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-08-5abf688f",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Sobre el mapeador BookMapper descrito en la wiki, ¿qué afirmación es correcta?",
+      "opciones": {
+        "A": "toDomain obtiene los datos del BookCreateRequest con getters convencionales como dto.getIsbn(), igual que hace toResponse con la entidad.",
+        "B": "Ambos métodos lanzan una excepción si reciben null, para evitar que un objeto vacío cruce la frontera entre capas.",
+        "C": "Su responsabilidad surge en la frontera entre dominio y persistencia, donde convierte la entidad Book en BookEntity y viceversa.",
+        "D": "toResponse construye el BookResponse llamando a getFinalPrice() de la entidad Book, que es donde se aplica la regla o cálculo del dominio."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que toResponse crea un BookResponse con los getters de la entidad (domain.getIsbn(), el título y domain.getFinalPrice()) y que la llamada a getFinalPrice() es donde se aplica la regla o cálculo del dominio.",
+      "explicacionesDistractores": {
+        "A": "toDomain usa los accesores propios del record, sin prefijo get (dto.isbn(), dto.basePrice()); solo la entidad Book, que es una clase convencional, tiene getters como getIsbn().",
+        "B": "Ambos métodos devuelven null si reciben null (if (dto == null) return null;); no lanzan ninguna excepción.",
+        "C": "El mapper convierte entre DTO y entidad de dominio al cruzar la frontera entre la capa de presentación y la de dominio, no entre dominio y persistencia."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Conversión entre objetos: Mapeadores (Mappers)"
+        }
+      ],
+      "conocimiento": "BookMapper actúa en la frontera presentación-dominio: toDomain usa accesores de record, toResponse usa getFinalPrice() donde se aplica la regla del dominio, y ambos devuelven null si reciben null.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-09-d4de944b",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Según el tema, ¿qué es REST (REpresentational State Transfer)?",
+      "opciones": {
+        "A": "El protocolo de comunicación cliente-servidor sobre el que se intercambian peticiones y respuestas en la web.",
+        "B": "Un estilo de arquitectura para diseñar servicios web centrados en recursos.",
+        "C": "El formato estándar, ligero y legible, para enviar y recibir información entre cliente y servidor.",
+        "D": "Una URL concreta que expone el servidor y a la que el cliente envía peticiones para interactuar con un recurso."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki define REST como un estilo de arquitectura para diseñar servicios web centrados en recursos, que funciona sobre HTTP/HTTPS.",
+      "explicacionesDistractores": {
+        "A": "Describe HTTP, que es el protocolo; la wiki advierte que no se debe confundir con REST, que es un estilo de arquitectura que se apoya en él.",
+        "C": "Describe JSON, el formato estándar de intercambio en las APIs REST.",
+        "D": "Describe un endpoint, no el estilo de arquitectura REST."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "2. Servicios REST y Diseño de Endpoints"
+        }
+      ],
+      "conocimiento": "REST es un estilo de arquitectura para diseñar servicios web centrados en recursos, distinto del protocolo HTTP, del formato JSON y de un endpoint.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-09-e09a60b4",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Sobre las buenas prácticas de diseño de endpoints que recoge la wiki, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "POST /createBook es un endpoint mal diseñado, porque la acción debe determinarla el método HTTP y no la URL.",
+        "B": "GET /books/12/authors expresa una relación jerárquica: obtiene los autores del libro con ID 12.",
+        "C": "Los endpoints deben nombrarse con sustantivos en plural, como en GET /books, y nunca con verbos.",
+        "D": "Para filtrar libros por categoría lo adecuado es incluir el filtro como un segmento de la ruta, como GET /books/fiction, y reservar los Query Parameters para identificar el recurso."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "Es falsa: la buena práctica es filtrar y paginar mediante Query Parameters (GET /books?category=fiction&page=1); la ruta es la que identifica el recurso y el anidamiento se usa para relaciones jerárquicas, no para filtrar.",
+      "explicacionesDistractores": {
+        "A": "Es correcta: la wiki pone POST /createBook como ejemplo incorrecto, porque la acción la determina el método HTTP, no la URL.",
+        "B": "Es correcta: anidar recursos expresa relaciones jerárquicas, y GET /books/12/authors obtiene los autores del libro con ID 12.",
+        "C": "Es correcta: la primera buena práctica es usar sustantivos en plural, nunca verbos (correcto: GET /books)."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Buenas prácticas en el diseño de Endpoints"
+        }
+      ],
+      "conocimiento": "Buenas prácticas de endpoints: sustantivos en plural sin verbos, anidar recursos para relaciones jerárquicas y filtrar/paginar con Query Parameters, no con segmentos de ruta.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-09-7eb6c548",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Según la wiki, ¿cuál de las siguientes afirmaciones sobre los códigos de estado HTTP es correcta?",
+      "opciones": {
+        "A": "Los códigos 3xx indican que el cliente debe realizar una acción adicional para completar la petición, como ocurre con 301 Moved Permanently.",
+        "B": "El código 204 No Content indica que la petición ha fallado, pero el servidor no devuelve en el cuerpo el detalle del error.",
+        "C": "El código 200 OK es el que se usa habitualmente cuando un POST crea con éxito un nuevo recurso.",
+        "D": "El código 500 Internal Server Error indica que los datos enviados por el cliente son incorrectos sintáctica o semánticamente."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La familia 3xx (Redirección) indica que el cliente debe hacer una acción adicional para completar la petición; la wiki pone como ejemplo 301 Moved Permanently.",
+      "explicacionesDistractores": {
+        "B": "204 No Content es un código de éxito (2xx): la petición es correcta, pero la respuesta no devuelve cuerpo. Es común en DELETE.",
+        "C": "Para la creación con POST se usa 201 Created; 200 OK es el habitual en GET, PUT y PATCH.",
+        "D": "Los datos incorrectos sintáctica o semánticamente corresponden a 400 Bad Request; 500 indica una excepción o fallo no controlado dentro del código del servidor."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "5. Códigos de Estado HTTP"
+        }
+      ],
+      "conocimiento": "Significado preciso de las familias y códigos HTTP: 3xx exige una acción adicional del cliente (301), 204 es éxito sin cuerpo, POST usa 201 y 500 es un fallo no controlado del servidor.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  ],
+  "similitud": [
+    {
+      "id": "prog-08-8c4b6005",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-e81b53ab",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-9a0a1406",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-3a6562a9",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-932ad6e7",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "prog-09-e9d06d11",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.63)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prog-09-04a8aaf6",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-742ab333",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-5e90aa71",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-4e750deb",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-c60ceb07",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-6368e1f6",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "revisar",
+        "parecidas": [
+          {
+            "id": "prog-09-6754cd44",
+            "nivel": "revisar",
+            "motivos": [
+              "parecido parcial (0.36)"
+            ]
+          }
+        ]
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-e9d06d11",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "prog-09-932ad6e7",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.63)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prog-08-b2e191a9",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-c3aa7cae",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-5abf688f",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-d4de944b",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-e09a60b4",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-7eb6c548",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    }
+  ]
+}

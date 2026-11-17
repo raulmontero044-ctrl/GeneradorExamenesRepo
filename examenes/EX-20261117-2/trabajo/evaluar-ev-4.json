@@ -1,0 +1,764 @@
+{
+  "preguntas": [
+    {
+      "id": "dws-03-13d8cd48",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "¿Qué diferencia hay entre las anotaciones de presencia @NotNull, @NotBlank y @NotEmpty de Jakarta Validation?",
+      "opciones": {
+        "A": "@NotNull exige que la cadena tenga contenido, @NotBlank que haya valor y @NotEmpty que la colección no esté vacía.",
+        "B": "@NotNull exige que haya valor, @NotBlank que la colección no esté vacía y @NotEmpty que la cadena tenga contenido.",
+        "C": "Las tres comprueban lo mismo, que el valor no sea nulo, y solo difieren en el mensaje de error por defecto.",
+        "D": "@NotNull exige que haya valor, @NotBlank que la cadena tenga contenido y @NotEmpty que la colección no esté vacía."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki precisa el matiz de las tres anotaciones de presencia: @NotNull exige que haya valor; @NotBlank, que la cadena tenga contenido; @NotEmpty, que la colección no esté vacía.",
+      "explicacionesDistractores": {
+        "A": "Intercambia @NotNull y @NotBlank: @NotNull exige valor y @NotBlank exige que la cadena tenga contenido.",
+        "B": "Intercambia @NotBlank y @NotEmpty: @NotBlank se refiere a cadenas con contenido y @NotEmpty a colecciones no vacías.",
+        "C": "La wiki distingue qué comprueba cada una (valor, cadena con contenido, colección no vacía); no son equivalentes."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.1 Constraints estándar"
+        }
+      ],
+      "conocimiento": "@NotNull exige valor, @NotBlank cadena con contenido y @NotEmpty colección no vacía.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-03-564299dd",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "En una constraint personalizada para el IBAN, ¿cómo se reparten las responsabilidades entre la anotación @ValidIban, la clase IbanFormatValidator y @NotBlank?",
+      "opciones": {
+        "A": "@ValidIban contiene la expresión ^ES\\d{22}$ y IbanFormatValidator solo declara el mensaje; si el valor es null, la validadora devuelve false para garantizar la obligatoriedad.",
+        "B": "@ValidIban solo declara el mensaje y dónde aplica; IbanFormatValidator comprueba ^ES\\d{22}$ y devuelve true si el valor es null, porque la obligatoriedad corresponde a @NotBlank.",
+        "C": "@ValidIban solo declara el mensaje y dónde aplica; IbanFormatValidator devuelve false si el valor es null, de modo que no hace falta añadir @NotBlank al campo.",
+        "D": "@ValidIban y IbanFormatValidator forman una única clase inseparable, que solo puede probarse mediante pruebas de integración HTTP del DTO."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La anotación @ValidIban (con @Constraint(validatedBy = IbanFormatValidator.class)) solo declara el mensaje y dónde aplica. La lógica está en IbanFormatValidator, cuyo isValid devuelve true si el valor es null, porque la obligatoriedad corresponde a @NotBlank, y en otro caso comprueba ^ES\\d{22}$.",
+      "explicacionesDistractores": {
+        "A": "Invierte los papeles: la expresión regular está en la validadora, no en la anotación; y ante null la validadora devuelve true, no false.",
+        "C": "Ante null la validadora devuelve true: la obligatoriedad no es responsabilidad de esta constraint, sino de @NotBlank.",
+        "D": "La validadora se separa de la anotación y se prueba directamente con valores que cumplen y que no cumplen."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.3 Constraints personalizadas"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "5. Pruebas"
+        }
+      ],
+      "conocimiento": "En una constraint personalizada la anotación solo declara mensaje y ámbito, la clase validadora contiene la lógica y devuelve true ante null porque la obligatoriedad corresponde a @NotBlank.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-03-8889a85c",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Un equipo ya tiene IbanTest con pruebas unitarias del value object Iban. En CreateAccountValidationTest (@WebMvcTest con MockMvc) añade un test por cada IBAN inválido de IbanTest y, en las pruebas de cada operación, vuelve a comprobar el formato ProblemDetail de los errores. ¿Qué valoración es correcta?",
+      "opciones": {
+        "A": "Es el reparto adecuado, porque la validación declarada con anotaciones la aplica Spring y estas pruebas deben verificar exhaustivamente que el framework funciona.",
+        "B": "Es redundante en el IBAN, pero el formato ProblemDetail sí debe comprobarse en cada operación, porque cada una devuelve campos distintos en errors.",
+        "C": "Repite casos ya cubiertos por el value object, cuyas pruebas unitarias son las más baratas; las de integración HTTP deben verificar el rechazo de cada ruta errónea, y el formato del manejador se prueba una sola vez.",
+        "D": "Lo correcto sería lo contrario: probar los IBAN inválidos solo vía HTTP y eliminar IbanTest, porque un value object no puede probarse sin levantar el framework."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki reparte las pruebas: los value objects se prueban con tests unitarios sin framework ni mocks (las piezas más baratas de probar); las pruebas de integración HTTP del DTO verifican el rechazo y no repiten los casos ya cubiertos por el value object; y el formato del manejador de errores se prueba una vez, no en cada operación.",
+      "explicacionesDistractores": {
+        "A": "La wiki indica que la validación declarada con anotaciones la aplica el framework y que probar Spring no es responsabilidad de estos tests.",
+        "B": "Todas las operaciones comparten el mismo formato de error porque lo produce un manejador compartido; por eso su formato se prueba una vez, no en cada operación.",
+        "D": "Los value objects se prueban con tests unitarios sin framework ni mocks; precisamente son las piezas más baratas de probar."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "5. Pruebas"
+        }
+      ],
+      "conocimiento": "Las pruebas HTTP del DTO no repiten casos del value object (probado unitariamente sin framework) y el formato del manejador de errores se prueba una sola vez.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-04-e6fa9abe",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En Spring Modulith, ¿qué diferencia hay entre las anotaciones @NamedInterface y @ApplicationModule?",
+      "opciones": {
+        "A": "@ApplicationModule, en el package-info.java de un subpaquete como catalog.dto, lo expone con un nombre; @NamedInterface, en el paquete raíz del módulo, declara sus dependencias permitidas.",
+        "B": "Ambas se colocan en el package-info.java del subpaquete catalog.dto: @NamedInterface lo hace público y @ApplicationModule indica qué módulos pueden depender de él.",
+        "C": "@NamedInterface, en el package-info.java de un subpaquete como catalog.dto, lo expone como interfaz con nombre; @ApplicationModule, en el del paquete raíz de un módulo como orders, declara sus dependencias permitidas.",
+        "D": "@NamedInterface declara un paquete hijo del paquete base como módulo, y @ApplicationModule lo verifica al compilar, impidiendo dependencias no permitidas."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Según la wiki, @NamedInterface (por ejemplo, @NamedInterface(\"dto\") en el package-info.java de com.example.store.catalog.dto) expone explícitamente un subpaquete como interfaz con nombre; @ApplicationModule se declara en el package-info.java del paquete raíz de un módulo (por ejemplo, orders) para fijar sus dependencias permitidas, como allowedDependencies = \"catalog::dto\".",
+      "explicacionesDistractores": {
+        "A": "Intercambia las anotaciones: la que expone un subpaquete es @NamedInterface y la que declara dependencias permitidas es @ApplicationModule.",
+        "B": "@ApplicationModule no va en el subpaquete expuesto ni indica quién depende de él: lo declara el paquete raíz del módulo consumidor (orders) para fijar de qué puede depender.",
+        "D": "Los módulos se detectan por defecto como paquetes hijos directos del paquete base, sin anotación; y la verificación de Spring Modulith se hace en un test, no es una protección en tiempo de compilación."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "5. Spring Modulith: detección y verificación de módulos"
+        }
+      ],
+      "conocimiento": "@NamedInterface expone un subpaquete como interfaz con nombre y @ApplicationModule, en el paquete raíz de un módulo, declara sus dependencias permitidas.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-04-d9931ab6",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En el módulo de catálogo, un caso de uso necesita una operación que ya ejecuta otro caso de uso del mismo módulo. Un desarrollador propone que el primero invoque directamente al segundo para reutilizarlo. ¿Qué valoración es correcta?",
+      "opciones": {
+        "A": "Es desaconsejable: acoplaría ambos flujos y podría arrastrar las decisiones de acceso del caso invocado; la operación común debe compartirse mediante el servicio.",
+        "B": "Es recomendable, porque así se reutiliza también la comprobación de autorización del caso invocado y se evita repetirla en el nuevo flujo.",
+        "C": "Es desaconsejable; la operación común debe trasladarse al controlador, que es donde se coordinan los flujos iniciados por la persona usuaria.",
+        "D": "Es desaconsejable; el primer caso de uso debe llamar a CatalogModule, ya que la API pública del módulo es el punto de reutilización de operaciones."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que los casos de uso representan flujos de entrada, no operaciones reutilizables: si un caso de uso llamara a otro, acoplaría ambos flujos y podría arrastrar las decisiones de acceso propias del caso invocado. Cuando varios flujos necesitan la misma operación, la comparten mediante el servicio.",
+      "explicacionesDistractores": {
+        "B": "Arrastrar las decisiones de acceso del caso invocado es precisamente el inconveniente que señala la wiki, no una ventaja.",
+        "C": "Llevar la lógica al controlador la mezcla con HTTP y obliga a repetirla en otras entradas; la wiki dice que la operación común se comparte mediante el servicio.",
+        "D": "La API pública CatalogModule es la entrada para otros módulos; dentro del flujo de usuario, la operación compartida se reutiliza mediante el servicio. Además, ArchUnit puede comprobar que CatalogModule no dependa de los casos de uso."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "3. Separar los flujos de entrada con casos de uso"
+        }
+      ],
+      "conocimiento": "Un caso de uso no debe invocar a otro porque acopla los flujos y arrastra sus decisiones de acceso; las operaciones comunes se comparten mediante el servicio.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-04-7f4136c5",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "¿Qué diferencia hay entre un monolito organizado solo por capas y un monolito modular?",
+      "opciones": {
+        "A": "El monolito modular genera un artefacto desplegable por cada módulo de negocio, mientras que el monolito por capas se despliega como una única aplicación.",
+        "B": "El monolito modular sustituye las capas técnicas por módulos de negocio, de modo que dentro de cada módulo ya no existen controller, domain ni persistence.",
+        "C": "El problema del monolito por capas es desplegarse como una unidad, y el monolito modular lo resuelve permitiendo desplegar cada capa por separado.",
+        "D": "Ambos mantienen un único despliegue, pero el monolito modular organiza el código en módulos de negocio con límites explícitos y verificables, conservando las capas dentro de cada módulo."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki define el monolito modular como el que mantiene un único despliegue pero organiza el código en módulos de negocio con límites explícitos y verificables; según la tabla comparativa, conserva las capas dentro de cada módulo de negocio.",
+      "explicacionesDistractores": {
+        "A": "El monolito modular sigue siendo una aplicación con un único despliegue; no genera un artefacto por módulo.",
+        "B": "El monolito modular conserva las capas dentro de cada módulo; la implementación queda en internal organizada con las capas ya existentes.",
+        "C": "La wiki aclara que el problema no es que la aplicación se construya y despliegue como una unidad, sino que el código no tenga límites claros entre sus capacidades."
+      },
+      "dificultad": "facil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "6. Qué cambia y qué permanece"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "04 - Monolito modular"
+        }
+      ],
+      "conocimiento": "El monolito modular mantiene un único despliegue y conserva las capas dentro de cada módulo, pero organiza el código en módulos de negocio con límites explícitos y verificables.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-03-8cc8cfb2",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Un DTO de entrada declara su campo iban solo con @ValidIban, sin @NotBlank, y el parámetro del controller lleva @Valid. Llega una petición en la que iban viene a null. ¿Qué hace la validación de formato con ese campo?",
+      "opciones": {
+        "A": "Lo rechaza con un 400 y el mensaje «El formato del IBAN no es válido», porque null no cumple la expresión ^ES\\d{22}$",
+        "B": "Lo da por válido, porque IbanFormatValidator devuelve true ante null: la obligatoriedad corresponde a @NotBlank, que falta en el campo",
+        "C": "Lo rechaza con una excepción de dominio InvalidIbanException, porque la constraint delega en el constructor compacto del record Iban",
+        "D": "No llega a evaluarlo, porque Spring solo aplica las constraints personalizadas cuando el campo lleva además una constraint estándar"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "En isValid, si value es null IbanFormatValidator devuelve true, porque la obligatoriedad corresponde a @NotBlank y no a esta constraint; solo en otro caso comprueba ^ES\\d{22}$. Sin @NotBlank, nada en la validación de formato exige que el campo tenga valor.",
+      "explicacionesDistractores": {
+        "A": "La expresión regular solo se comprueba cuando el valor no es null; ante null la validadora devuelve true y no se produce ese mensaje.",
+        "C": "La constraint delega en la clase validadora IbanFormatValidator, no en el value object; InvalidIbanException la lanza el constructor del record Iban del dominio.",
+        "D": "La wiki no condiciona las constraints personalizadas a la presencia de una estándar: con @Valid en el parámetro, Spring valida el DTO y su constraint se evalúa."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.3 Constraints personalizadas"
+        }
+      ],
+      "conocimiento": "La validadora IbanFormatValidator devuelve true ante un valor null porque la obligatoriedad del campo corresponde a @NotBlank, no a la constraint personalizada.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-03-a764c07a",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "En una operación nueva, el parámetro se declara como @RequestBody CreateAccountRequest request, sin @Valid, aunque el DTO lleva @NotBlank @Email en email. La aplicación tiene el GlobalValidationHandler del tema. Llega una petición con email «no-email». ¿Qué ocurre?",
+      "opciones": {
+        "A": "Spring detecta las anotaciones del DTO y lo valida igualmente, de modo que el manejador central devuelve un 400 con ProblemDetail",
+        "B": "El controller ejecuta su cuerpo y, al terminar, el manejador central comprueba las anotaciones y sustituye la respuesta por un 400",
+        "C": "El DTO no se valida, porque sin @Valid las anotaciones no se aplican; no se lanza MethodArgumentNotValidException y el controller ejecuta su cuerpo",
+        "D": "La aplicación no arranca, porque Spring exige @Valid en todo parámetro @RequestBody cuyo DTO tenga anotaciones de Jakarta Validation"
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Spring valida el DTO de entrada cuando el parámetro del controller se anota con @Valid; sin @Valid el DTO no se valida aunque lleve anotaciones, es una decisión explícita operación por operación. Al no fallar ninguna validación, no se lanza la excepción que atiende el manejador central y el controller ejecuta su cuerpo.",
+      "explicacionesDistractores": {
+        "A": "Las anotaciones por sí solas no activan la validación: la activa @Valid en el parámetro.",
+        "B": "Cuando la validación se aplica, la excepción se lanza antes de que el controller ejecute su cuerpo; el manejador no revisa anotaciones después.",
+        "D": "La wiki presenta @Valid como una decisión explícita por operación, no como un requisito cuyo incumplimiento impida arrancar."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.2 Validación automática y en cascada"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.4 El resultado: 400 coherente con la API"
+        }
+      ],
+      "conocimiento": "Sin @Valid en el parámetro del controller el DTO no se valida aunque lleve anotaciones, por lo que no se produce el 400 del manejador central.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-03-260cd907",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Para la operación de alta de cuentas, un equipo escribe pruebas @WebMvcTest que repiten uno a uno todos los IBAN inválidos ya cubiertos por IbanTest, comprueban de nuevo el formato del ProblemDetail y prueban IbanFormatValidator solo a través de peticiones HTTP. ¿Qué valoración se ajusta a la estrategia de pruebas del tema?",
+      "opciones": {
+        "A": "Las pruebas HTTP deberían limitarse a verificar el rechazo sin repetir los casos del value object, el formato del manejador se prueba una sola vez y la validadora se prueba directamente",
+        "B": "Es la estrategia adecuada, porque las pruebas de integración HTTP son las únicas que verifican que las anotaciones de Jakarta Validation funcionan como se espera",
+        "C": "Sobran las pruebas de IbanTest, ya que el value object queda cubierto por las HTTP; la validadora y el manejador sí deben probarse en cada operación",
+        "D": "Las pruebas HTTP son adecuadas, pero IbanTest debería usar MockMvc y @MockitoBean para comprobar las invariantes en el mismo contexto que el DTO"
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Según la estrategia: los value objects se prueban con unitarias sin framework ni mocks; las constraints personalizadas, probando la clase validadora directamente; los DTO de entrada, con pruebas de integración HTTP que verifican el rechazo sin repetir los casos ya cubiertos por el value object; y el formato del manejador compartido se prueba una vez, no en cada operación.",
+      "explicacionesDistractores": {
+        "B": "Probar Spring no es responsabilidad de estos tests: la validación con anotaciones la aplica el framework, y no se repite el negocio ya cubierto por el value object.",
+        "C": "Los value objects son las piezas más baratas de probar y se prueban con unitarias propias; el manejador se prueba una sola vez y la validadora directamente.",
+        "D": "Los value objects se prueban sin framework ni mocks; MockMvc y @MockitoBean pertenecen a las pruebas HTTP del DTO."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "5. Pruebas"
+        }
+      ],
+      "conocimiento": "Cada pieza de la validación se prueba en su sitio: value object con unitarias sin framework, validadora directamente, DTO con pruebas HTTP del rechazo sin repetir los casos del value object y el manejador una sola vez.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-04-906f76dc",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "Una aplicación con Spring Modulith tiene su clase principal en com.example.store, con los módulos catalog y orders. El equipo crea dos paquetes nuevos: com.example.store.payments y com.example.store.orders.internal.usecase. Con la detección por defecto, ¿cómo se interpretan?",
+      "opciones": {
+        "A": "Ambos se detectan como módulos nuevos, porque los dos están dentro del paquete base com.example.store",
+        "B": "Solo usecase se detecta como módulo, porque su nombre corresponde a una de las capas internas reconocidas por Modulith",
+        "C": "Ninguno es módulo hasta que su package-info.java declare @ApplicationModule con sus dependencias permitidas",
+        "D": "payments se detecta como módulo nuevo; orders.internal.usecase es un subpaquete interno del módulo orders"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "Por defecto, Spring Modulith detecta como módulos los paquetes hijos directos del paquete base de la aplicación. payments es hijo directo de com.example.store; usecase es un subpaquete de orders, y los subpaquetes de un módulo son internos salvo que se expongan explícitamente.",
+      "explicacionesDistractores": {
+        "A": "Solo los hijos directos del paquete base son módulos; orders.internal.usecase está varios niveles por debajo y pertenece a orders.",
+        "B": "La detección se basa en ser hijo directo del paquete base, no en el nombre de las capas.",
+        "C": "La detección por defecto no requiere @ApplicationModule; esta anotación sirve para declarar las dependencias permitidas del módulo."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "Detección de módulos"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "API pública y subpaquetes internos"
+        }
+      ],
+      "conocimiento": "Spring Modulith detecta por defecto como módulos los paquetes hijos directos del paquete base, y los subpaquetes de un módulo son internos.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-04-d97be926",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En un módulo con capa usecase, RefundOrderUseCase necesita cancelar el pedido y un desarrollador propone que invoque a CancelOrderUseCase para aprovechar su lógica. ¿Qué valoración es correcta según el tema?",
+      "opciones": {
+        "A": "Es adecuado, porque así la devolución reutiliza también las comprobaciones de autorización ya escritas en CancelOrderUseCase",
+        "B": "No es adecuado: acoplaría ambos flujos y arrastraría las decisiones de acceso del caso invocado; la operación común se comparte mediante el servicio",
+        "C": "No es adecuado: RefundOrderUseCase debería invocar la cancelación a través de la API pública del módulo, que la redirige al caso de uso",
+        "D": "Es adecuado si ambos casos de uso están en el mismo módulo; la restricción solo prohíbe invocar casos de uso de otros módulos"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Los casos de uso representan flujos de entrada, no operaciones reutilizables. Si un caso de uso llamara a otro, acoplaría ambos flujos y podría arrastrar las decisiones de acceso propias del caso invocado; cuando varios flujos necesitan la misma operación, la comparten mediante el servicio. ArchUnit puede comprobar que los casos de uso no se invoquen entre sí.",
+      "explicacionesDistractores": {
+        "A": "Arrastrar las decisiones de acceso del caso invocado es precisamente el problema que la wiki señala.",
+        "C": "La API pública delega en CatalogModuleImpl y de ahí en el servicio, no en un caso de uso; un módulo no pasa por un caso de uso de usuario.",
+        "D": "La wiki no limita la regla a otros módulos: los casos de uso no deben invocarse entre sí."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "3. Separar los flujos de entrada con casos de uso"
+        }
+      ],
+      "conocimiento": "Un caso de uso no debe invocar a otro porque acoplaría los flujos y arrastraría decisiones de acceso; las operaciones comunes se comparten mediante el servicio.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-04-37ca2f59",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "Con Spring Modulith, un equipo traslada BookSummary desde com.example.store.catalog.dto directamente al paquete raíz com.example.store.catalog. ¿Qué consecuencia tiene para su exposición a otros módulos?",
+      "opciones": {
+        "A": "Deja de ser accesible, porque el paquete raíz solo contiene la API pública CatalogModule y los DTO deben estar en un subpaquete con nombre",
+        "B": "Sigue necesitando @NamedInterface, ahora en el package-info.java del paquete raíz, para que otros módulos puedan usarlo",
+        "C": "Pasa a ser público por defecto, sin @NamedInterface; el package-info.java solo haría falta si se quiere declarar @ApplicationModule",
+        "D": "Pasa a ser público, pero solo tras arrancar el contexto de Spring, que es cuando Modulith recalcula qué paquetes forman la API"
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "El paquete raíz de cada módulo constituye su API pública. La wiki aconseja que los DTO pueden colocarse directamente en el paquete raíz, donde son públicos por defecto, sin usar @NamedInterface ni crear package-info.java para exponerlos; aun así, package-info.java puede utilizarse para declarar @ApplicationModule y sus dependencias permitidas.",
+      "explicacionesDistractores": {
+        "A": "El paquete raíz es la API pública del módulo y lo que contiene es público; los DTO pueden colocarse allí.",
+        "B": "@NamedInterface sirve para exponer subpaquetes; en el paquete raíz no hace falta.",
+        "D": "Modulith deriva el modelo modular de los paquetes; su verificación no necesita arrancar el contexto de Spring."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "Relación con ArchUnit"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "API pública y subpaquetes internos"
+        }
+      ],
+      "conocimiento": "En Spring Modulith los DTO situados en el paquete raíz del módulo son públicos por defecto sin @NamedInterface; package-info.java sigue sirviendo para declarar @ApplicationModule.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-03-f3d29679",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "¿Cuál es la definición precisa de value object que da el tema de validación e invariancias?",
+      "opciones": {
+        "A": "Un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su propia construcción.",
+        "B": "Un tipo pequeño e inmutable, comparado por identidad, que valida sus datos con anotaciones de Jakarta Validation cuando un framework lo construye.",
+        "C": "Un tipo de la capa de presentación que describe el contrato de una operación y cuyos campos llevan anotadas las restricciones de formato.",
+        "D": "Un tipo pequeño y comparado por valor que puede crearse con datos inválidos y ofrece un método para validarlos antes de persistirlo."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki define el value object como un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su propia construcción: si los datos no son válidos, el objeto no existe.",
+      "explicacionesDistractores": {
+        "B": "Se compara por valor, no por identidad, y no usa Jakarta Validation: esas anotaciones solo actúan donde un framework valida y su dependencia está prohibida en el dominio.",
+        "C": "Describe el DTO de entrada, que la wiki pide no confundir con el value object.",
+        "D": "Contradice la idea central: el value object valida en su construcción y, si los datos no son válidos, el objeto no llega a existir."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "3. Invariancias con value objects"
+        }
+      ],
+      "conocimiento": "Un value object es un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su construcción, de modo que no existe en estado inválido.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-03-d5fdcd4d",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Sobre la constraint personalizada @ValidIban y su clase validadora IbanFormatValidator, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "La anotación solo declara el mensaje y dónde aplica, y delega la lógica en la clase validadora indicada en @Constraint.",
+        "B": "La clase validadora está separada de la anotación y se prueba directamente con valores que cumplen y que no cumplen.",
+        "C": "Como IbanFormatValidator rechaza los valores null, el campo IBAN del DTO no necesita @NotBlank para ser obligatorio.",
+        "D": "Ante un valor no nulo, isValid comprueba si cumple la expresión de ES seguido de veintidós dígitos."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Es falsa: IbanFormatValidator devuelve true cuando value es null, porque la obligatoriedad corresponde a @NotBlank y no a esta constraint.",
+      "explicacionesDistractores": {
+        "A": "Es cierta: @ValidIban lleva @Constraint(validatedBy = IbanFormatValidator.class) y la wiki dice que la anotación solo declara el mensaje y dónde aplica.",
+        "B": "Es cierta: la validadora se separa de la anotación y la estrategia de pruebas indica probarla directamente con valores que cumplen y que no cumplen.",
+        "D": "Es cierta: si el valor no es null, isValid devuelve si cumple ^ES\\d{22}$, es decir, ES seguido de 22 dígitos."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.3 Constraints personalizadas"
+        }
+      ],
+      "conocimiento": "La validadora de una constraint personalizada como IbanFormatValidator acepta null porque la obligatoriedad corresponde a @NotBlank; la anotación solo declara mensaje y ámbito.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-03-d1f34f27",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Según la estrategia de pruebas del tema, ¿qué deben verificar las pruebas del DTO de entrada?",
+      "opciones": {
+        "A": "La invariante del dato con pruebas unitarias sin framework ni mocks, incluyendo casos frontera con valores límite.",
+        "B": "Mediante pruebas de integración HTTP, que cada ruta errónea del contrato produce el rechazo, sin repetir los casos ya cubiertos por el value object.",
+        "C": "El formato completo del ProblemDetail en cada operación, para asegurar que todas devuelven el mismo documento de error.",
+        "D": "Todas las combinaciones posibles de campos inválidos, para comprobar que Spring aplica correctamente cada anotación declarada."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica que el DTO de entrada se prueba con pruebas de integración HTTP que verifican el rechazo, no la lógica de negocio, y que no deben repetir los casos ya cubiertos por el value object.",
+      "explicacionesDistractores": {
+        "A": "Así se prueban los value objects, las piezas más baratas de probar, no los DTO de entrada.",
+        "C": "El formato del manejador de errores se prueba una vez, en el manejador compartido, no en cada operación.",
+        "D": "La wiki excluye expresamente probar Spring y repetir el catálogo completo de combinaciones absurdas de campos."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "5. Pruebas"
+        }
+      ],
+      "conocimiento": "Las pruebas del DTO de entrada son de integración HTTP y verifican el rechazo sin repetir los casos del value object; el handler se prueba una vez y no se prueba Spring.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-04-a00e42c8",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "Por defecto, ¿qué paquetes detecta Spring Modulith como módulos de la aplicación?",
+      "opciones": {
+        "A": "Todos los paquetes que contienen un subpaquete llamado internal, sea cual sea su profundidad.",
+        "B": "Únicamente los paquetes cuyo package-info.java está anotado con @ApplicationModule.",
+        "C": "Cada paquete que contiene al menos una clase pública anotada como componente de Spring.",
+        "D": "Los paquetes hijos directos del paquete base de la aplicación, como com.example.store.catalog."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que, por defecto, los paquetes hijos directos del paquete base se detectan como módulos: si la aplicación parte de com.example.store, catalog y orders son módulos.",
+      "explicacionesDistractores": {
+        "A": "La detección no depende de la existencia de un paquete internal; el criterio es ser hijo directo del paquete base.",
+        "B": "@ApplicationModule sirve para declarar las dependencias permitidas del módulo, no es requisito para detectarlo.",
+        "C": "La wiki no basa la detección en clases anotadas; Spring Modulith deriva el modelo modular de la estructura de paquetes."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "Detección de módulos"
+        }
+      ],
+      "conocimiento": "Spring Modulith detecta por defecto como módulos los paquetes hijos directos del paquete base de la aplicación.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-04-20dc19e4",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "Sobre cómo se expone la API pública de un módulo y se declaran sus dependencias en Spring Modulith, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "@ApplicationModule se declara en el package-info.java del subpaquete que se quiere exponer, y @NamedInterface en el paquete raíz del módulo consumidor.",
+        "B": "Si los DTO se colocan directamente en el paquete raíz del módulo, son públicos por defecto y no hace falta @NamedInterface para exponerlos.",
+        "C": "Aunque los DTO estén en el paquete raíz, package-info.java puede seguir usándose para declarar @ApplicationModule y sus dependencias permitidas.",
+        "D": "En allowedDependencies, la cadena catalog::dto designa la interfaz con nombre dto del módulo catalog."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Es falsa porque intercambia las anotaciones: @NamedInterface va en el package-info.java del subpaquete que se expone (p. ej. catalog.dto) y @ApplicationModule en el del paquete raíz del módulo que declara sus dependencias permitidas (p. ej. orders).",
+      "explicacionesDistractores": {
+        "B": "Es cierta: la wiki aconseja que los DTO pueden ir en el paquete raíz del módulo, donde son públicos por defecto sin @NamedInterface ni package-info.java.",
+        "C": "Es cierta: la wiki aclara que, aun así, package-info.java puede utilizarse para declarar @ApplicationModule y sus dependencias permitidas.",
+        "D": "Es cierta: la sintaxis «catalog::dto» designa la interfaz con nombre dto del módulo catalog."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "Dependencias permitidas"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "API pública y subpaquetes internos"
+        }
+      ],
+      "conocimiento": "@NamedInterface se coloca en el package-info.java del subpaquete expuesto y @ApplicationModule en el del paquete raíz del módulo; los DTO en el paquete raíz son públicos por defecto.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-04-ccee55d3",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En el módulo de catálogo, dos flujos iniciados por personas usuarias necesitan ejecutar la misma operación. Según el papel que la wiki asigna a los casos de uso, ¿cómo debe compartirse esa operación?",
+      "opciones": {
+        "A": "Haciendo que el caso de uso de uno de los flujos invoque al otro, para reutilizar también sus comprobaciones de autorización.",
+        "B": "Llamando desde ambos casos de uso a la API pública CatalogModule, que es la entrada reutilizable del módulo.",
+        "C": "Mediante el servicio, porque los casos de uso representan flujos de entrada y no operaciones reutilizables para otros flujos.",
+        "D": "Moviendo la operación al controlador, que la expone a ambos flujos sin pasar por la capa usecase."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki indica que los casos de uso representan flujos de entrada, no operaciones reutilizables; cuando varios flujos necesitan la misma operación, la comparten mediante el servicio.",
+      "explicacionesDistractores": {
+        "A": "La wiki lo desaconseja: si un caso de uso llamara a otro, acoplaría ambos flujos y podría arrastrar las decisiones de acceso propias del caso invocado.",
+        "B": "CatalogModule es la entrada para otros módulos (CatalogModule → CatalogModuleImpl → CatalogService) y ArchUnit puede comprobar que no dependa de los casos de uso; no es el punto de reutilización entre casos de uso del propio módulo.",
+        "D": "Colocar lógica de flujo en el controlador la mezcla con HTTP y obliga a repetirla en otras entradas; el flujo HTTP es Controller → UseCase → Service."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "3. Separar los flujos de entrada con casos de uso"
+        }
+      ],
+      "conocimiento": "Los casos de uso son flujos de entrada y no deben invocarse entre sí; cuando varios flujos necesitan la misma operación, la comparten mediante el servicio.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  ],
+  "similitud": [
+    {
+      "id": "dws-03-13d8cd48",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-564299dd",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-8889a85c",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-e6fa9abe",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-d9931ab6",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "dws-04-d97be926",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.71)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dws-04-7f4136c5",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-8cc8cfb2",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-a764c07a",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-260cd907",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-906f76dc",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "dws-04-a00e42c8",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.71)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dws-04-d97be926",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "dws-04-d9931ab6",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.71)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dws-04-37ca2f59",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-f3d29679",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-d5fdcd4d",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-d1f34f27",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-a00e42c8",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "dws-04-906f76dc",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.71)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dws-04-20dc19e4",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-ccee55d3",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    }
+  ]
+}

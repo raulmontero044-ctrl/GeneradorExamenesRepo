@@ -1,0 +1,378 @@
+[
+  {
+    "id": "prog-08-8c4b6005",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "El escenario reproduce literalmente el ejemplo que la wiki da para la falta de reusabilidad (pasar de consola a API Web) y el enunciado ya dice que la lógica está «entrelazada con la lectura de teclado y la impresión por pantalla»: basta reconocer la definición, así que es fácil y no media."
+    ],
+    "duplicadaDe": [],
+    "cambios": [
+      "dificultad: media -> facil, porque el caso es el mismo ejemplo de la wiki y se resuelve reconociendo la definición directamente."
+    ],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Una aplicación de consola tiene todo su código en una única clase. Ahora se quiere ofrecer el mismo cálculo de precios a través de una API Web, pero no es posible aprovechar ese código porque el cálculo está entrelazado con la lectura de teclado y la impresión por pantalla. ¿Qué problema del código sin estructurar, según la wiki, describe exactamente esta situación?",
+      "opciones": {
+        "A": "Alta rigidez: cambiar el soporte de almacenamiento obliga a modificar y reescribir la lógica de negocio y la interfaz.",
+        "B": "Dificultad para trabajar en equipo: varios desarrolladores tocan la misma clase y generan constantes conflictos de código.",
+        "C": "Falta de reusabilidad: la lógica de negocio está mezclada con la entrada/salida de datos y no puede reutilizarse en otro entorno.",
+        "D": "Imposibilidad de pruebas unitarias: el cálculo no puede probarse sin ejecutar a la vez el acceso a datos o la interacción con el usuario."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki define la falta de reusabilidad como el problema de que la lógica de negocio esté mezclada con la entrada/salida de datos, lo que impide reutilizarla en otros entornos, y pone justo el ejemplo de pasar de una aplicación de consola a una API Web.",
+      "explicacionesDistractores": {
+        "A": "La alta rigidez se refiere a que cambiar una parte del sistema, como pasar de un fichero de texto a una base de datos SQL, obliga a reescribir la lógica y la interfaz; el caso planteado no es un cambio de almacenamiento sino reutilizar la lógica en otro entorno.",
+        "B": "La dificultad para trabajar en equipo trata de los merge conflicts que surgen cuando varios desarrolladores tocan la misma clase; en el caso no interviene el trabajo simultáneo de varias personas.",
+        "D": "La imposibilidad de pruebas unitarias se refiere a no poder probar el cálculo de forma aislada; el obstáculo descrito es reutilizar la lógica en una API Web, que la wiki asocia a la falta de reusabilidad."
+      },
+      "dificultad": "facil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Problemas del código sin estructurar" }
+      ],
+      "conocimiento": "El código espagueti presenta falta de reusabilidad porque la lógica de negocio mezclada con la entrada/salida impide reutilizarla en otro entorno, como pasar de consola a API Web, a diferencia de la rigidez, los conflictos de equipo o la falta de pruebas.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "prog-08-e81b53ab",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-08-9a0a1406",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Menor: la opción B afirma que BookEntity es una clase convencional con getters, algo que la wiki no dice; la opción sigue siendo falsa porque Book no es un record, así que no afecta a la validez."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-3a6562a9",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Evalúa el mismo conocimiento (anidamiento para relaciones jerárquicas frente a Query Parameters para filtrar, con /books/12/authors y ?category=fiction) que prog-09-c60ceb07 y prog-09-e09a60b4."
+    ],
+    "duplicadaDe": ["prog-09-c60ceb07", "prog-09-e09a60b4"],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-932ad6e7",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Similitud confirmada con prog-09-e9d06d11: ambas evalúan que [ ] se corresponde con un List de DTOs, { } con un DTO y que el parser convierte automáticamente; esta es más completa (los dos sentidos y las dos estructuras)."
+    ],
+    "duplicadaDe": ["prog-09-e9d06d11"],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-04a8aaf6",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Se solapa en parte con prog-09-d12e97f8 del banco (DELETE lleva los datos en la URL mediante Path Param), pero aquí se combina con el nombrado de endpoints y la ubicación de los datos de POST; no es equivalente."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-08-742ab333",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-08-5e90aa71",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Evalúa el mismo conocimiento que prog-08-5abf688f (BookMapper: accesores de record en toDomain, getFinalPrice() en toResponse, frontera presentación-dominio y devolver null); los «conocimiento» de ambas son prácticamente idénticos y sus distractores coinciden (excepción ante null, frontera dominio-persistencia).",
+      "Menor: la explicación de D afirma que «el ID lo asigna el sistema»; la wiki lo dice del Request DTO, no del mapper, pero es coherente."
+    ],
+    "duplicadaDe": ["prog-08-5abf688f"],
+    "cambios": []
+  },
+  {
+    "id": "prog-08-4e750deb",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Distinta de prog-08-e7b44471 del banco (esa evalúa la consecuencia de cambiar de persistencia en una línea del ensamblado; esta, la prueba con Mock).",
+      "Menor: la opción D es visiblemente la más larga y la única que menciona el Mock, lo que la delata un poco."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-c60ceb07",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": false, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La explicación del distractor D afirma que «/search no es un sustantivo de recurso», algo que la wiki no dice; el motivo respaldado es que una consulta es una lectura (GET con los datos en la URL) y POST es creación con los datos en el cuerpo.",
+      "Evalúa el mismo conocimiento que prog-09-3a6562a9 (incluso con el mismo ejemplo de libros fiction y autores del libro 12) y que prog-09-e09a60b4."
+    ],
+    "duplicadaDe": ["prog-09-3a6562a9", "prog-09-e09a60b4"],
+    "cambios": [
+      "explicacionesDistractores.D: se elimina la afirmación «/search no es un sustantivo de recurso», que la wiki no respalda, y se deja solo el motivo de método y ubicación de los datos."
+    ],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Una API de libros necesita dos operaciones de consulta: listar los libros de la categoría fiction mostrando la primera página, y obtener los autores del libro con ID 12. ¿Qué par de endpoints sigue las buenas prácticas de diseño del tema?",
+      "opciones": {
+        "A": "GET /getBooks?category=fiction&page=1 y GET /books/12/authors",
+        "B": "GET /books?category=fiction&page=1 y GET /books/12/authors",
+        "C": "GET /books/fiction/page/1 y GET /authors?book=12",
+        "D": "POST /books/search con la categoría y la página en el cuerpo, y GET /books/12/authors"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki recomienda sustantivos en plural sin verbos (GET /books), filtrar y paginar mediante Query Parameters (GET /books?category=fiction&page=1) y anidar recursos para expresar relaciones jerárquicas (GET /books/12/authors obtiene los autores del libro 12).",
+      "explicacionesDistractores": {
+        "A": "/getBooks incluye un verbo en la URL; la wiki lo pone como ejemplo incorrecto, porque la acción la determina el método HTTP.",
+        "C": "El filtrado y la paginación deben ir en Query Parameters, no en la ruta; y la relación jerárquica libro-autores se expresa anidando el recurso (/books/12/authors), no con un parámetro de consulta.",
+        "D": "Una consulta es una lectura y corresponde a GET con los datos en la URL (Query o Path Params); POST es el método de creación y lleva los datos en el cuerpo."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Buenas prácticas en el diseño de Endpoints" }
+      ],
+      "conocimiento": "Buenas prácticas de endpoints: sustantivos en plural sin verbos, filtrado y paginación con Query Parameters y anidamiento de recursos para relaciones jerárquicas.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "prog-09-6368e1f6",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Parecido con prog-09-6754cd44 del banco descartado: aquel evalúa 401 frente a 403; aquí 403 es solo un distractor.",
+      "Cada distractor difiere de la correcta en un único código y cada asignación es directa (aplicar la tabla de códigos), así que corresponde a media, no a difícil.",
+      "Se solapa con prog-09-7eb6c548: los distractores A (200 frente a 201 en POST) y C (400 frente a 500) son exactamente las opciones C y D de esa pregunta."
+    ],
+    "duplicadaDe": ["prog-09-7eb6c548"],
+    "cambios": [
+      "dificultad: dificil -> media, porque se resuelve aplicando la tabla de códigos sin relacionar conceptos."
+    ],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un cliente realiza, en este orden, cuatro peticiones a una API de libros: crea un libro con POST /books; borra con DELETE /books/12 el libro 12, que existía; consulta con GET /books/12 ese mismo libro ya borrado; y lanza una búsqueda que provoca una excepción no controlada en el código del servidor. Según los códigos habituales del tema, ¿qué secuencia de estados recibe?",
+      "opciones": {
+        "A": "200 OK, 204 No Content, 404 Not Found y 500 Internal Server Error",
+        "B": "201 Created, 204 No Content, 403 Forbidden y 500 Internal Server Error",
+        "C": "201 Created, 204 No Content, 404 Not Found y 400 Bad Request",
+        "D": "201 Created, 204 No Content, 404 Not Found y 500 Internal Server Error"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "Según la wiki, POST responde 201 Created; DELETE responde habitualmente 204 No Content; si la URL o el recurso solicitado no existe se devuelve 404 Not Found; y una excepción o fallo no controlado dentro del código del servidor produce 500 Internal Server Error.",
+      "explicacionesDistractores": {
+        "A": "La creación con POST se responde con 201 Created; 200 OK es el habitual de GET, PUT y PATCH.",
+        "B": "El recurso borrado ya no existe, lo que corresponde a 404 Not Found; 403 Forbidden indica que el cliente no tiene permisos para acceder al recurso.",
+        "C": "400 Bad Request es un error del cliente por datos incorrectos; una excepción no controlada en el código del servidor es un error 5xx, 500 Internal Server Error."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "5. Códigos de Estado HTTP" },
+        { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Relación entre método y código de éxito habitual" }
+      ],
+      "conocimiento": "Asignar el código de estado a una secuencia: creación 201, borrado 204, recurso inexistente 404 y fallo no controlado del servidor 500.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "prog-09-e9d06d11",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Similitud confirmada con prog-09-932ad6e7: mismo conocimiento (colección JSON -> List de DTOs, conversión automática por el parser); aquella es más completa.",
+      "Menor: el distractor D (Map) no lo descarta la wiki de forma explícita, solo por la correspondencia afirmada con un List de DTOs."
+    ],
+    "duplicadaDe": ["prog-09-932ad6e7"],
+    "cambios": []
+  },
+  {
+    "id": "prog-08-b2e191a9",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Es una pregunta de definición: la correcta copia literalmente la fila de la tabla de capas y A y B son las definiciones de las otras dos capas. Corresponde a fácil, no a media."
+    ],
+    "duplicadaDe": [],
+    "cambios": [
+      "dificultad: media -> facil, porque se resuelve reconociendo la definición literal de la tabla de capas."
+    ],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Según la wiki, ¿qué describe con precisión a la capa de dominio o negocio (paquete domain) en la arquitectura por capas?",
+      "opciones": {
+        "A": "Recibe los datos del usuario, los valida formalmente y devuelve el resultado formateado, sin acceder a datos ni contener lógica de negocio.",
+        "B": "Se comunica con el soporte físico (base de datos, ficheros JSON/CSV, APIs externas) y convierte esa información en objetos manejables.",
+        "C": "Contiene las entidades del modelo y aplica las reglas de negocio, siendo totalmente independiente de cómo se muestran los datos o dónde se almacenan.",
+        "D": "Contiene las entidades del modelo y aplica las reglas de negocio, pero depende de la implementación concreta de persistencia para cargarlas."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La tabla de capas define la capa de dominio como el corazón de la aplicación: contiene las entidades del modelo, aplica las reglas de negocio (cálculos, validaciones complejas, permisos) y es totalmente independiente de cómo se muestran los datos o dónde se almacenan.",
+      "explicacionesDistractores": {
+        "A": "Es la descripción de la capa de presentación (controller), que solo hace validación formal y no contiene lógica de negocio ni accede a datos.",
+        "B": "Es la descripción de la capa de persistencia o acceso a datos (persistence).",
+        "D": "La wiki afirma que el dominio es totalmente independiente de dónde se almacenan los datos; además, cada capa depende de interfaces, no de implementaciones concretas."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Principales Capas del Sistema" }
+      ],
+      "conocimiento": "La capa de dominio contiene las entidades y las reglas de negocio (cálculos, validaciones complejas, permisos) y es totalmente independiente de la presentación y del almacenamiento.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "prog-08-c3aa7cae",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-08-5abf688f",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Evalúa el mismo conocimiento que prog-08-5e90aa71 (BookMapper), con los mismos errores como distractores: getters en el record, excepción ante null y frontera dominio-persistencia."
+    ],
+    "duplicadaDe": ["prog-08-5e90aa71"],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-d4de944b",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 5,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Pregunta de definición directa, correcta pero de poca profundidad."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-e09a60b4",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Evalúa las mismas tres buenas prácticas de endpoints que prog-09-c60ceb07 y prog-09-3a6562a9, con los mismos ejemplos de la wiki."
+    ],
+    "duplicadaDe": ["prog-09-3a6562a9", "prog-09-c60ceb07"],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-7eb6c548",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Los cuatro enunciados se comprueban uno a uno contra la lista de códigos de la wiki y los distractores son errores bastante evidentes (204 como fallo, 500 como dato incorrecto del cliente); corresponde a media, no a difícil.",
+      "Se solapa con prog-09-6368e1f6: las opciones C (POST -> 201) y D (500 frente a 400) evalúan lo mismo que los distractores A y C de aquella."
+    ],
+    "duplicadaDe": ["prog-09-6368e1f6"],
+    "cambios": [
+      "dificultad: dificil -> media, porque basta aplicar la definición de cada código, sin distractores especialmente próximos."
+    ],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Según la wiki, ¿cuál de las siguientes afirmaciones sobre los códigos de estado HTTP es correcta?",
+      "opciones": {
+        "A": "Los códigos 3xx indican que el cliente debe realizar una acción adicional para completar la petición, como ocurre con 301 Moved Permanently.",
+        "B": "El código 204 No Content indica que la petición ha fallado, pero el servidor no devuelve en el cuerpo el detalle del error.",
+        "C": "El código 200 OK es el que se usa habitualmente cuando un POST crea con éxito un nuevo recurso.",
+        "D": "El código 500 Internal Server Error indica que los datos enviados por el cliente son incorrectos sintáctica o semánticamente."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La familia 3xx (Redirección) indica que el cliente debe hacer una acción adicional para completar la petición; la wiki pone como ejemplo 301 Moved Permanently.",
+      "explicacionesDistractores": {
+        "B": "204 No Content es un código de éxito (2xx): la petición es correcta, pero la respuesta no devuelve cuerpo. Es común en DELETE.",
+        "C": "Para la creación con POST se usa 201 Created; 200 OK es el habitual en GET, PUT y PATCH.",
+        "D": "Los datos incorrectos sintáctica o semánticamente corresponden a 400 Bad Request; 500 indica una excepción o fallo no controlado dentro del código del servidor."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "5. Códigos de Estado HTTP" }
+      ],
+      "conocimiento": "Significado preciso de las familias y códigos HTTP: 3xx exige una acción adicional del cliente (301), 204 es éxito sin cuerpo, POST usa 201 y 500 es un fallo no controlado del servidor.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  }
+]

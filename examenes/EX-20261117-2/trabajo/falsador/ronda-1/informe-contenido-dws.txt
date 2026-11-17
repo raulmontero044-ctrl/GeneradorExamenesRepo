@@ -1,0 +1,121 @@
+Línea: 1
+Id: dws-01-43e56e66
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-01-arquitecturas/contenido.md §2.2 (líneas 85-107: puertos en el núcleo, EmailAdapter implementa NotificationPort, los adaptadores dependen de los puertos), comparativa línea 132 («Facilita sustituir tecnologías»), §1 línea 15 (independencia de agentes externos). No equivale a dws-01-3f0b4e77 del banco, que pregunta qué es NotificationPort.
+
+Línea: 2
+Id: dws-01-7a29662a
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-01-arquitecturas/contenido.md §1 líneas 16-17 (regla de dependencia frente a DIP); conceptos.md «Regla de dependencia» líneas 53-59 (No confundir con la DIP); contenido.md líneas 77 y 111 (refutan C y D).
+
+Línea: 3
+Id: dws-01-e99be59d
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-01-arquitecturas/contenido.md §2.1 líneas 59-62 (domain contiene Service, ServiceImpl, Model y Repository) y §2.3 líneas 115-119 (Service en Aplicación; Repository y Model en el núcleo; RepositoryImpl en Infraestructura). No repite dws-01-d89ede9e del banco (Repository frente a DAO).
+
+Línea: 4
+Id: dws-01-0fd5f32a
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-01-arquitecturas/contenido.md §3.2 línea 165 (la comunicación síncrona espera respuesta y depende del tiempo de respuesta del receptor) y diagrama de secuencia líneas 179-188 (B responde a A y A al Cliente; el broker solo aparece en el flujo asíncrono).
+
+Línea: 5
+Id: dws-01-b56b154b
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-01-arquitecturas/contenido.md §3.1 líneas 143-147 (operación sencilla, alto acoplamiento si crece, no implica código desordenado, adecuado para un CRUD) y línea 157 (un monolito puede aplicar arquitectura limpia); línea 145 (el despliegue independiente es de los microservicios).
+
+Línea: 6
+Id: dws-02-9907510d
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-02-api-first/contenido.md «OpenAPI Generator y Maven» línea 94 (las clases generadas no se modifican; se regeneran); §4 líneas 114-124 (eliminar un campo puede romper clientes; transición acordada) y línea 132 (Swagger UI no demuestra la conformidad).
+
+Línea: 7
+Id: dws-02-d7d58cf1
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-02-api-first/contenido.md «Opción 1» línea 70 (separa el contrato de la lógica, puede formar parte de API First, queda ligada al código Java, no es una especificación independiente), comparativa línea 107 (precaución), líneas 57 y 110. El conocimiento evaluado (que encaja en API First pero queda ligada al código) no equivale a dws-02-5a91be94 del banco.
+
+Línea: 8
+Id: dws-02-29daa1db
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-02-api-first/contenido.md «Diagrama del flujo API First» líneas 26-33 (diseñar → revisar y acordar → implementar → comprobar) y línea 134 (la documentación no sustituye la revisión).
+
+Línea: 9
+Id: dws-02-7690fbcd
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-02-api-first/contenido.md §2 líneas 37-45 (OpenAPI es una especificación en YAML o JSON; Swagger, un conjunto de herramientas; Swagger UI, documentación interactiva), línea 57 (springdoc-openapi) y líneas 132-134.
+
+Línea: 10
+Id: dws-02-d83ef09b
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-02-api-first/contenido.md, introducción bajo «02 - API First», línea 13 (el formato se valida con Jakarta Bean Validation en la capa de presentación; las reglas de negocio pertenecen al dominio); conceptos.md, comparativa de las líneas 143-146.
+
+Línea: 11
+Id: dws-03-8889a85c
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-03-validacion/contenido.md §5 líneas 155-158 (value objects sin framework y más baratos; el DTO no repite los casos del value object; el handler se prueba una vez) y línea 170 (probar Spring no es responsabilidad de estos tests; se prueba que cada ruta errónea produce el rechazo); §2.4 línea 92 (formato compartido).
+
+Línea: 12
+Id: dws-03-8cc8cfb2
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-03-validacion/contenido.md §2.3 líneas 66 y 73-76 (la constraint delega en IbanFormatValidator, que devuelve true ante null porque la obligatoriedad corresponde a @NotBlank); §2.2 línea 53 (con @Valid, Spring valida el DTO); §3 línea 116 (InvalidIbanException la lanza el record Iban).
+
+Línea: 13
+Id: dws-03-a764c07a
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-03-validacion/contenido.md §2.2 línea 62 (sin @Valid el DTO no se valida; es una decisión explícita por operación) y §2.4 líneas 82-84 (la excepción se lanza antes del cuerpo del controller; el manejador atiende MethodArgumentNotValidException).
+
+Línea: 14
+Id: dws-03-f3d29679
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-03-validacion/contenido.md §3 línea 109 (definición de value object) y §3.1 líneas 123-130; conceptos.md, «DTO de entrada» línea 33 (refuta A).
+
+Línea: 15
+Id: dws-03-13d8cd48
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-03-validacion/contenido.md §2.1 líneas 42 y 49 (@NotNull exige valor, @NotBlank cadena con contenido, @NotEmpty colección no vacía).
+
+Línea: 16
+Id: dws-04-05b0459f
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-04-monolito-modular/contenido.md §2 líneas 45-47 y 53-67 (CatalogModuleImpl en internal.application delega en CatalogService; CatalogController es otra entrada); §2.1 línea 76 (internal no hace inaccesible una clase pública); §3 líneas 94-95.
+
+Línea: 17
+Id: dws-04-37ca2f59
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-04-monolito-modular/contenido.md, Consejo de la línea 210, bajo «Relación con ArchUnit» (en el paquete raíz los DTO son públicos por defecto, sin @NamedInterface ni package-info.java; este puede declarar @ApplicationModule); línea 169 (el paquete raíz es la API pública) y línea 201 (no hace falta arrancar el contexto). No repite dws-04-1c640d69 del banco.
+
+Línea: 18
+Id: dws-04-906f76dc
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-04-monolito-modular/contenido.md «Detección de módulos» línea 165 (los hijos directos del paquete base son módulos) y «API pública y subpaquetes internos» línea 169 (los subpaquetes son internos); líneas 178-185 (@ApplicationModule declara las dependencias permitidas).
+
+Línea: 19
+Id: dws-04-6e5ad781
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-04-monolito-modular/contenido.md §2.1 líneas 76-88 (regla resideOutsideOfPackage("..catalog..") / resideInAPackage("..catalog.internal..")); el diagrama de las líneas 53-58 sitúa CatalogService en catalog.internal.domain, CatalogModule en catalog y BookSummary en catalog.dto. La pregunta trata la regla de ArchUnit y no repite dws-04-c1d3c56e del banco, que trata ApplicationModules.verify().
+
+Línea: 20
+Id: dws-04-a88ac141
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-04-monolito-modular/contenido.md §4 líneas 141-147 (Order usa userId: UUID y OrderDetail productId: UUID; el tipo del identificador no debe importar clases de users.internal; se admite un tipo local o de un contrato público). No equivale a dws-04-261ddcd1 del banco, que trata el motivo del cambio.
+
+Veredicto: APROBADO

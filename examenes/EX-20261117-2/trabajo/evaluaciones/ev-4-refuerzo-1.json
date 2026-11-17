@@ -1,0 +1,144 @@
+[
+  {
+    "id": "dws-04-f276392d",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Se solapa en parte con dws-04-7f4136c5 del banco (el monolito modular mantiene un único despliegue con límites explícitos), pero lo que evalúa es distinto: si el problema de fondo es el despliegue como unidad o la falta de límites, y si las capas técnicas bastan para resolverlo. No es repetida.",
+      "Evalúa el mismo conocimiento que la candidata dws-04-2634efb9 (el problema no es el despliegue, sino la falta de límites). Esta versión, planteada como caso práctico y con el distractor de las capas técnicas, es la mejor de las dos."
+    ],
+    "duplicadaDe": ["dws-04-2634efb9"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-6e5ad781",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Consiste en aplicar una regla concreta (resideOutsideOfPackage(\"..catalog..\") frente a resideInAPackage(\"..catalog.internal..\")) a cuatro dependencias del diagrama. Eso es «aplicar una regla», que corresponde a dificultad media, no difícil.",
+      "Se parece a dws-04-c1d3c56e del banco (orders importa CatalogService de catalog.internal.domain), pero esa pregunta evalúa Spring Modulith verify() y el momento del fallo (compila pero el test falla). Esta evalúa qué alcance tiene la regla de ArchUnit (las dependencias internas del módulo y la API pública no la incumplen). No es repetida."
+    ],
+    "duplicadaDe": [],
+    "cambios": [
+      "dificultad: 'dificil' -> 'media', porque aplicar la regla de ArchUnit a casos del diagrama encaja en la definición de media (aplicar una regla)."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "Un proyecto define con ArchUnit una regla que prohíbe a las clases que residen fuera de «..catalog..» depender de clases que residen en «..catalog.internal..». ¿Cuál de estas dependencias haría fallar el test al ejecutarlo?",
+      "opciones": {
+        "A": "Una clase del paquete orders que usa directamente CatalogService, del subpaquete catalog.internal.domain, para consultar libros.",
+        "B": "CatalogModule, situado en el paquete raíz de catalog, que delega la operación en CatalogModuleImpl, de catalog.internal.application.",
+        "C": "Una clase del paquete orders que llama a CatalogModule y recibe un BookSummary del paquete catalog.dto.",
+        "D": "CatalogController, de catalog.internal.controller, que invoca a CatalogService, de catalog.internal.domain."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La regla solo prohíbe que clases ajenas a catalog dependan de catalog.internal. Una clase de orders está fuera de catalog y CatalogService reside en catalog.internal.domain, así que ArchUnit detecta la dependencia y el test falla (aunque el código compile, porque estar en internal no hace inaccesible una clase pública).",
+      "explicacionesDistractores": {
+        "B": "CatalogModule reside dentro de catalog, por lo que la regla no le impide depender de catalog.internal; en la wiki la API pública delega precisamente en CatalogModuleImpl.",
+        "C": "CatalogModule está en el paquete raíz de catalog y BookSummary en catalog.dto, ninguno en catalog.internal; es el uso de la API pública que la wiki presenta como correcto.",
+        "D": "Ambas clases residen dentro de catalog; la regla solo restringe a las clases que están fuera de ese paquete."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "2.1 Verificar los límites entre módulos" },
+        { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "Diagrama: paquetes del módulo de catálogo" }
+      ],
+      "conocimiento": "La regla ArchUnit del tema solo prohíbe que clases ajenas a catalog dependan de catalog.internal; las dependencias internas del módulo y el uso de la API pública y sus DTO no la incumplen.",
+      "autor": "gen-dws-r1-a",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-04-129a1066",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 5,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Se resuelve recordando directamente lo que dice la sección 2 (CatalogModule es la API pública y CatalogModuleImpl su implementación, que vive en internal.application y delega en CatalogService). Es una definición directa, así que la dificultad es fácil, no media.",
+      "La opción correcta D es mucho más larga y completa que las demás, lo que da una pista. A y B son poco plausibles: A invierte los nombres y B contradice el sufijo Impl.",
+      "Evalúa el mismo conocimiento que la candidata dws-04-05b0459f, que lo hace con distractores más trabajados y además relaciona el contenido con la sección 2.1. Conviene preferir esa."
+    ],
+    "duplicadaDe": ["dws-04-05b0459f"],
+    "cambios": [
+      "dificultad: 'media' -> 'facil', porque es la definición directa de la sección 2.",
+      "Opción D acortada para quitar la pista de longitud; el contenido evaluado no cambia."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En el módulo de catálogo de la tienda, ¿qué diferencia hay entre CatalogModule y CatalogModuleImpl, y de cuál debe depender el código del módulo orders?",
+      "opciones": {
+        "A": "CatalogModuleImpl es la API pública y está en el paquete raíz de catalog; CatalogModule es su implementación en internal, así que orders depende de CatalogModuleImpl.",
+        "B": "Ambas forman parte del contrato público del catálogo, por lo que orders puede depender de cualquiera de ellas siempre que no use CatalogService.",
+        "C": "CatalogModule es la API pública y CatalogModuleImpl vive en internal.application; orders debe depender de CatalogService, que es quien ejecuta realmente la operación.",
+        "D": "CatalogModule es la API pública y CatalogModuleImpl, en internal.application, delega en CatalogService; orders depende solo de CatalogModule."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que CatalogModule es la API pública del catálogo; su implementación, CatalogModuleImpl, vive en internal.application y delega en CatalogService, que forma parte de la implementación interna. Así, otro módulo depende del contrato del catálogo, no de esa clase de implementación ni de su servicio.",
+      "explicacionesDistractores": {
+        "A": "Invierte los papeles: CatalogModule es la API pública (paquete com.example.store.catalog) y CatalogModuleImpl la implementación en internal.application.",
+        "B": "CatalogModuleImpl es implementación interna dentro de internal, no forma parte del contrato; los otros módulos dependen solo de CatalogModule.",
+        "C": "CatalogService es implementación interna; la wiki dice que otro módulo depende del contrato del catálogo, no de su servicio."
+      },
+      "dificultad": "facil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "2. API pública e implementación interna" }
+      ],
+      "conocimiento": "CatalogModule es la API pública del módulo y CatalogModuleImpl su implementación en internal.application que delega en CatalogService; los demás módulos dependen solo del contrato.",
+      "autor": "gen-dws-r1-a",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "dws-04-2634efb9",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Evalúa el mismo conocimiento que la candidata dws-04-f276392d, que lo hace mejor al plantearlo como caso práctico.",
+      "Detalle menor: la explicación del distractor D dice que las referencias directas son «propias» de la organización por capas, mientras que contenido.md dice que «puede haber» referencias directas. conceptos.md usa también la palabra «propias», así que la wiki lo respalda."
+    ],
+    "duplicadaDe": ["dws-04-f276392d"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-a88ac141",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Está relacionada con dws-04-261ddcd1 del banco (por qué Order guarda userId en lugar de User y que los datos adicionales se piden a la API pública), pero evalúa otra cosa: qué tipos admite el identificador. No es repetida. El distractor de la opción D («siempre que represente solo el identificador») es una trampa bien construida."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-05b0459f",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Evalúa el mismo conocimiento central que la candidata dws-04-129a1066 (el papel de CatalogModuleImpl y de qué depende orders). Esta versión es mejor: relaciona ese papel con que internal no impide el acceso en Java (sección 2.1) y con la ruta entre módulos frente a la ruta HTTP.",
+      "Para refutar el distractor D basta el diagrama de la sección 2 (CatalogModuleImpl → CatalogService y CatalogController → CatalogService), aunque wikiRef no cite la sección 3."
+    ],
+    "duplicadaDe": ["dws-04-129a1066"],
+    "cambios": []
+  }
+]

@@ -1,0 +1,121 @@
+Línea: 1
+Id: prog-08-5e90aa71
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-08-arquitectura/contenido.md, sección «Conversión entre objetos: Mapeadores (Mappers)», líneas 108-117: toDomain usa dto.isbn()/title()/basePrice(); toResponse usa getters y getFinalPrice() aplica el cálculo del dominio; ambos devuelven null si reciben null; la frontera es presentación-dominio.
+
+Línea: 2
+Id: prog-08-742ab333
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-08-arquitectura/contenido.md, «Reglas de Comunicación entre Capas», líneas 43-45: flujo unidireccional, prohibido el salto de capas, aislamiento; línea 69: «el controlador no salta a la persistencia».
+
+Línea: 3
+Id: prog-08-9a0a1406
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-08-arquitectura/contenido.md, líneas 51-67 (relaciones 2, 4 y 10 del diagrama) y línea 117 (Book es una clase convencional con getters; los DTO son records); líneas 73-78 (no exponer entidades; Request y Response DTO).
+
+Línea: 4
+Id: prog-08-4e750deb
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-08-arquitectura/contenido.md, líneas 123-130 (crear con new acopla e impide pruebas unitarias aisladas), 134 (la DI recibe dependencias desde fuera) y 194 (pasar un Mock al constructor); línea 35 (la presentación no contiene lógica de negocio).
+
+Línea: 5
+Id: prog-08-c3aa7cae
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-08-arquitectura/contenido.md, línea 58 (BookController consume la interfaz BookService, no su implementación), líneas 62 y 66 y 69 (solo el DAO toca el soporte físico), líneas 43-45.
+
+Línea: 6
+Id: prog-09-04a8aaf6
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-09-api-rest-http/contenido.md, líneas 30-32 (POST /createBook incorrecto), líneas 44-48 y 52 (POST en el cuerpo, DELETE en la URL mediante Path Param).
+
+Línea: 7
+Id: prog-09-3a6562a9
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-09-api-rest-http/contenido.md, «Buenas prácticas en el diseño de Endpoints», líneas 30-36; tabla de métodos, líneas 44-45.
+
+Línea: 8
+Id: prog-09-932ad6e7
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-09-api-rest-http/contenido.md, línea 61 (el parser convierte JSON en Records/DTO y al revés, al recibir y al enviar), línea 65 (objeto → DTO), línea 73 (colección → List de DTOs).
+
+Línea: 9
+Id: prog-09-6368e1f6
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-09-api-rest-http/contenido.md, líneas 80-90 (200 en GET/PUT/PATCH, 201 en POST, 204 en DELETE, 400, 403, 404, 500) y tabla de líneas 94-100.
+
+Línea: 10
+Id: prog-09-d4de944b
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-09-api-rest-http/contenido.md, líneas 25-26 (definiciones de REST y endpoint) y 59 (JSON); conceptos.md, línea 9 (no confundir HTTP con REST).
+
+Línea: 11
+Id: prog-10-02073594
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-10-spring-boot/contenido.md, «Fachada e implementación», líneas 284-293: SLF4J es la fachada, Logback la implementación por defecto y Log4j2 la alternativa sustituible por configuración; el código solo conoce la fachada, como al programar contra interfaces.
+
+Línea: 12
+Id: prog-10-147d316d
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-10-spring-boot/contenido.md, líneas 179, 226-230 (handleUnexpected como captura final con mensaje genérico 500; las trazas no se devuelven al cliente; handleBadRequest para IllegalArgumentException) y 307 (log.error antes del 500; traza registrada con nivel ERROR).
+
+Línea: 13
+Id: prog-10-39421839
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-10-spring-boot/contenido.md, «Ejemplo práctico: BookController», líneas 148-158: delete devuelve ResponseEntity<Void> con noContent().build(); ok(x) da 200; create usa @RequestBody y status(HttpStatus.CREATED).body(...); el controlador solo delega.
+
+Línea: 14
+Id: prog-10-86a38fbd
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-10-spring-boot/contenido.md, líneas 11-12 (antes: .war en un Tomcat externo; con Spring Boot: Tomcat embebido en el .jar), línea 22 (empaquetado Jar) y línea 54 (DispatcherServlet como Front Controller).
+
+Línea: 15
+Id: prog-10-dcfa0b4b
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-10-spring-boot/contenido.md, líneas 284-293: SLF4J es la fachada; Logback es la implementación por defecto; Log4j2 la alternativa; ambas son sucesoras de Log4j; el JDK incluye java.util.logging.
+
+Línea: 16
+Id: prog-12-53bcba03
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-12-login-tokens/contenido.md, líneas 114 y 118-120 (el servidor no puede saber cuál es legítimo; se revoca toda la familia, incluido el par más reciente; el cliente legítimo pierde la sesión) y 139-141 (la rotación no impide el robo; si el atacante usa primero el token, el reuso del cliente legítimo revoca los tokens nuevos).
+
+Línea: 17
+Id: prog-12-6706551a
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-12-login-tokens/contenido.md, «Clase SecurityContext», líneas 171-175 (constructor privado, métodos estáticos; se comparte el objeto ThreadLocal, con un valor independiente por hilo) y línea 203 (la limpieza en finally se hace porque Tomcat reutiliza hilos).
+
+Línea: 18
+Id: prog-12-2c5b0cc8
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-12-login-tokens/contenido.md, línea 184 (la clase base gestiona la integración con Spring; la idea del filtro y su posición en la cadena pertenecen al modelo Servlet) y línea 196 (extractBearerToken).
+
+Línea: 19
+Id: prog-12-69111c8a
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-12-login-tokens/contenido.md, líneas 79 y 100 (R1 se consume y queda inválido), 104-105 (atomicidad; coordinar la renovación y evitar solicitudes simultáneas), 109-120 (reuso y revocación de la familia) y 71 (el refresh token no va en las peticiones normales).
+
+Línea: 20
+Id: prog-12-8ce98b4a
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-12-login-tokens/contenido.md, «1. Autenticación y autorización», líneas 7-20 (validar el token es autenticación; la autorización se evalúa para cada operación; una petición puede estar autenticada y no tener permiso).
+
+Veredicto: APROBADO

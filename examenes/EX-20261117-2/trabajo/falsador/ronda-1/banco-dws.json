@@ -1,0 +1,142 @@
+[
+  {
+    "id": "dws-01-b0a4a7c3",
+    "tema": "dws-01",
+    "enunciado": "Un equipo empaqueta su aplicación como un único artefacto desplegable dividido en módulos que colaboran en el mismo proceso a través de sus APIs públicas. Dentro de cada módulo, el núcleo define interfaces de entrada, que invocan los controladores, e interfaces de salida, que implementan componentes conectados a la base de datos y al correo. ¿Cómo se clasifica correctamente esta aplicación?",
+    "respuesta": "Como monolito modular por su despliegue y como arquitectura hexagonal por su organización interna, dos criterios independientes que se combinan",
+    "conocimiento": "La arquitectura de despliegue (monolito modular) y la organización interna (hexagonal) son criterios independientes que se combinan en una misma aplicación."
+  },
+  {
+    "id": "dws-01-2da6cdb3",
+    "tema": "dws-01",
+    "enunciado": "Al comparar el monolito modular con los microservicios como estilos de despliegue, ¿qué afirmación describe correctamente sus diferencias y sus costes?",
+    "respuesta": "El monolito modular aporta modularidad sin multiplicar despliegues, mientras que los microservicios ganan despliegue independiente a costa de más complejidad operativa y de comunicarse por red.",
+    "conocimiento": "El monolito modular da modularidad sin multiplicar despliegues; los microservicios dan despliegue independiente con más complejidad operativa, y separar módulos en proyectos o usar eventos no equivale a microservicios."
+  },
+  {
+    "id": "dws-01-3f0b4e77",
+    "tema": "dws-01",
+    "enunciado": "En el diagrama de puertos y adaptadores de la arquitectura hexagonal, ¿qué es NotificationPort?",
+    "respuesta": "Una interfaz definida en el núcleo que expresa qué necesita el núcleo (puerto de salida) y que EmailAdapter implementa.",
+    "conocimiento": "En la arquitectura hexagonal los puertos de salida, como NotificationPort, son interfaces definidas por el núcleo e implementadas por adaptadores externos."
+  },
+  {
+    "id": "dws-01-86b82494",
+    "tema": "dws-01",
+    "enunciado": "¿Qué afirmación distingue correctamente la comunicación asíncrona mediante eventos de la comunicación síncrona?",
+    "respuesta": "En la asíncrona el emisor publica el evento en el broker sin esperar respuesta del consumidor, y como la mensajería no garantiza un procesamiento exactamente una vez, los consumidores deben tolerar entregas duplicadas.",
+    "conocimiento": "En la comunicación asíncrona el emisor publica sin esperar respuesta y los consumidores deben tolerar entregas duplicadas; la síncrona depende de la disponibilidad del receptor."
+  },
+  {
+    "id": "dws-01-d89ede9e",
+    "tema": "dws-01",
+    "enunciado": "En la arquitectura por capas de referencia, la capa de persistencia contiene tanto un repositorio como un DAO. ¿Qué diferencia hay entre ambos en cuanto a dónde se sitúan su interfaz y su implementación?",
+    "respuesta": "La interfaz Repository se define en domain y la implementa RepositoryImpl en persistence, mientras que el DAO tiene interfaz e implementación dentro de persistence.",
+    "conocimiento": "En la arquitectura por capas, la interfaz Repository está en domain y su implementación en persistence, mientras que el DAO tiene interfaz e implementación en persistence."
+  },
+  {
+    "id": "dws-02-5c909ffa",
+    "tema": "dws-02",
+    "enunciado": "Un equipo declara su contrato en la interfaz OrderHttpApi con anotaciones (springdoc-openapi genera el documento) y, en paralelo, mantiene a mano un orders-api.yaml que comparte con los consumidores. Para dar por buena una entrega abren Swagger UI y comprueban que la operación aparece. ¿Qué valoración es correcta?",
+    "respuesta": "Mantienen dos contratos manuales que pueden divergir, por lo que deberían elegir una fuente de verdad, y ver la operación en Swagger UI no demuestra por sí solo la conformidad",
+    "conocimiento": "Mantener a la vez una interfaz anotada y un archivo OpenAPI manual crea dos contratos que pueden divergir, y Swagger UI no demuestra la conformidad de la implementación."
+  },
+  {
+    "id": "dws-02-b169a728",
+    "tema": "dws-02",
+    "enunciado": "Un equipo quiere revisar el contrato HTTP con los consumidores antes de implementar y que cliente y servidor trabajen en paralelo a partir de un contrato que no dependa del código Java. ¿Qué opción se ajusta mejor y qué precaución implica?",
+    "respuesta": "Mantener orders-api.yaml como fuente de verdad y generar interfaces y DTO con OpenAPI Generator, teniendo que configurar el generador y comprobar que la implementación sigue la especificación.",
+    "conocimiento": "El archivo OpenAPI como fuente de verdad da un contrato independiente para revisar con consumidores y trabajar en paralelo, a cambio de configurar el generador y comprobar la implementación; no se mantienen dos contratos manuales ni se editan las clases generadas."
+  },
+  {
+    "id": "dws-02-26a7af0d",
+    "tema": "dws-02",
+    "enunciado": "Un proyecto usa orders-api.yaml como fuente de verdad y tiene configurado el plugin de Maven de OpenAPI Generator de la forma habitual. Un desarrollador ejecuta mvn compile en un proyecto recién clonado. ¿Qué ocurre?",
+    "respuesta": "Maven recorre las fases anteriores a la compilación y, en generate-sources, el plugin genera a partir de orders-api.yaml las interfaces de la API y los DTO antes de compilar",
+    "conocimiento": "Al ejecutar mvn compile, el plugin de OpenAPI Generator suele generar interfaces y DTO desde el archivo OpenAPI en la fase generate-sources, antes de compilar."
+  },
+  {
+    "id": "dws-02-5a91be94",
+    "tema": "dws-02",
+    "enunciado": "Sobre las dos formas de mantener el contrato HTTP en Spring, ¿qué afirmación es INCORRECTA?",
+    "respuesta": "Declarar el contrato en una interfaz Java como OrderHttpApi y documentarlo con springdoc-openapi produce una especificación OpenAPI independiente del código Java.",
+    "conocimiento": "El documento OpenAPI que springdoc-openapi genera a partir de una interfaz Java queda ligado al código y no es una especificación independiente."
+  },
+  {
+    "id": "dws-02-8980dc53",
+    "tema": "dws-02",
+    "enunciado": "En un proyecto Spring se mencionan dos herramientas: springdoc-openapi y OpenAPI Generator. ¿Qué diferencia hay entre ellas?",
+    "respuesta": "springdoc-openapi obtiene documentación OpenAPI a partir del código Spring, mientras que OpenAPI Generator obtiene código Java, como interfaces API y DTO, a partir del archivo OpenAPI.",
+    "conocimiento": "springdoc-openapi genera documentación OpenAPI desde el código Spring; OpenAPI Generator genera código Java (interfaces y DTO) desde el archivo OpenAPI."
+  },
+  {
+    "id": "dws-03-55b44631",
+    "tema": "dws-03",
+    "enunciado": "El parámetro del controller está declarado como @Valid @RequestBody CreateOrderRequest request. En CreateOrderRequest el campo items se declara como @NotEmpty List<ItemRequest> items, sin @Valid, e ItemRequest tiene @Positive int quantity. Llega una petición con un único elemento cuya quantity es -3. ¿Qué ocurre en la validación de formato?",
+    "respuesta": "La lista supera @NotEmpty, pero sus elementos no se validan, porque es el @Valid sobre la lista lo que hace que se validen también los elementos",
+    "conocimiento": "Los elementos de una lista de DTO anidados solo se validan en cascada si el campo de la lista lleva @Valid."
+  },
+  {
+    "id": "dws-03-73b94256",
+    "tema": "dws-03",
+    "enunciado": "Para no duplicar la regla del IBAN, un equipo propone quitar la comprobación del constructor compacto del record Iban y anotar su campo value con @ValidIban, ya que el DTO de entrada también usa esa constraint. Más adelante, un mapeador crea un Iban a partir de datos que no llegan por una petición HTTP. ¿Qué consecuencia tiene la propuesta?",
+    "respuesta": "Se podría crear un Iban con contenido incorrecto, porque las anotaciones solo se aplican donde un framework valida, y además el dominio pasaría a depender de jakarta.validation",
+    "conocimiento": "Sustituir la invariante del constructor compacto por anotaciones de Jakarta en el value object deja sin protección las vías de creación que no pasan por el framework y acopla el dominio a jakarta.validation."
+  },
+  {
+    "id": "dws-03-83710a09",
+    "tema": "dws-03",
+    "enunciado": "¿Qué diferencia hay entre una constraint estándar de Jakarta Validation y una constraint personalizada como @ValidIban?",
+    "respuesta": "Las estándar se reflejan solas en el esquema OpenAPI, mientras que la restricción de una personalizada hay que documentarla en la operación o en el esquema, por ejemplo con @Schema.",
+    "conocimiento": "Las constraints estándar se reflejan solas en el esquema OpenAPI, mientras que las personalizadas deben documentarse a mano (p. ej. con @Schema)."
+  },
+  {
+    "id": "dws-03-1655eb3f",
+    "tema": "dws-03",
+    "enunciado": "CreateAccountRequest declara balance como BigDecimal con @Positive @Digits(integer = 8, fraction = 2). Las reglas del dominio no admiten un saldo inicial tan bajo como 0.02, y llega una solicitud de alta con ese saldo inicial. Según la wiki, ¿cómo se gestiona esta petición?",
+    "respuesta": "Supera la validación del DTO; el caso de uso invoca al modelo, salta la excepción de negocio y el manejador de la API la traduce al error documentado en el contrato",
+    "conocimiento": "Un dato bien formado pero inválido para el negocio supera el DTO y lo rechaza el modelo con una excepción de negocio que el manejador traduce al error del contrato."
+  },
+  {
+    "id": "dws-03-b782b085",
+    "tema": "dws-03",
+    "enunciado": "Una petición puede rechazarse por incumplir el formato del contrato o por proponer un estado inválido para el negocio. ¿Qué diferencia hay entre ambos rechazos?",
+    "respuesta": "El formato se comprueba en el DTO de entrada con Jakarta Validation y produce un 400 con campo y motivo; la validez de negocio la protegen invariantes del dominio, cuya excepción se mapea al error del contrato.",
+    "conocimiento": "El formato del contrato se valida en el DTO con Jakarta Validation (400 con campo y motivo) y la validez de negocio con invariantes del dominio cuya excepción se mapea al error del contrato."
+  },
+  {
+    "id": "dws-04-991406eb",
+    "tema": "dws-04",
+    "enunciado": "En un monolito modular, un pedido puede cancelarse desde una petición HTTP de la persona dueña o desde el módulo de envíos, que actúa sin ser dueño del pedido. ¿Dónde deben ubicarse la comprobación de propiedad y las reglas de la cancelación?",
+    "respuesta": "La comprobación de propiedad en el caso de uso del flujo HTTP y las reglas e invariantes en el servicio, al que envíos llega por la API pública sin pasar por el caso de uso.",
+    "conocimiento": "Las políticas de acceso que dependen de quién inicia el flujo van en el caso de uso, y las reglas e invariantes en el servicio, al que otros módulos llegan por la API pública sin caso de uso."
+  },
+  {
+    "id": "dws-04-9c6b7be2",
+    "tema": "dws-04",
+    "enunciado": "¿Qué afirmación describe correctamente la relación entre ArchUnit y Spring Modulith para verificar los límites de un monolito modular?",
+    "respuesta": "Spring Modulith deriva el modelo modular de los paquetes y usa por debajo el análisis de ArchUnit, pero ArchUnit sigue siendo útil para reglas específicas dentro de un módulo, como Controller → UseCase → Service.",
+    "conocimiento": "Spring Modulith usa por debajo ArchUnit para verificar el modelo modular, pero no sustituye todas sus reglas; ArchUnit sigue siendo útil para reglas internas de un módulo."
+  },
+  {
+    "id": "dws-04-c1d3c56e",
+    "tema": "dws-04",
+    "enunciado": "En una aplicación con paquete base com.example.store, una clase de com.example.store.orders importa la clase pública CatalogService de com.example.store.catalog.internal.domain. El proyecto incluye en src/test/java un test que ejecuta ApplicationModules.of(Application.class).verify(). ¿Qué ocurre?",
+    "respuesta": "El código compila, pero el test falla al detectar un acceso a un paquete interno de otro módulo, analizando paquetes y dependencias sin arrancar el contexto de Spring",
+    "conocimiento": "Un acceso a un paquete internal de otro módulo compila, pero ApplicationModules.verify() lo detecta en un test sin arrancar el contexto de Spring."
+  },
+  {
+    "id": "dws-04-1c640d69",
+    "tema": "dws-04",
+    "enunciado": "En Spring Modulith, ¿qué función cumple la anotación @NamedInterface(\"dto\") en el package-info.java del paquete com.example.store.catalog.dto?",
+    "respuesta": "Exponer explícitamente el subpaquete catalog.dto como interfaz con nombre dto del módulo catalog, de modo que deje de ser interno.",
+    "conocimiento": "@NamedInterface en el package-info.java de un subpaquete lo expone explícitamente como interfaz con nombre del módulo."
+  },
+  {
+    "id": "dws-04-261ddcd1",
+    "tema": "dws-04",
+    "enunciado": "Al pasar de una organización por capas sin módulos a un monolito modular, la clase Order del módulo orders deja de tener un campo de tipo User y guarda userId: UUID. ¿Qué motivo y qué consecuencia tiene este cambio?",
+    "respuesta": "Evita que orders dependa del modelo interno de users, y si orders necesita más datos del usuario los consulta mediante la API pública del módulo propietario.",
+    "conocimiento": "En el monolito modular los modelos de otros módulos se relacionan mediante identificadores que no importan clases internas, y los datos adicionales se consultan por la API pública del módulo propietario."
+  }
+]

@@ -1,0 +1,317 @@
+[
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "Entre los principios de arquitectura limpia figuran la regla de dependencia y la inversión de dependencias (DIP). ¿Cuál es la definición correcta de la regla de dependencia?",
+    "opciones": {
+      "A": "El núcleo define las abstracciones que necesita y los detalles externos, como la persistencia, se encargan de implementarlas.",
+      "B": "El código depende hacia las políticas de negocio, no hacia los detalles, de modo que las dependencias apuntan hacia el dominio.",
+      "C": "Cada capa depende solo de la capa inmediatamente inferior, de forma que el dominio depende de la persistencia y esta de la base de datos.",
+      "D": "Las dependencias apuntan desde el dominio hacia los anillos exteriores, que son los que contienen los detalles técnicos."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La tabla de principios define la regla de dependencia como «el código depende hacia las políticas de negocio, no hacia los detalles»; en todos los diagramas del tema las flechas apuntan hacia el dominio o núcleo.",
+    "explicacionesDistractores": {
+      "A": "Es la definición de la inversión de dependencias (DIP), no de la regla de dependencia. La wiki las distingue: la regla dice hacia dónde apuntan las dependencias y la DIP es el mecanismo para conseguirlo.",
+      "C": "La wiki insiste en evitar que el dominio dependa de tecnologías: domain define la interfaz Repository y persistence la implementa, así que el dominio no depende de la persistencia.",
+      "D": "Invierte el sentido: en la arquitectura de cebolla y en general, las dependencias apuntan desde los anillos externos hacia el núcleo, no al revés."
+    },
+    "dificultad": "media",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "1. Principios de arquitectura limpia" },
+      { "archivo": "wiki/dws/tema-01-arquitecturas/conceptos.md", "seccion": "Regla de dependencia" }
+    ],
+    "conocimiento": "La regla de dependencia establece que el código depende hacia las políticas de negocio y no hacia los detalles, y se distingue de la DIP, que es el mecanismo por el que el núcleo define abstracciones que implementan los detalles.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "Sobre los estilos de despliegue y la comunicación entre módulos, ¿qué afirmación es INCORRECTA?",
+    "opciones": {
+      "A": "Un monolito no implica código desordenado y puede ser una opción adecuada para una aplicación pequeña, como un CRUD.",
+      "B": "Los eventos entre módulos de una aplicación no implican comunicación de red ni crean por sí solos una transacción independiente.",
+      "C": "En un monolito modular la base de datos puede ser compartida, siempre que cada módulo acceda solo a los datos de los que es propietario.",
+      "D": "Un monolito, al desplegarse como una única aplicación, no puede aplicar los principios de arquitectura limpia en su organización interna."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "Es falsa: la wiki advierte que no hay que confundir cómo se organiza el código con cómo se despliega y afirma expresamente que «un monolito puede aplicar principios de arquitectura limpia».",
+    "explicacionesDistractores": {
+      "A": "Es cierta: la wiki dice que un monolito no implica código desordenado y puede ser adecuado para una aplicación pequeña, como un CRUD.",
+      "B": "Es cierta: la wiki indica que los eventos entre módulos no implican comunicación de red ni crean por sí solos aislamiento o una transacción independiente.",
+      "C": "Es cierta: según el matiz del diagrama, en el monolito modular la base de datos puede ser compartida, pero cada módulo solo accede a los datos de los que es propietario."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.1 Monolito, monolito modular y microservicios" },
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.2 Tipos de comunicación" }
+    ],
+    "conocimiento": "Un monolito puede aplicar principios de arquitectura limpia porque organización interna y despliegue son criterios distintos; además, un monolito no implica desorden, los eventos entre módulos no implican red y el monolito modular puede compartir base de datos con datos propiedad de cada módulo.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "¿Qué establece el principio de arquitectura limpia denominado independencia de agentes externos?",
+    "opciones": {
+      "A": "Que el negocio no depende de servicios externos concretos, como un servicio de correo determinado.",
+      "B": "Que el framework es una herramienta y no el centro de la aplicación, de modo que las reglas no giran a su alrededor.",
+      "C": "Que la misma lógica de negocio puede exponerse mediante interfaces distintas sin modificarla.",
+      "D": "Que se puede cambiar la tecnología de persistencia sin tener que reescribir las reglas del negocio."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La tabla de principios define la independencia de agentes externos como «el negocio no depende de servicios externos concretos»; en la hexagonal se refleja con puertos como NotificationPort implementados por adaptadores como EmailAdapter.",
+    "explicacionesDistractores": {
+      "B": "Es el principio de independencia de frameworks, que la wiki pide no confundir con la independencia de agentes externos.",
+      "C": "Es el principio de independencia de la interfaz.",
+      "D": "Es el principio de independencia de la base de datos."
+    },
+    "dificultad": "facil",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "1. Principios de arquitectura limpia" }
+    ],
+    "conocimiento": "La independencia de agentes externos significa que el negocio no depende de servicios externos concretos, y se distingue de las independencias de frameworks, interfaz y base de datos.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "En el tema de API First se mencionan OpenAPI, Swagger y Swagger UI. ¿Qué es OpenAPI?",
+    "opciones": {
+      "A": "Un conjunto de herramientas para trabajar con contratos de APIs HTTP, entre las que se incluye un visor interactivo.",
+      "B": "Una herramienta que presenta el contrato de una API como documentación interactiva para poder explorarlo.",
+      "C": "Una especificación para describir APIs HTTP en YAML o JSON, con rutas, operaciones, parámetros, esquemas, respuestas y restricciones.",
+      "D": "Una biblioteca de Spring que genera la documentación de la API a partir de las anotaciones del código del controlador."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki define OpenAPI como una especificación para describir APIs HTTP en YAML o JSON que define rutas y operaciones, parámetros, esquemas de datos, respuestas y restricciones.",
+    "explicacionesDistractores": {
+      "A": "Describe Swagger, que la wiki define como un conjunto de herramientas para trabajar con OpenAPI; OpenAPI es la especificación.",
+      "B": "Describe Swagger UI, que presenta el contrato como documentación interactiva y ayuda a explorarlo.",
+      "D": "Describe springdoc-openapi, que en Spring genera un documento OpenAPI y Swagger UI a partir de las anotaciones del código."
+    },
+    "dificultad": "facil",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "2. OpenAPI y Swagger" }
+    ],
+    "conocimiento": "OpenAPI es una especificación para describir APIs HTTP en YAML o JSON, distinta de Swagger (herramientas), Swagger UI (documentación interactiva) y springdoc-openapi (generador desde código Spring).",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "Un proyecto usa orders-api.yaml como fuente de verdad y genera código con OpenAPI Generator. Sobre las clases generadas, ¿qué afirmación es INCORRECTA?",
+    "opciones": {
+      "A": "Suelen quedar en una carpeta como target/generated-sources/openapi, aunque la ruta concreta depende de la configuración.",
+      "B": "Si cambia el contrato, pueden ajustarse directamente a mano para reflejar el cambio sin necesidad de volver a generarlas.",
+      "C": "Puede que no aparezcan entre los archivos escritos a mano y haga falta ejecutar Maven y actualizar el proyecto en el IDE.",
+      "D": "Incluyen las interfaces de la API y las clases de modelo (DTO) definidas en el contrato, y los Controller implementan esas interfaces."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "Es falsa: la wiki indica que las clases generadas se pueden consultar, pero no se deben modificar directamente; si cambia el contrato, se vuelve a generar el código.",
+    "explicacionesDistractores": {
+      "A": "Es cierta: suelen quedar en una carpeta como target/generated-sources/openapi, aunque la ruta depende de la configuración.",
+      "C": "Es cierta: no siempre aparecen entre los archivos escritos a mano y puede ser necesario ejecutar Maven y actualizar el proyecto en el IDE.",
+      "D": "Es cierta: OpenAPI Generator genera las interfaces de la API y las clases de modelo (DTO), y el equipo implementa sus operaciones en los Controller."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "OpenAPI Generator y Maven" }
+    ],
+    "conocimiento": "Las clases generadas por OpenAPI Generator se pueden consultar pero no modificar directamente; si cambia el contrato se regeneran, suelen ubicarse en target/generated-sources/openapi según la configuración y quizá haya que actualizar el IDE para verlas.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "Al revisar la evolución de un contrato HTTP, ¿qué define con precisión un cambio incompatible?",
+    "opciones": {
+      "A": "Un cambio en el archivo OpenAPI que obliga a regenerar las interfaces y los DTO del servidor antes de compilar.",
+      "B": "Un cambio en los modelos internos del dominio, aunque los DTO HTTP que se exponen no se modifiquen.",
+      "C": "Un cambio que hace que el documento OpenAPI deje de superar la validación de su sintaxis.",
+      "D": "Un cambio que obliga a los consumidores a modificar sus solicitudes o la forma en que interpretan las respuestas."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki define como incompatible el cambio que obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas; por ejemplo, eliminar un campo, cambiar su tipo o alterar el significado de una respuesta.",
+    "explicacionesDistractores": {
+      "A": "La regeneración de código en el servidor es consecuencia de cualquier cambio del contrato; la incompatibilidad se define por el efecto sobre los consumidores, no sobre el servidor.",
+      "B": "Los DTO HTTP describen los datos públicos y se mapean a modelos internos; un cambio solo interno que no altera el contrato no obliga a los consumidores a cambiar nada.",
+      "C": "Validar la sintaxis OpenAPI es una de las comprobaciones posibles, pero un cambio incompatible puede ser sintácticamente válido; la definición se basa en el impacto sobre los consumidores."
+    },
+    "dificultad": "media",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "4. Cambios y comprobaciones" }
+    ],
+    "conocimiento": "Un cambio incompatible es el que obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "¿Cuál es la definición precisa de value object que da el tema de validación e invariancias?",
+    "opciones": {
+      "A": "Un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su propia construcción.",
+      "B": "Un tipo pequeño e inmutable, comparado por identidad, que valida sus datos con anotaciones de Jakarta Validation cuando un framework lo construye.",
+      "C": "Un tipo de la capa de presentación que describe el contrato de una operación y cuyos campos llevan anotadas las restricciones de formato.",
+      "D": "Un tipo pequeño y comparado por valor que puede crearse con datos inválidos y ofrece un método para validarlos antes de persistirlo."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki define el value object como un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su propia construcción: si los datos no son válidos, el objeto no existe.",
+    "explicacionesDistractores": {
+      "B": "Se compara por valor, no por identidad, y no usa Jakarta Validation: esas anotaciones solo actúan donde un framework valida y su dependencia está prohibida en el dominio.",
+      "C": "Describe el DTO de entrada, que la wiki pide no confundir con el value object.",
+      "D": "Contradice la idea central: el value object valida en su construcción y, si los datos no son válidos, el objeto no llega a existir."
+    },
+    "dificultad": "media",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "3. Invariancias con value objects" }
+    ],
+    "conocimiento": "Un value object es un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su construcción, de modo que no existe en estado inválido.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "Sobre la constraint personalizada @ValidIban y su clase validadora IbanFormatValidator, ¿qué afirmación es INCORRECTA?",
+    "opciones": {
+      "A": "La anotación solo declara el mensaje y dónde aplica, y delega la lógica en la clase validadora indicada en @Constraint.",
+      "B": "La clase validadora está separada de la anotación y se prueba directamente con valores que cumplen y que no cumplen.",
+      "C": "Como IbanFormatValidator rechaza los valores null, el campo IBAN del DTO no necesita @NotBlank para ser obligatorio.",
+      "D": "Ante un valor no nulo, isValid comprueba si cumple la expresión de ES seguido de veintidós dígitos."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "Es falsa: IbanFormatValidator devuelve true cuando value es null, porque la obligatoriedad corresponde a @NotBlank y no a esta constraint.",
+    "explicacionesDistractores": {
+      "A": "Es cierta: @ValidIban lleva @Constraint(validatedBy = IbanFormatValidator.class) y la wiki dice que la anotación solo declara el mensaje y dónde aplica.",
+      "B": "Es cierta: la validadora se separa de la anotación y la estrategia de pruebas indica probarla directamente con valores que cumplen y que no cumplen.",
+      "D": "Es cierta: si el valor no es null, isValid devuelve si cumple ^ES\\d{22}$, es decir, ES seguido de 22 dígitos."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.3 Constraints personalizadas" }
+    ],
+    "conocimiento": "La validadora de una constraint personalizada como IbanFormatValidator acepta null porque la obligatoriedad corresponde a @NotBlank; la anotación solo declara mensaje y ámbito.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "Según la estrategia de pruebas del tema, ¿qué deben verificar las pruebas del DTO de entrada?",
+    "opciones": {
+      "A": "La invariante del dato con pruebas unitarias sin framework ni mocks, incluyendo casos frontera con valores límite.",
+      "B": "Mediante pruebas de integración HTTP, que cada ruta errónea del contrato produce el rechazo, sin repetir los casos ya cubiertos por el value object.",
+      "C": "El formato completo del ProblemDetail en cada operación, para asegurar que todas devuelven el mismo documento de error.",
+      "D": "Todas las combinaciones posibles de campos inválidos, para comprobar que Spring aplica correctamente cada anotación declarada."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki indica que el DTO de entrada se prueba con pruebas de integración HTTP que verifican el rechazo, no la lógica de negocio, y que no deben repetir los casos ya cubiertos por el value object.",
+    "explicacionesDistractores": {
+      "A": "Así se prueban los value objects, las piezas más baratas de probar, no los DTO de entrada.",
+      "C": "El formato del manejador de errores se prueba una vez, en el manejador compartido, no en cada operación.",
+      "D": "La wiki excluye expresamente probar Spring y repetir el catálogo completo de combinaciones absurdas de campos."
+    },
+    "dificultad": "media",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "5. Pruebas" }
+    ],
+    "conocimiento": "Las pruebas del DTO de entrada son de integración HTTP y verifican el rechazo sin repetir los casos del value object; el handler se prueba una vez y no se prueba Spring.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "Por defecto, ¿qué paquetes detecta Spring Modulith como módulos de la aplicación?",
+    "opciones": {
+      "A": "Todos los paquetes que contienen un subpaquete llamado internal, sea cual sea su profundidad.",
+      "B": "Únicamente los paquetes cuyo package-info.java está anotado con @ApplicationModule.",
+      "C": "Cada paquete que contiene al menos una clase pública anotada como componente de Spring.",
+      "D": "Los paquetes hijos directos del paquete base de la aplicación, como com.example.store.catalog."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki indica que, por defecto, los paquetes hijos directos del paquete base se detectan como módulos: si la aplicación parte de com.example.store, catalog y orders son módulos.",
+    "explicacionesDistractores": {
+      "A": "La detección no depende de la existencia de un paquete internal; el criterio es ser hijo directo del paquete base.",
+      "B": "@ApplicationModule sirve para declarar las dependencias permitidas del módulo, no es requisito para detectarlo.",
+      "C": "La wiki no basa la detección en clases anotadas; Spring Modulith deriva el modelo modular de la estructura de paquetes."
+    },
+    "dificultad": "facil",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "Detección de módulos" }
+    ],
+    "conocimiento": "Spring Modulith detecta por defecto como módulos los paquetes hijos directos del paquete base de la aplicación.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "Sobre cómo se expone la API pública de un módulo y se declaran sus dependencias en Spring Modulith, ¿qué afirmación es INCORRECTA?",
+    "opciones": {
+      "A": "@ApplicationModule se declara en el package-info.java del subpaquete que se quiere exponer, y @NamedInterface en el paquete raíz del módulo consumidor.",
+      "B": "Si los DTO se colocan directamente en el paquete raíz del módulo, son públicos por defecto y no hace falta @NamedInterface para exponerlos.",
+      "C": "Aunque los DTO estén en el paquete raíz, package-info.java puede seguir usándose para declarar @ApplicationModule y sus dependencias permitidas.",
+      "D": "En allowedDependencies, la cadena catalog::dto designa la interfaz con nombre dto del módulo catalog."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "Es falsa porque intercambia las anotaciones: @NamedInterface va en el package-info.java del subpaquete que se expone (p. ej. catalog.dto) y @ApplicationModule en el del paquete raíz del módulo que declara sus dependencias permitidas (p. ej. orders).",
+    "explicacionesDistractores": {
+      "B": "Es cierta: la wiki aconseja que los DTO pueden ir en el paquete raíz del módulo, donde son públicos por defecto sin @NamedInterface ni package-info.java.",
+      "C": "Es cierta: la wiki aclara que, aun así, package-info.java puede utilizarse para declarar @ApplicationModule y sus dependencias permitidas.",
+      "D": "Es cierta: la sintaxis «catalog::dto» designa la interfaz con nombre dto del módulo catalog."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "Dependencias permitidas" },
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "API pública y subpaquetes internos" }
+    ],
+    "conocimiento": "@NamedInterface se coloca en el package-info.java del subpaquete expuesto y @ApplicationModule en el del paquete raíz del módulo; los DTO en el paquete raíz son públicos por defecto.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "En el módulo de catálogo, dos flujos iniciados por personas usuarias necesitan ejecutar la misma operación. Según el papel que la wiki asigna a los casos de uso, ¿cómo debe compartirse esa operación?",
+    "opciones": {
+      "A": "Haciendo que el caso de uso de uno de los flujos invoque al otro, para reutilizar también sus comprobaciones de autorización.",
+      "B": "Llamando desde ambos casos de uso a la API pública CatalogModule, que es la entrada reutilizable del módulo.",
+      "C": "Mediante el servicio, porque los casos de uso representan flujos de entrada y no operaciones reutilizables para otros flujos.",
+      "D": "Moviendo la operación al controlador, que la expone a ambos flujos sin pasar por la capa usecase."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki indica que los casos de uso representan flujos de entrada, no operaciones reutilizables; cuando varios flujos necesitan la misma operación, la comparten mediante el servicio.",
+    "explicacionesDistractores": {
+      "A": "La wiki lo desaconseja: si un caso de uso llamara a otro, acoplaría ambos flujos y podría arrastrar las decisiones de acceso propias del caso invocado.",
+      "B": "CatalogModule es la entrada para otros módulos (CatalogModule → CatalogModuleImpl → CatalogService) y ArchUnit puede comprobar que no dependa de los casos de uso; no es el punto de reutilización entre casos de uso del propio módulo.",
+      "D": "Colocar lógica de flujo en el controlador la mezcla con HTTP y obliga a repetirla en otras entradas; el flujo HTTP es Controller → UseCase → Service."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "3. Separar los flujos de entrada con casos de uso" }
+    ],
+    "conocimiento": "Los casos de uso son flujos de entrada y no deben invocarse entre sí; cuando varios flujos necesitan la misma operación, la comparten mediante el servicio.",
+    "autor": "gen-dws-3",
+    "fechaCreacion": "2026-11-17"
+  }
+]

@@ -1,0 +1,319 @@
+[
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Una aplicación de consola tiene todo su código en una única clase. Ahora se quiere ofrecer el mismo cálculo de precios a través de una API Web, pero no es posible aprovechar ese código porque el cálculo está entrelazado con la lectura de teclado y la impresión por pantalla. ¿Qué problema del código sin estructurar, según la wiki, describe exactamente esta situación?",
+    "opciones": {
+      "A": "Alta rigidez: cambiar el soporte de almacenamiento obliga a modificar y reescribir la lógica de negocio y la interfaz.",
+      "B": "Dificultad para trabajar en equipo: varios desarrolladores tocan la misma clase y generan constantes conflictos de código.",
+      "C": "Falta de reusabilidad: la lógica de negocio está mezclada con la entrada/salida de datos y no puede reutilizarse en otro entorno.",
+      "D": "Imposibilidad de pruebas unitarias: el cálculo no puede probarse sin ejecutar a la vez el acceso a datos o la interacción con el usuario."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki define la falta de reusabilidad como el problema de que la lógica de negocio esté mezclada con la entrada/salida de datos, lo que impide reutilizarla en otros entornos, y pone justo el ejemplo de pasar de una aplicación de consola a una API Web.",
+    "explicacionesDistractores": {
+      "A": "La alta rigidez se refiere a que cambiar una parte del sistema, como pasar de un fichero de texto a una base de datos SQL, obliga a reescribir la lógica y la interfaz; el caso planteado no es un cambio de almacenamiento sino reutilizar la lógica en otro entorno.",
+      "B": "La dificultad para trabajar en equipo trata de los merge conflicts que surgen cuando varios desarrolladores tocan la misma clase; en el caso no interviene el trabajo simultáneo de varias personas.",
+      "D": "La imposibilidad de pruebas unitarias se refiere a no poder probar el cálculo de forma aislada; el obstáculo descrito es reutilizar la lógica en una API Web, que la wiki asocia a la falta de reusabilidad."
+    },
+    "dificultad": "media",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Problemas del código sin estructurar" }
+    ],
+    "conocimiento": "El código espagueti presenta falta de reusabilidad porque la lógica de negocio mezclada con la entrada/salida impide reutilizarla en otro entorno, como pasar de consola a API Web, a diferencia de la rigidez, los conflictos de equipo o la falta de pruebas.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Un equipo va a reorganizar la estructura interna de la entidad de dominio Book y de la base de datos, pero los clientes de la API deben seguir recibiendo exactamente el mismo JSON. Frente a exponer directamente la entidad, ¿qué característica de los DTO descrita en la wiki es la que permite hacerlo?",
+    "opciones": {
+      "A": "El desacoplamiento: la estructura interna del dominio o de la base de datos puede modificarse sin romper la interfaz externa de la aplicación.",
+      "B": "La seguridad y privacidad: el DTO oculta al usuario datos sensibles o internos, como claves internas, contraseñas o borrados lógicos.",
+      "C": "La especialización Request/Response: el Request DTO transporta solo los campos requeridos para la acción, como crear un libro sin ID.",
+      "D": "La inmutabilidad de los Java Records: como sus componentes son private final, la estructura del DTO no se ve alterada por los cambios del dominio."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "Entre las características de los DTO, la wiki enumera el desacoplamiento: permite modificar la estructura interna del dominio o de la base de datos sin romper la interfaz externa de la aplicación, que es justo lo que necesita el equipo.",
+    "explicacionesDistractores": {
+      "B": "La seguridad y privacidad consiste en ocultar datos sensibles o internos que el usuario no necesita ver; no es la característica que garantiza que la interfaz externa se mantenga cuando cambia la estructura interna.",
+      "C": "La especialización distingue el DTO de entrada del de salida según los campos que necesita cada operación; no trata de aislar la interfaz externa de los cambios internos.",
+      "D": "La inmutabilidad de los records significa que, una vez instanciado, sus valores no pueden modificarse; se refiere a los datos de cada instancia durante el transporte, no a proteger la interfaz frente a cambios de estructura del dominio."
+    },
+    "dificultad": "media",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "3. DTOs (Data Transfer Objects) y Java Records" }
+    ],
+    "conocimiento": "El desacoplamiento que aportan los DTO permite cambiar la estructura interna del dominio o de la base de datos sin romper la interfaz externa, a diferencia de la privacidad, la especialización o la inmutabilidad.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "En el ejemplo de libros del tema aparecen tres clases que representan un libro: Book, BookEntity y BookResponse. Según el diagrama de componentes y el mapper descritos en la wiki, ¿qué afirmación diferencia correctamente su papel?",
+    "opciones": {
+      "A": "BookEntity es la entidad de dominio que utiliza BookServiceImpl, mientras que Book es la clase con la que BookDaoImpl lee y escribe en la base de datos o fichero.",
+      "B": "Book y BookResponse son records con accesores sin prefijo get, mientras que BookEntity es la única de las tres que es una clase convencional con getters.",
+      "C": "BookController devuelve directamente la entidad Book al exterior y emplea BookResponse únicamente como DTO de entrada para recibir los datos.",
+      "D": "Book es la entidad de dominio que utiliza BookServiceImpl; BookEntity pertenece a la persistencia y la utiliza BookDaoImpl; BookResponse es un DTO de salida que utiliza BookController."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "El diagrama sitúa la entidad Book en la capa de dominio, utilizada por BookServiceImpl; BookEntity en la capa de persistencia, utilizada por BookDaoImpl; y BookResponse en la capa de presentación como DTO de salida que utiliza BookController. El mapper toResponse convierte Book en BookResponse.",
+    "explicacionesDistractores": {
+      "A": "Invierte los papeles: según el diagrama, BookServiceImpl utiliza la entidad de dominio Book y es BookDaoImpl quien utiliza BookEntity y lee/escribe en la base de datos o fichero.",
+      "B": "La wiki indica que la entidad Book es una clase convencional con getters (getIsbn()), mientras que los DTO, como BookResponse, son records con accesores como isbn().",
+      "C": "La wiki desaconseja exponer directamente las entidades del dominio; BookResponse es el DTO de salida (con el precio final calculado), no de entrada. El de entrada es el Request DTO."
+    },
+    "dificultad": "dificil",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Diagrama de componentes del ejemplo (libros)" },
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Conversión entre objetos: Mapeadores (Mappers)" }
+    ],
+    "conocimiento": "Book es la entidad de dominio (clase convencional con getters) usada por el servicio, BookEntity es la clase de persistencia usada por el DAO y BookResponse es el DTO de salida (record) usado por el controlador.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Un equipo necesita dos endpoints de lectura: uno para obtener los autores del libro con ID 12 y otro para listar los libros de la categoría fiction. Siguiendo las buenas prácticas de diseño de endpoints de la wiki, ¿qué pareja de peticiones es la adecuada?",
+    "opciones": {
+      "A": "GET /books/12/authors para los autores y GET /books/category/fiction para el filtrado, anidando también la categoría en la ruta.",
+      "B": "GET /books/12/authors para los autores y GET /books?category=fiction para el filtrado por categoría mediante un Query Parameter.",
+      "C": "GET /getAuthors/12 para los autores y GET /books?category=fiction para el filtrado, indicando en la ruta la acción que se realiza.",
+      "D": "POST /books/12/authors para los autores y POST /books con la categoría en el cuerpo, para no exponer el criterio en la URL."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki recomienda anidar recursos para expresar relaciones jerárquicas (GET /books/12/authors obtiene los autores del libro 12) y filtrar y paginar mediante Query Parameters (GET /books?category=fiction&page=1).",
+    "explicacionesDistractores": {
+      "A": "La anidación se reserva para relaciones jerárquicas; para filtrar, la buena práctica de la wiki es usar Query Parameters, no segmentos de la ruta.",
+      "C": "La wiki exige sustantivos en plural y nunca verbos en la URL, porque la acción la determina el método HTTP; /getAuthors es un ejemplo de lo incorrecto.",
+      "D": "Son lecturas, que corresponden a GET, con los datos en la URL; POST es el método de creación y envía los datos en el cuerpo."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Buenas prácticas en el diseño de Endpoints" }
+    ],
+    "conocimiento": "Las relaciones jerárquicas se expresan anidando recursos en la ruta (/books/12/authors), mientras que el filtrado y la paginación se hacen con Query Parameters (/books?category=fiction).",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Una API responde a GET /books con un array de dos libros entre corchetes y recibe en POST /books un único libro entre llaves con isbn, title y basePrice. Según la wiki, ¿qué diferencia correctamente cómo se corresponde cada estructura JSON en el servidor?",
+    "opciones": {
+      "A": "El objeto entre llaves se corresponde con un List de pares clave-valor, y la colección entre corchetes con un único DTO que agrupa todos los libros.",
+      "B": "Ambas se corresponden con DTOs, pero el parser solo actúa al recibir datos; para enviar el array, el controlador debe construir el texto JSON a mano.",
+      "C": "El parser convierte el objeto entre llaves directamente en la entidad de dominio, y la colección entre corchetes en una lista de entidades de dominio.",
+      "D": "La colección entre corchetes se corresponde con un List de DTOs y el objeto entre llaves con un único DTO; el parser hace ambas conversiones automáticamente."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki indica que un objeto JSON ({ }) se corresponde con un DTO y una colección JSON ([ ]) con un List de DTOs, y que el parser convierte automáticamente el texto JSON en Java Records (DTOs) y al revés cuando el controlador recibe o envía datos.",
+    "explicacionesDistractores": {
+      "A": "Invierte la correspondencia: el objeto entre llaves mapea con un DTO y la colección entre corchetes con un List.",
+      "B": "El parser convierte en ambos sentidos (JSON a DTO y DTO a JSON), tanto al recibir como al enviar datos; no hay que construir el JSON a mano.",
+      "C": "El parser convierte el JSON en clases Java Record que actúan como DTO, no en entidades de dominio; la conversión entre DTO y dominio es tarea de otra pieza."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "4. Formato de Intercambio: JSON" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Colección JSON (Mapea con un List)" }
+    ],
+    "conocimiento": "Un objeto JSON entre llaves se corresponde con un DTO y una colección JSON entre corchetes con un List de DTOs, y el parser convierte automáticamente en ambos sentidos.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Un equipo propone dos endpoints: para crear un libro, POST /createBook?isbn=…&title=…&basePrice=…; para borrarlo, DELETE /books enviando {\"id\": 12} en el cuerpo de la petición. Según la wiki, ¿qué valoración es correcta?",
+    "opciones": {
+      "A": "Ambos incumplen la wiki: la creación debe ser POST /books con los datos en el cuerpo, y el borrado debe identificar el recurso con un Path Param, como DELETE /books/12.",
+      "B": "Solo el primero incumple, por el verbo en la URL; DELETE, igual que POST, PUT y PATCH, transmite sus datos en el cuerpo de la petición.",
+      "C": "Solo el segundo incumple; POST /createBook es aceptable porque la acción queda clara en el método y en la URL, y POST admite los datos en Query Params.",
+      "D": "Ambos incumplen solo por el nombre del endpoint; con sustantivos en plural, POST podría enviar sus datos en Query Params y DELETE en el cuerpo."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki exige sustantivos en plural y no verbos (POST /createBook aparece como incorrecto), indica que POST lleva los datos en el cuerpo y que DELETE los lleva en la URL mediante un Path Param. Ambos diseños incumplen esas reglas.",
+    "explicacionesDistractores": {
+      "B": "Según la tabla de métodos, DELETE lleva los datos en la URL (Path Param); solo POST, PUT y PATCH los envían en el cuerpo.",
+      "C": "POST /createBook es justo el ejemplo incorrecto de la wiki, porque la acción la determina el método HTTP y no la URL; además, POST envía los datos en el cuerpo.",
+      "D": "No es solo cuestión de nombres: la wiki establece dónde viajan los datos de cada método, cuerpo para POST y Path Param en la URL para DELETE."
+    },
+    "dificultad": "dificil",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Buenas prácticas en el diseño de Endpoints" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Matices que conviene retener" }
+    ],
+    "conocimiento": "Un endpoint de creación debe ser un sustantivo en plural con POST y datos en el cuerpo, y un borrado debe identificar el recurso con un Path Param en la URL; usar verbos o mover los datos de sitio incumple las buenas prácticas.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Según la wiki, ¿qué diferencia el despliegue de una aplicación web Java tradicional del de una aplicación creada con Spring Boot?",
+    "opciones": {
+      "A": "La tradicional integra un Tomcat embebido en un .jar, mientras que Spring Boot genera un .war que se despliega manualmente en un servidor externo.",
+      "B": "La tradicional se compila en un .war que se despliega manualmente en un servidor externo como Apache Tomcat; Spring Boot integra un Tomcat embebido en el propio .jar ejecutable.",
+      "C": "Ambas se despliegan en un Apache Tomcat externo, pero Spring Boot elimina los archivos de despliegue complejos al generar el .war con Spring Initializr.",
+      "D": "Spring Boot prescinde de Tomcat y utiliza el DispatcherServlet como servidor web propio, por eso se empaqueta como .jar en lugar de .war."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki explica que antes había que configurar archivos de despliegue complejos, compilar un .war y desplegarlo manualmente en un servidor externo como Apache Tomcat, mientras que Spring Boot integra un Tomcat embebido dentro del propio ejecutable .jar.",
+    "explicacionesDistractores": {
+      "A": "Invierte los papeles: el .war y el servidor externo corresponden al desarrollo tradicional; el Tomcat embebido en el .jar es lo que aporta Spring Boot.",
+      "C": "Con Spring Boot el servidor no es externo sino embebido, y el empaquetado elegido en Spring Initializr es Jar, no .war.",
+      "D": "Spring Boot no prescinde de Tomcat, lo embebe; el DispatcherServlet es el Front Controller que enruta las peticiones, no un servidor web."
+    },
+    "dificultad": "facil",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "1. Introducción a Spring Boot" }
+    ],
+    "conocimiento": "El desarrollo web Java tradicional compila un .war desplegado manualmente en un Tomcat externo, mientras que Spring Boot integra un Tomcat embebido en el .jar ejecutable.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Un proyecto Spring Boot registra eventos con loggers de SLF4J en todas sus clases y el equipo decide sustituir Logback por Log4j2. Según la wiki, ¿qué implica ese cambio y qué lo hace posible?",
+    "opciones": {
+      "A": "Hay que cambiar la declaración del logger en cada clase para usar la API de Log4j2, porque la fachada SLF4J va ligada a Logback.",
+      "B": "No implica ningún cambio, porque Log4j2 ya es la implementación que Spring Boot incluye por defecto detrás de SLF4J.",
+      "C": "Se cambia por configuración sin retocar ninguna clase, porque el código solo conoce la fachada SLF4J, igual que al programar contra interfaces.",
+      "D": "Se cambia por configuración, porque SLF4J es la implementación que decide formato y destino, y Logback solo es la API con la que escribe el código."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki separa la fachada (SLF4J, la API con la que el código emite eventos) de la implementación (Logback por defecto, Log4j2 como alternativa). El código solo conoce la fachada y la implementación se cambia por configuración sin retocar ninguna clase, el mismo principio que programar contra interfaces.",
+    "explicacionesDistractores": {
+      "A": "El código solo conoce la fachada SLF4J, que no está ligada a una implementación concreta; por eso no hay que modificar la declaración del logger en las clases.",
+      "B": "La implementación por defecto en Spring Boot es Logback; Log4j2 es la alternativa, sustituible por configuración.",
+      "D": "Invierte los papeles: SLF4J es la fachada (la API del código) y Logback es la implementación que decide el formato y el destino."
+    },
+    "dificultad": "media",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Fachada e implementación" }
+    ],
+    "conocimiento": "Separar la fachada SLF4J de la implementación permite sustituir Logback (por defecto en Spring Boot) por Log4j2 mediante configuración, sin modificar el código, igual que al programar contra interfaces.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Con el GlobalExceptionHandler del tema, que tiene manejadores para BookNotFoundException, IllegalArgumentException y Exception, una petición provoca una BookNotFoundException y otra un error técnico no previsto (por ejemplo, un fallo en el SQL). ¿Qué diferencia correctamente el tratamiento de ambos casos?",
+    "opciones": {
+      "A": "La primera la atiende su propio manejador y devuelve 404 con el mensaje de la excepción; la segunda la atiende el de Exception, que devuelve 500 con un mensaje genérico y registra la traza con nivel ERROR.",
+      "B": "Ambas las atiende el manejador de Exception, por ser el más general de la jerarquía de clases, que devuelve 500 acompañado del mensaje de cada excepción.",
+      "C": "La primera devuelve 404 con un mensaje genérico, y la segunda 500 con la traza y los detalles del SQL, para que el cliente pueda diagnosticar el fallo.",
+      "D": "La primera se traduce a 404, pero la segunda, al no tener un manejador específico para su tipo, termina en la Whitelabel Error Page con estado 500."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "Spring invoca el manejador más específico: BookNotFoundException activa handleNotFound (404 con el mensaje de negocio, pensado para el cliente). Un error técnico no previsto llega a handleUnexpected (@ExceptionHandler(Exception.class)), que devuelve 500 con «Error interno del servidor» y registra la traza con log.error, de modo que el detalle queda en el log del servidor.",
+    "explicacionesDistractores": {
+      "B": "La wiki indica que Spring invoca siempre el manejador más específico disponible: una BookNotFoundException activa su propio manejador y no el genérico de Exception. Además, el de Exception devuelve un mensaje genérico.",
+      "C": "Es al revés: el mensaje de negocio («No existe el libro con id 99») sí se devuelve al cliente, y la información técnica (trazas, SQL, clases) nunca debe llegarle; queda en el log.",
+      "D": "La Whitelabel Error Page aparece cuando no hay manejador; aquí el @ExceptionHandler(Exception.class) actúa como captura final de cualquier error no previsto."
+    },
+    "dificultad": "dificil",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Ejemplo práctico: GlobalExceptionHandler" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Registrar eventos en el código" }
+    ],
+    "conocimiento": "En el manejador global, una excepción de negocio activa su manejador específico y devuelve su mensaje con el estado adecuado, mientras que un error técnico cae en el manejador de Exception, que devuelve 500 genérico y registra la traza con nivel ERROR.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Un usuario que inició sesión correctamente envía un token de acceso válido para invocar una operación de administración, pero su rol no la permite. Según la wiki, ¿cómo se interpreta esta situación?",
+    "opciones": {
+      "A": "Falla la autenticación, porque un token que no da acceso a la operación solicitada no permite identificar a quien realiza la petición.",
+      "B": "La operación se permite, porque el login ya autenticó al usuario y, con ello, quedó autorizado para todas las operaciones de la sesión.",
+      "C": "Falla la autorización del login, que es el único momento en que el servidor comprueba las credenciales y los permisos del usuario.",
+      "D": "La petición está autenticada, porque el servidor valida el token y recupera la identidad, pero no autorizada, porque su rol no permite la operación."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La autenticación responde a quién hace la petición (en las peticiones posteriores, validando el token) y la autorización a qué puede hacer esa identidad, evaluada para la operación solicitada. La wiki subraya que una petición puede estar autenticada y aun así no tener permiso.",
+    "explicacionesDistractores": {
+      "A": "El token es válido y el servidor recupera la identidad, así que la autenticación tiene éxito; lo que falla es el permiso, que es cuestión de autorización.",
+      "B": "Autenticar no implica autorizar: la autorización se evalúa para cada operación solicitada, comprobando los permisos que requiere.",
+      "C": "La autorización no se resuelve en el login; en cada petición protegida el servidor valida el token, recupera la identidad y comprueba los permisos de esa operación."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "1. Autenticación y autorización" }
+    ],
+    "conocimiento": "Una petición con token válido está autenticada aunque su rol no permita la operación: la autorización se evalúa para cada operación y autenticar no implica autorizar.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "En la aplicación Spring Boot del tema, AccessTokenFilter extiende OncePerRequestFilter. Según la wiki, ¿qué distingue correctamente lo que pertenece al modelo Servlet de lo que aporta esa clase base?",
+    "opciones": {
+      "A": "El filtro y su cadena son un mecanismo propio de Spring, y OncePerRequestFilter es la clase que crea esa cadena dentro de la aplicación.",
+      "B": "La idea del filtro y su posición en la cadena que procesa cada petición pertenecen al modelo Servlet; la clase base gestiona su integración con Spring.",
+      "C": "OncePerRequestFilter forma parte del modelo Servlet y define la cadena; la integración con Spring se limita a extraer el token Bearer.",
+      "D": "El modelo Servlet solo aporta los objetos de petición y respuesta; la posición del filtro en la cadena la decide Spring al extender la clase base."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki indica que, en Spring Boot, el filtro Servlet puede implementarse extendiendo OncePerRequestFilter, cuya clase base gestiona su integración con Spring, mientras que la idea del filtro y su posición en la cadena pertenecen al modelo Servlet, no a Spring.",
+    "explicacionesDistractores": {
+      "A": "La wiki atribuye la idea del filtro y su posición en la cadena al modelo Servlet, no a Spring; OncePerRequestFilter solo es la clase base que integra el filtro con Spring.",
+      "C": "OncePerRequestFilter es la clase base que gestiona la integración con Spring; la extracción del token Bearer es lógica propia de AccessTokenFilter (extractBearerToken), no la integración.",
+      "D": "La posición del filtro en la cadena pertenece al modelo Servlet; no la decide Spring por el hecho de extender la clase base."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "7. Filtro Servlet y SecurityContext propio" }
+    ],
+    "conocimiento": "La idea del filtro y su posición en la cadena pertenecen al modelo Servlet, mientras que OncePerRequestFilter es la clase base que gestiona la integración del filtro con Spring.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Al renovar la sesión con un refresh token R1, el servidor del tema rota el par completo y devuelve A2 + R2. Según la wiki, ¿qué valoración de esta rotación, con sus beneficios y sus exigencias, es correcta?",
+    "opciones": {
+      "A": "Impide que un refresh token robado llegue a utilizarse, de modo que ya no es necesario que el cliente coordine sus renovaciones ni evite peticiones simultáneas.",
+      "B": "Mantiene R1 válido junto a R2 dentro de la misma sesión, de modo que el cliente puede lanzar varias renovaciones en paralelo con el mismo refresh token.",
+      "C": "Crea credenciales nuevas de la misma sesión y permite detectar un refresh token ya consumido, pero exige que consumir R1 y crear el par sea atómico y que el cliente evite renovaciones simultáneas.",
+      "D": "Crea en cada renovación una sesión nueva e independiente, de modo que, si se detecta un reuso, solo se revoca el par más reciente y se conservan los anteriores."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki explica que se renueva el par completo para crear credenciales nuevas asociadas a la misma sesión y que rotar el refresh token permite detectar si se presenta uno ya consumido. A cambio, el consumo de R1 y la creación del nuevo par deben ser atómicos, y el cliente debe coordinar la renovación y evitar solicitudes simultáneas con el mismo refresh token.",
+    "explicacionesDistractores": {
+      "A": "La rotación no impide el robo de una credencial; solo permite detectar la reutilización. Además, la wiki exige expresamente que el cliente coordine la renovación.",
+      "B": "Tras la renovación R1 queda inválido; precisamente por eso el cliente debe evitar solicitudes simultáneas con el mismo refresh token.",
+      "D": "A2 y R2 pertenecen a la misma sesión que R1; ante un reuso se revoca toda la familia, incluido el par más reciente."
+    },
+    "dificultad": "dificil",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "4. Renovación y rotación" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Atomicidad y coordinación" }
+    ],
+    "conocimiento": "La rotación del par exige que el consumo del refresh token y la creación del nuevo par sean atómicos y que el cliente coordine la renovación evitando solicitudes simultáneas con el mismo refresh token, porque R1 queda inválido tras usarse.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17"
+  }
+]

@@ -1,0 +1,317 @@
+[
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Según la wiki, ¿qué describe con precisión a la capa de dominio o negocio (paquete domain) en la arquitectura por capas?",
+    "opciones": {
+      "A": "Recibe los datos del usuario, los valida formalmente y devuelve el resultado formateado, sin acceder a datos ni contener lógica de negocio.",
+      "B": "Se comunica con el soporte físico (base de datos, ficheros JSON/CSV, APIs externas) y convierte esa información en objetos manejables.",
+      "C": "Contiene las entidades del modelo y aplica las reglas de negocio, siendo totalmente independiente de cómo se muestran los datos o dónde se almacenan.",
+      "D": "Contiene las entidades del modelo y aplica las reglas de negocio, pero depende de la implementación concreta de persistencia para cargarlas."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La tabla de capas define la capa de dominio como el corazón de la aplicación: contiene las entidades del modelo, aplica las reglas de negocio (cálculos, validaciones complejas, permisos) y es totalmente independiente de cómo se muestran los datos o dónde se almacenan.",
+    "explicacionesDistractores": {
+      "A": "Es la descripción de la capa de presentación (controller), que solo hace validación formal y no contiene lógica de negocio ni accede a datos.",
+      "B": "Es la descripción de la capa de persistencia o acceso a datos (persistence).",
+      "D": "La wiki afirma que el dominio es totalmente independiente de dónde se almacenan los datos; además, cada capa depende de interfaces, no de implementaciones concretas."
+    },
+    "dificultad": "media",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Principales Capas del Sistema" }
+    ],
+    "conocimiento": "La capa de dominio contiene las entidades y las reglas de negocio (cálculos, validaciones complejas, permisos) y es totalmente independiente de la presentación y del almacenamiento.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Sobre las reglas de comunicación entre capas y el diagrama de componentes del ejemplo de libros, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+    "opciones": {
+      "A": "BookController consume directamente la implementación BookServiceImpl, ya que la capa de presentación debe conocer la clase concreta del dominio.",
+      "B": "Una capa inferior nunca debe conocer ni llamar a las capas superiores, de modo que las llamadas siempre van hacia abajo.",
+      "C": "BookServiceImpl consume BookRepository, accediendo a la capa de persistencia de nuevo a través de una interfaz.",
+      "D": "En el diagrama, BookDaoImpl es el único componente que lee y escribe en la base de datos o fichero."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "Es falsa: en el diagrama BookController consume BookService, la interfaz del dominio, y no su implementación. Cada capa depende de la interfaz de la capa inmediatamente inferior.",
+    "explicacionesDistractores": {
+      "B": "Es correcta: la regla de aislamiento dice que una capa inferior nunca debe conocer ni llamar a las superiores, y el flujo unidireccional que las llamadas van hacia abajo (Controller → Service → Repository).",
+      "C": "Es correcta: la relación 5 del diagrama indica que BookServiceImpl consume BookRepository, de nuevo a través de una interfaz.",
+      "D": "Es correcta: la wiki indica que solo el DAO toca el soporte físico; BookDaoImpl lee y escribe en la Base de Datos / Fichero."
+    },
+    "dificultad": "media",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Reglas de Comunicación entre Capas" },
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Diagrama de componentes del ejemplo (libros)" }
+    ],
+    "conocimiento": "En el diagrama de libros el controlador consume la interfaz BookService (no BookServiceImpl), cada capa depende de la interfaz de la inferior y solo el DAO toca el soporte físico.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Sobre el mapeador BookMapper descrito en la wiki, ¿qué afirmación es correcta?",
+    "opciones": {
+      "A": "toDomain obtiene los datos del BookCreateRequest con getters convencionales como dto.getIsbn(), igual que hace toResponse con la entidad.",
+      "B": "Ambos métodos lanzan una excepción si reciben null, para evitar que un objeto vacío cruce la frontera entre capas.",
+      "C": "Su responsabilidad surge en la frontera entre dominio y persistencia, donde convierte la entidad Book en BookEntity y viceversa.",
+      "D": "toResponse construye el BookResponse llamando a getFinalPrice() de la entidad Book, que es donde se aplica la regla o cálculo del dominio."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki indica que toResponse crea un BookResponse con los getters de la entidad (domain.getIsbn(), el título y domain.getFinalPrice()) y que la llamada a getFinalPrice() es donde se aplica la regla o cálculo del dominio.",
+    "explicacionesDistractores": {
+      "A": "toDomain usa los accesores propios del record, sin prefijo get (dto.isbn(), dto.basePrice()); solo la entidad Book, que es una clase convencional, tiene getters como getIsbn().",
+      "B": "Ambos métodos devuelven null si reciben null (if (dto == null) return null;); no lanzan ninguna excepción.",
+      "C": "El mapper convierte entre DTO y entidad de dominio al cruzar la frontera entre la capa de presentación y la de dominio, no entre dominio y persistencia."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Conversión entre objetos: Mapeadores (Mappers)" }
+    ],
+    "conocimiento": "BookMapper actúa en la frontera presentación-dominio: toDomain usa accesores de record, toResponse usa getFinalPrice() donde se aplica la regla del dominio, y ambos devuelven null si reciben null.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Según el tema, ¿qué es REST (REpresentational State Transfer)?",
+    "opciones": {
+      "A": "El protocolo de comunicación cliente-servidor sobre el que se intercambian peticiones y respuestas en la web.",
+      "B": "Un estilo de arquitectura para diseñar servicios web centrados en recursos.",
+      "C": "El formato estándar, ligero y legible, para enviar y recibir información entre cliente y servidor.",
+      "D": "Una URL concreta que expone el servidor y a la que el cliente envía peticiones para interactuar con un recurso."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki define REST como un estilo de arquitectura para diseñar servicios web centrados en recursos, que funciona sobre HTTP/HTTPS.",
+    "explicacionesDistractores": {
+      "A": "Describe HTTP, que es el protocolo; la wiki advierte que no se debe confundir con REST, que es un estilo de arquitectura que se apoya en él.",
+      "C": "Describe JSON, el formato estándar de intercambio en las APIs REST.",
+      "D": "Describe un endpoint, no el estilo de arquitectura REST."
+    },
+    "dificultad": "facil",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "2. Servicios REST y Diseño de Endpoints" }
+    ],
+    "conocimiento": "REST es un estilo de arquitectura para diseñar servicios web centrados en recursos, distinto del protocolo HTTP, del formato JSON y de un endpoint.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Sobre las buenas prácticas de diseño de endpoints que recoge la wiki, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+    "opciones": {
+      "A": "POST /createBook es un endpoint mal diseñado, porque la acción debe determinarla el método HTTP y no la URL.",
+      "B": "GET /books/12/authors expresa una relación jerárquica: obtiene los autores del libro con ID 12.",
+      "C": "Los endpoints deben nombrarse con sustantivos en plural, como en GET /books, y nunca con verbos.",
+      "D": "Para filtrar libros por categoría lo adecuado es incluir el filtro como un segmento de la ruta, como GET /books/fiction, y reservar los Query Parameters para identificar el recurso."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "Es falsa: la buena práctica es filtrar y paginar mediante Query Parameters (GET /books?category=fiction&page=1); la ruta es la que identifica el recurso y el anidamiento se usa para relaciones jerárquicas, no para filtrar.",
+    "explicacionesDistractores": {
+      "A": "Es correcta: la wiki pone POST /createBook como ejemplo incorrecto, porque la acción la determina el método HTTP, no la URL.",
+      "B": "Es correcta: anidar recursos expresa relaciones jerárquicas, y GET /books/12/authors obtiene los autores del libro con ID 12.",
+      "C": "Es correcta: la primera buena práctica es usar sustantivos en plural, nunca verbos (correcto: GET /books)."
+    },
+    "dificultad": "media",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Buenas prácticas en el diseño de Endpoints" }
+    ],
+    "conocimiento": "Buenas prácticas de endpoints: sustantivos en plural sin verbos, anidar recursos para relaciones jerárquicas y filtrar/paginar con Query Parameters, no con segmentos de ruta.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Según la wiki, ¿cuál de las siguientes afirmaciones sobre los códigos de estado HTTP es correcta?",
+    "opciones": {
+      "A": "Los códigos 3xx indican que el cliente debe realizar una acción adicional para completar la petición, como ocurre con 301 Moved Permanently.",
+      "B": "El código 204 No Content indica que la petición ha fallado, pero el servidor no devuelve en el cuerpo el detalle del error.",
+      "C": "El código 200 OK es el que se usa habitualmente cuando un POST crea con éxito un nuevo recurso.",
+      "D": "El código 500 Internal Server Error indica que los datos enviados por el cliente son incorrectos sintáctica o semánticamente."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La familia 3xx (Redirección) indica que el cliente debe hacer una acción adicional para completar la petición; la wiki pone como ejemplo 301 Moved Permanently.",
+    "explicacionesDistractores": {
+      "B": "204 No Content es un código de éxito (2xx): la petición es correcta, pero la respuesta no devuelve cuerpo. Es común en DELETE.",
+      "C": "Para la creación con POST se usa 201 Created; 200 OK es el habitual en GET, PUT y PATCH.",
+      "D": "Los datos incorrectos sintáctica o semánticamente corresponden a 400 Bad Request; 500 indica una excepción o fallo no controlado dentro del código del servidor."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "5. Códigos de Estado HTTP" }
+    ],
+    "conocimiento": "Significado preciso de las familias y códigos HTTP: 3xx exige una acción adicional del cliente (301), 204 es éxito sin cuerpo, POST usa 201 y 500 es un fallo no controlado del servidor.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Un GlobalExceptionHandler anotado con @RestControllerAdvice tiene métodos @ExceptionHandler para BookNotFoundException, IllegalArgumentException y Exception, como en el ejemplo de la wiki. ¿Qué afirmación es correcta?",
+    "opciones": {
+      "A": "Spring invoca el primer método declarado en la clase cuyo tipo sea compatible con la excepción, por lo que el orden de los métodos determina la respuesta.",
+      "B": "Una IllegalArgumentException lanzada por la capa de negocio se traduce en un 404 Not Found con el mensaje de la excepción.",
+      "C": "Si se lanza una BookNotFoundException, se invoca su propio manejador y no el de Exception, aunque BookNotFoundException también sea una Exception.",
+      "D": "El método de Exception devuelve al cliente el mensaje de la excepción técnica para facilitar el diagnóstico del error 500."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki indica que Spring invoca siempre el manejador más específico disponible según la jerarquía de clases: una BookNotFoundException activa su propio manejador y no el genérico de Exception.",
+    "explicacionesDistractores": {
+      "A": "El criterio no es el orden de declaración, sino la especificidad según la jerarquía de clases: se invoca el manejador más específico.",
+      "B": "En el ejemplo, IllegalArgumentException corresponde a datos de entrada inválidos y se traduce en 400 Bad Request; el 404 es para BookNotFoundException.",
+      "D": "La captura final de Exception devuelve un mensaje genérico («Error interno del servidor»); nunca se devuelve al cliente información de una excepción técnica, cuyos detalles quedan en el log del servidor."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Ejemplo práctico: GlobalExceptionHandler" }
+    ],
+    "conocimiento": "Spring invoca el @ExceptionHandler más específico según la jerarquía de clases; en el ejemplo IllegalArgumentException da 400 y la captura final de Exception devuelve un 500 con mensaje genérico.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "En el registro de una aplicación Spring Boot, ¿qué papel tiene SLF4J según la wiki?",
+    "opciones": {
+      "A": "Es la implementación por defecto de Spring Boot, que decide el formato y el destino de cada evento de log.",
+      "B": "Es la fachada: la API con la que el código emite los eventos de log, independiente de la implementación que los procesa.",
+      "C": "Es la implementación alternativa que puede sustituir a la de por defecto mediante configuración.",
+      "D": "Es la implementación de registro que incluye el propio JDK, sucesora de la antigua Log4j."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki divide el registro en fachada e implementación: la fachada define la API con la que el código emite eventos y la estándar es SLF4J (Simple Logging Facade for Java). El código solo conoce la fachada.",
+    "explicacionesDistractores": {
+      "A": "La implementación por defecto en Spring Boot es Logback, no SLF4J.",
+      "C": "La implementación alternativa sustituible por configuración es Log4j2.",
+      "D": "La implementación incluida en el JDK es java.util.logging; las sucesoras de la antigua Log4j son Logback y Log4j2."
+    },
+    "dificultad": "facil",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Fachada e implementación" }
+    ],
+    "conocimiento": "SLF4J es la fachada de logging (API con la que escribe el código); Logback es la implementación por defecto, Log4j2 la alternativa y java.util.logging la del JDK.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Sobre los endpoints del BookController de ejemplo y el uso de ResponseEntity, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+    "opciones": {
+      "A": "El método delete devuelve un ResponseEntity<BookResponse> con el libro eliminado en el cuerpo y estado 204 No Content.",
+      "B": "El método create recibe el BookCreateRequest con @RequestBody y responde con ResponseEntity.status(HttpStatus.CREATED).body(...).",
+      "C": "ResponseEntity.ok(x) produce una respuesta 200 OK con x en el cuerpo, como en getAll() y getById().",
+      "D": "El controlador solo delega en el Service y traduce el resultado a una respuesta HTTP."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "Es falsa: para el borrado el tipo es ResponseEntity<Void>, es decir, sin cuerpo, y se construye con ResponseEntity.noContent().build(), que produce 204 No Content.",
+    "explicacionesDistractores": {
+      "B": "Es correcta: create(@RequestBody BookCreateRequest request) responde con ResponseEntity.status(HttpStatus.CREATED).body(createdBook), es decir, 201 Created.",
+      "C": "Es correcta: ResponseEntity.ok(x) produce un 200 con x en el cuerpo; así lo usan getAll() y getById().",
+      "D": "Es correcta: la wiki indica que el controlador solo delega en el Service (findAll, findById, create, delete) y traduce el resultado a una respuesta HTTP."
+    },
+    "dificultad": "media",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Ejemplo práctico: BookController" }
+    ],
+    "conocimiento": "En el BookController, ok(x) da 200 con cuerpo, create usa status(HttpStatus.CREATED).body(...) para 201 y delete devuelve ResponseEntity<Void> con noContent().build() para 204 sin cuerpo.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "En la clase SecurityContext del tema, el campo CURRENT es un ThreadLocal<Principal> declarado como private static final. ¿Qué afirmación describe con precisión qué se comparte y por qué no se mezclan identidades entre peticiones concurrentes?",
+    "opciones": {
+      "A": "Se comparte un único Principal global, pero al ser final no puede reasignarse, de modo que cada petición conserva la identidad con la que se creó.",
+      "B": "No se comparte nada, porque cada petición crea su propia instancia de SecurityContext con su propio ThreadLocal.",
+      "C": "Se comparte un único Principal global, y es la limpieza en finally la que evita que dos peticiones simultáneas vean la misma identidad.",
+      "D": "Se comparte el objeto ThreadLocal, que mantiene un valor independiente para cada hilo, de modo que no guarda un mismo Principal global para todos."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki matiza que, aunque CURRENT es static, lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente para cada hilo; no guarda un mismo Principal global para todos.",
+    "explicacionesDistractores": {
+      "A": "El ThreadLocal no guarda un Principal global; final solo afecta al campo CURRENT, y el valor asociado a cada hilo se establece y elimina con set y clear.",
+      "B": "SecurityContext tiene un constructor privado y no se instancia; expone métodos estáticos sobre un único ThreadLocal estático compartido.",
+      "C": "No hay un Principal global: cada hilo tiene su propio valor. La limpieza en finally evita que una petición posterior que reutilice el mismo hilo herede el Principal de otra, no que peticiones simultáneas lo compartan."
+    },
+    "dificultad": "dificil",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Clase SecurityContext" }
+    ],
+    "conocimiento": "Aunque el ThreadLocal de SecurityContext es static, lo compartido es el objeto ThreadLocal, que mantiene un valor independiente por hilo y no un Principal global.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Según la wiki, ¿cuál de las siguientes afirmaciones sobre la autenticación y la autorización es correcta?",
+    "opciones": {
+      "A": "El login autentica y autoriza al usuario de una vez, de modo que sus permisos ya no se vuelven a evaluar en las peticiones posteriores de la sesión.",
+      "B": "Una petición puede estar autenticada y aun así no tener permiso para la acción, porque la autorización se evalúa para la operación solicitada.",
+      "C": "La autenticación responde a la pregunta «¿qué puede hacer esa identidad?», por ejemplo comprobando si su rol permite una operación de administración.",
+      "D": "En cada petición protegida el servidor comprueba primero los permisos de la operación y después valida el token de acceso para recuperar la identidad."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki subraya que una petición puede estar autenticada y aun así no tener permiso para realizar una acción: autenticar no implica autorizar, y la autorización se evalúa para la operación solicitada.",
+    "explicacionesDistractores": {
+      "A": "El login autentica al usuario por primera vez; la autorización se evalúa para cada operación solicitada en las peticiones protegidas.",
+      "C": "Esa es la pregunta de la autorización; la autenticación responde a «¿quién realiza la petición?».",
+      "D": "El orden es el inverso: el servidor valida el token de acceso, recupera la identidad y después comprueba los permisos que requiere la operación."
+    },
+    "dificultad": "media",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "1. Autenticación y autorización" }
+    ],
+    "conocimiento": "Autenticar no implica autorizar: la autorización se evalúa para cada operación, después de validar el token y recuperar la identidad en cada petición protegida.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Sobre la generación y el almacenamiento de los tokens opacos en el ejemplo de la wiki, ¿qué afirmación es correcta?",
+    "opciones": {
+      "A": "El servidor almacena el valor del token en claro para poder compararlo en cada petición, aunque nunca lo escribe en los logs.",
+      "B": "Los bytes aleatorios se codifican en Base64 estándar con relleno, para que el cliente pueda decodificar el token y conocer su vencimiento.",
+      "C": "Se generan 32 bytes con SecureRandom, se codifican en Base64 apto para URL y sin relleno, y el servidor almacena el hash del token.",
+      "D": "Se generan con un generador pseudoaleatorio convencional, ya que la seguridad del token depende solo de guardar su hash."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "El ejemplo crea un array de 32 bytes, lo rellena con SecureRandom (generador criptográficamente seguro) y lo codifica con Base64.getUrlEncoder().withoutPadding(); el servidor almacena el hash del token, no el valor reutilizable en claro.",
+    "explicacionesDistractores": {
+      "A": "El servidor almacena el hash del token, no el valor reutilizable en claro; lo de no escribirlo en logs sí es cierto.",
+      "B": "Se usa Base64 apto para URL y sin relleno, y el cliente no interpreta el contenido de un token opaco; el vencimiento lo conserva el servidor.",
+      "D": "La wiki exige un generador criptográficamente seguro (SecureRandom) para generar los tokens."
+    },
+    "dificultad": "media",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Generación del token" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Almacenamiento" }
+    ],
+    "conocimiento": "Los tokens se generan con SecureRandom (32 bytes), se codifican en Base64 URL sin relleno y el servidor guarda su hash, no el valor en claro, sin escribirlos en logs.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17"
+  }
+]

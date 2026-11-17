@@ -1,0 +1,161 @@
+[
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "Sobre la validación de los datos que llegan en una solicitud HTTP con Jakarta Bean Validation, ¿qué afirmación es correcta?",
+    "opciones": {
+      "A": "Jakarta Bean Validation declara tanto el formato de la solicitud como las reglas de negocio, de modo que el dominio deja de tener que comprobarlas.",
+      "B": "Jakarta Bean Validation declara el formato de la solicitud (campos obligatorios, formatos y longitudes) y corresponde a la capa de presentación, mientras que las reglas de negocio siguen perteneciendo al dominio.",
+      "C": "La validación del formato con @NotBlank, @Email o @Size corresponde a la capa de dominio, porque los DTO de entrada deben coincidir con los modelos internos.",
+      "D": "Las anotaciones @NotBlank, @Email, @Size y @Valid se colocan en los modelos del dominio, que se exponen directamente como DTO de entrada del contrato HTTP."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki indica que la validación del formato de la solicitud (campos obligatorios, formatos, longitudes) se declara con Jakarta Bean Validation mediante @NotBlank, @Email, @Size y @Valid y corresponde a la capa de presentación, mientras que las reglas de negocio siguen perteneciendo al dominio.",
+    "explicacionesDistractores": {
+      "A": "La wiki limita Jakarta Bean Validation al formato de la solicitud; las reglas de negocio siguen perteneciendo al dominio, no se trasladan a estas anotaciones.",
+      "C": "La validación del formato corresponde a la capa de presentación, no al dominio, y los DTO de entrada no tienen por qué coincidir con los modelos internos.",
+      "D": "Los DTO HTTP se diseñan para el contrato y se mapean a modelos internos; la wiki afirma que no se exponen directamente los modelos del dominio."
+    },
+    "dificultad": "media",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "02 - API First" },
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "Comparativa de fuentes del contrato" }
+    ],
+    "conocimiento": "La validación del formato de la solicitud con Jakarta Bean Validation (@NotBlank, @Email, @Size, @Valid) corresponde a la capa de presentación, y las reglas de negocio siguen perteneciendo al dominio.",
+    "autor": "gen-dws-r1-b",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "En el ejemplo de Spring, las rutas, parámetros y documentación se declaran en la interfaz OrderHttpApi y la clase OrderController la implementa. ¿Qué describe con precisión esta opción?",
+    "opciones": {
+      "A": "Separa el contrato de la lógica del controlador, pero, al estar escrita en Java, no puede formar parte de un flujo API First, que exige partir de un archivo OpenAPI.",
+      "B": "Su nombre indica que es la API que el módulo de pedidos ofrece a otros módulos, y el controlador sigue concentrando las declaraciones de rutas y documentación.",
+      "C": "La genera OpenAPI Generator a partir de orders-api.yaml, y springdoc-openapi la utiliza después para producir la especificación de la que parten los consumidores.",
+      "D": "Separa las declaraciones del contrato HTTP de la lógica del controlador, su nombre la distingue de una API interna entre módulos y puede diseñarse antes que el controlador dentro de un flujo API First."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki explica que la interfaz OrderHttpApi separa las declaraciones del contrato HTTP de la lógica del controlador, que su nombre indica que es el contrato HTTP, distinto de una API interna que un módulo ofrece a otros módulos, y que puede diseñarse antes de implementar el controlador y formar parte de un flujo API First, aunque queda ligada al código Java.",
+    "explicacionesDistractores": {
+      "A": "La wiki dice expresamente que la interfaz puede diseñarse antes de implementar el controlador y formar parte de un flujo API First; lo que ocurre es que queda ligada al código Java.",
+      "B": "El nombre OrderHttpApi indica justo lo contrario: es el contrato HTTP, distinto de una API interna entre módulos; además, las declaraciones están en la interfaz y el controlador se limita a delegar y producir la respuesta.",
+      "C": "En esta opción la interfaz se escribe a mano con anotaciones y springdoc-openapi genera la documentación desde el código; OpenAPI Generator pertenece al otro flujo, el que parte de orders-api.yaml."
+    },
+    "dificultad": "dificil",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "Opción 1: interfaz Java como contrato" }
+    ],
+    "conocimiento": "La interfaz OrderHttpApi separa las declaraciones del contrato HTTP de la lógica del controlador, su nombre la distingue de una API interna entre módulos y puede diseñarse antes del controlador dentro de un flujo API First.",
+    "autor": "gen-dws-r1-b",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "Según el diagrama del flujo API First, ¿en qué orden se encadenan sus pasos?",
+    "opciones": {
+      "A": "Diseñar contrato, revisar y acordar, implementar API y comprobar contrato.",
+      "B": "Implementar API, diseñar contrato, revisar y acordar y comprobar contrato.",
+      "C": "Diseñar contrato, implementar API, revisar y acordar y comprobar contrato.",
+      "D": "Diseñar contrato, revisar y acordar, comprobar contrato e implementar API."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "El diagrama muestra cuatro pasos encadenados: diseñar contrato, revisar y acordar, implementar API y comprobar contrato. El contrato se diseña y se acuerda antes de implementar y, tras implementar, se comprueba que la API cumple el contrato.",
+    "explicacionesDistractores": {
+      "B": "Empezar implementando corresponde a Code First; en API First el contrato se diseña antes de implementar.",
+      "C": "En API First el contrato se revisa y se acuerda antes de la implementación, no después.",
+      "D": "La comprobación del contrato es el último paso: se realiza tras implementar para verificar que la API cumple el contrato."
+    },
+    "dificultad": "facil",
+    "tipo": "funcionamiento-interno",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "Diagrama del flujo API First" }
+    ],
+    "conocimiento": "El flujo API First sigue el orden diseñar contrato, revisar y acordar, implementar API y comprobar contrato.",
+    "autor": "gen-dws-r1-b",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "Según el tema, ¿cuál es el problema de fondo que motiva organizar un monolito en módulos de negocio?",
+    "opciones": {
+      "A": "Que la aplicación se construya y despliegue como una unidad, lo que obliga a separar sus capacidades en despliegues independientes.",
+      "B": "Que existan capas técnicas como controlador, dominio y persistencia, por lo que el monolito modular las sustituye por módulos de negocio.",
+      "C": "Que, al crecer, el código no tenga límites claros entre sus capacidades y sus dependencias se vuelvan difíciles de reconocer y controlar.",
+      "D": "Que los modelos de distintas capacidades se relacionen mediante identificadores en lugar de referencias directas, lo que dificulta navegar entre ellos."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki afirma que el problema no es que la aplicación se construya y despliegue como una unidad, sino que el código no tenga límites claros entre sus capacidades: al crecer, las dependencias se vuelven difíciles de reconocer y controlar y un cambio en una parte puede tener efectos poco evidentes en otra.",
+    "explicacionesDistractores": {
+      "A": "La wiki dice expresamente que el problema no es el despliegue como unidad; el monolito modular sigue teniendo un único despliegue.",
+      "B": "El monolito modular no elimina las capas: las conserva dentro de cada módulo de negocio.",
+      "D": "Es al revés: la relación mediante identificadores es la solución del monolito modular; las referencias directas entre modelos de distintas capacidades son propias de la organización por capas sin módulos."
+    },
+    "dificultad": "facil",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "04 - Monolito modular" },
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "6. Qué cambia y qué permanece" }
+    ],
+    "conocimiento": "El problema que aborda el monolito modular no es el despliegue como unidad, sino la falta de límites claros entre las capacidades del código.",
+    "autor": "gen-dws-r1-b",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "En el módulo orders, Order guarda un identificador del usuario en lugar de una referencia a User. Sobre el tipo que puede tener ese identificador, ¿qué afirmación es INCORRECTA?",
+    "opciones": {
+      "A": "Puede ser UUID, como en el ejemplo, donde Order almacena userId y OrderDetail almacena productId.",
+      "B": "Puede ser un tipo definido localmente en el propio módulo orders, que actúa como consumidor.",
+      "C": "Puede ser un tipo incluido en un contrato público del módulo users, si se decide exponerlo.",
+      "D": "Puede ser una clase de users.internal, siempre que represente solo el identificador y no el usuario completo."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La afirmación incorrecta es la de usar una clase de users.internal: la wiki establece que el tipo del identificador tampoco debe importar clases de users.internal ni de catalog.internal, porque eso haría depender a orders de un paquete interno de otro módulo.",
+    "explicacionesDistractores": {
+      "A": "Es correcta: en el ejemplo se usa UUID (Order con userId: UUID y OrderDetail con productId: UUID).",
+      "B": "Es correcta: la wiki admite un tipo definido localmente en el módulo consumidor.",
+      "C": "Es correcta: la wiki admite un tipo incluido en un contrato público, si se decide exponerlo."
+    },
+    "dificultad": "media",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "4. Modelos privados y relaciones mediante identificadores" }
+    ],
+    "conocimiento": "El tipo del identificador entre módulos puede ser UUID, un tipo local del módulo consumidor o un tipo de un contrato público, pero no debe importar clases de los paquetes internal de otro módulo.",
+    "autor": "gen-dws-r1-b",
+    "fechaCreacion": "2026-11-17"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "En el módulo de catálogo, CatalogModule es la API pública y CatalogModuleImpl su implementación. ¿Qué afirmación es correcta?",
+    "opciones": {
+      "A": "CatalogModuleImpl se ubica en el paquete raíz catalog junto a CatalogModule, porque la implementación de la API pública también forma parte del contrato del módulo.",
+      "B": "CatalogModuleImpl vive en internal.application y delega en CatalogService, de modo que orders depende del contrato CatalogModule y no de esa implementación ni del servicio.",
+      "C": "Al estar CatalogModuleImpl en un paquete internal, Java impide que otros módulos la usen, por lo que el límite se cumple sin necesidad de tests de arquitectura.",
+      "D": "CatalogModuleImpl delega en CatalogController, que invoca a CatalogService, de modo que las llamadas de otros módulos atraviesan la misma entrada que las peticiones HTTP."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki indica que CatalogModuleImpl vive en internal.application y delega en CatalogService, que forma parte de la implementación interna; así, otro módulo depende del contrato del catálogo (CatalogModule), no de esa clase de implementación ni de su servicio.",
+    "explicacionesDistractores": {
+      "A": "En el paquete raíz com.example.store.catalog solo está la API pública CatalogModule; CatalogModuleImpl es implementación interna y vive en catalog.internal.application.",
+      "C": "La wiki aclara que estar en un paquete internal no hace inaccesible una clase en Java: si es pública, otras clases pueden usarla; por eso se usan tests de arquitectura como los de ArchUnit.",
+      "D": "La entrada entre módulos es CatalogModule → CatalogModuleImpl → CatalogService, sin pasar por CatalogController; la entrada HTTP es una ruta distinta que confluye en CatalogService."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "2. API pública e implementación interna" },
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "2.1 Verificar los límites entre módulos" }
+    ],
+    "conocimiento": "CatalogModuleImpl vive en internal.application y delega en CatalogService, por lo que otros módulos dependen del contrato CatalogModule y no de la implementación; un paquete internal no hace inaccesibles sus clases públicas en Java.",
+    "autor": "gen-dws-r1-b",
+    "fechaCreacion": "2026-11-17"
+  }
+]

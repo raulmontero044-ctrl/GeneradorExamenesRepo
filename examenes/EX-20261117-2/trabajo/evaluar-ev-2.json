@@ -1,0 +1,760 @@
+{
+  "preguntas": [
+    {
+      "id": "prog-10-86a38fbd",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Según la wiki, ¿qué diferencia el despliegue de una aplicación web Java tradicional del de una aplicación creada con Spring Boot?",
+      "opciones": {
+        "A": "La tradicional integra un Tomcat embebido en un .jar, mientras que Spring Boot genera un .war que se despliega manualmente en un servidor externo.",
+        "B": "La tradicional se compila en un .war que se despliega manualmente en un servidor externo como Apache Tomcat; Spring Boot integra un Tomcat embebido en el propio .jar ejecutable.",
+        "C": "Ambas se despliegan en un Apache Tomcat externo, pero Spring Boot elimina los archivos de despliegue complejos al generar el .war con Spring Initializr.",
+        "D": "Spring Boot prescinde de Tomcat y utiliza el DispatcherServlet como servidor web propio, por eso se empaqueta como .jar en lugar de .war."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki explica que antes había que configurar archivos de despliegue complejos, compilar un .war y desplegarlo manualmente en un servidor externo como Apache Tomcat, mientras que Spring Boot integra un Tomcat embebido dentro del propio ejecutable .jar.",
+      "explicacionesDistractores": {
+        "A": "Invierte los papeles: el .war y el servidor externo corresponden al desarrollo tradicional; el Tomcat embebido en el .jar es lo que aporta Spring Boot.",
+        "C": "Con Spring Boot el servidor no es externo sino embebido, y el empaquetado elegido en Spring Initializr es Jar, no .war.",
+        "D": "Spring Boot no prescinde de Tomcat, lo embebe; el DispatcherServlet es el Front Controller que enruta las peticiones, no un servidor web."
+      },
+      "dificultad": "facil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "1. Introducción a Spring Boot"
+        }
+      ],
+      "conocimiento": "El desarrollo web Java tradicional compila un .war desplegado manualmente en un Tomcat externo, mientras que Spring Boot integra un Tomcat embebido en el .jar ejecutable.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-10-02073594",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Un proyecto Spring Boot registra eventos con loggers de SLF4J en todas sus clases y el equipo decide sustituir Logback por Log4j2. Según la wiki, ¿qué implica ese cambio y qué lo hace posible?",
+      "opciones": {
+        "A": "Hay que cambiar la declaración del logger en cada clase para usar la API de Log4j2, porque la fachada SLF4J va ligada a Logback.",
+        "B": "No implica ningún cambio, porque Log4j2 ya es la implementación que Spring Boot incluye por defecto detrás de SLF4J.",
+        "C": "Se cambia por configuración sin retocar ninguna clase, porque el código solo conoce la fachada SLF4J, igual que al programar contra interfaces.",
+        "D": "Se cambia por configuración, porque SLF4J es la implementación que decide formato y destino, y Logback solo es la API con la que escribe el código."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki separa la fachada (SLF4J, la API con la que el código emite eventos) de la implementación (Logback por defecto, Log4j2 como alternativa). El código solo conoce la fachada y la implementación se cambia por configuración sin retocar ninguna clase, el mismo principio que programar contra interfaces.",
+      "explicacionesDistractores": {
+        "A": "El código solo conoce la fachada SLF4J, que no está ligada a una implementación concreta; por eso no hay que modificar la declaración del logger en las clases.",
+        "B": "La implementación por defecto en Spring Boot es Logback; Log4j2 es la alternativa, sustituible por configuración.",
+        "D": "Invierte los papeles: SLF4J es la fachada (la API del código) y Logback es la implementación que decide el formato y el destino."
+      },
+      "dificultad": "media",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Fachada e implementación"
+        }
+      ],
+      "conocimiento": "Separar la fachada SLF4J de la implementación permite sustituir Logback (por defecto en Spring Boot) por Log4j2 mediante configuración, sin modificar el código, igual que al programar contra interfaces.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-10-3ce266c8",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Con el GlobalExceptionHandler del tema, que tiene manejadores para BookNotFoundException, IllegalArgumentException y Exception, una petición provoca una BookNotFoundException y otra un error técnico no previsto (por ejemplo, un fallo en el SQL). ¿Qué diferencia correctamente el tratamiento de ambos casos?",
+      "opciones": {
+        "A": "La primera la atiende su propio manejador y devuelve 404 con el mensaje de la excepción; la segunda la atiende el de Exception, que devuelve 500 con un mensaje genérico y registra la traza con nivel ERROR.",
+        "B": "Ambas las atiende el manejador de Exception, por ser el más general de la jerarquía de clases, que devuelve 500 acompañado del mensaje de cada excepción.",
+        "C": "La primera devuelve 404 con un mensaje genérico, y la segunda 500 con la traza y los detalles del SQL, para que el cliente pueda diagnosticar el fallo.",
+        "D": "La primera se traduce a 404, pero la segunda, al no tener un manejador específico para su tipo, termina en la Whitelabel Error Page con estado 500."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Spring invoca el manejador más específico: BookNotFoundException activa handleNotFound (404 con el mensaje de negocio, pensado para el cliente). Un error técnico no previsto llega a handleUnexpected (@ExceptionHandler(Exception.class)), que devuelve 500 con «Error interno del servidor» y registra la traza con log.error, de modo que el detalle queda en el log del servidor.",
+      "explicacionesDistractores": {
+        "B": "La wiki indica que Spring invoca siempre el manejador más específico disponible: una BookNotFoundException activa su propio manejador y no el genérico de Exception. Además, el de Exception devuelve un mensaje genérico.",
+        "C": "Es al revés: el mensaje de negocio («No existe el libro con id 99») sí se devuelve al cliente, y la información técnica (trazas, SQL, clases) nunca debe llegarle; queda en el log.",
+        "D": "La Whitelabel Error Page aparece cuando no hay manejador; aquí el @ExceptionHandler(Exception.class) actúa como captura final de cualquier error no previsto."
+      },
+      "dificultad": "dificil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Ejemplo práctico: GlobalExceptionHandler"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Registrar eventos en el código"
+        }
+      ],
+      "conocimiento": "En el manejador global, una excepción de negocio activa su manejador específico y devuelve su mensaje con el estado adecuado, mientras que un error técnico cae en el manejador de Exception, que devuelve 500 genérico y registra la traza con nivel ERROR.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-12-8ce98b4a",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Un usuario que inició sesión correctamente envía un token de acceso válido para invocar una operación de administración, pero su rol no la permite. Según la wiki, ¿cómo se interpreta esta situación?",
+      "opciones": {
+        "A": "Falla la autenticación, porque un token que no da acceso a la operación solicitada no permite identificar a quien realiza la petición.",
+        "B": "La operación se permite, porque el login ya autenticó al usuario y, con ello, quedó autorizado para todas las operaciones de la sesión.",
+        "C": "Falla la autorización del login, que es el único momento en que el servidor comprueba las credenciales y los permisos del usuario.",
+        "D": "La petición está autenticada, porque el servidor valida el token y recupera la identidad, pero no autorizada, porque su rol no permite la operación."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La autenticación responde a quién hace la petición (en las peticiones posteriores, validando el token) y la autorización a qué puede hacer esa identidad, evaluada para la operación solicitada. La wiki subraya que una petición puede estar autenticada y aun así no tener permiso.",
+      "explicacionesDistractores": {
+        "A": "El token es válido y el servidor recupera la identidad, así que la autenticación tiene éxito; lo que falla es el permiso, que es cuestión de autorización.",
+        "B": "Autenticar no implica autorizar: la autorización se evalúa para cada operación solicitada, comprobando los permisos que requiere.",
+        "C": "La autorización no se resuelve en el login; en cada petición protegida el servidor valida el token, recupera la identidad y comprueba los permisos de esa operación."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "1. Autenticación y autorización"
+        }
+      ],
+      "conocimiento": "Una petición con token válido está autenticada aunque su rol no permita la operación: la autorización se evalúa para cada operación y autenticar no implica autorizar.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-12-2c5b0cc8",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "En la aplicación Spring Boot del tema, AccessTokenFilter extiende OncePerRequestFilter. Según la wiki, ¿qué distingue correctamente lo que pertenece al modelo Servlet de lo que aporta esa clase base?",
+      "opciones": {
+        "A": "El filtro y su cadena son un mecanismo propio de Spring, y OncePerRequestFilter es la clase que crea esa cadena dentro de la aplicación.",
+        "B": "La idea del filtro y su posición en la cadena que procesa cada petición pertenecen al modelo Servlet; la clase base gestiona su integración con Spring.",
+        "C": "OncePerRequestFilter forma parte del modelo Servlet y define la cadena; la integración con Spring se limita a extraer el token Bearer.",
+        "D": "El modelo Servlet solo aporta los objetos de petición y respuesta; la posición del filtro en la cadena la decide Spring al extender la clase base."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica que, en Spring Boot, el filtro Servlet puede implementarse extendiendo OncePerRequestFilter, cuya clase base gestiona su integración con Spring, mientras que la idea del filtro y su posición en la cadena pertenecen al modelo Servlet, no a Spring.",
+      "explicacionesDistractores": {
+        "A": "La wiki atribuye la idea del filtro y su posición en la cadena al modelo Servlet, no a Spring; OncePerRequestFilter solo es la clase base que integra el filtro con Spring.",
+        "C": "OncePerRequestFilter es la clase base que gestiona la integración con Spring; la extracción del token Bearer es lógica propia de AccessTokenFilter (extractBearerToken), no la integración.",
+        "D": "La posición del filtro en la cadena pertenece al modelo Servlet; no la decide Spring por el hecho de extender la clase base."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "7. Filtro Servlet y SecurityContext propio"
+        }
+      ],
+      "conocimiento": "La idea del filtro y su posición en la cadena pertenecen al modelo Servlet, mientras que OncePerRequestFilter es la clase base que gestiona la integración del filtro con Spring.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-12-d30c1eef",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Al renovar la sesión con un refresh token R1, el servidor del tema rota el par completo y devuelve A2 + R2. Según la wiki, ¿qué valoración de esta rotación, con sus beneficios y sus exigencias, es correcta?",
+      "opciones": {
+        "A": "Impide que un refresh token robado llegue a utilizarse, de modo que ya no es necesario que el cliente coordine sus renovaciones ni evite peticiones simultáneas.",
+        "B": "Mantiene R1 válido junto a R2 dentro de la misma sesión, de modo que el cliente puede lanzar varias renovaciones en paralelo con el mismo refresh token.",
+        "C": "Crea credenciales nuevas de la misma sesión y permite detectar un refresh token ya consumido, pero exige que consumir R1 y crear el par sea atómico y que el cliente evite renovaciones simultáneas.",
+        "D": "Crea en cada renovación una sesión nueva e independiente, de modo que, si se detecta un reuso, solo se revoca el par más reciente y se conservan los anteriores."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki explica que se renueva el par completo para crear credenciales nuevas asociadas a la misma sesión y que rotar el refresh token permite detectar si se presenta uno ya consumido. A cambio, el consumo de R1 y la creación del nuevo par deben ser atómicos, y el cliente debe coordinar la renovación y evitar solicitudes simultáneas con el mismo refresh token.",
+      "explicacionesDistractores": {
+        "A": "La rotación no impide el robo de una credencial; solo permite detectar la reutilización. Además, la wiki exige expresamente que el cliente coordine la renovación.",
+        "B": "Tras la renovación R1 queda inválido; precisamente por eso el cliente debe evitar solicitudes simultáneas con el mismo refresh token.",
+        "D": "A2 y R2 pertenecen a la misma sesión que R1; ante un reuso se revoca toda la familia, incluido el par más reciente."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "4. Renovación y rotación"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Atomicidad y coordinación"
+        }
+      ],
+      "conocimiento": "La rotación del par exige que el consumo del refresh token y la creación del nuevo par sean atómicos y que el cliente coordine la renovación evitando solicitudes simultáneas con el mismo refresh token, porque R1 queda inválido tras usarse.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-10-147d316d",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Durante una petición GET /api/v1/books/12, la capa de persistencia lanza una excepción técnica imprevista que no es BookNotFoundException ni IllegalArgumentException. La aplicación tiene el GlobalExceptionHandler del tema, con su logger de SLF4J. ¿Qué ocurre según la wiki?",
+      "opciones": {
+        "A": "Como ningún manejador declara ese tipo concreto de excepción, el DispatcherServlet genera la Whitelabel Error Page con estado 500.",
+        "B": "Se ejecuta handleUnexpected, que devuelve un 500 cuyo ApiErrorResponse incluye el mensaje y la traza de la excepción para que el cliente pueda diagnosticar el fallo.",
+        "C": "Se ejecuta handleUnexpected: registra la traza completa con log.error, con nivel ERROR, y devuelve un 500 con el mensaje genérico «Error interno del servidor» en un ApiErrorResponse.",
+        "D": "Se ejecuta handleBadRequest, porque toda excepción imprevista se trata como datos de entrada inválidos, y el cliente recibe un 400 con el mensaje de la excepción."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "El manejador termina con @ExceptionHandler(Exception.class) (handleUnexpected), captura final de cualquier error no previsto, que devuelve ResponseEntity.internalServerError() con ApiErrorResponse(\"Error interno del servidor\"). Antes llama a log.error(\"Error técnico no controlado\", e), de modo que la traza completa queda registrada con nivel ERROR y no viaja al cliente.",
+      "explicacionesDistractores": {
+        "A": "La Whitelabel Error Page aparece cuando la excepción sale sin capturarse y no hay manejador; aquí el @ExceptionHandler(Exception.class) actúa como captura final de cualquier error no previsto.",
+        "B": "La wiki prohíbe devolver al cliente información de una excepción técnica (trazas, nombres de clases, detalles del SQL): el cuerpo lleva un mensaje genérico y los detalles quedan en el log del servidor.",
+        "D": "handleBadRequest solo atiende IllegalArgumentException (datos de entrada inválidos, 400). Un error técnico no previsto corresponde a la captura de Exception y a un 500."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Ejemplo práctico: GlobalExceptionHandler"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Registrar eventos en el código"
+        }
+      ],
+      "conocimiento": "Ante un error técnico imprevisto, la captura final de Exception registra la traza con log.error y devuelve un 500 con el mensaje genérico, sin detalles técnicos para el cliente.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-10-d7fc8d1d",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "BookNotFoundException extiende RuntimeException, y el GlobalExceptionHandler tiene un @ExceptionHandler para BookNotFoundException y otro para Exception. Cuando BookService lanza BookNotFoundException al buscar el id 99, ¿qué secuencia describe correctamente el tema?",
+      "opciones": {
+        "A": "BookController captura la excepción en un bloque try-catch y llama a handleNotFound, que devuelve un 404 con el mensaje de la excepción.",
+        "B": "BookController deja pasar la excepción hasta el DispatcherServlet, que busca el @ExceptionHandler; se invoca handleNotFound, el más específico, y el cliente recibe un 404 con «No existe el libro con id 99».",
+        "C": "BookController deja pasar la excepción, pero como el manejador de Exception también la abarca y es la captura final, se invoca handleUnexpected y el cliente recibe un 500 genérico.",
+        "D": "BookService entrega la excepción directamente al GlobalExceptionHandler, sin pasar por el controlador ni por el DispatcherServlet, y este responde con un 404."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "En el diagrama de secuencia, BookService lanza la excepción, BookController la propaga al DispatcherServlet, este busca el @ExceptionHandler en el GlobalExceptionHandler y recibe un ResponseEntity 404 con JSON. Spring invoca siempre el manejador más específico según la jerarquía de clases, así que BookNotFoundException activa handleNotFound y no el genérico de Exception.",
+      "explicacionesDistractores": {
+        "A": "El controlador no captura la excepción: la wiki dice que simplemente la deja pasar, y considera un antipatrón envolver las llamadas al Service en try-catch dentro del @RestController.",
+        "C": "Aunque Exception abarque la excepción, Spring elige el manejador más específico disponible; la wiki precisa que BookNotFoundException activa su propio manejador y no el de Exception.",
+        "D": "Según el diagrama, la excepción vuelve a BookController, que la propaga al DispatcherServlet, y es este quien recurre al manejador global."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Flujo de una excepción no controlada"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler"
+        }
+      ],
+      "conocimiento": "Una BookNotFoundException se propaga del Service al controlador y al DispatcherServlet, que invoca el @ExceptionHandler más específico (handleNotFound) y devuelve 404, no el genérico de Exception.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-10-1ce21c68",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Un proyecto Spring Boot registra eventos en decenas de clases mediante loggers de SLF4J, y el equipo decide sustituir Logback por Log4j2. Según el tema, ¿qué implica este cambio?",
+      "opciones": {
+        "A": "Se hace por configuración, sin retocar ninguna clase, porque el código solo conoce la fachada SLF4J y Log4j2 es otra implementación detrás de ella.",
+        "B": "Hay que reescribir la declaración del logger en cada clase, porque Logger y LoggerFactory pertenecen a Logback.",
+        "C": "No es posible, porque Spring Boot solo admite Logback como implementación detrás de la fachada SLF4J.",
+        "D": "Hay que sustituir también la fachada SLF4J por la API de Log4j2, ya que la fachada y la implementación deben pertenecer al mismo proyecto."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki divide el registro en fachada (SLF4J, la API con la que escribe el código) e implementación (Logback por defecto, Log4j2 como alternativa). El código solo conoce la fachada y la implementación se cambia por configuración, sin retocar ninguna clase; Log4j2 aparece como «sustituible por configuración».",
+      "explicacionesDistractores": {
+        "B": "Logger y LoggerFactory proceden de org.slf4j, la fachada, no de Logback; por eso las clases no cambian al sustituir la implementación.",
+        "C": "La wiki indica que Logback es la implementación por defecto, pero Log4j2 es una implementación alternativa sustituible por configuración.",
+        "D": "La gracia de la fachada es que el código la mantiene y solo cambia la implementación, el mismo principio que programar contra interfaces."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Fachada e implementación"
+        }
+      ],
+      "conocimiento": "Como el código solo conoce la fachada SLF4J, sustituir Logback por Log4j2 se hace por configuración sin modificar las clases.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-12-53bcba03",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Un atacante roba el refresh token R1 de un usuario y lo usa para renovar antes que el cliente legítimo, obteniendo A2 y R2. Más tarde, el cliente legítimo intenta renovar presentando R1. Según el tema, ¿qué ocurre?",
+      "opciones": {
+        "A": "El servidor reconoce al cliente legítimo como titular original de R1, revoca solo A2 y R2 y le entrega un par nuevo sin pedirle credenciales.",
+        "B": "La renovación del cliente legítimo se rechaza, pero A2 y R2 siguen siendo válidos porque se obtuvieron con un R1 que en ese momento no estaba consumido.",
+        "C": "Esta situación no llega a darse: la rotación impide el robo, de modo que el uso de R1 por el atacante se habría rechazado y el cliente legítimo renueva con normalidad.",
+        "D": "El servidor detecta que R1 ya se consumió y revoca toda la familia, incluidos A2 y R2 del atacante; el cliente legítimo también pierde la sesión y debe autenticarse de nuevo."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que si un refresh token ya consumido vuelve a presentarse se revoca toda la familia, incluido el par más reciente, y el cliente legítimo también pierde la sesión y debe autenticarse de nuevo. Precisa además que, si el atacante usa primero el token robado, el reuso posterior por el cliente legítimo revoca también los tokens nuevos.",
+      "explicacionesDistractores": {
+        "A": "El servidor no puede saber cuál de los dos es legítimo, y la respuesta al reuso es revocar toda la familia, tras lo cual hay que autenticarse de nuevo.",
+        "B": "Al detectar el reuso se revoca toda la familia, incluido el par más reciente (A2 y R2), aunque lo haya obtenido el atacante.",
+        "C": "La wiki afirma que la rotación no impide el robo de una credencial; solo permite detectar la reutilización de un refresh token anterior."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Qué consigue (y qué no) la rotación"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Detección del reuso y revocación de la familia"
+        }
+      ],
+      "conocimiento": "Si el atacante renueva primero con el refresh token robado, el reuso posterior por el cliente legítimo revoca toda la familia, incluidos los tokens del atacante, y el cliente legítimo debe autenticarse de nuevo.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-12-69111c8a",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Una aplicación cliente envía a la vez dos peticiones de renovación con el mismo refresh token R1, porque dos de sus componentes detectaron al mismo tiempo que el token de acceso había caducado. Según el tema, ¿qué problema plantea y qué se recomienda?",
+      "opciones": {
+        "A": "Ninguno: el servidor devuelve el mismo par A2 + R2 a las dos peticiones, ya que ambas pertenecen a la misma sesión.",
+        "B": "La segunda presentación de R1, ya consumido, se trata como una reutilización, que puede llevar a revocar toda la familia; por eso el cliente debe coordinar la renovación y evitar solicitudes simultáneas con el mismo refresh token.",
+        "C": "Que las dos peticiones obtengan pares válidos distintos; se evita separando el consumo de R1 y la creación del nuevo par en operaciones independientes.",
+        "D": "Solo supone un coste de rendimiento; se evita enviando el refresh token en todas las peticiones normales para renovar antes de que caduque el token de acceso."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "En la renovación el servidor valida y consume R1, que queda inválido. Si un refresh token ya consumido vuelve a presentarse, el servidor no puede distinguir a un atacante de un cliente legítimo con una copia antigua y revoca toda la familia. Por eso la wiki exige que el cliente coordine la renovación y evite solicitudes simultáneas con el mismo refresh token.",
+      "explicacionesDistractores": {
+        "A": "El servidor consume R1 en la primera renovación y R1 queda inválido; su nueva presentación es un reuso, no una petición que reciba el mismo par.",
+        "C": "La wiki exige lo contrario: el consumo de R1 y la creación del nuevo par deben ser atómicos.",
+        "D": "El refresh token no se incluye en las peticiones normales; solo se envía para renovar el par."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Atomicidad y coordinación"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "5. Reutilización de un refresh token"
+        }
+      ],
+      "conocimiento": "Enviar en paralelo dos renovaciones con el mismo refresh token hace que la segunda sea un reuso de un token consumido; por eso el cliente debe coordinar la renovación y el servidor debe hacer atómicos el consumo y la emisión.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-12-da64dd39",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Un usuario con un token de acceso válido, pero sin rol de administración, solicita una operación de administración. Según el flujo de petición protegida del tema, ¿qué hace el servidor?",
+      "opciones": {
+        "A": "Rechaza la petición al validar el token, porque un token que no pertenece a un administrador se considera inválido para esa operación.",
+        "B": "Ejecuta la operación, porque haber superado el login y presentar un token válido implica que la identidad está autorizada.",
+        "C": "Valida el token de acceso, obtiene la identidad y los roles y, al comprobar los permisos que exige la operación, la deniega: la petición está autenticada pero no autorizada.",
+        "D": "Pide al cliente el refresh token para volver a comprobar sus credenciales y, si son correctas, le concede el permiso de administración."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "En cada petición protegida, el servidor valida el token de acceso, recupera la identidad y comprueba los permisos que requiere la operación; en el diagrama obtiene identidad y roles del almacén de tokens, autoriza la operación y devuelve el resultado o acceso denegado. La wiki subraya que una petición puede estar autenticada y aun así no tener permiso.",
+      "explicacionesDistractores": {
+        "A": "La validación del token responde a la autenticación (quién hace la petición); el token es válido. Lo que falla es la autorización, que se evalúa después para la operación solicitada.",
+        "B": "La wiki precisa que autenticar no implica autorizar: la autorización se evalúa para cada operación solicitada según lo que puede hacer esa identidad, por ejemplo su rol.",
+        "D": "El refresh token solo se envía para renovar el par cuando caduca el token de acceso; no sirve para comprobar credenciales ni concede permisos."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "1. Autenticación y autorización"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Diagrama: flujo de login y petición protegida"
+        }
+      ],
+      "conocimiento": "En una petición protegida el servidor valida el token, recupera identidad y roles y después comprueba permisos; con token válido y sin el rol necesario, la petición está autenticada pero no autorizada y se deniega.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-10-0bd8b5fa",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Un GlobalExceptionHandler anotado con @RestControllerAdvice tiene métodos @ExceptionHandler para BookNotFoundException, IllegalArgumentException y Exception, como en el ejemplo de la wiki. ¿Qué afirmación es correcta?",
+      "opciones": {
+        "A": "Spring invoca el primer método declarado en la clase cuyo tipo sea compatible con la excepción, por lo que el orden de los métodos determina la respuesta.",
+        "B": "Una IllegalArgumentException lanzada por la capa de negocio se traduce en un 404 Not Found con el mensaje de la excepción.",
+        "C": "Si se lanza una BookNotFoundException, se invoca su propio manejador y no el de Exception, aunque BookNotFoundException también sea una Exception.",
+        "D": "El método de Exception devuelve al cliente el mensaje de la excepción técnica para facilitar el diagnóstico del error 500."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki indica que Spring invoca siempre el manejador más específico disponible según la jerarquía de clases: una BookNotFoundException activa su propio manejador y no el genérico de Exception.",
+      "explicacionesDistractores": {
+        "A": "El criterio no es el orden de declaración, sino la especificidad según la jerarquía de clases: se invoca el manejador más específico.",
+        "B": "En el ejemplo, IllegalArgumentException corresponde a datos de entrada inválidos y se traduce en 400 Bad Request; el 404 es para BookNotFoundException.",
+        "D": "La captura final de Exception devuelve un mensaje genérico («Error interno del servidor»); nunca se devuelve al cliente información de una excepción técnica, cuyos detalles quedan en el log del servidor."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Ejemplo práctico: GlobalExceptionHandler"
+        }
+      ],
+      "conocimiento": "Spring invoca el @ExceptionHandler más específico según la jerarquía de clases; en el ejemplo IllegalArgumentException da 400 y la captura final de Exception devuelve un 500 con mensaje genérico.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-10-dcfa0b4b",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "En el registro de una aplicación Spring Boot, ¿qué papel tiene SLF4J según la wiki?",
+      "opciones": {
+        "A": "Es la implementación por defecto de Spring Boot, que decide el formato y el destino de cada evento de log.",
+        "B": "Es la fachada: la API con la que el código emite los eventos de log, independiente de la implementación que los procesa.",
+        "C": "Es la implementación alternativa que puede sustituir a la de por defecto mediante configuración.",
+        "D": "Es la implementación de registro que incluye el propio JDK, sucesora de la antigua Log4j."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki divide el registro en fachada e implementación: la fachada define la API con la que el código emite eventos y la estándar es SLF4J (Simple Logging Facade for Java). El código solo conoce la fachada.",
+      "explicacionesDistractores": {
+        "A": "La implementación por defecto en Spring Boot es Logback, no SLF4J.",
+        "C": "La implementación alternativa sustituible por configuración es Log4j2.",
+        "D": "La implementación incluida en el JDK es java.util.logging; las sucesoras de la antigua Log4j son Logback y Log4j2."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Fachada e implementación"
+        }
+      ],
+      "conocimiento": "SLF4J es la fachada de logging (API con la que escribe el código); Logback es la implementación por defecto, Log4j2 la alternativa y java.util.logging la del JDK.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-10-39421839",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Sobre los endpoints del BookController de ejemplo y el uso de ResponseEntity, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "El método delete devuelve un ResponseEntity<BookResponse> con el libro eliminado en el cuerpo y estado 204 No Content.",
+        "B": "El método create recibe el BookCreateRequest con @RequestBody y responde con ResponseEntity.status(HttpStatus.CREATED).body(...).",
+        "C": "ResponseEntity.ok(x) produce una respuesta 200 OK con x en el cuerpo, como en getAll() y getById().",
+        "D": "El controlador solo delega en el Service y traduce el resultado a una respuesta HTTP."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Es falsa: para el borrado el tipo es ResponseEntity<Void>, es decir, sin cuerpo, y se construye con ResponseEntity.noContent().build(), que produce 204 No Content.",
+      "explicacionesDistractores": {
+        "B": "Es correcta: create(@RequestBody BookCreateRequest request) responde con ResponseEntity.status(HttpStatus.CREATED).body(createdBook), es decir, 201 Created.",
+        "C": "Es correcta: ResponseEntity.ok(x) produce un 200 con x en el cuerpo; así lo usan getAll() y getById().",
+        "D": "Es correcta: la wiki indica que el controlador solo delega en el Service (findAll, findById, create, delete) y traduce el resultado a una respuesta HTTP."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Ejemplo práctico: BookController"
+        }
+      ],
+      "conocimiento": "En el BookController, ok(x) da 200 con cuerpo, create usa status(HttpStatus.CREATED).body(...) para 201 y delete devuelve ResponseEntity<Void> con noContent().build() para 204 sin cuerpo.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-12-6706551a",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "En la clase SecurityContext del tema, el campo CURRENT es un ThreadLocal<Principal> declarado como private static final. ¿Qué afirmación describe con precisión qué se comparte y por qué no se mezclan identidades entre peticiones concurrentes?",
+      "opciones": {
+        "A": "Se comparte un único Principal global, pero al ser final no puede reasignarse, de modo que cada petición conserva la identidad con la que se creó.",
+        "B": "No se comparte nada, porque cada petición crea su propia instancia de SecurityContext con su propio ThreadLocal.",
+        "C": "Se comparte un único Principal global, y es la limpieza en finally la que evita que dos peticiones simultáneas vean la misma identidad.",
+        "D": "Se comparte el objeto ThreadLocal, que mantiene un valor independiente para cada hilo, de modo que no guarda un mismo Principal global para todos."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki matiza que, aunque CURRENT es static, lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente para cada hilo; no guarda un mismo Principal global para todos.",
+      "explicacionesDistractores": {
+        "A": "El ThreadLocal no guarda un Principal global; final solo afecta al campo CURRENT, y el valor asociado a cada hilo se establece y elimina con set y clear.",
+        "B": "SecurityContext tiene un constructor privado y no se instancia; expone métodos estáticos sobre un único ThreadLocal estático compartido.",
+        "C": "No hay un Principal global: cada hilo tiene su propio valor. La limpieza en finally evita que una petición posterior que reutilice el mismo hilo herede el Principal de otra, no que peticiones simultáneas lo compartan."
+      },
+      "dificultad": "dificil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Clase SecurityContext"
+        }
+      ],
+      "conocimiento": "Aunque el ThreadLocal de SecurityContext es static, lo compartido es el objeto ThreadLocal, que mantiene un valor independiente por hilo y no un Principal global.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-12-2b7a6296",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Según la wiki, ¿cuál de las siguientes afirmaciones sobre la autenticación y la autorización es correcta?",
+      "opciones": {
+        "A": "El login autentica y autoriza al usuario de una vez, de modo que sus permisos ya no se vuelven a evaluar en las peticiones posteriores de la sesión.",
+        "B": "Una petición puede estar autenticada y aun así no tener permiso para la acción, porque la autorización se evalúa para la operación solicitada.",
+        "C": "La autenticación responde a la pregunta «¿qué puede hacer esa identidad?», por ejemplo comprobando si su rol permite una operación de administración.",
+        "D": "En cada petición protegida el servidor comprueba primero los permisos de la operación y después valida el token de acceso para recuperar la identidad."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki subraya que una petición puede estar autenticada y aun así no tener permiso para realizar una acción: autenticar no implica autorizar, y la autorización se evalúa para la operación solicitada.",
+      "explicacionesDistractores": {
+        "A": "El login autentica al usuario por primera vez; la autorización se evalúa para cada operación solicitada en las peticiones protegidas.",
+        "C": "Esa es la pregunta de la autorización; la autenticación responde a «¿quién realiza la petición?».",
+        "D": "El orden es el inverso: el servidor valida el token de acceso, recupera la identidad y después comprueba los permisos que requiere la operación."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "1. Autenticación y autorización"
+        }
+      ],
+      "conocimiento": "Autenticar no implica autorizar: la autorización se evalúa para cada operación, después de validar el token y recuperar la identidad en cada petición protegida.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "prog-12-674cce2a",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Sobre la generación y el almacenamiento de los tokens opacos en el ejemplo de la wiki, ¿qué afirmación es correcta?",
+      "opciones": {
+        "A": "El servidor almacena el valor del token en claro para poder compararlo en cada petición, aunque nunca lo escribe en los logs.",
+        "B": "Los bytes aleatorios se codifican en Base64 estándar con relleno, para que el cliente pueda decodificar el token y conocer su vencimiento.",
+        "C": "Se generan 32 bytes con SecureRandom, se codifican en Base64 apto para URL y sin relleno, y el servidor almacena el hash del token.",
+        "D": "Se generan con un generador pseudoaleatorio convencional, ya que la seguridad del token depende solo de guardar su hash."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "El ejemplo crea un array de 32 bytes, lo rellena con SecureRandom (generador criptográficamente seguro) y lo codifica con Base64.getUrlEncoder().withoutPadding(); el servidor almacena el hash del token, no el valor reutilizable en claro.",
+      "explicacionesDistractores": {
+        "A": "El servidor almacena el hash del token, no el valor reutilizable en claro; lo de no escribirlo en logs sí es cierto.",
+        "B": "Se usa Base64 apto para URL y sin relleno, y el cliente no interpreta el contenido de un token opaco; el vencimiento lo conserva el servidor.",
+        "D": "La wiki exige un generador criptográficamente seguro (SecureRandom) para generar los tokens."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Generación del token"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Almacenamiento"
+        }
+      ],
+      "conocimiento": "Los tokens se generan con SecureRandom (32 bytes), se codifican en Base64 URL sin relleno y el servidor guarda su hash, no el valor en claro, sin escribirlos en logs.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  ],
+  "similitud": [
+    {
+      "id": "prog-10-86a38fbd",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-02073594",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "prog-10-1ce21c68",
+          "nivel": "similar",
+          "motivos": [
+            "enunciado muy parecido (0.71)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prog-10-3ce266c8",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-8ce98b4a",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-2c5b0cc8",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-d30c1eef",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-147d316d",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-d7fc8d1d",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-1ce21c68",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "prog-10-02073594",
+          "nivel": "similar",
+          "motivos": [
+            "enunciado muy parecido (0.71)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prog-12-53bcba03",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-69111c8a",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-da64dd39",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-0bd8b5fa",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-dcfa0b4b",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-39421839",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-6706551a",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-2b7a6296",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-674cce2a",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    }
+  ]
+}

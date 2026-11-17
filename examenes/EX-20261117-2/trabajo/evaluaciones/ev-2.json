@@ -1,0 +1,250 @@
+[
+  {
+    "id": "prog-10-86a38fbd",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["El distractor A es una simple inversión de la correcta, así que es fácil descartarlo; adecuado para una pregunta fácil."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-02073594",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Evalúa el mismo conocimiento que prog-10-1ce21c68 (sustituir Logback por Log4j2 por configuración porque el código solo conoce la fachada SLF4J); solo una de las dos debe salir en el examen."],
+    "duplicadaDe": ["prog-10-1ce21c68"],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-3ce266c8",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Su segunda mitad (el error técnico lo atiende handleUnexpected, que devuelve un 500 genérico y registra la traza con nivel ERROR) es justo lo que evalúa prog-10-147d316d, y repite incluso el distractor de la Whitelabel Error Page.",
+      "Su primera mitad (BookNotFoundException activa su propio manejador y no el de Exception) se solapa con prog-10-d7fc8d1d y prog-10-0bd8b5fa.",
+      "El distractor C (enviar la traza al cliente) se descarta con facilidad; el nivel difícil se sostiene porque cruza la gestión de excepciones con el registro de logs."
+    ],
+    "duplicadaDe": ["prog-10-147d316d", "prog-10-d7fc8d1d", "prog-10-0bd8b5fa"],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-8ce98b4a",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Evalúa el mismo conocimiento (autenticada pero no autorizada: autenticar no implica autorizar) que prog-12-da64dd39 y prog-12-2b7a6296.",
+      "Revisado frente al banco prog-09-6754cd44 (401 frente a 403): ese evalúa códigos de estado de otro tema; no es equivalente."
+    ],
+    "duplicadaDe": ["prog-12-da64dd39", "prog-12-2b7a6296"],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-2c5b0cc8",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["La correcta reproduce casi al pie de la letra una frase de la wiki, lo que favorece reconocerla de memoria; aun así, los distractores reparten los papeles de forma plausible entre Servlet y Spring."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-d30c1eef",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Comparada con la del banco prog-12-e34d667f (qué consigue y qué no la rotación): comparten la idea de que no impide el robo, aquí solo en el distractor A, pero esta pregunta evalúa sobre todo la atomicidad y la coordinación, que el banco no cubre. No se considera repetida.",
+      "Evalúa la misma exigencia de atomicidad y coordinación del cliente que prog-12-69111c8a.",
+      "La correcta es algo más larga que las demás, lo que da una pista leve."
+    ],
+    "duplicadaDe": ["prog-12-69111c8a"],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-147d316d",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["Evalúa el mismo conocimiento que la segunda parte de prog-10-3ce266c8: la captura final de Exception, el 500 genérico y log.error con nivel ERROR."],
+    "duplicadaDe": ["prog-10-3ce266c8"],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-d7fc8d1d",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Que se elija el manejador más específico (handleNotFound y no el de Exception) también lo evalúan prog-10-0bd8b5fa y prog-10-3ce266c8.",
+      "Revisado frente al banco prog-10-0c5409a1 (el antipatrón try-catch): aquí solo aparece en el distractor A; no es equivalente."
+    ],
+    "duplicadaDe": ["prog-10-0bd8b5fa", "prog-10-3ce266c8"],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-1ce21c68",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Es equivalente a prog-10-02073594: el mismo escenario y el mismo conocimiento. Confirmado el parecido que marcó la similitud automática."],
+    "duplicadaDe": ["prog-10-02073594"],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-53bcba03",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["Se solapa en parte con la del banco prog-12-e34d667f (revocar la sesión completa, y el cliente legítimo también la pierde). No es equivalente: aquí lo que se evalúa es el caso concreto en que el atacante renueva primero y el reuso del cliente legítimo revoca los tokens del atacante, un punto que la wiki trata aparte. El distractor C repite el conocimiento del banco (la rotación no impide el robo)."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-69111c8a",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La wiki no dice de forma literal que una renovación simultánea se trate como reuso, pero se deduce directamente: R1 se consume y vuelve a presentarse uno ya consumido. Además, la correcta está matizada («puede llevar a revocar»).",
+      "Evalúa la misma exigencia de coordinación y atomicidad que prog-12-d30c1eef."
+    ],
+    "duplicadaDe": ["prog-12-d30c1eef"],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-da64dd39",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Evalúa el mismo conocimiento (autenticada pero no autorizada) que prog-12-8ce98b4a y prog-12-2b7a6296; añade el orden del flujo de la petición protegida."],
+    "duplicadaDe": ["prog-12-8ce98b4a", "prog-12-2b7a6296"],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-0bd8b5fa",
+    "evaluador": "ev-2",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Está etiquetada como difícil, pero cada afirmación se resuelve con una sola regla de la wiki (el manejador más específico, 400 para IllegalArgumentException, mensaje genérico en el 500) y no relaciona conceptos. Encaja en media, igual que prog-10-d7fc8d1d, que evalúa lo mismo.",
+      "Que se elija el manejador más específico también lo evalúan prog-10-d7fc8d1d y prog-10-3ce266c8."
+    ],
+    "duplicadaDe": ["prog-10-d7fc8d1d", "prog-10-3ce266c8"],
+    "cambios": ["dificultad: de 'dificil' a 'media', porque aplica reglas directas del manejador global sin relacionar conceptos ni distractores muy próximos."],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Un GlobalExceptionHandler anotado con @RestControllerAdvice tiene métodos @ExceptionHandler para BookNotFoundException, IllegalArgumentException y Exception, como en el ejemplo de la wiki. ¿Qué afirmación es correcta?",
+      "opciones": {
+        "A": "Spring invoca el primer método declarado en la clase cuyo tipo sea compatible con la excepción, por lo que el orden de los métodos determina la respuesta.",
+        "B": "Una IllegalArgumentException lanzada por la capa de negocio se traduce en un 404 Not Found con el mensaje de la excepción.",
+        "C": "Si se lanza una BookNotFoundException, se invoca su propio manejador y no el de Exception, aunque BookNotFoundException también sea una Exception.",
+        "D": "El método de Exception devuelve al cliente el mensaje de la excepción técnica para facilitar el diagnóstico del error 500."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki indica que Spring invoca siempre el manejador más específico disponible según la jerarquía de clases: una BookNotFoundException activa su propio manejador y no el genérico de Exception.",
+      "explicacionesDistractores": {
+        "A": "El criterio no es el orden de declaración, sino la especificidad según la jerarquía de clases: se invoca el manejador más específico.",
+        "B": "En el ejemplo, IllegalArgumentException corresponde a datos de entrada inválidos y se traduce en 400 Bad Request; el 404 es para BookNotFoundException.",
+        "D": "La captura final de Exception devuelve un mensaje genérico («Error interno del servidor»); nunca se devuelve al cliente información de una excepción técnica, cuyos detalles quedan en el log del servidor."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler" },
+        { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Ejemplo práctico: GlobalExceptionHandler" }
+      ],
+      "conocimiento": "Spring invoca el @ExceptionHandler más específico según la jerarquía de clases; en el ejemplo IllegalArgumentException da 400 y la captura final de Exception devuelve un 500 con mensaje genérico.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17"
+    }
+  },
+  {
+    "id": "prog-10-dcfa0b4b",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["Es una definición directa y su conocimiento está muy próximo al de prog-10-02073594 y prog-10-1ce21c68 (SLF4J como fachada). No se marca como duplicada porque aquí se pregunta el papel de SLF4J y allí la consecuencia de cambiar la implementación."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-39421839",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Se apoya sobre todo en recordar los detalles del ejemplo BookController, más que en comprender un mecanismo. Revisado frente al banco prog-09-d12e97f8 (DELETE y 204): es de otro tema y evalúa los métodos HTTP, no ResponseEntity."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-6706551a",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [
+      "Comparada con la del banco prog-12-1b3e136a (ThreadLocal frente a una variable local o un campo static, y la limpieza en finally): esta evalúa otro matiz, que lo static es el objeto ThreadLocal y no un Principal global. No se considera repetida.",
+      "El campo tipo dice 'definicion', pero la pregunta evalúa un matiz de funcionamiento; no afecta a los criterios."
+    ],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-2b7a6296",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["La correcta B es el mismo conocimiento que evalúan prog-12-8ce98b4a y prog-12-da64dd39; de las tres es la menos aplicada, porque reconoce el matiz en lugar de aplicarlo a un caso."],
+    "duplicadaDe": ["prog-12-8ce98b4a", "prog-12-da64dd39"],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-674cce2a",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Se apoya sobre todo en recordar detalles del ejemplo (32 bytes, Base64 apto para URL sin relleno). Revisado frente al banco prog-12-2adb68ca (definición de token opaco): no es equivalente."],
+    "duplicadaDe": [],
+    "cambios": []
+  }
+]

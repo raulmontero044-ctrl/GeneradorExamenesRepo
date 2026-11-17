@@ -1,0 +1,264 @@
+{
+  "preguntas": [
+    {
+      "id": "dws-02-d83ef09b",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Una API de pedidos debe exigir que el email del cliente tenga un formato válido y que su nombre no esté vacío; además, un pedido no puede superar el crédito disponible del cliente. Según el tema, ¿cómo se reparten estas validaciones?",
+      "opciones": {
+        "A": "Todas se declaran con Jakarta Bean Validation en los DTO de entrada, porque son condiciones sobre los datos que cruzan la frontera HTTP.",
+        "B": "El formato del email y el nombre obligatorio se declaran con Jakarta Bean Validation en la capa de presentación; el límite de crédito es una regla de negocio que pertenece al dominio.",
+        "C": "Todas pertenecen al dominio; Jakarta Bean Validation solo sirve para documentar en el contrato OpenAPI las restricciones que comprueba el dominio.",
+        "D": "El formato del email y el nombre obligatorio se comprueban en el dominio, y el límite de crédito se declara con anotaciones como @Size y @Valid en la capa de presentación."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica que la validación del formato de la solicitud (campos obligatorios, formatos, longitudes) se declara con Jakarta Bean Validation (@NotBlank, @Email, @Size, @Valid) y corresponde a la capa de presentación, mientras que las reglas de negocio siguen perteneciendo al dominio. El email y el nombre obligatorio son formato; el límite de crédito es una regla de negocio.",
+      "explicacionesDistractores": {
+        "A": "Jakarta Bean Validation cubre el formato de la solicitud; la wiki precisa que las reglas de negocio, como el límite de crédito, siguen perteneciendo al dominio.",
+        "C": "La wiki atribuye a Jakarta Bean Validation la validación del formato de la solicitud en la capa de presentación, no una mera función de documentación; solo las reglas de negocio pertenecen al dominio.",
+        "D": "Invierte el reparto: el formato (campos obligatorios, formatos) corresponde a la capa de presentación con Jakarta Bean Validation, y las reglas de negocio pertenecen al dominio."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "02 - API First"
+        }
+      ],
+      "conocimiento": "La validación del formato de la solicitud se declara con Jakarta Bean Validation y corresponde a la capa de presentación, mientras que las reglas de negocio pertenecen al dominio.",
+      "autor": "gen-dws-r1-a",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-09938b03",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un equipo diseña primero la interfaz Java OrderHttpApi con sus rutas, parámetros y documentación, la revisa con los consumidores y solo después escribe OrderController, que la implementa; springdoc-openapi genera la documentación. ¿Qué valoración de esta opción es correcta según el tema?",
+      "opciones": {
+        "A": "Es necesariamente Code First, porque el contrato se declara en código Java y springdoc-openapi lo deriva de las anotaciones, de modo que no puede formar parte de un flujo API First.",
+        "B": "Equivale a usar un archivo orders-api.yaml como fuente de verdad: el documento generado es una especificación independiente del código y sirve para generar interfaces y DTO con OpenAPI Generator.",
+        "C": "Separa el contrato de la lógica del controlador, pero obliga a mantener además un archivo OpenAPI escrito a mano para que springdoc-openapi pueda generar Swagger UI.",
+        "D": "Puede formar parte de un flujo API First y separa las declaraciones del contrato HTTP de la lógica del controlador, pero queda ligada al código Java y sus cambios exigen revisar el contrato resultante."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki explica que la interfaz Java como contrato separa las declaraciones del contrato HTTP de la lógica del controlador y permite a springdoc-openapi generar la documentación; puede diseñarse antes de implementar el controlador y formar parte de un flujo API First, pero queda ligada al código Java. En la comparativa, su precaución es que se define desde el código y los cambios requieren revisar el contrato resultante.",
+      "explicacionesDistractores": {
+        "A": "La wiki afirma expresamente que la interfaz puede diseñarse antes de implementar el controlador y formar parte de un flujo API First.",
+        "B": "La wiki dice que con la interfaz Java el documento generado no es una especificación independiente del código; la independencia y la generación de interfaces y DTO corresponden al archivo OpenAPI con OpenAPI Generator.",
+        "C": "springdoc-openapi genera el documento OpenAPI y Swagger UI a partir de las anotaciones del código; además, la wiki advierte que mantener dos contratos manuales puede hacerlos divergir."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Opción 1: interfaz Java como contrato"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Comparativa de fuentes del contrato"
+        }
+      ],
+      "conocimiento": "La interfaz Java de contrato HTTP puede diseñarse antes del controlador y formar parte de un flujo API First, separando el contrato de la lógica del controlador, aunque queda ligada al código y sus cambios exigen revisar el contrato resultante.",
+      "autor": "gen-dws-r1-a",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-29daa1db",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un equipo diseña el contrato de una nueva API, lo implementa de inmediato y, ya terminada la implementación, lo enseña por primera vez a los equipos cliente, que piden varios cambios en las operaciones. Comparado con el flujo API First que describe el tema, ¿qué paso explica mejor el problema?",
+      "opciones": {
+        "A": "Se omitió revisar y acordar el contrato, paso que en API First va entre diseñar el contrato e implementar la API.",
+        "B": "Se omitió comprobar el contrato, paso que en API First es el previo a implementar la API y en el que se acuerdan los cambios con los clientes.",
+        "C": "Se siguió el orden correcto de API First, en el que el contrato se acuerda con los clientes después de implementar y antes de comprobarlo.",
+        "D": "Faltó publicar el contrato en Swagger UI antes de implementar, porque en API First esa publicación sustituye a la revisión con los clientes."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "El diagrama del flujo API First encadena cuatro pasos: diseñar contrato, revisar y acordar, implementar API y comprobar contrato. El contrato se diseña y se acuerda antes de la implementación; el equipo saltó directamente de diseñar a implementar sin revisar ni acordar con los clientes.",
+      "explicacionesDistractores": {
+        "B": "En el flujo, comprobar el contrato es el último paso, tras implementar, para verificar que la API lo cumple; el acuerdo con los clientes corresponde a «revisar y acordar».",
+        "C": "En API First el contrato se diseña y se acuerda antes de la implementación, no después.",
+        "D": "La wiki advierte que la documentación no sustituye el diseño, la revisión de compatibilidad ni las pruebas; Swagger UI ayuda a explorar el contrato, no reemplaza el acuerdo."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Diagrama del flujo API First"
+        }
+      ],
+      "conocimiento": "El flujo API First sigue el orden diseñar contrato, revisar y acordar, implementar API y comprobar contrato; el acuerdo con los consumidores es previo a la implementación.",
+      "autor": "gen-dws-r1-a",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-c3d618de",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Sobre la validación de los datos que llegan en una solicitud HTTP con Jakarta Bean Validation, ¿qué afirmación es correcta?",
+      "opciones": {
+        "A": "Jakarta Bean Validation declara tanto el formato de la solicitud como las reglas de negocio, de modo que el dominio deja de tener que comprobarlas.",
+        "B": "Jakarta Bean Validation declara el formato de la solicitud (campos obligatorios, formatos y longitudes) y corresponde a la capa de presentación, mientras que las reglas de negocio siguen perteneciendo al dominio.",
+        "C": "La validación del formato con @NotBlank, @Email o @Size corresponde a la capa de dominio, porque los DTO de entrada deben coincidir con los modelos internos.",
+        "D": "Las anotaciones @NotBlank, @Email, @Size y @Valid se colocan en los modelos del dominio, que se exponen directamente como DTO de entrada del contrato HTTP."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica que la validación del formato de la solicitud (campos obligatorios, formatos, longitudes) se declara con Jakarta Bean Validation mediante @NotBlank, @Email, @Size y @Valid y corresponde a la capa de presentación, mientras que las reglas de negocio siguen perteneciendo al dominio.",
+      "explicacionesDistractores": {
+        "A": "La wiki limita Jakarta Bean Validation al formato de la solicitud; las reglas de negocio siguen perteneciendo al dominio, no se trasladan a estas anotaciones.",
+        "C": "La validación del formato corresponde a la capa de presentación, no al dominio, y los DTO de entrada no tienen por qué coincidir con los modelos internos.",
+        "D": "Los DTO HTTP se diseñan para el contrato y se mapean a modelos internos; la wiki afirma que no se exponen directamente los modelos del dominio."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "02 - API First"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Comparativa de fuentes del contrato"
+        }
+      ],
+      "conocimiento": "La validación del formato de la solicitud con Jakarta Bean Validation (@NotBlank, @Email, @Size, @Valid) corresponde a la capa de presentación, y las reglas de negocio siguen perteneciendo al dominio.",
+      "autor": "gen-dws-r1-b",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-3a429221",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "En el ejemplo de Spring, las rutas, parámetros y documentación se declaran en la interfaz OrderHttpApi y la clase OrderController la implementa. ¿Qué describe con precisión esta opción?",
+      "opciones": {
+        "A": "Separa el contrato de la lógica del controlador, pero, al estar escrita en Java, no puede formar parte de un flujo API First, que exige partir de un archivo OpenAPI.",
+        "B": "Su nombre indica que es la API que el módulo de pedidos ofrece a otros módulos, y el controlador sigue concentrando las declaraciones de rutas y documentación.",
+        "C": "La genera OpenAPI Generator a partir de orders-api.yaml, y springdoc-openapi la utiliza después para producir la especificación de la que parten los consumidores.",
+        "D": "Separa las declaraciones del contrato HTTP de la lógica del controlador, su nombre la distingue de una API interna entre módulos y puede diseñarse antes que el controlador dentro de un flujo API First."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki explica que la interfaz OrderHttpApi separa las declaraciones del contrato HTTP de la lógica del controlador, que su nombre indica que es el contrato HTTP, distinto de una API interna que un módulo ofrece a otros módulos, y que puede diseñarse antes de implementar el controlador y formar parte de un flujo API First, aunque queda ligada al código Java.",
+      "explicacionesDistractores": {
+        "A": "La wiki dice expresamente que la interfaz puede diseñarse antes de implementar el controlador y formar parte de un flujo API First; lo que ocurre es que queda ligada al código Java.",
+        "B": "El nombre OrderHttpApi indica justo lo contrario: es el contrato HTTP, distinto de una API interna entre módulos; además, las declaraciones están en la interfaz y el controlador se limita a delegar y producir la respuesta.",
+        "C": "En esta opción la interfaz se escribe a mano con anotaciones y springdoc-openapi genera la documentación desde el código; OpenAPI Generator pertenece al otro flujo, el que parte de orders-api.yaml."
+      },
+      "dificultad": "dificil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Opción 1: interfaz Java como contrato"
+        }
+      ],
+      "conocimiento": "La interfaz OrderHttpApi separa las declaraciones del contrato HTTP de la lógica del controlador, su nombre la distingue de una API interna entre módulos y puede diseñarse antes del controlador dentro de un flujo API First.",
+      "autor": "gen-dws-r1-b",
+      "fechaCreacion": "2026-11-17"
+    },
+    {
+      "id": "dws-02-56d9f3be",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Según el diagrama del flujo API First, ¿en qué orden se encadenan sus pasos?",
+      "opciones": {
+        "A": "Diseñar contrato, revisar y acordar, implementar API y comprobar contrato.",
+        "B": "Implementar API, diseñar contrato, revisar y acordar y comprobar contrato.",
+        "C": "Diseñar contrato, implementar API, revisar y acordar y comprobar contrato.",
+        "D": "Diseñar contrato, revisar y acordar, comprobar contrato e implementar API."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "El diagrama muestra cuatro pasos encadenados: diseñar contrato, revisar y acordar, implementar API y comprobar contrato. El contrato se diseña y se acuerda antes de implementar y, tras implementar, se comprueba que la API cumple el contrato.",
+      "explicacionesDistractores": {
+        "B": "Empezar implementando corresponde a Code First; en API First el contrato se diseña antes de implementar.",
+        "C": "En API First el contrato se revisa y se acuerda antes de la implementación, no después.",
+        "D": "La comprobación del contrato es el último paso: se realiza tras implementar para verificar que la API cumple el contrato."
+      },
+      "dificultad": "facil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Diagrama del flujo API First"
+        }
+      ],
+      "conocimiento": "El flujo API First sigue el orden diseñar contrato, revisar y acordar, implementar API y comprobar contrato.",
+      "autor": "gen-dws-r1-b",
+      "fechaCreacion": "2026-11-17"
+    }
+  ],
+  "similitud": [
+    {
+      "id": "dws-02-d83ef09b",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-09938b03",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-29daa1db",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "dws-02-56d9f3be",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.69)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dws-02-c3d618de",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-3a429221",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-56d9f3be",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "dws-02-29daa1db",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.69)"
+          ]
+        }
+      ]
+    }
+  ]
+}
