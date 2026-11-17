@@ -8,7 +8,7 @@ const PALABRAS_VACIAS = new Set(`a al algo algun alguna algunas alguno algunos a
 
 export function normalizarTexto(texto) {
   return String(texto ?? '')
-    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .normalize('NFD').replace(/\p{M}/gu, '')
     .toLowerCase()
     .replace(/[^a-z0-9@./ ]+/g, ' ')
     .replace(/\s+/g, ' ')
