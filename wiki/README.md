@@ -6,14 +6,14 @@ Base de conocimiento persistente de la que salen **todas** las preguntas. Se man
 
 | Asignatura | Tema | Carpeta | Fuente oficial | Última revisión |
 |---|---|---|---|---|
-| Programación | 08 - Arquitectura de Software por Capas y Diseño de Componentes | [programacion/tema-08-arquitectura](programacion/tema-08-arquitectura/README.md) | [arquitectura](https://cesguiro.es/doku.php/clase/daw/prog/arquitectura) | — |
-| Programación | 09. APIs REST y Protocolo HTTP | [programacion/tema-09-api-rest-http](programacion/tema-09-api-rest-http/README.md) | [api](https://cesguiro.es/doku.php/clase/daw/prog/api) | — |
-| Programación | 10. Frameworks Web: Spring Boot | [programacion/tema-10-spring-boot](programacion/tema-10-spring-boot/README.md) | [spring](https://cesguiro.es/doku.php/clase/daw/prog/spring) | — |
-| Programación | 12 - Login con tokens | [programacion/tema-12-login-tokens](programacion/tema-12-login-tokens/README.md) | [login](https://cesguiro.es/doku.php/clase/daw/prog/login) | — |
-| DWS | 01 - Arquitecturas de software | [dws/tema-01-arquitecturas](dws/tema-01-arquitecturas/README.md) | [arquitecturas](https://cesguiro.es/doku.php/clase/daw/dws/arquitecturas) | — |
-| DWS | 02 - API First | [dws/tema-02-api-first](dws/tema-02-api-first/README.md) | [api_first](https://cesguiro.es/doku.php/clase/daw/dws/api_first) | — |
-| DWS | 03 - Validación e invariancias | [dws/tema-03-validacion](dws/tema-03-validacion/README.md) | [validacion](https://cesguiro.es/doku.php/clase/daw/dws/validacion) | — |
-| DWS | 04 - Monolito modular | [dws/tema-04-monolito-modular](dws/tema-04-monolito-modular/README.md) | [modulith](https://cesguiro.es/doku.php/clase/daw/dws/modulith) | — |
+| Programación | 08 - Arquitectura de Software por Capas y Diseño de Componentes | [programacion/tema-08-arquitectura](programacion/tema-08-arquitectura/README.md) | [arquitectura](https://cesguiro.es/doku.php/clase/daw/prog/arquitectura) | 2026-11-17 |
+| Programación | 09. APIs REST y Protocolo HTTP | [programacion/tema-09-api-rest-http](programacion/tema-09-api-rest-http/README.md) | [api](https://cesguiro.es/doku.php/clase/daw/prog/api) | 2026-11-17 |
+| Programación | 10. Frameworks Web: Spring Boot | [programacion/tema-10-spring-boot](programacion/tema-10-spring-boot/README.md) | [spring](https://cesguiro.es/doku.php/clase/daw/prog/spring) | 2026-11-17 |
+| Programación | 12 - Login con tokens | [programacion/tema-12-login-tokens](programacion/tema-12-login-tokens/README.md) | [login](https://cesguiro.es/doku.php/clase/daw/prog/login) | 2026-11-17 |
+| DWS | 01 - Arquitecturas de software | [dws/tema-01-arquitecturas](dws/tema-01-arquitecturas/README.md) | [arquitecturas](https://cesguiro.es/doku.php/clase/daw/dws/arquitecturas) | 2026-11-17 |
+| DWS | 02 - API First | [dws/tema-02-api-first](dws/tema-02-api-first/README.md) | [api_first](https://cesguiro.es/doku.php/clase/daw/dws/api_first) | 2026-11-17 |
+| DWS | 03 - Validación e invariancias | [dws/tema-03-validacion](dws/tema-03-validacion/README.md) | [validacion](https://cesguiro.es/doku.php/clase/daw/dws/validacion) | 2026-11-17 |
+| DWS | 04 - Monolito modular | [dws/tema-04-monolito-modular](dws/tema-04-monolito-modular/README.md) | [modulith](https://cesguiro.es/doku.php/clase/daw/dws/modulith) | 2026-11-17 |
 
 Otros documentos: [relaciones.md](relaciones.md) (conceptos compartidos entre temas) y [CHANGELOG.md](CHANGELOG.md) (historial global).
 
