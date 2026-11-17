@@ -4,3 +4,5 @@ Thumbs.db
 *.log
 # Ficheros temporales de pruebas
 tests/tmp/
+# Sincronizaciones temporales de /k-temario
+wiki/_sincronizacion/
