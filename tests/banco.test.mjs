@@ -4,7 +4,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { compararPreguntas } from '../tools/lib/similitud.mjs';
-import { validarPregunta } from '../tools/lib/esquema.mjs';
+import { huellaPreguntas, validarPregunta } from '../tools/lib/esquema.mjs';
 import { preguntaBase } from './helpers.mjs';
 import { comparar, duplicados, leerBanco, registrar, verificar } from '../tools/banco.mjs';
 
@@ -66,7 +66,7 @@ test('detecta reformulaciones como similares y distingue preguntas distintas', (
 });
 
 function examenAprobado(preguntas, id = 'EX-TEST-1') {
-  return { id, falsador: { veredicto: 'APROBADO' }, preguntas };
+  return { id, falsador: { veredicto: 'APROBADO', huella: huellaPreguntas(preguntas) }, preguntas };
 }
 
 test('registrar: solo exámenes aprobados, append-only, todo o nada y sin repetir', (t) => {
@@ -83,6 +83,9 @@ test('registrar: solo exámenes aprobados, append-only, todo o nada y sin repeti
   const otra = preguntaBase({ enunciado: '¿Qué ventaja tiene separar la lógica de negocio de la capa de presentación?', conocimiento: 'Separar negocio de presentación facilita el mantenimiento.' });
   assert.throws(() => registrar(examenAprobado([otra, p], 'EX-TEST-2'), opts), /ya existe en el banco/);
   assert.throws(() => registrar(examenAprobado([otra], 'EX-TEST-1'), opts), /ya está registrado/);
+  const alterado = examenAprobado([otra], 'EX-TEST-3');
+  alterado.preguntas = [{ ...otra, enunciado: otra.enunciado + ' (editada tras aprobar)' }];
+  assert.throws(() => registrar(alterado, opts), /ha cambiado después/);
   assert.equal(readFileSync(ruta, 'utf8'), antes, 'un registro rechazado no modifica el banco');
   const [linea] = leerBanco(ruta);
   assert.equal(linea.examenId, 'EX-TEST-1');
