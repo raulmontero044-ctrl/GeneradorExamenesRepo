@@ -1,0 +1,218 @@
+====== 02 - API First ======
+
+La **API** es el contrato entre una aplicación y quienes la consumen. Define operaciones, datos de entrada y salida y respuestas posibles. Este tema se centra en el contrato **HTTP**; la misma idea de contrato explícito aplica a la comunicación entre módulos internos, que se desarrolla en el tema 04.
+
+Los DTO de entrada y salida describen los datos que cruzan la frontera HTTP: se diseñan para el contrato y no tienen por qué coincidir con los modelos internos. La validación del formato de la solicitud —campos obligatorios, formatos, longitudes— se declara con **Jakarta Bean Validation** (''@NotBlank'', ''@Email'', ''@Size'' y ''@Valid'') y corresponde a la capa de presentación; las reglas de negocio siguen perteneciendo al dominio. La validación completa de la entrada, con sus invariantes, se desarrolla en el tema 03.
+
+===== 1. API First y Code First =====
+
+^ Enfoque ^ Punto de partida ^ Uso del contrato ^
+| **API First** | Se diseña el contrato antes de implementar | Guía y permite acordar el trabajo de clientes y servidor |
+| **Code First** | Se implementa primero | El contrato se deriva después del código, por ejemplo, con anotaciones |
+
+**API First** hace explícitas las decisiones de interfaz y permite revisarlas antes de implementarlas. El contrato describe lo que necesita el cliente; no expone automáticamente los modelos internos.
+
+<uml>
+@startuml
+!theme cerulean
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam ArrowThickness 1
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  ArrowColor #344883
+  FontColor #0F172A
+}
+skinparam classAttributeFontColor #0F172A
+skinparam stereotypeCBackgroundColor #344883
+skinparam stereotypeCBorderColor #273768
+skinparam package {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam package {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam ArrowColor #344883
+skinparam participant {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam actor {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam sequence {
+  ArrowColor #344883
+  LifeLineBorderColor #94A3B8
+  GroupBorderColor #344883
+  GroupBackgroundColor #E9EDF7
+}
+skinparam note {
+  BackgroundColor #FEF9C3
+  BorderColor #B6C2DE
+  FontColor #0F172A
+}
+skinparam activity {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+  StartColor #344883
+  EndColor #344883
+  DiamondBackgroundColor #FEFEFE
+  DiamondBorderColor #344883
+  DiamondFontColor #0F172A
+}
+skinparam component {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam database {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam node {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam cloud {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #344883
+}
+skinparam rectangle {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam state {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam usecase {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+left to right direction
+rectangle "Diseñar contrato" as design
+rectangle "Revisar y acordar" as review
+rectangle "Implementar API" as implement
+rectangle "Comprobar contrato" as verify
+design --> review
+review --> implement
+implement --> verify
+@enduml
+</uml>
+
+===== 2. OpenAPI y Swagger =====
+
+**OpenAPI** es una especificación para describir APIs **HTTP** en **YAML** o **JSON**. Define rutas y operaciones, parámetros, esquemas de datos, respuestas y restricciones.
+
+**Swagger** es un conjunto de herramientas para trabajar con **OpenAPI**. Por ejemplo, **Swagger UI** presenta el contrato como documentación interactiva.
+
+Este fragmento define una solicitud y dos respuestas de una operación:
+
+<code yaml>
+paths:
+  /orders:
+    post:
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '201':
+          description: Order created
+        '400':
+          description: Invalid request
+</code>
+
+===== 3. Contrato e implementación en Spring =====
+
+El contrato **HTTP** y el código que implementa sus operaciones son responsabilidades relacionadas, pero pueden mantenerse separados. En **Spring**, **springdoc-openapi** genera un documento **OpenAPI** y **Swagger UI** a partir de las anotaciones del código.
+
+Una opción es declarar rutas, parámetros y documentación en una interfaz **Java** como ''OrderHttpApi'', y dejar que ''OrderController'' implemente sus operaciones. El nombre indica que es el contrato HTTP, distinto de una API interna que un módulo pueda ofrecer a otros módulos:
+
+<code java>
+@Tag(name = "Orders")
+public interface OrderHttpApi {
+    @Operation(summary = "Create an order")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Order created"),
+        @ApiResponse(responseCode = "400", description = "Invalid request")
+    })
+    @PostMapping("/orders")
+    ResponseEntity<OrderResponse> create(
+            @Valid @RequestBody CreateOrderRequest request);
+}
+
+@RestController
+public class OrderController implements OrderHttpApi {
+    @Override
+    public ResponseEntity<OrderResponse> create(CreateOrderRequest request) {
+        // Delegar la operación y producir la respuesta.
+    }
+}
+</code>
+
+Así se separan las declaraciones del contrato HTTP de la lógica del controlador y **springdoc-openapi** puede generar la documentación. La interfaz puede diseñarse antes de implementar el controlador y formar parte de un flujo API First, pero queda ligada al código Java; el documento generado no es una especificación independiente del código.
+
+Otra opción es mantener una especificación **OpenAPI** en un archivo, por ejemplo ''orders-api.yaml'', como fuente de verdad antes de implementar. Es útil para revisar el contrato con consumidores y trabajar en paralelo. Además, a partir de esa especificación se puede generar parte del código Java:
+
+<uml>
+@startuml
+start
+if (Fuente del contrato) then (Interfaz Java)
+  :Interfaz Java + anotaciones;
+  :springdoc-openapi;
+  :Documento OpenAPI y Swagger UI;
+else (Archivo OpenAPI)
+  :orders-api.yaml;
+  :OpenAPI Generator\n(plugin de Maven);
+  :Interfaces API + DTOs\ngenerados;
+  :El Controller implementa\nla interfaz generada;
+endif
+stop
+@enduml
+</uml>
+
+En este segundo flujo, **OpenAPI Generator** lee ''orders-api.yaml'' y genera las interfaces de la API y las clases de modelo —los **DTO**— definidos en el contrato. El plugin de Maven suele ejecutar esta generación en la fase ''generate-sources'', antes de compilar el proyecto. Por ejemplo, al ejecutar ''mvn compile'', Maven recorre las fases anteriores e invoca la generación si el plugin está configurado para ello.
+
+Las clases generadas suelen quedar en una carpeta como ''target/generated-sources/openapi'', aunque la ruta depende de la configuración. No siempre aparecen entre los archivos escritos a mano: puede ser necesario ejecutar Maven y actualizar el proyecto en el IDE para que las muestre. Se pueden consultar, pero no se deben modificar directamente; si cambia el contrato, se vuelve a generar el código.
+
+El equipo implementa las operaciones de las interfaces generadas en sus ''Controller''. En resumen, con **springdoc-openapi** se obtiene documentación OpenAPI a partir del código Spring; con **OpenAPI Generator** se obtiene código Java a partir del archivo OpenAPI.
+
+^ Fuente del contrato ^ Ventaja ^ Precaución ^
+| Interfaz Java ''OrderHttpApi'' y anotaciones | Contrato y documentación junto a la interfaz HTTP; documentación generada desde Spring | Se define desde el código; los cambios requieren revisar el contrato resultante |
+| Archivo ''orders-api.yaml'' y OpenAPI Generator | Contrato independiente; permite generar interfaces API y DTOs | Configurar el generador y comprobar que la implementación sigue la especificación |
+
+Elegir una fuente de verdad evita mantener dos contratos manuales que puedan divergir. En ambos enfoques, los **DTO** HTTP describen los datos públicos y se mapean a modelos internos; no se exponen directamente los modelos del dominio.
+
+===== 4. Cambios y comprobaciones =====
+
+Un cambio es **incompatible** si obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas. Eliminar un campo, cambiar su tipo o alterar el significado de una respuesta puede romper clientes.
+
+Al revisar cambios, comprobar:
+
+  * Que operaciones, datos y respuestas describen el comportamiento público.
+  * Que restricciones y errores son claros para quien consume la API.
+  * Que los cambios no rompen compatibilidad sin una transición acordada.
+
+Se puede validar la sintaxis **OpenAPI**, comparar versiones y comprobar solicitudes y respuestas de la implementación. Las pruebas **HTTP** de ''controller'' verifican el comportamiento integrado; abrir **Swagger UI** no demuestra por sí solo la conformidad. Si se usa un archivo OpenAPI como fuente, hay que comprobar que la implementación se ajusta a él.
+
+<note important>**OpenAPI** describe el contrato; **Swagger UI** ayuda a explorarlo. La documentación no sustituye el diseño, la revisión de compatibilidad ni las pruebas.</note>

@@ -1,0 +1,615 @@
+====== 10. Frameworks Web: Spring Boot ======
+
+Hasta ahora hemos construido la arquitectura por capas (''Controller'', ''Service'', ''DAO/Repository'') instanciando y conectando las dependencias de forma manual. En este tema utilizaremos **Spring Boot**, el framework estándar de la industria Java, para delegar esta tarea a su contenedor de ''IoC'' y exponer nuestra aplicación como una API REST profesional.
+
+==== 1. Introducción a Spring Boot ====
+
+Un framework proporciona la infraestructura necesaria (enrutamiento HTTP, servidor web embebido, gestión de beans, filtros) para que el desarrollador se concentre únicamente en implementar la lógica de negocio.
+
+Crear una aplicación web tradicional en Java requería configurar archivos de despliegue complejos, compilar un archivo ''.war'' y desplegarlo manualmente en un servidor externo (como **Apache Tomcat**). Spring Boot simplifica este proceso integrando un servidor //Tomcat// embebido dentro del propio ejecutable ''.jar'' de la aplicación.
+
+=== Creación del proyecto ===
+
+La forma estándar de inicializar un proyecto Spring Boot es a través de [[https://start.spring.io/|Spring Initializr]]. Al configurar un nuevo proyecto seleccionamos:
+
+  * **Gestor de dependencias**: Maven.\\ \\
+  * **Lenguaje**: Java.\\ \\
+  * **Versión de Spring Boot**: 4.x.\\ \\
+  * **Metadatos del proyecto**: Group ID y Artifact ID.\\ \\
+  * **Empaquetado**: Jar.\\ \\
+  * **Configuration**: Properties\\ \\
+  * **Versión de Java**: 25.\\ \\
+
+Dependencias principales:
+
+  * **Spring Web**: Incluye el servidor Tomcat embebido y todo el soporte para APIs REST.\\ \\
+
+=== Punto de entrada y configuración ===
+
+La clase principal anotada con ''@SpringBootApplication'' es la encargada de arrancar el servidor embebido y la aplicación mediante el método ''main'':
+
+<code java>
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class BookstoreApiApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(BookstoreApiApplication.class, args);
+    }
+}
+</code>
+
+Por defecto, el servidor web escucha en el puerto ''8080''. Para cambiar este comportamiento, basta con incluir la siguiente propiedad en el archivo ''src/main/resources/application.properties'':
+
+<code base>
+server.port=8081
+</code>
+==== 2. Arquitectura Interna: Servlets y el patrón Front Controller ====
+
+Para comprender cómo procesa //Spring Boot// las peticiones HTTP, es necesario entender la especificación base del desarrollo web en Java: los ''Servlets''.
+
+Un ''Servlet'' (definido en la especificación ''jakarta.servlet'') es una clase Java encargada de atender peticiones HTTP (''HttpServletRequest'') y generar respuestas HTTP (''HttpServletResponse'').
+
+=== El patrón Front Controller (DispatcherServlet) ===
+
+En lugar de requerir la creación de un ''Servlet'' independiente para cada ruta del sistema, //Spring Boot// implementa el patrón de diseño **Front Controller** a través de una clase central llamada ''DispatcherServlet''.
+
+<uml>
+@startuml
+!theme cerulean
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam ArrowThickness 1
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  ArrowColor #344883
+  FontColor #0F172A
+}
+skinparam classAttributeFontColor #0F172A
+skinparam stereotypeCBackgroundColor #344883
+skinparam stereotypeCBorderColor #273768
+skinparam package {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam ArrowColor #344883
+skinparam participant {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam actor {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam sequence {
+  ArrowColor #344883
+  LifeLineBorderColor #94A3B8
+  GroupBorderColor #344883
+  GroupBackgroundColor #E9EDF7
+}
+skinparam note {
+  BackgroundColor #FEF9C3
+  BorderColor #B6C2DE
+  FontColor #0F172A
+}
+skinparam activity {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+  StartColor #344883
+  EndColor #344883
+  DiamondBackgroundColor #FEFEFE
+  DiamondBorderColor #344883
+  DiamondFontColor #0F172A
+}
+skinparam component {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam database {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam node {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam cloud {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #344883
+}
+skinparam rectangle {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam state {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam usecase {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+top to bottom direction
+skinparam componentStyle rectangle
+
+package "Cliente" {
+    [Navegador / Cliente HTTP] as Client
+}
+
+package "Servidor Web (Tomcat)" {
+    [Cadena de Filtros (Filter Chain)] as Filters
+    
+    package "Spring Context (IoC Container)" {
+        [DispatcherServlet] as DS
+        [Handler Mapping] as HM
+        [Http Message Converter] as HMC
+        [BookController] as Ctrl
+        [BookService] as Service
+    }
+}
+
+' Flujo principal descendente
+Client --> Filters : 1. Petición HTTP
+Filters --> DS : 2. Intercepta petición
+
+' Consultas internas del DispatcherServlet
+DS <--> HM : 3. Asocia URI con Método
+DS <--> HMC : 4. Transforma JSON <-> Java DTO
+
+' Continuación del flujo descendente
+DS --> Ctrl : 5. Ejecuta controlador
+Ctrl --> Service : 6. Invoca capa de negocio
+
+@enduml
+</uml>
+
+El flujo de ejecución de una petición sigue estos pasos:
+
+  - **Petición del cliente**: El cliente envía una petición HTTP (por ejemplo, ''GET /api/v1/books'').\\ \\
+  - **Recepción en el Front Controller**: El ''DispatcherServlet'' intercepta la petición entrante.\\ \\
+  - **Enrutamiento (Handler Mapping)**: Consulta sus tablas internas para localizar qué ''@RestController'' y qué método están configurados para responder a esa ruta y verbo HTTP.\\ \\
+  - **Deserialización**: Transforma automáticamente el cuerpo ''JSON'' de la petición en un objeto Java (''Record'' / ''DTO'').\\ \\
+  - **Invocación**: Ejecuta el método del controlador pasándole los argumentos procesados.\\ \\
+  - **Serialización y Respuesta**: Toma el resultado devuelto por el controlador (un DTO o colección de DTOs), lo convierte al formato ''JSON'' y lo envía al cliente dentro de la respuesta HTTP.\\ \\
+==== 3. Interceptación de peticiones: Filtros HTTP ====
+
+Antes de que una petición alcance el ''DispatcherServlet'' (y, por extensión, nuestros controladores), es posible interceptarla mediante **Filtros HTTP**.
+
+Los filtros forman una cadena de responsabilidad (**Filter Chain**) y se utilizan para procesar aspectos transversales a la aplicación, tales como:
+
+  * Registro de logs de auditoría (tiempo de respuesta, dirección IP de origen).\\ \\
+  * Verificación de cabeceras de autenticación o seguridad.\\ \\
+  * Gestión de cabeceras CORS (Cross-Origin Resource Sharing).\\ \\
+
+=== Ejemplo: Creación de un filtro personalizado ===
+
+Extendiendo de la clase ''OncePerRequestFilter'', garantizamos que el filtro se ejecute exactamente una vez por cada petición HTTP:
+
+<code java>
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+
+@Component
+public class AuditLogFilter extends OncePerRequestFilter {
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, 
+                                    HttpServletResponse response, 
+                                    FilterChain filterChain) throws ServletException, IOException {
+
+        long startTime = System.currentTimeMillis();
+
+        // Permite que la petición continúe hacia el DispatcherServlet / Controller
+        filterChain.doFilter(request, response);
+
+        long duration = System.currentTimeMillis() - startTime;
+        IO.printf("[%s] %s -> Estado: %d (%d ms)%n", 
+                request.getMethod(), request.getRequestURI(), response.getStatus(), duration);
+    }
+}
+</code>
+
+==== 4. Construcción de APIs REST con Spring Boot ====
+
+Para exponer recursos como endpoints REST, creamos clases anotadas con ''@RestController'' y ''@RequestMapping''.
+
+=== Anotaciones de mapeo HTTP ===
+
+  * ''@RestController'': Define la clase como un controlador web REST e indica a Spring que el valor devuelto por sus métodos debe serializarse directamente en el cuerpo de la respuesta HTTP (habitualmente en formato ''JSON'').\\ \\
+  * ''@RequestMapping("/api/v1/books")'': Define la ruta base para todos los endpoints contenidos en esa clase.\\ \\
+  * ''@GetMapping'': Asocia el método a peticiones ''GET'' (lectura).\\ \\
+  * ''@PostMapping'': Asocia el método a peticiones ''POST'' (creación).\\ \\
+  * ''@PutMapping'': Asocia el método a peticiones ''PUT'' (actualización completa).\\ \\
+  * ''@DeleteMapping'': Asocia el método a peticiones ''DELETE'' (eliminación).\\ \\
+
+=== Extraer datos de la Petición ===
+
+  * ''@PathVariable'': Extrae valores incrustados en la propia URL (ejemplo: ''/api/v1/books/{id}'').\\ \\
+  * ''@RequestParam'': Extrae parámetros de consulta pasados tras el símbolo ? (ejemplo: ''/api/v1/books?page=2'').\\ \\
+  * ''@RequestBody'': Deserializa automáticamente el cuerpo JSON de la petición entrante en un objeto Java (''Record'' / ''DTO'').\\ \\
+==== 5. Gestión de Respuestas HTTP con ResponseEntity ====
+
+En el diseño de APIs REST, el controlador debe devolver tanto los datos formateados (DTOs) como el código de estado HTTP correspondiente. Para lograr un control explícito sobre la respuesta se utiliza la clase ''ResponseEntity<T>''.
+
+=== Ejemplo práctico: BookController ===
+
+<code java>
+
+import com.fpmislata.bookstoreapi.controller.dto.BookCreateRequest;
+import com.fpmislata.bookstoreapi.controller.dto.BookResponse;
+import com.fpmislata.bookstoreapi.service.BookService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/books")
+public class BookController {
+
+private final BookService bookService;
+
+    // Inyección de dependencias por constructor realizada automáticamente por Spring
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    // GET /api/v1/books -> 200 OK con el listado
+    @GetMapping
+    public ResponseEntity<List<BookResponse>> getAll() {
+        List<BookResponse> books = bookService.findAll();
+        return ResponseEntity.ok(books); // Estado 200 OK
+    }
+
+    // GET /api/v1/books/12 -> 200 OK si existe
+    @GetMapping("/{id}")
+    public ResponseEntity<BookResponse> getById(@PathVariable Long id) {
+        BookResponse book = bookService.findById(id);
+        return ResponseEntity.ok(book); // Estado 200 OK
+    }
+
+    // POST /api/v1/books -> 201 Created con el objeto creado
+    @PostMapping
+    public ResponseEntity<BookResponse> create(@RequestBody BookCreateRequest request) {
+        BookResponse createdBook = bookService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdBook); // Estado 201 Created
+    }
+
+    // DELETE /api/v1/books/12 -> 204 No Content
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        bookService.delete(id);
+        return ResponseEntity.noContent().build(); // Estado 204 No Content
+    }
+}
+</code>
+==== 6. Integración con el Contenedor IoC de Spring ====
+
+Spring detecta y gestiona de forma automática el ciclo de vida de nuestras clases mediante el escaneo de anotaciones:
+
+^ Anotación ^ Capa de la Arquitectura ^ Descripción ^
+| ''@RestController ''| Presentación | Expone endpoints REST y serializa las respuestas en JSON. |
+| ''@Service'' | Negocio | Contiene la lógica de negocio del sistema. |
+| ''@Repository'' | Persistencia | Implementa el acceso a datos (DAOs / Repositorios). |
+| ''@Component'' | Genérica | Para componentes o utilidades transversales (Filtros, Mapeadores). |
+
+Al aplicar ''@Service'' en la capa de negocio y ''@Repository'' en la capa de persistencia, el contenedor de //IoC// de Spring resuelve e inyecta las dependencias automáticamente a través del constructor del ''@RestController'', eliminando por completo la necesidad de instanciarlas manualmente.
+==== 7. Gestión de Excepciones: el Manejador Global ====
+
+Los apartados anteriores muestran el //happy path// de la API: el ''Service'' encuentra los datos y el controlador devuelve la respuesta correcta. En un sistema real, el flujo puede fallar en cualquier capa (recurso inexistente, datos inválidos, error técnico) y la respuesta HTTP debe reflejar ese fallo con el código de estado adecuado.
+
+=== Comportamiento por defecto ===
+
+Si una excepción sale del método del controlador sin capturarse, el ''DispatcherServlet'' la intercepta y //Spring Boot// genera una respuesta de error genérica (la clásica //Whitelabel Error Page//) con estado ''500 Internal Server Error'', sin información útil para el cliente de la API.
+
+=== El problema de los try-catch en el controlador ===
+
+La solución ingenua sería envolver cada llamada al ''Service'' en bloques ''try-catch'' dentro del ''@RestController''. Es un **antipatrón**: duplica código en todos los endpoints y mezcla la responsabilidad de presentación con la gestión de errores.
+
+Como se explicó en el tema 05, la arquitectura moderna crea **excepciones personalizadas no verificadas** (''RuntimeException'') y las lanza desde las capas inferiores. La excepción interrumpe el flujo normal y //vuela// hasta un único punto donde se traduce a una respuesta HTTP.
+
+=== Manejo centralizado: @RestControllerAdvice y @ExceptionHandler ===
+
+//Spring Boot// centraliza esa traducción en una clase anotada con ''@RestControllerAdvice'' (variante de ''@ControllerAdvice'' que serializa directamente la respuesta en JSON), registrada como bean junto al resto de componentes del contenedor de ''IoC''. Sus métodos, anotados con ''@ExceptionHandler'', se invocan automáticamente cuando una excepción escapa de cualquier controlador:
+
+  * ''@ExceptionHandler(TipoExcepcion.class)'': Declara el tipo de excepción que captura cada método.\\ \\
+  * Spring invoca siempre el **manejador más específico** disponible según la jerarquía de clases: una ''BookNotFoundException'' activa su propio manejador y no el genérico de ''Exception''.\\ \\
+  * El método devuelve un ''ResponseEntity'' con el estado y el cuerpo adecuados, igual que haría el propio controlador.\\ \\
+
+=== Flujo de una excepción no controlada ===
+
+<uml>
+@startuml
+!theme cerulean
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam ArrowThickness 1
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  ArrowColor #344883
+  FontColor #0F172A
+}
+skinparam classAttributeFontColor #0F172A
+skinparam stereotypeCBackgroundColor #344883
+skinparam stereotypeCBorderColor #273768
+skinparam package {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam ArrowColor #344883
+skinparam participant {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam actor {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam sequence {
+  ArrowColor #344883
+  LifeLineBorderColor #94A3B8
+  GroupBorderColor #344883
+  GroupBackgroundColor #E9EDF7
+}
+skinparam note {
+  BackgroundColor #FEF9C3
+  BorderColor #B6C2DE
+  FontColor #0F172A
+}
+skinparam activity {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+  StartColor #344883
+  EndColor #344883
+  DiamondBackgroundColor #FEFEFE
+  DiamondBorderColor #344883
+  DiamondFontColor #0F172A
+}
+skinparam component {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam database {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam node {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam cloud {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #344883
+}
+skinparam rectangle {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam state {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam usecase {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+participant "Cliente" as C
+participant "DispatcherServlet" as DS
+participant "BookController" as Ctrl
+participant "BookService" as Svc
+participant "GlobalExceptionHandler" as Handler
+
+C -> DS : GET /api/v1/books/99
+DS -> Ctrl : getById(99)
+Ctrl -> Svc : findById(99)
+Svc --> Ctrl : lanza BookNotFoundException
+Ctrl --> DS : propaga la excepción
+DS -> Handler : busca @ExceptionHandler
+Handler --> DS : ResponseEntity (404 + JSON)
+DS --> C : 404 Not Found
+@enduml
+</uml>
+
+=== Ejemplo práctico: GlobalExceptionHandler ===
+
+La capa de negocio lanza la excepción de dominio cuando el recurso no existe:
+
+<code java>
+public class BookNotFoundException extends RuntimeException {
+
+    public BookNotFoundException(Long id) {
+        super("No existe el libro con id " + id);
+    }
+}
+</code>
+
+<code java>
+// En el Service: la excepción interrumpe el flujo y "vuela" hasta el manejador global
+public BookResponse findById(Long id) {
+    return bookRepository.findById(id)
+            .orElseThrow(() -> new BookNotFoundException(id));
+}
+</code>
+
+El cuerpo de la respuesta de error se modela como un //record//:
+
+<code java>
+public record ApiErrorResponse(String message) {
+}
+</code>
+
+Y el manejador centraliza la traducción de excepciones a respuestas HTTP:
+
+<code java>
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    // GET /api/v1/books/99 con un id inexistente -> 404 Not Found
+    @ExceptionHandler(BookNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleNotFound(BookNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiErrorResponse(e.getMessage()));
+    }
+
+    // Datos de entrada inválidos -> 400 Bad Request
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiErrorResponse> handleBadRequest(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(new ApiErrorResponse(e.getMessage()));
+    }
+
+    // Captura final: cualquier error no previsto -> mensaje genérico
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiErrorResponse> handleUnexpected(Exception e) {
+        return ResponseEntity.internalServerError().body(new ApiErrorResponse("Error interno del servidor"));
+    }
+}
+</code>
+
+<note important>
+Los mensajes de las excepciones de negocio están pensados para el cliente ("No existe el libro con id 99"). Pero **nunca** se debe devolver al cliente la información de una excepción técnica (trazas, nombres de clases, detalles del SQL), y esto es especialmente obligatorio si la API es pública. Por eso el manejador termina **capturando cualquier otra excepción** (''@ExceptionHandler(Exception.class)'') y devolviendo un mensaje **genérico** ("Error interno del servidor") con estado 500; los detalles reales quedan en el log del servidor.
+</note>
+
+Correspondencia entre excepciones y respuestas:
+
+^ Excepción ^ Estado HTTP ^ Origen ^
+| ''BookNotFoundException'' | ''404 Not Found'' | Negocio: recurso inexistente |
+| ''IllegalArgumentException'' | ''400 Bad Request'' | Negocio: datos de entrada inválidos |
+| ''Exception'' | ''500 Internal Server Error'' | Cualquier error técnico no previsto |
+
+=== Excepciones del propio framework ===
+
+Además de las excepciones de dominio, //Spring Boot// lanza las suyas propias durante el procesamiento de la petición: ''HttpMessageNotReadableException'' cuando el cuerpo JSON no se puede deserializar, ''MethodArgumentNotValidException'' cuando falla la validación de los datos de entrada, etc. Se tratan igual que las nuestras: declarando en el manejador un ''@ExceptionHandler'' para cada tipo. Su tratamiento detallado se aborda al presentar la validación de datos.
+
+==== 8. El registro de la aplicación (logs) ====
+
+En apartados anteriores ya hemos mostrado información por consola a mano (''IO.printf'' en el filtro de auditoría). Para una aplicación real, la consola se queda corta: los mensajes no se guardan, se mezclan con la salida del propio framework y todos se ven igual por importante o trivial que sea. Un **sistema de logs** (o sistema de registro) resuelve esto: la aplicación emite **eventos de log** de forma uniforme —qué ocurre, cuándo y con qué severidad— y es la configuración, no el código, la que decide qué se registra y dónde.
+
+=== El evento de log y sus niveles ===
+
+Cada suceso que la aplicación registra de forma intencionada es un **evento de log**. Todos los eventos comparten una estructura mínima:
+
+^ Componente ^ Descripción ^
+| **Nivel** | La severidad del suceso: permite filtrar o destacar cada mensaje sin tocar el código |
+| **Marca de tiempo** | Cuándo se produjo; ordena los sucesos de una ejecución |
+| **Origen** | El componente que lo emitió (la clase propietaria del logger) |
+| **Mensaje** | La descripción del suceso, con el contexto que lo identifica |
+
+El **nivel** es la pieza central del sistema. De más a menos severidad:
+
+^ Nivel ^ Uso ^
+| ''ERROR'' | Fallo que impide completar la operación (error técnico no previsto) |
+| ''WARN'' | Incidencia recuperable o sospechosa (dato degradado, reintento) |
+| ''INFO'' | Suceso normal relevante: arranque, petición atendida, operación de negocio |
+| ''DEBUG'' | Detalle de diagnóstico con el que depurar en desarrollo |
+| ''TRACE'' | Información aún más minuciosa; solo se activa para casos muy concretos |
+
+=== Fachada e implementación ===
+
+En el ecosistema Java el registro se divide en dos piezas que se combinan:
+
+  * La **fachada**: define la API con la que el código emite eventos. La estándar es **SLF4J** (*Simple Logging Facade for Java*).\\ \\
+  * La **implementación**: decide el formato y el destino de cada evento. Las habituales en un proyecto Spring son **Logback** y **Log4j2** (sucesoras de la antigua Log4j); el JDK incluye además ''java.util.logging''.\\ \\
+
+El código solo conoce la fachada; la implementación se cambia por configuración, sin retocar ninguna clase. Es el mismo principio que ya aplicamos al programar contra interfaces.
+
+^ Pieza ^ Papel ^ En Spring Boot ^
+| **SLF4J** | Fachada: la API con la que escribe el código | Incluida por defecto |
+| **Logback** | Implementación por defecto | Incluida por defecto |
+| **Log4j2** | Implementación alternativa | Sustituible por configuración |
+
+<note important>Spring Boot ya incluye **Logback** detrás de la fachada **SLF4J**: se puede empezar a registrar eventos desde el primer proyecto sin añadir ninguna dependencia ni configurar nada.</note>
+
+=== Registrar eventos en el código ===
+
+Cada clase declara su logger y emite sus eventos con el nivel que les corresponde; el nombre del logger —por defecto la propia clase— identifica el origen. El manejador global del apartado 7 es el punto idóneo: al cliente le llega el mensaje genérico y la traza completa queda registrada con nivel ''ERROR'':
+
+<code java>
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    // Captura final: cualquier error no previsto -> mensaje genérico al cliente
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiErrorResponse> handleUnexpected(Exception e) {
+        log.error("Error técnico no controlado", e); // la traza completa queda en el log
+        return ResponseEntity.internalServerError().body(new ApiErrorResponse("Error interno del servidor"));
+    }
+}
+</code>
+
+Esto completa la nota del apartado 7: el detalle técnico (trazas, SQL, clases) nunca viaja al cliente, pero sí queda en el log del servidor para diagnosticar después.
+
+Los mensajes de SLF4J usan marcadores ''{}'' en lugar de concatenación: el texto se formatea solo si el nivel está activo, lo que evita construir cadenas para eventos que no se van a registrar. El filtro de auditoría del apartado 3 pasa de imprimir por consola a registrar con nivel:
+
+<code java>
+log.info("{} {} -> {} ({} ms)", request.getMethod(), request.getRequestURI(), response.getStatus(), duration);
+</code>
+
+=== Configuración de niveles y destinos ===
+
+En ''application.properties'' se declara el nivel por paquete. Los paquetes del framework son muy verbosos, así que se recortan para que sus mensajes no oculten los nuestros:
+
+<code base>
+# Nivel raíz y ajuste por paquete
+logging.level.root=INFO
+logging.level.org.springframework=WARN
+logging.level.com.fpmislata.bookstoreapi=DEBUG
+</code>
+
+El mismo código muestra más o menos detalle según la configuración: el paquete del proyecto en ''DEBUG'' para el desarrollo, ''INFO'' en producción, sin volver a compilar. También con propiedades se añade una salida a fichero:
+
+<code base>
+# Registro a fichero además de en consola
+logging.file.name=logs/bookstore.log
+</code>
+
+<note important>Nunca se registran datos sensibles: contraseñas, tokens ni cabeceras de autenticación (las veremos en el tema 12). El log se consulta más lejos de lo que imaginamos y el mensaje aporta contexto útil (identificadores), no secretos.</note>
+
+Cuando la aplicación se despliega fuera de tu equipo, este registro se convierte en la principal ventana de diagnóstico: guardar el log en producción y correlacionar cada mensaje con la petición que lo originó es el siguiente paso del ciclo, ya en 2.º DAW.

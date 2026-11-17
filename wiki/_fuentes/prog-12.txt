@@ -1,0 +1,486 @@
+====== 12 - Login con tokens ======
+
+Un sistema de login debe identificar quién realiza cada petición y decidir si puede ejecutar la operación solicitada.
+
+===== 1. Autenticación y autorización =====
+
+^ Concepto ^ Pregunta ^ Ejemplo ^
+| **Autenticación** | ¿Quién realiza la petición? | Comprobar las credenciales al iniciar sesión y validar el token en peticiones posteriores |
+| **Autorización** | ¿Qué puede hacer esa identidad? | Comprobar si su rol permite acceder a una operación de administración |
+
+El **login** autentica al usuario por primera vez. La **autorización** se evalúa para la operación solicitada: una petición puede estar autenticada y aun así no tener permiso para realizar una acción.
+
+El login valida las credenciales y entrega tokens. En cada petición protegida, el servidor valida el token de acceso, recupera la identidad y comprueba los permisos requeridos por la operación.
+
+<uml>
+@startuml
+!theme cerulean
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam ArrowThickness 1
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  ArrowColor #344883
+  FontColor #0F172A
+}
+skinparam classAttributeFontColor #0F172A
+skinparam stereotypeCBackgroundColor #344883
+skinparam stereotypeCBorderColor #273768
+skinparam package {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam ArrowColor #344883
+skinparam participant {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam actor {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam sequence {
+  ArrowColor #344883
+  LifeLineBorderColor #94A3B8
+  GroupBorderColor #344883
+  GroupBackgroundColor #E9EDF7
+}
+skinparam note {
+  BackgroundColor #FEF9C3
+  BorderColor #B6C2DE
+  FontColor #0F172A
+}
+skinparam activity {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+  StartColor #344883
+  EndColor #344883
+  DiamondBackgroundColor #FEFEFE
+  DiamondBorderColor #344883
+  DiamondFontColor #0F172A
+}
+skinparam component {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam database {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam node {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam cloud {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #344883
+}
+skinparam rectangle {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam state {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam usecase {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+actor Cliente
+participant Servidor
+database "Almacén de tokens" as Store
+
+Cliente -> Servidor : credenciales
+Servidor -> Servidor : autentica
+Servidor -> Store : registra tokens
+Servidor --> Cliente : token de acceso + refresh token
+
+Cliente -> Servidor : petición protegida + token de acceso
+Servidor -> Store : valida token y obtiene identidad/roles
+Store --> Servidor : identidad y roles
+Servidor -> Servidor : autoriza la operación
+Servidor --> Cliente : resultado o acceso denegado
+@enduml
+</uml>
+
+===== 2. Tokens opacos =====
+
+Un **token opaco** es una cadena aleatoria cuyo contenido no interpreta el cliente. El servidor lo valida consultando el estado que conserva, por ejemplo su hash, tipo, vencimiento y estado de revocación.
+
+El servidor genera los tokens con un generador criptográficamente seguro. En Java, ''SecureRandom'' proporciona bytes aleatorios que pueden codificarse como texto apto para HTTP:
+
+<code java>
+private static final SecureRandom RANDOM = new SecureRandom();
+
+static String generateToken() {
+    byte[] bytes = new byte[32];
+    RANDOM.nextBytes(bytes);
+    return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+}
+</code>
+
+El servidor almacena el hash del token, no el valor reutilizable en claro, y nunca lo escribe en logs.
+
+===== 3. Token de acceso y refresh token =====
+
+El login devuelve **un par de tokens**, con funciones y vencimientos distintos:
+
+^ Token ^ Uso ^ Duración típica ^
+| **Token de acceso** | Se envía en cada petición protegida | Corta |
+| **Refresh token** | Se envía solo para renovar el par | Más larga |
+
+El cliente conserva ambos. Envía el token de acceso, normalmente en la cabecera ''Authorization'' con el esquema ''Bearer''. El refresh token no se incluye en las peticiones normales.
+
+<code json>
+{
+  "accessToken": "<token-de-acceso-aleatorio>",
+  "refreshToken": "<refresh-token-aleatorio>"
+}
+</code>
+
+===== 4. Renovación y rotación =====
+
+Cuando caduca el token de acceso, el cliente puede renovar automáticamente la sesión enviando el refresh token. El servidor valida y consume ese refresh token, y devuelve **un nuevo par**: token de acceso y refresh token. El cliente sustituye los dos valores anteriores por los nuevos.
+
+Se renueva el par completo para que cada renovación cree credenciales nuevas asociadas a la misma sesión. Rotar especialmente el refresh token permite detectar si se vuelve a presentar uno ya consumido.
+
+<uml>
+@startuml
+!theme cerulean
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam ArrowThickness 1
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  ArrowColor #344883
+  FontColor #0F172A
+}
+skinparam classAttributeFontColor #0F172A
+skinparam stereotypeCBackgroundColor #344883
+skinparam stereotypeCBorderColor #273768
+skinparam package {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam ArrowColor #344883
+skinparam participant {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam actor {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam sequence {
+  ArrowColor #344883
+  LifeLineBorderColor #94A3B8
+  GroupBorderColor #344883
+  GroupBackgroundColor #E9EDF7
+}
+skinparam note {
+  BackgroundColor #FEF9C3
+  BorderColor #B6C2DE
+  FontColor #0F172A
+}
+skinparam activity {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+  StartColor #344883
+  EndColor #344883
+  DiamondBackgroundColor #FEFEFE
+  DiamondBorderColor #344883
+  DiamondFontColor #0F172A
+}
+skinparam component {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam database {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam node {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam cloud {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #344883
+}
+skinparam rectangle {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam state {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam usecase {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+actor Cliente
+participant Servidor
+database "Almacén de tokens" as Store
+
+Cliente -> Servidor : refresh token R1
+Servidor -> Store : valida y consume R1
+Store --> Servidor : R1 válido
+Servidor -> Store : registra A2 + R2
+Servidor --> Cliente : nuevo par A2 + R2
+note over Cliente,Store
+  R1 queda inválido.
+  A2 y R2 pertenecen a la misma sesión.
+end note
+@enduml
+</uml>
+
+El consumo de R1 y la creación del nuevo par deben ser **atómicos**. El cliente debe coordinar la renovación y evitar solicitudes simultáneas con el mismo refresh token.
+
+===== 5. Reutilización de un refresh token =====
+
+Si se presenta otra vez un refresh token ya consumido, puede tratarse de un atacante o de un cliente legítimo que conserva una copia antigua. El servidor no puede saber cuál de los dos es legítimo.
+
+Para detectar el reuso, el servidor conserva que R1 ya se consumió y su relación con una **familia de tokens** o sesión. Si R1 ya produjo A2 + R2 y vuelve a presentarse, se revoca toda la familia, incluido el par más reciente. El cliente legítimo también pierde la sesión y debe autenticarse de nuevo.
+
+<uml>
+@startuml
+!theme cerulean
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam ArrowThickness 1
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  ArrowColor #344883
+  FontColor #0F172A
+}
+skinparam classAttributeFontColor #0F172A
+skinparam stereotypeCBackgroundColor #344883
+skinparam stereotypeCBorderColor #273768
+skinparam package {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam ArrowColor #344883
+skinparam participant {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam actor {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam sequence {
+  ArrowColor #344883
+  LifeLineBorderColor #94A3B8
+  GroupBorderColor #344883
+  GroupBackgroundColor #E9EDF7
+}
+skinparam note {
+  BackgroundColor #FEF9C3
+  BorderColor #B6C2DE
+  FontColor #0F172A
+}
+skinparam activity {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+  StartColor #344883
+  EndColor #344883
+  DiamondBackgroundColor #FEFEFE
+  DiamondBorderColor #344883
+  DiamondFontColor #0F172A
+}
+skinparam component {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam database {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam node {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam cloud {
+  BackgroundColor transparent
+  BorderColor #344883
+  FontColor #344883
+}
+skinparam rectangle {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam state {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+skinparam usecase {
+  BackgroundColor #FEFEFE
+  BorderColor #344883
+  FontColor #0F172A
+}
+actor "Cliente legítimo" as Client
+actor Atacante
+participant Servidor
+database "Almacén de tokens" as Store
+
+Client -> Servidor : renueva con R1
+Servidor -> Store : consume R1 y emite A2 + R2
+Atacante -> Servidor : presenta R1 robado
+Servidor -> Store : detecta que R1 ya se consumió
+Servidor -> Store : revoca la familia (A2, R2)
+Servidor --> Atacante : renovación rechazada
+Client -> Servidor : petición con A2
+Servidor -> Store : comprueba estado de la familia
+Store --> Servidor : revocada
+Servidor --> Client : debe autenticarse de nuevo
+@enduml
+</uml>
+
+La rotación no impide el robo de una credencial: permite detectar la reutilización de un refresh token anterior y responder revocando la sesión completa. Si el atacante usa primero el token robado, el reuso posterior por el cliente legítimo revoca también los tokens nuevos.
+
+===== 6. Principal y estado por petición =====
+
+En Java, ''Principal'' es una interfaz que representa la identidad asociada a una entidad que puede autenticarse. Su método principal, ''getName()'', devuelve el nombre identificador. La aplicación puede implementar esa interfaz con un tipo propio que añada solo los datos que necesita, por ejemplo el id del usuario y sus roles; no tiene que exponer el objeto completo ''User''.
+
+<code java>
+public record AuthenticatedPrincipal(Long userId, Set<String> roles)
+        implements Principal {
+
+    public AuthenticatedPrincipal {
+        roles = Set.copyOf(roles);
+    }
+
+    @Override
+    public String getName() {
+        return userId.toString();
+    }
+}
+</code>
+
+El servidor necesita que este ''Principal'' esté disponible mientras se procesa la petición:
+
+^ Dónde guardar el ''Principal'' ^ Problema ^
+| Variable local | Solo está disponible en ese método; habría que pasarla por todos los componentes invocados |
+| Campo ''static'' mutable | Se comparte entre peticiones y puede mezclar las identidades de distintos clientes |
+| ''ThreadLocal'' | Asocia el valor al hilo actual; hay que limpiarlo porque el hilo puede reutilizarse |
+
+En un flujo web síncrono, ''ThreadLocal'' permite a los componentes de la petición consultar un contexto común sin pasar el ''Principal'' explícitamente por cada llamada.
+
+<code java>
+public final class SecurityContext {
+    private static final ThreadLocal<Principal> CURRENT = new ThreadLocal<>();
+
+    private SecurityContext() {}
+
+    public static void set(Principal principal) {
+        CURRENT.set(principal);
+    }
+
+    public static Principal get() {
+        return CURRENT.get();
+    }
+
+    public static void clear() {
+        CURRENT.remove();
+    }
+}
+</code>
+
+Aunque ''CURRENT'' es ''static'', es el objeto ''ThreadLocal'' el que se comparte. Este mantiene un valor independiente para cada hilo; no guarda un mismo ''Principal'' global para todos.
+
+===== 7. Filtro Servlet y SecurityContext propio =====
+
+Un **filtro Servlet** participa en la cadena que procesa cada petición. Antes de continuar la cadena puede extraer y validar el token de acceso, construir el ''Principal'' y guardarlo en el contexto. Al finalizar, lo elimina.
+
+En una aplicación **Spring Boot**, el filtro Servlet puede implementarse extendiendo ''OncePerRequestFilter''. La clase base gestiona su integración con Spring; la idea del filtro y su posición en la cadena pertenecen al modelo Servlet.
+
+<code java>
+@Component
+public class AccessTokenFilter extends OncePerRequestFilter {
+    private final AuthService authService;
+
+    public AccessTokenFilter(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+            HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
+        try {
+            SecurityContext.clear();
+            String token = extractBearerToken(request);
+            if (token != null) {
+                authService.authenticate(token).ifPresent(SecurityContext::set);
+            }
+            chain.doFilter(request, response);
+        } finally {
+            SecurityContext.clear();
+        }
+    }
+
+    private String extractBearerToken(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        if (authorization == null || !authorization.startsWith("Bearer ")) {
+            return null;
+        }
+        return authorization.substring("Bearer ".length());
+    }
+}
+</code>
+
+Las rutas públicas, como login y renovación, continúan sin ''Principal''. En una ruta protegida, el controlador consulta el contexto y rechaza la operación si no hay identidad autenticada:
+
+<code java>
+AuthenticatedPrincipal principal =
+        (AuthenticatedPrincipal) SecurityContext.get();
+
+if (principal == null) {
+    throw new AuthenticationRequiredException();
+}
+
+Long userId = principal.userId();
+Set<String> roles = principal.roles();
+</code>
+
+<note warning>Todo contexto guardado en ''ThreadLocal'' debe limpiarse en ''finally''. Tomcat reutiliza hilos; si no se elimina el valor, una petición posterior podría heredar el ''Principal'' de otra.</note>

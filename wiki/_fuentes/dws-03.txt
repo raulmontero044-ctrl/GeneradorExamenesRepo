@@ -1,0 +1,206 @@
+====== 03 - Validación e invariancias ======
+
+Una petición puede rechazarse por dos motivos distintos: incumple el formato del contrato o propone un estado inválido para el negocio. Son preguntas diferentes, que se responden en lugares diferentes y con mecanismos diferentes. Mezclarlas produce los errores clásicos: reglas de negocio escritas en el ''controller'' que otra vía de entrada omite, o datos inválidos que llegan hasta el dominio y se convierten en errores del servidor.
+
+===== 1. Dos preguntas, dos fronteras =====
+
+^ Pregunta ^ Dónde se responde ^ Mecanismo ^ Respuesta típica ^
+| ¿La petición cumple el formato del contrato? | La capa de presentación (el **DTO** de entrada) | **Jakarta Validation** | **400** indicando campo y motivo |
+| ¿El estado propuesto es válido para el negocio? | El dominio (modelos) | **Invariantes** expresadas en código | Excepción de dominio, mapeada al error del contrato |
+
+El mismo dato puede aparecer en las dos preguntas. Que el IBAN tenga veintidós dígitos y empiece por ''ES'' puede ser una regla de formato del contrato y, además, la invariante del tipo de dominio que lo representa. Puede duplicarse, y los apartados siguientes explican por qué no es una redundancia.
+
+===== 2. Validación de entrada con Jakarta Validation =====
+
+**Jakarta Validation** declara la validación como anotaciones sobre los campos del DTO. El DTO describe el contrato; las anotaciones describen qué solicitudes el contrato admite.
+
+==== 2.1 Constraints estándar ====
+
+<code java>
+public record CreateAccountRequest(
+        @NotBlank String name,
+        @NotBlank @Email String email,
+        @Size(max = 240) String description,
+        @Positive @Digits(integer = 8, fraction = 2) BigDecimal balance) {}
+</code>
+
+^ Anotación ^ Comprueba ^
+| ''@NotNull'', ''@NotBlank'', ''@NotEmpty'' | Presencia: valor, cadena con contenido, colección no vacía |
+| ''@Size'' | Longitud de cadena o tamaño de colección |
+| ''@Min'', ''@Max'', ''@Positive'', ''@NegativeOrZero'' | Rango numérico |
+| ''@Email'', ''@Pattern'' | Formato |
+| ''@Digits'', ''@DecimalMin'' | Precisión y escala numéricas |
+| ''@Past'', ''@Future'' | Comparación con el momento actual |
+
+==== 2.2 Validación automática y en cascada ====
+
+Spring valida el DTO de entrada cuando el parámetro del ''controller'' se anota con ''@Valid'':
+
+<code java>
+@Tag(name = "Cuentas")
+public interface AccountHttpApi {
+    @PostMapping("/accounts")
+    ResponseEntity<AccountResponse> create(@Valid @RequestBody CreateAccountRequest request);
+}
+</code>
+
+El DTO de un nivel puede contener otros DTO; cada uno se valida en cascada:
+
+<code java>
+public record CreateOrderRequest(
+        @NotBlank String customerId,
+        @NotEmpty @Valid List<ItemRequest> items) {
+    public record ItemRequest(
+            @NotBlank String productId,
+            @Positive int quantity) {}
+}
+</code>
+
+Sin ''@Valid'' el DTO no se valida aunque lleve anotaciones: es una decisión explícita, operación por operación.
+
+==== 2.3 Constraints personalizadas ====
+
+Cuando el formato propio de la aplicación no encaja con ninguna anotación estándar, se declara una **constraint** propia que delega en una clase validadora:
+
+<code java>
+@Constraint(validatedBy = IbanFormatValidator.class)
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface ValidIban {
+    String message() default "El formato del IBAN no es válido";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+}
+</code>
+
+<code java>
+class IbanFormatValidator implements ConstraintValidator<ValidIban, String> {
+
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value == null) {
+            return true; // la obligatoriedad corresponde a @NotBlank
+        }
+        return value.matches("^ES\\d{22}$");
+    }
+}
+</code>
+
+La validadora se separa de la anotación y se puede comprobar directamente (ver §5); la anotación solo declara mensaje y dónde aplica.
+
+==== 2.4 El resultado: 400 coherente con la API ====
+
+Si la validación falla, Spring lanza la excepción antes de que el ''controller'' ejecute su cuerpo. Se unifica con un manejador central que devuelve un documento **ProblemDetail** (**RFC 9457**):
+
+<code java>
+@RestControllerAdvice
+class GlobalValidationHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ProblemDetail onInvalidRequest(MethodArgumentNotValidException exception) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problem.setTitle("Solicitud inválida");
+        problem.setProperty("errors", exception.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .toList());
+        return problem;
+    }
+}
+</code>
+
+Todas las operaciones comparten el mismo formato de error de validación; solo cambian los campos que fallan. Además, el rechazo ocurre antes de tocar el dominio ni la base de datos.
+
+==== 2.5 Del código al contrato: OpenAPI ====
+
+**springdoc-openapi** traduce las anotaciones de DTO a restricciones del esquema **OpenAPI**: ''@NotBlank'' marca el campo requerido, ''@Size'' la longitud máxima, ''@Min'' el mínimo. **Swagger UI** muestra qué admite el contrato sin leer el código.
+
+<note tip>Las constraints estándar se reflejan solas en el esquema. Para las personalizadas, documentar su restricción en la operación o en el esquema (por ejemplo ''@Schema'') — si quien consume la API no puede ver lo que la validación exige, el contrato miente en ese punto.</note>
+
+===== 3. Invariancias con value objects =====
+
+En el otro lado del par está el dominio. Un **value object** es un tipo pequeño, **inmutable** y comparado por valor, que representa un concepto de negocio y protege sus invariantes en su propia construcción: si los datos no son válidos, el objeto no existe.
+
+<note tip>Es la idea de **DDD** (*Domain-Driven Design*): el tipo que representa un concepto no deja llegar nunca a un estado inválido ni se deja confundir con otros tipos de negocio. Sustituye la *primitive obsession*: en lugar de adivinar si cada ''String'' es un IBAN, un teléfono o un código de banco, cada concepto tiene su tipo.</note>
+
+<code java>
+public record Iban(String value) {
+
+    private static final Pattern FORMAT = Pattern.compile("^ES\\d{22}$");
+
+    public Iban { // constructor compacto: valida antes de asignar
+        if (value == null || !FORMAT.matcher(value).matches()) {
+            throw new InvalidIbanException();
+        }
+    }
+
+    public String country() {
+        return value.substring(0, 2);
+    }
+}
+</code>
+
+El modelo declara sus relaciones con tipos de dominio (''Iban iban'' donde antes estaba ''String iban'') y ninguna otra pieza puede construir un ''Iban'' con contenido incorrecto: el cuerpo del constructor compacto se ejecuta en toda vía de creación — deserialización, mapeador, caso de uso, otro módulo.
+
+==== 3.1 Por qué no Jakarta Validation en el dominio ====
+
+^ Enfoque ^ Cuándo se aplica ^ Qué garantiza ^ Coste para el dominio ^
+| Anotaciones de **Jakarta Validation** | Solo donde un framework valida (una petición HTTP) | Nada: un ''new Iban("…")'' directo no anota nada y salta la validación | Dependencia de ''jakarta.validation'' dentro del dominio, prohibida en la verificación de módulos (tema 04) |
+| Invariante en el **value object** | Toda construcción del objeto, desde cualquier punto del programa | El tipo no existe en estado inválido | Ninguna: es código y tipos del propio dominio |
+
+La invariante vive en el tipo, donde el objeto se construye; las anotaciones viven donde el framework decide aplicarlas.
+
+<note important>La pureza del dominio no es estética: el mismo objeto puede construirse desde un ''controller'', un caso de uso, un mapeador o el propio módulo. Solo el código de invariante protege en todas las vías; las anotaciones quedan reservadas a los DTO de las fronteras, que sí dependen de ''jakarta.validation''.</note>
+
+===== 4. ¿Duplicar la regla en dos sitios? =====
+
+La misma regla puede aparecer en el DTO y en el value object, porque respaldan decisiones distintas:
+
+^ Quién regula ^ Qué previene ^ Error que produce ^
+| El **DTO** con anotaciones | Que una solicitud inválida llegue a tocar el sistema; rechazo temprano y claro | **400** con campo y mensaje |
+| El **value object** | Que el estado inválido exista en el sistema por cualquier vía de entrada | Excepción de dominio, traducida por el manejador al error del contrato (por ejemplo 409 o 422) |
+
+<note tip>El **DTO** rechaza pronto y con un error claro las solicitudes que no cumplen el contrato; el **value object** garantiza la invariante aunque el dato llegue por una vía que no pasa por la frontera. Ninguno cubre por sí solo todas las vías de entrada; por eso se complementan.</note>
+
+Gestionar el **campo válido para el contrato pero inválido para el negocio** (por ejemplo, saldo inicial de ''0.02'' bien formado pero no admitido por las reglas): el caso de uso invoca al modelo, la excepción de negocio salta y el manejador de la API la traduce al error documentado en el contrato.
+
+===== 5. Pruebas =====
+
+  * **Value objects**: pruebas unitarias sin framework ni mocks; casos frontera incluidos valores límite. Son las piezas más baratas de probar; si son record, cada invariante es directo.
+  * **Constraints personalizadas**: probar la clase validadora directamente con valores que cumplen y no cumplen.
+  * **DTO de entrada**: pruebas de integración HTTP que verifican el rechazo, no la lógica del negocio; no repetir los casos cubiertos por el value object.
+  * **Handler de errores**: su formato se prueba una vez (el manejador compartido), no en cada operación.
+
+<code java>
+class IbanTest {
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "ES12", "GB29 NWBK 6016 1331 9268 19", "es9121000418450200051332"})
+    void rejectsInvalidValue(String value) {
+        assertThrows(InvalidIbanException.class, () -> new Iban(value));
+    }
+
+    @Test
+    void acceptsValidValueAndExposesCountry() {
+        assertEquals("ES", new Iban("ES9121000418450200051332").country());
+    }
+}
+</code>
+
+<code java>
+@WebMvcTest(CreateAccountController.class)
+class CreateAccountValidationTest {
+
+    @Autowired MockMvc mockMvc;
+    @MockitoBean CreateAccount useCase;
+
+    @Test
+    void rejectsInvalidEmailAsBadRequest() throws Exception {
+        mockMvc.perform(post("/accounts")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"Ana\",\"email\":\"no-email\"}"))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.errors[0]", containsString("email")));
+    }
+}
+</code>
+
+<note important>La validación declarada con anotaciones la aplica el framework; probar Spring no es una responsabilidad de estos tests. Lo que se prueba aquí es que cada ruta errónea del contrato produce el rechazo correcto. Lo que no se prueba: repetir el catálogo completo de combinaciones absurdas de campos, ni negocio que ya está bien cubierto por las pruebas del value object.</note>

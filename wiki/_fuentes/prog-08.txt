@@ -1,0 +1,301 @@
+====== 08 - Arquitectura de Software por Capas y Diseño de Componentes =======
+
+===== 1. El problema del código "Espagueti" y la necesidad de la arquitectura =====
+
+Cuando comenzamos a programar, es habitual escribir todo el código en un único método o dentro de la misma clase: la lectura de datos, las validaciones, los cálculos, el acceso a la base de datos o ficheros y la presentación del resultado.
+
+Este enfoque crea un sistema monolítico y acoplado, conocido popularmente como código espagueti.
+
+=== Problemas del código sin estructurar ===
+
+  * **Alta rigidez**: Cambiar una parte del sistema (por ejemplo, pasar de guardar datos en un fichero texto a una Base de Datos SQL) obliga a modificar y reescribir la lógica de negocio y la interfaz.\\ \\
+  * **Falta de reusabilidad**: La lógica de negocio está mezclada con la entrada/salida de datos, impidiendo reutilizarla en otros entornos (ej. pasar de una aplicación de consola a una API Web).\\ \\
+  * **Dificultad para trabajar en equipo**: Varios desarrolladores tocando la misma clase o fichero genera constantes conflictos de código (merge conflicts).\\ \\  
+  * **Imposibilidad de realizar pruebas unitarias (testing)**: No se puede probar la lógica de cálculo sin ejecutar simultáneamente el acceso a la base de datos o la interacción con el usuario.\\ \\
+
+=== Arquitectura de Software ===
+
+La Arquitectura de Software define cómo se dividen, organizan y comunican los componentes de una aplicación.
+
+Aplicar una buena arquitectura nos permite obtener un sistema:
+
+  * **Mantenible**: Localizar y corregir errores o añadir funcionalidades de forma rápida.\\ \\
+  * **Desacoplado**: Cada componente realiza su trabajo sin depender de los detalles internos de los demás.\\ \\
+  * **Escalable**: Capaz de crecer en complejidad o carga de trabajo sin romper la estructura existente.\\ \\
+  * **Testable**: Permite probar cada pieza de forma aislada.\\ \\
+===== 2. La Arquitectura por Capas (Layered Architecture) =====
+
+La **arquitectura por capas** es un patrón de diseño que divide la aplicación en niveles jerárquicos. Cada capa tiene una responsabilidad única y ofrece servicios a la capa inmediatamente superior.
+
+=== Principales Capas del Sistema ===
+
+  * **Capa de Presentación (controller)**:\\ \\
+      * **Responsabilidad**: Gestiona la entrada/salida de la aplicación (peticiones HTTP, menú de consola, etc.).\\ \\
+      * **Comportamiento**: Recibe los datos del usuario, los valida formalmente, llama a la capa de dominio y devuelve el resultado formateado. **No contiene lógica de negocio ni accede a datos**.\\ \\
+  * **Capa de Dominio / Negocio (domain)**:\\ \\
+      * **Responsabilidad**: Representa el corazón de la aplicación.\\ \\
+      * **Comportamiento**: Contiene las entidades del modelo y aplica las reglas de negocio (cálculos, validaciones complejas, permisos). **Es totalmente independiente de cómo se muestran los datos o dónde se almacenan**.\\ \\
+  * **Capa de Persistencia / Acceso a Datos (persistence)**:\\ \\
+      * **Responsabilidad**: Gestiona la lectura y escritura de datos.\\ \\
+      * **Comportamiento**: Se comunica con el soporte físico (base de datos relacional, ficheros JSON/CSV, APIs externas) y convierte esa información en objetos manejables por el dominio.\\ \\
+
+=== Reglas de Comunicación entre Capas ===
+
+  * **Flujo unidireccional**: Las llamadas siempre van hacia abajo: Controller $\rightarrow$ Service $\rightarrow$ Repository.\\ \\
+  * **Prohibido el salto de capas**: El controlador nunca debe comunicarse directamente con la capa de persistencia.\\ \\
+  * **Aislamiento**: Una capa inferior nunca debe conocer ni llamar a las capas superiores.\\ \\
+
+<uml>
+@startuml
+allowmixing
+
+package "Capa de Presentación" #E9EDF7 {
+class BookController
+class BookRequest
+class BookResponse
+}
+
+package "Capa de Dominio" #EBD9D2 {
+interface BookService
+class BookServiceImpl
+class Book
+}
+
+package "Capa de Persistencia" #D6DFEE {
+interface BookRepository
+class BookRepositoryImpl
+interface BookDao
+class BookDaoImpl
+class BookEntity
+}
+
+
+database "Base de Datos / Fichero" as db
+
+BookController -down-> BookService : consume
+BookController -right-> BookRequest : utiliza
+BookController -left-> BookResponse : utiliza
+BookService <|.. BookServiceImpl : implementa
+BookServiceImpl -right-> Book : utiliza
+BookServiceImpl -down-> BookRepository : consume
+BookRepository <|.. BookRepositoryImpl : implementa
+BookRepositoryImpl -down-> BookDao : consume
+BookDao <|.. BookDaoImpl : implementa
+BookDaoImpl -down-> db : leer/escribir
+BookDaoImpl -right-> BookEntity : utiliza
+@enduml
+</uml>
+
+===== 3. DTOs (Data Transfer Objects) y Java Records =====
+
+Cuando la capa de presentación interactúa con el exterior (usuarios, clientes API, vistas), **no es recomendable exponer directamente las entidades internas del dominio**. Para gestionar esta entrada y salida de información de forma segura y eficiente se utilizan los **DTO** (**Data Transfer Objects**). Sus características principales son:
+
+  * **Seguridad y Privacidad**: Ocultan datos sensibles o internos que el usuario no necesita ver (ej. claves internas, contraseñas, borrados lógicos).\\ \\
+  * **Especialización** (Request vs Response):\\ \\
+      * **Request DTO (Entrada)**: Transporta solo los campos requeridos para realizar una acción (ej. crear un libro sin el ID, ya que este lo asigna el sistema).\\ \\
+      * **Response DTO (Salida)**: Entrega la información formateada y procesada explícitamente para el cliente.\\ \\
+  * **Desacoplamiento**: Permite modificar la estructura interna del dominio o de la base de datos sin romper la interfaz externa de la aplicación.\\ \\
+
+==== Java Records ====
+
+Históricamente, crear un //DTO// en Java requería escribir mucho código repetitivo: atributos ''private final'', constructor, ''getters'', ''equals()'', ''hashCode()'' y ''toString()''.
+
+A partir de Java 14+, disponemos de los ''Records'': clases inmutables de sintaxis compacta, diseñadas específicamente para transportar datos de forma inmutable.
+
+Un ''Record'' de Java es una clase con las siguientes características:
+
+  * **Inmutabilidad por defecto**: Todos sus componentes (campos) son implícitamente ''private final''. Una vez instanciado el ''record'', sus valores no pueden ser modificados, lo que garantiza la integridad de los datos durante su transporte.\\ \\
+  * **Generación automática de métodos**: Con solo declarar la firma del ''record'', el compilador genera automáticamente:\\ \\
+      * Un constructor canónico que inicializa todos los campos.\\ \\
+      * Métodos de acceso tipo ''getter'' para cada campo (con el mismo nombre que el campo, ej. ''isbn()'' en lugar de ''getIsbn()'').\\ \\
+      * Métodos ''equals()'' y ''hashCode()'' basados en el valor de sus campos (dos ''records'' con los mismos datos se consideran iguales).\\ \\
+      * Un método ''toString()'' descriptivo con la lista formateada de sus campos.\\ \\
+  * **Semántica clara**: Indica explícitamente al desarrollador y al framework que esta clase es un mero portador de datos sin lógica de negocio ni estado mutable.\\ \\
+
+<code java>
+import java.math.BigDecimal;
+
+// Representa los datos necesarios para crear un nuevo libro (sin ID)
+public record BookCreateRequest(
+    String isbn,
+    String title,
+    BigDecimal basePrice
+) {}
+</code>
+
+<code java>
+import java.math.BigDecimal;
+
+// Representa los datos que enviamos al exterior (con el precio final calculado)
+public record BookResponse(
+    String isbn,
+    String title,
+    BigDecimal finalPrice
+) {}
+</code>
+
+==== Conversión entre objetos: Mapeadores (Mappers) ====
+
+La separación entre DTOs y Entidades del Dominio introduce una responsabilidad adicional: transformar o mapear objetos de un tipo a otro al cruzar la frontera entre la capa de presentación y la de dominio.
+
+Un **Mapper** es un componente encargado de convertir instancias de un DTO a una Entidad de Dominio, y viceversa.
+
+<code java>
+public class BookMapper {
+
+    // Convierte el DTO de entrada en la Entidad del Dominio
+    public static Book toDomain(BookCreateRequest dto) {
+        if (dto == null) return null;
+        return new Book(
+            dto.isbn(),
+            dto.title(),
+            dto.basePrice()
+        );
+    }
+
+    // Convierte la Entidad del Dominio en el DTO de salida
+    public static BookResponse toResponse(Book domain) {
+        if (domain == null) return null;
+        return new BookResponse(
+            domain.getIsbn(),
+            domain.getTitleEs(),
+            domain.getFinalPrice() // Aplica la regla/cálculo del dominio
+        );
+    }
+}
+</code>
+
+
+===== 4. Gestión de Dependencias: DI e IoC =====
+
+Para conectar las distintas capas de nuestra aplicación de forma limpia, cada clase necesita interactuar con los servicios de la capa inferior. Sin embargo, la forma en que se instancian y gestionan esas colaboraciones marca la diferencia entre un código rígido y un sistema mantenible y desacoplado.
+
+El error habitual al empezar a desarrollar aplicaciones en capas es que cada clase cree directamente sus propias dependencias utilizando el operador ''new''.
+
+<code java>
+public class BookRepositoryImpl implements BookRepository{
+    private BookDao bookDao;
+
+    public BookRepositoryImpl() {
+        // ERROR: La clase decide internamente la implementación concreta
+        this.bookDao = new BookDaoMySql(); // Implementación de BookDao usando una bbdd SQL
+    }
+}
+</code>
+
+<code java>
+public class BookDaoMySql implements BookDao {
+...
+}
+
+public class BookDaoJson implements BookDao {
+...
+}
+</code>
+
+Inconvenientes de este enfoque:
+
+  * **Alto acoplamiento**: ''BookRepositoryImpl'' queda atado a la clase concreta ''BookDaoMySql''. Si cambiamos el mecanismo de persistencia (ej. a BookDaoJson), habrá que modificar el código interno del repositorio.\\ \\
+  * **Imposible realizar pruebas unitarias aisladas**: No se puede probar la lógica del servicio sin ejecutar la implementación real de la persistencia.\\ \\
+
+==== Inyección de Dependencias (DI) ====
+
+La **Inyección de Dependencias** (**Dependency Injection**) es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior en lugar de instanciarlas internamente.
+
+En lugar de que la clase cree el DAO, declara: //"Necesito un BookDao para funcionar, entregádmelo al construirme"//.
+
+=== Inyección por constructor (Buena práctica) ===
+
+La **inyección a través del constructor** es el enfoque recomendado en la industria porque garantiza que la clase se cree en un estado válido y con atributos inmutables.
+
+<code java>
+
+// Apunta a una INTERFAZ y el atributo es inmutable
+private final BookDao bookDao;
+
+// La dependencia se inyecta desde fuera
+public BookRepositoryImpl(BookDao bookDao) {
+    this.bookDao = bookDao;
+}
+</code>
+
+==== Inversión de Control (IoC) ====
+
+La **Inversión de Control** (**Inversion of Control**) es un principio de diseño más amplio donde el control del flujo de ejecución y de la creación de objetos se delega a un componente externo (el ensamblador o contenedor).
+
+  * **Flujo tradicional**: Las clases toman el control, deciden cuándo y cómo crear a sus colaboradores.\\ \\
+  * **Flujo invertido (IoC)**: Un elemento externo crea los objetos, resuelve sus dependencias y se los entrega (inyecta) a quien los necesite.\\ \\
+
+=== Ensamblado manual del sistema ===
+
+Al no usar de momento un framework como Spring (que automatiza esta tarea mediante un contenedor de IoC), el ensamblado de las distintas capas se puede realiza manualmente en el punto de entrada de la aplicación (el método ''main'').
+
+<code java>
+static void main() {
+    // 1. Instanciamos el DAO
+    BookDao bookDao = new BookDaoMySql();
+
+    // 2. Inyectamos el DAO al repositorio
+    BookRepository bookRepository = new BookRepositoryImpl(bookDao);
+
+    // 3. Inyectamos el repositorio al servicio
+    BookService bookService = new BookServiceImpl(bookRepository);
+
+    // 4. Inyectamos el servicio en la capa de presentación
+    BookController bookController = new BookController(bookService);
+
+    // 5. Iniciamos la ejecución del sistema
+    bookController.run();
+}
+</code>
+
+=== El contenedor de IoC (IoC Container) ===
+
+En aplicaciones reales con decenas o cientos de clases, instanciar y conectar todos los objetos manualmente en el método main se vuelve inmanejable.
+
+Para solucionar esto existen los **Contenedores de IoC** (**IoC Containers** o **Dependency Injection Containers**): componentes encargados de instanciar, configurar y ensamblar todos los objetos del sistema (denominados habitualmente beans o componentes).
+
+Para entender cómo funciona internamente un framework como Spring, podemos construir un contenedor de IoC básico a mano utilizando el patrón Factoría (Factory):
+
+<code java>
+
+// Contenedor IoC casero que gestiona el ciclo de vida y las dependencias
+public class IoCContainer {
+
+    private final BookDao bookDao;
+    private final BookRepository bookRepository;
+    private final BookService bookService;
+    private final BookController bookController;
+
+    public IoCContainer() {
+        // El contenedor asume la responsabilidad de crear e inyectar
+        this.bookDao = new BookDaoMySql();
+        this.bookRepository = new BookRepositoryImpl(this.bookDao);
+        this.bookService = new BookServiceImpl(this.bookRepository);
+        this.bookController = new BookController(this.bookService);
+    }
+
+    // Métodos para proporcionar los componentes instanciados
+    public BookController getBookController() {
+        return this.bookController;
+    }
+}
+</code>
+
+Con esta abstracción, la clase ''Main'' se simplifica al máximo. Ya no necesita saber cómo se construyen ni cómo se conectan las capas:
+
+<code java>
+static void main() {
+    IoCContainer container = new IoCContainer();
+
+    BookController bookController = container.getBookController();
+    
+    bookController.run();
+}
+</code>
+
+=== Ventajas de IoC / DI ===
+
+  * **Desacoplamiento total**: Cada capa depende de interfaces, no de implementaciones concretas.\\ \\
+  * **Facilidad para Pruebas Unitarias**: Es posible pasarle al constructor un objeto simulado (**Mock**) para probar la lógica de negocio aisladamente.\\ \\
+  * **Flexibilidad y Mantenibilidad**: Cambiar la implementación de una capa (por ejemplo, reemplazar la persistencia en ficheros por una base de datos) solo requiere modificar una línea en el ensamblado, sin tocar el código del Servicio ni del Controlador.\\ \\
