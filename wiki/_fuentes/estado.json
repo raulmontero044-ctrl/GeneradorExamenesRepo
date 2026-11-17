@@ -1,0 +1,631 @@
+{
+  "version": 1,
+  "temas": {
+    "prog-08": {
+      "url": "https://cesguiro.es/doku.php/clase/daw/prog/arquitectura",
+      "fechaDescarga": "2026-11-17T08:42:26.678Z",
+      "hash": "a92cd677cf5d32516674dea1ba20427da650c98ec8db37458640522227a00b6b",
+      "secciones": [
+        {
+          "titulo": "08 - Arquitectura de Software por Capas y Diseño de Componentes",
+          "clave": "08 - arquitectura de software por capas y diseño de componentes",
+          "nivel": 1,
+          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "titulo": "1. El problema del código \"Espagueti\" y la necesidad de la arquitectura",
+          "clave": "1. el problema del código \"espagueti\" y la necesidad de la arquitectura",
+          "nivel": 2,
+          "hash": "bd3b469648b0606e9d67202e4bf76a5f1fcc27df26336632da48786332d0b7a8"
+        },
+        {
+          "titulo": "Problemas del código sin estructurar",
+          "clave": "problemas del código sin estructurar",
+          "nivel": 4,
+          "hash": "a5713201bab9f680a74df20e5a516112577582fe3eb629194c4746b1b1aefc85"
+        },
+        {
+          "titulo": "Arquitectura de Software",
+          "clave": "arquitectura de software",
+          "nivel": 4,
+          "hash": "475702956bf6b5906a2f5083cdefcc62a4439968a6d40d1506d9cd10490a6fff"
+        },
+        {
+          "titulo": "2. La Arquitectura por Capas (Layered Architecture)",
+          "clave": "2. la arquitectura por capas (layered architecture)",
+          "nivel": 2,
+          "hash": "58e21ba6511feecc582094e3e731a49a8000fab9cd0d28c41442330456bee44f"
+        },
+        {
+          "titulo": "Principales Capas del Sistema",
+          "clave": "principales capas del sistema",
+          "nivel": 4,
+          "hash": "ca962dbdb761d4644e992695583ddcebd2b48fb71e31dc81ee9eede6cb9d5181"
+        },
+        {
+          "titulo": "Reglas de Comunicación entre Capas",
+          "clave": "reglas de comunicación entre capas",
+          "nivel": 4,
+          "hash": "194961eb812dcb47689d252afc0b9f07e673454b2e0eee127397813b45176fba"
+        },
+        {
+          "titulo": "3. DTOs (Data Transfer Objects) y Java Records",
+          "clave": "3. dtos (data transfer objects) y java records",
+          "nivel": 2,
+          "hash": "e524fb1f29163d3a568cdd83b796a871c2b81f13e50bbb7c2333c05cd6f034c9"
+        },
+        {
+          "titulo": "Java Records",
+          "clave": "java records",
+          "nivel": 3,
+          "hash": "f1f0c72abcedfd071bf9f947006074eaba8a34dd035ac9f6a67cb64699e31d7e"
+        },
+        {
+          "titulo": "Conversión entre objetos: Mapeadores (Mappers)",
+          "clave": "conversión entre objetos: mapeadores (mappers)",
+          "nivel": 3,
+          "hash": "3838d92659ab02134ca82bef14fe21407bd4d0fe2111bcd5a47e130352bfa1f7"
+        },
+        {
+          "titulo": "4. Gestión de Dependencias: DI e IoC",
+          "clave": "4. gestión de dependencias: di e ioc",
+          "nivel": 2,
+          "hash": "f253c60d338428ab95956610aa5b36bc57787a93707b433a3a671643b12c2d6d"
+        },
+        {
+          "titulo": "Inyección de Dependencias (DI)",
+          "clave": "inyección de dependencias (di)",
+          "nivel": 3,
+          "hash": "11035a979e062af1c8b4e8b2b4d7c46e97836c4ee06479d883e13326d1b92c9c"
+        },
+        {
+          "titulo": "Inyección por constructor (Buena práctica)",
+          "clave": "inyección por constructor (buena práctica)",
+          "nivel": 4,
+          "hash": "3c4a2e7c37abbe082e91a1c5ec81546d73c573dccdc599eb99d4cee852bba5b4"
+        },
+        {
+          "titulo": "Inversión de Control (IoC)",
+          "clave": "inversión de control (ioc)",
+          "nivel": 3,
+          "hash": "912aa2155ad22eafa557dc3736b3187390d08a30848a5c3d0ac8caf8225ea22b"
+        },
+        {
+          "titulo": "Ensamblado manual del sistema",
+          "clave": "ensamblado manual del sistema",
+          "nivel": 4,
+          "hash": "9bb061d01032ec78abd8693c130f60f587856c216c6761ca6be7fc8fee76b7e9"
+        },
+        {
+          "titulo": "El contenedor de IoC (IoC Container)",
+          "clave": "el contenedor de ioc (ioc container)",
+          "nivel": 4,
+          "hash": "d6804fb42e99b53dbbdce926f61e4f26ff54c915d85531f83c22b40c0b144d43"
+        },
+        {
+          "titulo": "Ventajas de IoC / DI",
+          "clave": "ventajas de ioc / di",
+          "nivel": 4,
+          "hash": "3b2a51edfcf4ad504088b0c6b6009f9522fe5d078ea624a9b05e4af5d35c6166"
+        }
+      ]
+    },
+    "prog-09": {
+      "url": "https://cesguiro.es/doku.php/clase/daw/prog/api",
+      "fechaDescarga": "2026-11-17T08:42:26.678Z",
+      "hash": "1dbffce62dd2021f5dc9648079faf26c6c660f68f0f013839424e3c24f5015d4",
+      "secciones": [
+        {
+          "titulo": "09. APIs REST y Protocolo HTTP",
+          "clave": "09. apis rest y protocolo http",
+          "nivel": 1,
+          "hash": "185610a5449f055ffae7d230d0f6ed9acc37d8836240bbf5bfb2e230a682bfb0"
+        },
+        {
+          "titulo": "1. El protocolo HTTP",
+          "clave": "1. el protocolo http",
+          "nivel": 3,
+          "hash": "78ee3b617a41e389fa2190829623707853dbc81a624548383184f2620b57d444"
+        },
+        {
+          "titulo": "Anatomía de una URL / URI",
+          "clave": "anatomía de una url / uri",
+          "nivel": 4,
+          "hash": "fde0528b9db6dcbb6624c4a2cbec05f267b57e8370a30b21c72fa78f5da9058b"
+        },
+        {
+          "titulo": "2. Servicios REST y Diseño de Endpoints",
+          "clave": "2. servicios rest y diseño de endpoints",
+          "nivel": 3,
+          "hash": "afe98c6387050facf453691bb3ede051ec910800b9b007e303a98df3236f3b19"
+        },
+        {
+          "titulo": "Buenas prácticas en el diseño de Endpoints",
+          "clave": "buenas prácticas en el diseño de endpoints",
+          "nivel": 4,
+          "hash": "13f4704bcfac9d141e5c936f452214ed16447ffa75c03049f32211db78cd7148"
+        },
+        {
+          "titulo": "3. Métodos HTTP y transmisión de datos",
+          "clave": "3. métodos http y transmisión de datos",
+          "nivel": 3,
+          "hash": "ac2a3602765f5b8599c77944b0dd668957e89c87b68f755aa8df2f0ea3bffc5e"
+        },
+        {
+          "titulo": "4. Formato de Intercambio: JSON",
+          "clave": "4. formato de intercambio: json",
+          "nivel": 3,
+          "hash": "7de7ef84e06a5f6c1f1f6178a1dd7e3f6363b02710a979ea8913d45958365392"
+        },
+        {
+          "titulo": "Objeto JSON simple (Mapea con un DTO)",
+          "clave": "objeto json simple (mapea con un dto)",
+          "nivel": 4,
+          "hash": "953c3544b89d79ba1f29c69217508cc611eaaba72352614b18e080587f500038"
+        },
+        {
+          "titulo": "Colección JSON (Mapea con un List)",
+          "clave": "colección json (mapea con un list)",
+          "nivel": 4,
+          "hash": "17dc4b3ac4542c71c89ba7ee1f183c9b89c5a2062c8e592a1629c176c8e8dbde"
+        },
+        {
+          "titulo": "5. Códigos de Estado HTTP",
+          "clave": "5. códigos de estado http",
+          "nivel": 3,
+          "hash": "5388446b9e0617ec0b6ce210a2733ec2a61a497a5ea7f5eb860b312fe54c0b1e"
+        }
+      ]
+    },
+    "prog-10": {
+      "url": "https://cesguiro.es/doku.php/clase/daw/prog/spring",
+      "fechaDescarga": "2026-11-17T08:42:26.678Z",
+      "hash": "46b610e71f6afe0213ef6d592bd53ac924171d21e05e7572367898f0a53d0463",
+      "secciones": [
+        {
+          "titulo": "10. Frameworks Web: Spring Boot",
+          "clave": "10. frameworks web: spring boot",
+          "nivel": 1,
+          "hash": "46ac34db131ff5ffc1653574ff01db930650ee022554a1a0e168283870b8a4b8"
+        },
+        {
+          "titulo": "1. Introducción a Spring Boot",
+          "clave": "1. introducción a spring boot",
+          "nivel": 3,
+          "hash": "f6f723da0299f186d56f74d824536985545f92391721f5d5a6bdc42549ea00a2"
+        },
+        {
+          "titulo": "Creación del proyecto",
+          "clave": "creación del proyecto",
+          "nivel": 4,
+          "hash": "ffe7b84a86de70d98d32b1dc0bd616aa5b6bf42c236b9b02a9dd3f7c06c742f2"
+        },
+        {
+          "titulo": "Punto de entrada y configuración",
+          "clave": "punto de entrada y configuración",
+          "nivel": 4,
+          "hash": "6ee123eaa1ef247df90901c5ce04b7aa9fb514aac9946ead1375f545cc00956b"
+        },
+        {
+          "titulo": "2. Arquitectura Interna: Servlets y el patrón Front Controller",
+          "clave": "2. arquitectura interna: servlets y el patrón front controller",
+          "nivel": 3,
+          "hash": "36183dd54dbeec8d13e50b362efbdc464a575298fb075f3f1cbf6150a1741f14"
+        },
+        {
+          "titulo": "El patrón Front Controller (DispatcherServlet)",
+          "clave": "el patrón front controller (dispatcherservlet)",
+          "nivel": 4,
+          "hash": "fd7329ace0094b108598e20dab57d786fbd4802a4fc2e4d204284c186bec6937"
+        },
+        {
+          "titulo": "3. Interceptación de peticiones: Filtros HTTP",
+          "clave": "3. interceptación de peticiones: filtros http",
+          "nivel": 3,
+          "hash": "df49777d149a7797adea3821002a148aac842db26b090cef24f74728a4fb282d"
+        },
+        {
+          "titulo": "Ejemplo: Creación de un filtro personalizado",
+          "clave": "ejemplo: creación de un filtro personalizado",
+          "nivel": 4,
+          "hash": "a695abdbe3aba0bbe19218ecb3a12d1f0f4db782cfde5935a23c358d088d7d52"
+        },
+        {
+          "titulo": "4. Construcción de APIs REST con Spring Boot",
+          "clave": "4. construcción de apis rest con spring boot",
+          "nivel": 3,
+          "hash": "3e9716e47db47c650e92bd96b57c199bdf38176ac1a96066edada5b309bf4a99"
+        },
+        {
+          "titulo": "Anotaciones de mapeo HTTP",
+          "clave": "anotaciones de mapeo http",
+          "nivel": 4,
+          "hash": "855a38239d3229069f09298cf6f49b3b547f36e32544ac632144bab7c4d21d24"
+        },
+        {
+          "titulo": "Extraer datos de la Petición",
+          "clave": "extraer datos de la petición",
+          "nivel": 4,
+          "hash": "b520b979e860c1534d497e471050aa796ef72b76b583b2bf076d9575fa250194"
+        },
+        {
+          "titulo": "5. Gestión de Respuestas HTTP con ResponseEntity",
+          "clave": "5. gestión de respuestas http con responseentity",
+          "nivel": 3,
+          "hash": "ae30eaa0a5b310d593121e91867f4a2cf8697d5624fdb843baf5f3ab6a5e694a"
+        },
+        {
+          "titulo": "Ejemplo práctico: BookController",
+          "clave": "ejemplo práctico: bookcontroller",
+          "nivel": 4,
+          "hash": "e391719f7e1a0f5f9c301bdd850778c342c3be2e91071ba7425229c533cce67c"
+        },
+        {
+          "titulo": "6. Integración con el Contenedor IoC de Spring",
+          "clave": "6. integración con el contenedor ioc de spring",
+          "nivel": 3,
+          "hash": "001d2c080b3f7c41482349b7e6abb0352b799a0b6f00cd3e6ec94c88aa74075c"
+        },
+        {
+          "titulo": "7. Gestión de Excepciones: el Manejador Global",
+          "clave": "7. gestión de excepciones: el manejador global",
+          "nivel": 3,
+          "hash": "a1ec8bc43259b1e8544ad451266983e3f2616d4e8c436fee73fee8fe0cc553d2"
+        },
+        {
+          "titulo": "Comportamiento por defecto",
+          "clave": "comportamiento por defecto",
+          "nivel": 4,
+          "hash": "fed2e17b77bbbe6106fb947bdc3dbefab0e7ad5b6fa2d29a2690c2a93e031c5a"
+        },
+        {
+          "titulo": "El problema de los try-catch en el controlador",
+          "clave": "el problema de los try-catch en el controlador",
+          "nivel": 4,
+          "hash": "5e5a92604fc2e0041eebab4fed4fae36270f85580dc02e36556f35fedb734885"
+        },
+        {
+          "titulo": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler",
+          "clave": "manejo centralizado: @restcontrolleradvice y @exceptionhandler",
+          "nivel": 4,
+          "hash": "23cbb28ce5d99849124b9105d6f9dcaa45b9d7b3a543e20dd96e61f41dfd9d4e"
+        },
+        {
+          "titulo": "Flujo de una excepción no controlada",
+          "clave": "flujo de una excepción no controlada",
+          "nivel": 4,
+          "hash": "cb9072dfdd8000541b51d267c2be07bc4908f778330efff1bf9c9a5ff1c1d017"
+        },
+        {
+          "titulo": "Ejemplo práctico: GlobalExceptionHandler",
+          "clave": "ejemplo práctico: globalexceptionhandler",
+          "nivel": 4,
+          "hash": "01cd70f3f402aee2ac30213d8145d96ef7edcddbc2051475c2581118115fc788"
+        },
+        {
+          "titulo": "Excepciones del propio framework",
+          "clave": "excepciones del propio framework",
+          "nivel": 4,
+          "hash": "01ad950f7807437dbd61ab808c1592c429b4e192700a94ca405fde2b36c5eb5d"
+        },
+        {
+          "titulo": "8. El registro de la aplicación (logs)",
+          "clave": "8. el registro de la aplicación (logs)",
+          "nivel": 3,
+          "hash": "aceca0cb0a3d6939aa23a582d8bca7b2a41616bcae6701d2ffa0033568de6390"
+        },
+        {
+          "titulo": "El evento de log y sus niveles",
+          "clave": "el evento de log y sus niveles",
+          "nivel": 4,
+          "hash": "525762f0ae25620eb28c040974feb453d00ede23eaeff2f461073a02bc684417"
+        },
+        {
+          "titulo": "Fachada e implementación",
+          "clave": "fachada e implementación",
+          "nivel": 4,
+          "hash": "ec31c20bba8344d184b30a2a495d75119c068bd215e255bf4a8aae4c53bb9166"
+        },
+        {
+          "titulo": "Registrar eventos en el código",
+          "clave": "registrar eventos en el código",
+          "nivel": 4,
+          "hash": "62d8263a0571adb6a41bd5a5091a60fa2a940731e61d5f653278b7829f76d523"
+        },
+        {
+          "titulo": "Configuración de niveles y destinos",
+          "clave": "configuración de niveles y destinos",
+          "nivel": 4,
+          "hash": "29926feff7f946868cbc5309bece9ce2923663fd607fbd594a1f5d6887d9e233"
+        }
+      ]
+    },
+    "prog-12": {
+      "url": "https://cesguiro.es/doku.php/clase/daw/prog/login",
+      "fechaDescarga": "2026-11-17T08:42:26.678Z",
+      "hash": "37e155916e499a96603160aef0aceaceece3f4abdb9a4d0e496d7a9a13c15765",
+      "secciones": [
+        {
+          "titulo": "12 - Login con tokens",
+          "clave": "12 - login con tokens",
+          "nivel": 1,
+          "hash": "d360ba22989d6d59eb015a85bcb0a1a793f18acade00fee85b8d420b57e21974"
+        },
+        {
+          "titulo": "1. Autenticación y autorización",
+          "clave": "1. autenticación y autorización",
+          "nivel": 2,
+          "hash": "b11d6202492336f3867e8a4630a06a2c834e12b4666f400eb89c37118d41cae2"
+        },
+        {
+          "titulo": "2. Tokens opacos",
+          "clave": "2. tokens opacos",
+          "nivel": 2,
+          "hash": "a5b4eb32da6d48f3d55501696bf432fdb50bc1637493f1ec13479ec61b106305"
+        },
+        {
+          "titulo": "3. Token de acceso y refresh token",
+          "clave": "3. token de acceso y refresh token",
+          "nivel": 2,
+          "hash": "549daf97ded6703eba125cd63fe65a9641434c6718df217f6c717e10524c443c"
+        },
+        {
+          "titulo": "4. Renovación y rotación",
+          "clave": "4. renovación y rotación",
+          "nivel": 2,
+          "hash": "a343782ce4c7ac094723cee4e56013ac410229f9f2666c7eadec4147bd944710"
+        },
+        {
+          "titulo": "5. Reutilización de un refresh token",
+          "clave": "5. reutilización de un refresh token",
+          "nivel": 2,
+          "hash": "cff2d2b003c39a532abee8182b0e219ee0b82b8ffe6e491fdec3c8fe3afbd74c"
+        },
+        {
+          "titulo": "6. Principal y estado por petición",
+          "clave": "6. principal y estado por petición",
+          "nivel": 2,
+          "hash": "0be380cb06106ffed38fa263afb90efe80a859b71fb1becfa68deaf701498a55"
+        },
+        {
+          "titulo": "7. Filtro Servlet y SecurityContext propio",
+          "clave": "7. filtro servlet y securitycontext propio",
+          "nivel": 2,
+          "hash": "69563ea486ab968a541c492aa612f0519e8d932d6f0a13cf1c6d9a82f677f5f7"
+        }
+      ]
+    },
+    "dws-01": {
+      "url": "https://cesguiro.es/doku.php/clase/daw/dws/arquitecturas",
+      "fechaDescarga": "2026-11-17T08:42:26.678Z",
+      "hash": "2697dc5a86f20f3b434452975da988f1c6339beb46f4ea4317b95bb4949c2231",
+      "secciones": [
+        {
+          "titulo": "01 - Arquitecturas de software",
+          "clave": "01 - arquitecturas de software",
+          "nivel": 1,
+          "hash": "818b9942d3cb2aec01865f20ef948434576c20773a0e7210126790ba724d4163"
+        },
+        {
+          "titulo": "1. Principios de arquitectura limpia",
+          "clave": "1. principios de arquitectura limpia",
+          "nivel": 2,
+          "hash": "c69c168393fe6e4092a2a3055f3d3e098bcb4cd2aa301a8d5d3d497b22ce5c25"
+        },
+        {
+          "titulo": "2. Organización interna",
+          "clave": "2. organización interna",
+          "nivel": 2,
+          "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "titulo": "2.1 Arquitectura por capas",
+          "clave": "2.1 arquitectura por capas",
+          "nivel": 3,
+          "hash": "f7327631f3502f8c1bea52f933b158a7afb5dacfc9760f685702eb059b9874ce"
+        },
+        {
+          "titulo": "2.2 Arquitectura hexagonal (Ports and Adapters)",
+          "clave": "2.2 arquitectura hexagonal (ports and adapters)",
+          "nivel": 3,
+          "hash": "2c88264238f59b8ffd3077d5debf9735768792acd323a82aa7a3414d459d3d41"
+        },
+        {
+          "titulo": "2.3 Arquitectura de cebolla",
+          "clave": "2.3 arquitectura de cebolla",
+          "nivel": 3,
+          "hash": "42a8c4d3fb66e97132b75d1fe167620e31798ebc80401ef869c9ac898ea9a3d4"
+        },
+        {
+          "titulo": "3. Arquitectura de despliegue",
+          "clave": "3. arquitectura de despliegue",
+          "nivel": 2,
+          "hash": "eef6a2b12058e80c2ceac52e4b72ddbba283e03f19edbb6fe64b84616e8fc17a"
+        },
+        {
+          "titulo": "3.1 Monolito, monolito modular y microservicios",
+          "clave": "3.1 monolito, monolito modular y microservicios",
+          "nivel": 3,
+          "hash": "e59609e05eeba203726fe8792677ae2b5bf8f92f40ae8b5afb91afe160dd45df"
+        },
+        {
+          "titulo": "3.2 Tipos de comunicación",
+          "clave": "3.2 tipos de comunicación",
+          "nivel": 3,
+          "hash": "d26c93ed895205c0c481fb00dec847082f3de0213bb47823c785711de627f64d"
+        }
+      ]
+    },
+    "dws-02": {
+      "url": "https://cesguiro.es/doku.php/clase/daw/dws/api_first",
+      "fechaDescarga": "2026-11-17T08:42:26.678Z",
+      "hash": "ada6be81652c22672ce1ca0305ae8353a162ba976865d68ae7e6c5adb72b5d46",
+      "secciones": [
+        {
+          "titulo": "02 - API First",
+          "clave": "02 - api first",
+          "nivel": 1,
+          "hash": "2dbf9a51d829f3adeee5604d67598c3174e252ae1d4dee88454e16dd1e2926d2"
+        },
+        {
+          "titulo": "1. API First y Code First",
+          "clave": "1. api first y code first",
+          "nivel": 2,
+          "hash": "fcb896d220088fe116e89bfd331c4e6141e354fb0377158d9edcfad3f203c92f"
+        },
+        {
+          "titulo": "2. OpenAPI y Swagger",
+          "clave": "2. openapi y swagger",
+          "nivel": 2,
+          "hash": "f0c73b0d713c4552ebddcecc89c192de5e3e4e993f8a514f162f32e02a7770d8"
+        },
+        {
+          "titulo": "3. Contrato e implementación en Spring",
+          "clave": "3. contrato e implementación en spring",
+          "nivel": 2,
+          "hash": "0d8ab04cef31a949970932cdbb39b03f0640346f8ac1024449cdaf5929bdd2ef"
+        },
+        {
+          "titulo": "4. Cambios y comprobaciones",
+          "clave": "4. cambios y comprobaciones",
+          "nivel": 2,
+          "hash": "e27da79d2517e5c375b67cf826de1bee657f7f628ea55d5da5493e2c87177323"
+        }
+      ]
+    },
+    "dws-03": {
+      "url": "https://cesguiro.es/doku.php/clase/daw/dws/validacion",
+      "fechaDescarga": "2026-11-17T08:42:26.678Z",
+      "hash": "f31a243aacec7a2babdbe30974e1582d8d539b00ef938d5586010772db73ece2",
+      "secciones": [
+        {
+          "titulo": "03 - Validación e invariancias",
+          "clave": "03 - validación e invariancias",
+          "nivel": 1,
+          "hash": "e2822584e283417696ce288b60bcd037aa8e5a3ed9ce2a8f93535c4c886a813e"
+        },
+        {
+          "titulo": "1. Dos preguntas, dos fronteras",
+          "clave": "1. dos preguntas, dos fronteras",
+          "nivel": 2,
+          "hash": "82e0ab5c305a02ee5111f61c437f4e8e50940e1c90e7c683e65cfa67fc4e2fed"
+        },
+        {
+          "titulo": "2. Validación de entrada con Jakarta Validation",
+          "clave": "2. validación de entrada con jakarta validation",
+          "nivel": 2,
+          "hash": "fb57ba940f0d7710344a204621a9d07a7c6f6758066257629341ffa93db5cedc"
+        },
+        {
+          "titulo": "2.1 Constraints estándar",
+          "clave": "2.1 constraints estándar",
+          "nivel": 3,
+          "hash": "a3ec27d112cb4a3c12333618c56507c8897c4248e6fbaec5a1bca1217cc33a5d"
+        },
+        {
+          "titulo": "2.2 Validación automática y en cascada",
+          "clave": "2.2 validación automática y en cascada",
+          "nivel": 3,
+          "hash": "22c97337fcdffe1795ee02ffc19ab515cd7611c94b808c76fa15b3fcf6b45a72"
+        },
+        {
+          "titulo": "2.3 Constraints personalizadas",
+          "clave": "2.3 constraints personalizadas",
+          "nivel": 3,
+          "hash": "75339d40c71f42f290d2214d36681dc38b29e2f7b8b899371a61ce6e70022908"
+        },
+        {
+          "titulo": "2.4 El resultado: 400 coherente con la API",
+          "clave": "2.4 el resultado: 400 coherente con la api",
+          "nivel": 3,
+          "hash": "d74642fe26c5ab164cf2002d6d8aeb37d5e502865352b5796c635da4293871ea"
+        },
+        {
+          "titulo": "2.5 Del código al contrato: OpenAPI",
+          "clave": "2.5 del código al contrato: openapi",
+          "nivel": 3,
+          "hash": "e6b82a1f5062e9fa029264abea700b2a91464d9807e98ed2a7171f2027fe9fda"
+        },
+        {
+          "titulo": "3. Invariancias con value objects",
+          "clave": "3. invariancias con value objects",
+          "nivel": 2,
+          "hash": "57c5bbf8977be6975f469009deba0f0bd97334feb1b9e7905ab43395c809c150"
+        },
+        {
+          "titulo": "3.1 Por qué no Jakarta Validation en el dominio",
+          "clave": "3.1 por qué no jakarta validation en el dominio",
+          "nivel": 3,
+          "hash": "84945cd6b8f4dff5a93f4f208b72b3f1aa4fd346867952c2ce7a2f13d9b6c354"
+        },
+        {
+          "titulo": "4. ¿Duplicar la regla en dos sitios?",
+          "clave": "4. ¿duplicar la regla en dos sitios?",
+          "nivel": 2,
+          "hash": "b6ae946f02bdc3f65929dbe6f0398d70d0a4bac02b5e0a0e8ab52beb0a463291"
+        },
+        {
+          "titulo": "5. Pruebas",
+          "clave": "5. pruebas",
+          "nivel": 2,
+          "hash": "09893e84f08f1497c09f59210493c8b394e75f841a38b6e87f6cdccd076aa646"
+        }
+      ]
+    },
+    "dws-04": {
+      "url": "https://cesguiro.es/doku.php/clase/daw/dws/modulith",
+      "fechaDescarga": "2026-11-17T08:42:26.678Z",
+      "hash": "ce661d54169515e416ba32c450c357c3865a558fb5728bb910a16c8fecca6932",
+      "secciones": [
+        {
+          "titulo": "04 - Monolito modular",
+          "clave": "04 - monolito modular",
+          "nivel": 1,
+          "hash": "c0d55255e44e7c4e0ae0f75aa13a680a958f877cbe1568de6e763c83bc82f6b6"
+        },
+        {
+          "titulo": "1. Una posible arquitectura modular",
+          "clave": "1. una posible arquitectura modular",
+          "nivel": 2,
+          "hash": "b65030adfac50a0199f7273259e66b625704858a3f45540b540316b8da6b1312"
+        },
+        {
+          "titulo": "2. API pública e implementación interna",
+          "clave": "2. api pública e implementación interna",
+          "nivel": 2,
+          "hash": "c925d0aeff6f70792b5d23fc3c66c629963eee8cee5e8c042d409978279fe704"
+        },
+        {
+          "titulo": "2.1 Verificar los límites entre módulos",
+          "clave": "2.1 verificar los límites entre módulos",
+          "nivel": 3,
+          "hash": "42a8ffe62f6552ff92e97b93f0264c114de0ab535f739c3a670efcd8e0ab9dd6"
+        },
+        {
+          "titulo": "3. Separar los flujos de entrada con casos de uso",
+          "clave": "3. separar los flujos de entrada con casos de uso",
+          "nivel": 2,
+          "hash": "37cd358617dd866d0791099961ab2f167bba61bbfb45ac52a1ab8a3cc9d26cc3"
+        },
+        {
+          "titulo": "4. Modelos privados y relaciones mediante identificadores",
+          "clave": "4. modelos privados y relaciones mediante identificadores",
+          "nivel": 2,
+          "hash": "315af17989d70a4ffa7bd0202891ab156e7bbe6ca7aacbca6050ccae4f41c6db"
+        },
+        {
+          "titulo": "5. Spring Modulith: detección y verificación de módulos",
+          "clave": "5. spring modulith: detección y verificación de módulos",
+          "nivel": 2,
+          "hash": "7c0a9285c0ae4cdb39483f477c3a48e958fe765600fee098ad0ae7996a6d8171"
+        },
+        {
+          "titulo": "6. Qué cambia y qué permanece",
+          "clave": "6. qué cambia y qué permanece",
+          "nivel": 2,
+          "hash": "5130e86c0ec4723e268a5b6b56c72e7581d965fcc685711d8f6a2d973c784d71"
+        }
+      ]
+    }
+  }
+}
