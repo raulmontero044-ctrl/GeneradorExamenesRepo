@@ -92,3 +92,30 @@ test('una respuesta HTML (página de error) se trata como no disponible', async 
   assert.equal(inf.temas[0].estado, 'no-disponible');
   assert.equal(existsSync(join(dir, 'dws-01.txt')), false);
 });
+
+test('el marcador de contenido pendiente no confunde la palabra "todo"', async () => {
+  const { MARCADOR_PENDIENTE } = await import('../tools/wiki.mjs');
+  assert.equal(MARCADOR_PENDIENTE.test('Sobre todo, el controlador no debe contener lógica.'), false);
+  assert.equal(MARCADOR_PENDIENTE.test('TODO: completar'), true);
+});
+
+test('enlacesRotos detecta ficheros y anclas inexistentes y acepta los válidos', async (t) => {
+  const { mkdirSync, writeFileSync } = await import('node:fs');
+  const { enlacesRotos } = await import('../tools/wiki.mjs');
+  const dir = mkdtempSync(join(tmpdir(), 'wiki-'));
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  const wiki = join(dir, 'wiki');
+  mkdirSync(join(wiki, 'a'), { recursive: true });
+  writeFileSync(join(wiki, 'a', 'contenido.md'), '# Tema\n\n## 2.1 Arquitectura por capas\n\n## Inyección de Dependencias (DI)\n');
+  writeFileSync(join(wiki, 'rel.md'), [
+    '[ok](a/contenido.md#21-arquitectura-por-capas)',
+    '[ok2](a/contenido.md#inyección-de-dependencias-di)',
+    '[mal](a/contenido.md#no-existe)',
+    '[falta](b/contenido.md)',
+    '[web](https://cesguiro.es)',
+  ].join('\n'));
+  const errores = enlacesRotos(wiki);
+  assert.equal(errores.length, 2, errores.join('\n'));
+  assert.match(errores[0], /ancla inexistente/);
+  assert.match(errores[1], /fichero inexistente/);
+});

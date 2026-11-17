@@ -105,3 +105,27 @@ export function compararSecciones(anteriores, nuevas) {
   for (const s of anteriores) if (!actuales.has(s.clave)) resultado.eliminadas.push(s.titulo);
   return resultado;
 }
+
+// Ancla que GitHub genera para un encabezado Markdown (sin el sufijo -1, -2 de repetidos).
+export function anclaGithub(titulo) {
+  return titulo
+    .trim()
+    .toLowerCase()
+    .replace(/<[^>]+>/g, '')
+    .replace(/[^\p{L}\p{N}\- _]/gu, '')
+    .replace(/ /g, '-');
+}
+
+// Anclas disponibles en un Markdown, con los sufijos de encabezados repetidos.
+export function anclasMarkdown(texto) {
+  const anclas = new Set();
+  const usos = new Map();
+  for (const s of seccionesMarkdown(texto)) {
+    if (s.nivel === 0) continue;
+    const base = anclaGithub(s.titulo.replace(/[*`]/g, ''));
+    const n = usos.get(base) ?? 0;
+    usos.set(base, n + 1);
+    anclas.add(n ? `${base}-${n}` : base);
+  }
+  return anclas;
+}

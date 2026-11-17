@@ -12,13 +12,15 @@
 //       Valida que la wiki está completa. Código de salida 1 si no lo está.
 //   node tools/wiki.mjs secciones <temaId>
 //       Lista las secciones de la copia guardada de un tema.
-import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync, copyFileSync } from 'node:fs';
+import { dirname, join, relative } from 'node:path';
 import { RAIZ, RUTAS, cargarTemario, esPrincipal } from './lib/config.mjs';
-import { compararSecciones, huella, normalizarTitulo, seccionesDokuwiki, seccionesMarkdown } from './lib/secciones.mjs';
+import { anclasMarkdown, compararSecciones, huella, normalizarTitulo, seccionesDokuwiki, seccionesMarkdown } from './lib/secciones.mjs';
 
 const FICHEROS_TEMA = ['README.md', 'contenido.md', 'conceptos.md'];
 const MIN_CONCEPTOS = 5;
+// Sensible a mayúsculas: "todo" es una palabra española corriente.
+export const MARCADOR_PENDIENTE = /\b(TODO|FIXME|TBD|PENDIENTE DE REDACTAR)\b|lorem ipsum/;
 
 export function leerEstado(ruta = RUTAS.estadoFuentes) {
   return existsSync(ruta) ? JSON.parse(readFileSync(ruta, 'utf8')) : { version: 1, temas: {} };
@@ -122,13 +124,45 @@ export function comprobar({ raiz = RAIZ } = {}) {
     const conceptos = seccionesMarkdown(leer('conceptos.md')).filter((s) => s.nivel === 3);
     if (conceptos.length < MIN_CONCEPTOS) errores.push(`${tema.id}: conceptos.md tiene ${conceptos.length} conceptos (mínimo ${MIN_CONCEPTOS})`);
     for (const f of FICHEROS_TEMA) {
-      if (/\b(TODO|PENDIENTE DE REDACTAR|lorem ipsum)\b/i.test(leer(f))) errores.push(`${tema.id}: ${f} contiene marcadores de contenido sin redactar`);
+      if (MARCADOR_PENDIENTE.test(leer(f))) errores.push(`${tema.id}: ${f} contiene marcadores de contenido sin redactar`);
     }
     if (contenido.length < readFileSync(fuente, 'utf8').length * 0.3) {
       avisos.push(`${tema.id}: contenido.md es mucho más corto que la fuente; revisar que no sea un resumen excesivo`);
     }
   }
+  errores.push(...enlacesRotos(join(raiz, 'wiki')));
   return { valida: errores.length === 0, errores, avisos };
+}
+
+function markdownsDe(dir) {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    if (e.name.startsWith('_')) return [];
+    const ruta = join(dir, e.name);
+    return e.isDirectory() ? markdownsDe(ruta) : e.name.endsWith('.md') ? [ruta] : [];
+  });
+}
+
+// Enlaces relativos [texto](fichero.md#ancla) o (#ancla) que no llevan a ningún sitio.
+export function enlacesRotos(dirWiki) {
+  const errores = [];
+  const anclas = new Map();
+  const anclasDe = (ruta) => {
+    if (!anclas.has(ruta)) anclas.set(ruta, existsSync(ruta) ? anclasMarkdown(readFileSync(ruta, 'utf8')) : null);
+    return anclas.get(ruta);
+  };
+  for (const md of markdownsDe(dirWiki)) {
+    const texto = readFileSync(md, 'utf8').replace(/```[\s\S]*?```/g, '');
+    for (const [, destino] of texto.matchAll(/\]\(([^)\s]+)\)/g)) {
+      if (/^[a-z]+:/i.test(destino)) continue;
+      const [ruta, ancla] = destino.split('#');
+      const fichero = ruta ? join(dirname(md), decodeURIComponent(ruta)) : md;
+      const nombre = relative(dirname(dirWiki), md).replaceAll('\\', '/');
+      const disponibles = anclasDe(fichero);
+      if (!disponibles) errores.push(`${nombre}: enlace a un fichero inexistente (${destino})`);
+      else if (ancla && !disponibles.has(decodeURIComponent(ancla))) errores.push(`${nombre}: ancla inexistente (${destino})`);
+    }
+  }
+  return errores;
 }
 
 function opcion(args, nombre) {
