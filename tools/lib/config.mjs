@@ -1,7 +1,7 @@
 // Rutas y temario compartidos por todas las herramientas.
 import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 export const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -29,4 +29,9 @@ export function cargarTemario(ruta = RUTAS.temario) {
 // Rutas relativas a RAIZ con separador '/', para que sean estables entre sistemas.
 export function relativa(ruta) {
   return ruta.replace(RAIZ, '').replaceAll('\\', '/').replace(/^\//, '');
+}
+
+// true si el módulo se ejecuta directamente con `node tools/x.mjs`.
+export function esPrincipal(urlModulo) {
+  return Boolean(process.argv[1]) && urlModulo === pathToFileURL(resolve(process.argv[1])).href;
 }
