@@ -1,0 +1,121 @@
+Línea: 1
+Id: dws-01-b0a4a7c3
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-01-arquitecturas/contenido.md líneas 3, 85-107, 144-147, 157, 159 confirman B y refutan A, C y D
+
+Línea: 2
+Id: dws-01-2da6cdb3
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-01-arquitecturas/contenido.md líneas 141-145 (tabla), 155, 159, 170
+
+Línea: 3
+Id: dws-01-3f0b4e77
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-01-arquitecturas/contenido.md líneas 85-107 (NotificationPort en el núcleo, BusinessService lo utiliza, EmailAdapter lo implementa)
+
+Línea: 4
+Id: dws-01-86b82494
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-01-arquitecturas/contenido.md líneas 163-170, 176-191
+
+Línea: 5
+Id: dws-01-d89ede9e
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-01-arquitecturas/contenido.md líneas 49-77 (Repository en domain y DAO/DAOImpl ambos en persistence)
+
+Línea: 6
+Id: dws-02-5c909ffa
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-02-api-first/contenido.md líneas 70, 87-101, 110, 126-132
+
+Línea: 7
+Id: dws-02-b169a728
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-02-api-first/contenido.md líneas 70, 74, 94, 105-110
+
+Línea: 8
+Id: dws-02-26a7af0d
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-02-api-first/contenido.md líneas 85-101
+
+Línea: 9
+Id: dws-02-5a91be94
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-02-api-first/contenido.md línea 70 (refuta C), líneas 92, 94 y 100-101 (confirman A, B y D)
+
+Línea: 10
+Id: dws-02-8980dc53
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-02-api-first/contenido.md líneas 57, 70, 87-101, 108
+
+Línea: 11
+Id: dws-03-55b44631
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-03-validacion/contenido.md líneas 60-62 (el @Valid sobre la lista es lo que valida los elementos), línea 82 (la excepción se lanza antes del cuerpo del controller), líneas 17-18
+
+Línea: 12
+Id: dws-03-73b94256
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-03-validacion/contenido.md líneas 73-78, 116-130 (tabla 3.1)
+
+Línea: 13
+Id: dws-03-83710a09
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-03-validacion/contenido.md línea 45 (@Email y @Pattern), líneas 66-78, 105
+
+Línea: 14
+Id: dws-03-1655eb3f
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-03-validacion/contenido.md líneas 8-11, 36, 44-46, 87, 143-149
+
+Línea: 15
+Id: dws-03-b782b085
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-03-validacion/contenido.md líneas 8-18, 66, 128-130
+
+Línea: 16
+Id: dws-04-991406eb
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-04-monolito-modular/contenido.md líneas 97-128, 221
+
+Línea: 17
+Id: dws-04-9c6b7be2
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-04-monolito-modular/contenido.md líneas 85-88, 161, 201-208
+
+Línea: 18
+Id: dws-04-c1d3c56e
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-04-monolito-modular/contenido.md línea 76 (una clase pública de internal sigue siendo accesible), líneas 165, 169, 191-204
+
+Línea: 19
+Id: dws-04-1c640d69
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-04-monolito-modular/contenido.md líneas 165-187, 204
+
+Línea: 20
+Id: dws-04-261ddcd1
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/dws/tema-04-monolito-modular/contenido.md líneas 76, 132-149, 214-222
+
+Veredicto: APROBADO

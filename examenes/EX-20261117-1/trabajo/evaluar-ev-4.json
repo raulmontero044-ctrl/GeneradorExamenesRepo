@@ -1,0 +1,768 @@
+{
+  "preguntas": [
+    {
+      "id": "dws-03-b782b085",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Una petición puede rechazarse por incumplir el formato del contrato o por proponer un estado inválido para el negocio. ¿Qué diferencia hay entre ambos rechazos?",
+      "opciones": {
+        "A": "El formato lo comprueba el value object en su construcción y responde 400; la validez de negocio la comprueba Jakarta Validation en el DTO y lanza una excepción de dominio.",
+        "B": "El formato se comprueba en el DTO de entrada con Jakarta Validation y produce un 400 con campo y motivo; la validez de negocio la protegen invariantes del dominio, cuya excepción se mapea al error del contrato.",
+        "C": "Ambos se comprueban en el controller antes de llamar al caso de uso, y se distinguen solo por el código HTTP que devuelve el manejador central.",
+        "D": "El formato se comprueba en la capa de presentación con Jakarta Validation y la validez de negocio también, pero mediante constraints personalizadas que delegan en clases validadoras."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La tabla «Dos preguntas, dos fronteras» de la wiki sitúa el formato del contrato en la capa de presentación (DTO de entrada) con Jakarta Validation y respuesta típica 400 indicando campo y motivo, y la validez para el negocio en el dominio con invariantes expresadas en código, cuya excepción de dominio se mapea al error del contrato.",
+      "explicacionesDistractores": {
+        "A": "Invierte los mecanismos: Jakarta Validation se usa en el DTO para el formato, y las invariantes del value object protegen la validez de negocio.",
+        "C": "La wiki señala como error clásico escribir reglas de negocio en el controller, porque otra vía de entrada las omite; la validez de negocio vive en el dominio.",
+        "D": "Las constraints personalizadas siguen siendo validación de formato del contrato; las reglas de negocio se expresan como invariantes en código del dominio, no con anotaciones."
+      },
+      "dificultad": "facil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "1. Dos preguntas, dos fronteras"
+        }
+      ],
+      "conocimiento": "El formato del contrato se valida en el DTO con Jakarta Validation (400 con campo y motivo) y la validez de negocio con invariantes del dominio cuya excepción se mapea al error del contrato.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-68cd5ce1",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "¿Por qué se protege la invariante del IBAN en el constructor compacto del value object Iban en lugar de anotar su campo con Jakarta Validation dentro del dominio?",
+      "opciones": {
+        "A": "Porque las anotaciones de Jakarta Validation se ejecutan en toda vía de creación del objeto, pero añaden un coste de rendimiento que el constructor compacto evita.",
+        "B": "Porque las anotaciones en el dominio también garantizarían la invariante, pero repetirían la regla del DTO, y tener la misma regla en dos sitios es una redundancia que debe evitarse.",
+        "C": "Porque las anotaciones solo se aplican donde un framework valida, de modo que un new Iban directo se las salta, y además meten en el dominio una dependencia de jakarta.validation prohibida por la verificación de módulos.",
+        "D": "Porque el constructor compacto solo se ejecuta al deserializar la petición HTTP, que es el único momento en el que puede llegar un IBAN mal formado al dominio."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Según la wiki, las anotaciones de Jakarta Validation se aplican solo donde un framework valida (una petición HTTP) y no garantizan nada ante un new Iban directo; además suponen una dependencia de jakarta.validation en el dominio, prohibida en la verificación de módulos. La invariante del value object se aplica en toda construcción y no tiene coste para el dominio.",
+      "explicacionesDistractores": {
+        "A": "Es al revés: las anotaciones no se aplican en toda vía de creación, sino solo donde el framework decide aplicarlas; la wiki no menciona costes de rendimiento.",
+        "B": "Las anotaciones en el dominio no garantizan la invariante, y la wiki explica que duplicar la regla en el DTO y en el value object no es una redundancia porque respaldan decisiones distintas.",
+        "D": "El cuerpo del constructor compacto se ejecuta en toda vía de creación (deserialización, mapeador, caso de uso, otro módulo), precisamente porque el dato puede llegar por vías que no pasan por la frontera HTTP."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "3.1 Por qué no Jakarta Validation en el dominio"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "3. Invariancias con value objects"
+        }
+      ],
+      "conocimiento": "Las anotaciones de Jakarta Validation solo actúan donde valida un framework y añaden una dependencia prohibida al dominio, mientras que la invariante en el constructor del value object se aplica en toda vía de creación.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-83710a09",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "¿Qué diferencia hay entre una constraint estándar de Jakarta Validation y una constraint personalizada como @ValidIban?",
+      "opciones": {
+        "A": "Las estándar se reflejan solas en el esquema OpenAPI, mientras que la restricción de una personalizada hay que documentarla en la operación o en el esquema, por ejemplo con @Schema.",
+        "B": "Las estándar delegan en una clase validadora que hay que probar directamente, mientras que en las personalizadas la lógica de validación se escribe en el método message() de la anotación.",
+        "C": "Las estándar solo comprueban presencia y rango, mientras que las personalizadas son las únicas que pueden comprobar el formato de una cadena mediante una expresión regular.",
+        "D": "En las estándar la obligatoriedad se declara aparte con @NotBlank, mientras que la clase validadora de una personalizada debe devolver false ante un valor null para hacer el campo obligatorio."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki aconseja que, como las constraints estándar se reflejan solas en el esquema OpenAPI, para las personalizadas hay que documentar su restricción en la operación o en el esquema (por ejemplo con @Schema); si no, el contrato miente en ese punto.",
+      "explicacionesDistractores": {
+        "B": "Es la personalizada la que delega en una clase validadora (ConstraintValidator) que se prueba directamente; la anotación solo declara el mensaje y dónde aplica.",
+        "C": "El catálogo estándar incluye @Email y @Pattern para comprobar formatos; la personalizada se usa cuando el formato propio no encaja con ninguna anotación estándar.",
+        "D": "IbanFormatValidator devuelve true ante null porque la obligatoriedad corresponde a @NotBlank, no a la constraint personalizada."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.5 Del código al contrato: OpenAPI"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.3 Constraints personalizadas"
+        }
+      ],
+      "conocimiento": "Las constraints estándar se reflejan solas en el esquema OpenAPI, mientras que las personalizadas deben documentarse a mano (p. ej. con @Schema).",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-991406eb",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En un monolito modular, un pedido puede cancelarse desde una petición HTTP de la persona dueña o desde el módulo de envíos, que actúa sin ser dueño del pedido. ¿Dónde deben ubicarse la comprobación de propiedad y las reglas de la cancelación?",
+      "opciones": {
+        "A": "Ambas en el controlador, para que la comprobación de acceso quede junto a la petición HTTP y el módulo de envíos llame directamente al servicio sin pasar por ellas.",
+        "B": "Ambas en el servicio interno, de modo que toda llamada, venga de la persona usuaria o de otro módulo, pase por las mismas comprobaciones de acceso y de negocio.",
+        "C": "La comprobación de propiedad en el caso de uso, y el módulo de envíos debe invocar ese mismo caso de uso para reutilizar la lógica de cancelación y sus reglas.",
+        "D": "La comprobación de propiedad en el caso de uso del flujo HTTP y las reglas e invariantes en el servicio, al que envíos llega por la API pública sin pasar por el caso de uso."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki distingue las políticas de acceso, que dependen de quién inicia el flujo y se comprueban en el caso de uso antes de llamar al servicio, de las reglas e invariantes del servicio, que deben cumplirse siempre. La entrada entre módulos sigue Module → ModuleImpl → Service y no pasa por un caso de uso de usuario.",
+      "explicacionesDistractores": {
+        "A": "En el controlador las comprobaciones quedan mezcladas con HTTP y habría que repetirlas con más entradas; además, las reglas de negocio deben cumplirse también en las llamadas de otros módulos.",
+        "B": "Aplicar las políticas de acceso indiscriminadamente en el servicio haría que una llamada legítima de envíos se evaluara con una identidad o contexto que no le corresponde.",
+        "C": "Un módulo no pasa por un caso de uso de usuario: los casos de uso son flujos de entrada, no operaciones reutilizables; lo compartido se comparte mediante el servicio."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "3. Separar los flujos de entrada con casos de uso"
+        }
+      ],
+      "conocimiento": "Las políticas de acceso que dependen de quién inicia el flujo van en el caso de uso, y las reglas e invariantes en el servicio, al que otros módulos llegan por la API pública sin caso de uso.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-9c6b7be2",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "¿Qué afirmación describe correctamente la relación entre ArchUnit y Spring Modulith para verificar los límites de un monolito modular?",
+      "opciones": {
+        "A": "Spring Modulith sustituye todas las reglas de ArchUnit, ya que deriva el modelo modular de los paquetes y detecta ciclos, accesos a paquetes internos y dependencias no permitidas.",
+        "B": "Spring Modulith deriva el modelo modular de los paquetes y usa por debajo el análisis de ArchUnit, pero ArchUnit sigue siendo útil para reglas específicas dentro de un módulo, como Controller → UseCase → Service.",
+        "C": "Spring Modulith impide compilar el código que accede a paquetes internos de otro módulo, mientras que ArchUnit solo detecta esas dependencias al ejecutar sus tests.",
+        "D": "ArchUnit analiza las dependencias sin arrancar Spring, mientras que la verificación de Spring Modulith necesita levantar el contexto de la aplicación para descubrir los módulos."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica que Spring Modulith deriva el modelo modular a partir de los paquetes y usa por debajo el análisis de dependencias de ArchUnit, y que ArchUnit sigue siendo útil para reglas más específicas dentro de un módulo, como exigir Controller → UseCase → Service; Modulith no sustituye todas sus reglas.",
+      "explicacionesDistractores": {
+        "A": "Aunque Modulith detecta ciclos, accesos internos y dependencias no permitidas, la wiki afirma expresamente que no sustituye todas las reglas de ArchUnit.",
+        "C": "Ninguno protege en tiempo de compilación: el test de ArchUnit no impide escribir la importación ni compilar, y la verificación de Modulith es automatizada, no una protección en compilación.",
+        "D": "La verificación de Spring Modulith no necesita arrancar el contexto de Spring: analiza la estructura de paquetes y sus dependencias."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "5. Spring Modulith: detección y verificación de módulos"
+        }
+      ],
+      "conocimiento": "Spring Modulith usa por debajo ArchUnit para verificar el modelo modular, pero no sustituye todas sus reglas; ArchUnit sigue siendo útil para reglas internas de un módulo.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-261ddcd1",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "Al pasar de una organización por capas sin módulos a un monolito modular, la clase Order del módulo orders deja de tener un campo de tipo User y guarda userId: UUID. ¿Qué motivo y qué consecuencia tiene este cambio?",
+      "opciones": {
+        "A": "Evita que orders dependa de users.internal, aunque obliga a desplegar orders y users por separado para que cada uno gestione sus datos.",
+        "B": "Es necesario porque User no es una clase pública en Java; si lo fuera, Order podría seguir referenciándola directamente sin violar el límite entre módulos.",
+        "C": "Evita que orders dependa del modelo interno de users, y si orders necesita más datos del usuario los consulta mediante la API pública del módulo propietario.",
+        "D": "Evita la referencia directa, aunque el tipo del identificador puede ser una clase de users.internal siempre que solo contenga el UUID del usuario."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki explica que los modelos de dominio de cada módulo son privados de su paquete internal; un campo User obligaría a importar users.internal.User y violaría el límite. Por eso se guardan identificadores y, si hace falta consultar más datos, se usa la API pública del módulo propietario.",
+      "explicacionesDistractores": {
+        "A": "El monolito modular mantiene un único despliegue; relacionar modelos mediante identificadores no obliga a desplegar los módulos por separado.",
+        "B": "Estar en internal no hace inaccesible una clase pública en Java; el límite lo marcan las reglas de arquitectura, que prohíben depender de users.internal sea la clase pública o no.",
+        "D": "La wiki indica que el tipo del identificador tampoco debe importar clases de users.internal: puede ser UUID, un tipo local del módulo consumidor o uno de un contrato público."
+      },
+      "dificultad": "media",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "4. Modelos privados y relaciones mediante identificadores"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "6. Qué cambia y qué permanece"
+        }
+      ],
+      "conocimiento": "En el monolito modular los modelos de otros módulos se relacionan mediante identificadores que no importan clases internas, y los datos adicionales se consultan por la API pública del módulo propietario.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-55b44631",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "El parámetro del controller está declarado como @Valid @RequestBody CreateOrderRequest request. En CreateOrderRequest el campo items se declara como @NotEmpty List<ItemRequest> items, sin @Valid, e ItemRequest tiene @Positive int quantity. Llega una petición con un único elemento cuya quantity es -3. ¿Qué ocurre en la validación de formato?",
+      "opciones": {
+        "A": "Se rechaza con 400, porque el @Valid del parámetro del controller valida en cascada todos los DTO anidados, lleven o no @Valid en el campo",
+        "B": "La lista supera @NotEmpty, pero sus elementos no se validan, porque es el @Valid sobre la lista lo que hace que se validen también los elementos",
+        "C": "Se ejecuta el cuerpo del controller y después Spring lanza MethodArgumentNotValidException al detectar la cantidad negativa",
+        "D": "La anotación @Positive de ItemRequest lanza una excepción de dominio que el manejador traduce al error de negocio del contrato"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki explica que en CreateOrderRequest la lista se declara @NotEmpty @Valid List<ItemRequest> items y que el @Valid sobre la lista es lo que hace que se validen también los elementos. Sin él, el DTO de primer nivel se valida (la lista no está vacía), pero los ItemRequest no.",
+      "explicacionesDistractores": {
+        "A": "La cascada no es automática: la wiki atribuye la validación de los elementos al @Valid sobre la lista, y en general la validación es una decisión explícita.",
+        "C": "Cuando la validación falla, Spring lanza la excepción antes de que el controller ejecute su cuerpo, no después.",
+        "D": "@Positive es una constraint de Jakarta Validation sobre un DTO de entrada, que produce un 400 de formato; las excepciones de dominio proceden de las invariantes de los value objects."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.2 Validación automática y en cascada"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.4 El resultado: 400 coherente con la API"
+        }
+      ],
+      "conocimiento": "Los elementos de una lista de DTO anidados solo se validan en cascada si el campo de la lista lleva @Valid.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-73b94256",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Para no duplicar la regla del IBAN, un equipo propone quitar la comprobación del constructor compacto del record Iban y anotar su campo value con @ValidIban, ya que el DTO de entrada también usa esa constraint. Más adelante, un mapeador crea un Iban a partir de datos que no llegan por una petición HTTP. ¿Qué consecuencia tiene la propuesta?",
+      "opciones": {
+        "A": "Ninguna en cuanto a protección: la constraint se evalúa en toda construcción del record igual que el cuerpo del constructor compacto, y solo cambia el estilo del código",
+        "B": "El mapeador recibe un 400 con un ProblemDetail que indica el campo value, porque el manejador central intercepta la constraint fallida",
+        "C": "Se podría crear un Iban con contenido incorrecto, porque las anotaciones solo se aplican donde un framework valida, y además el dominio pasaría a depender de jakarta.validation",
+        "D": "IbanFormatValidator se ejecuta al construir el objeto y lanza InvalidIbanException, por lo que el comportamiento se mantiene aunque cambie el mecanismo"
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki explica que las anotaciones de Jakarta Validation solo se aplican donde un framework valida (una petición HTTP): un new Iban(...) directo se salta la validación. Además, introducen una dependencia de jakarta.validation en el dominio, prohibida en la verificación de módulos. Solo el código de invariante del constructor compacto protege en todas las vías de creación.",
+      "explicacionesDistractores": {
+        "A": "La wiki subraya que la pureza del dominio no es estética: la anotación no garantiza nada ante una construcción directa, mientras que el constructor compacto se ejecuta en toda vía de creación.",
+        "B": "El 400 con ProblemDetail se produce cuando Spring valida un DTO con @Valid en una petición; un mapeador que construye el objeto no pasa por esa validación ni por el manejador.",
+        "D": "La validadora solo se invoca cuando el framework aplica la validación, y devuelve true o false; InvalidIbanException la lanza el constructor compacto del value object."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "3.1 Por qué no Jakarta Validation en el dominio"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "3. Invariancias con value objects"
+        }
+      ],
+      "conocimiento": "Sustituir la invariante del constructor compacto por anotaciones de Jakarta en el value object deja sin protección las vías de creación que no pasan por el framework y acopla el dominio a jakarta.validation.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-d8c42aad",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "CreateAccountRequest declara balance como BigDecimal con @Positive @Digits(integer = 8, fraction = 2). Llega una solicitud con un saldo inicial de 0.02, bien formado pero no admitido por las reglas del negocio. Según la wiki, ¿cómo se gestiona esta petición?",
+      "opciones": {
+        "A": "Supera la validación del DTO; el caso de uso invoca al modelo, salta la excepción de negocio y el manejador de la API la traduce al error documentado en el contrato",
+        "B": "La rechaza Jakarta Validation con 400, porque @Digits(integer = 8, fraction = 2) no admite importes inferiores a una unidad",
+        "C": "El controller comprueba la regla de negocio antes de llamar al caso de uso y devuelve el ProblemDetail de «Solicitud inválida»",
+        "D": "Llega hasta la base de datos, donde la restricción falla y se devuelve un error del servidor, porque el formato ya fue aceptado"
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Es el ejemplo de campo válido para el contrato pero inválido para el negocio: 0.02 es positivo y tiene dos decimales, así que pasa el DTO. Después el caso de uso invoca al modelo, salta la excepción de negocio y el manejador de la API la traduce al error documentado en el contrato.",
+      "explicacionesDistractores": {
+        "B": "@Positive y @Digits(integer = 8, fraction = 2) comprueban rango y precisión: 0.02 es positivo y tiene como máximo 2 decimales, por lo que cumple el formato.",
+        "C": "Escribir reglas de negocio en el controller es uno de los errores clásicos que señala la wiki; además, el ProblemDetail «Solicitud inválida» corresponde a los fallos de validación de formato (400).",
+        "D": "Que datos inválidos lleguen al dominio y se conviertan en errores del servidor es el otro error clásico; la invariante del modelo debe detectarlo y producir una excepción de dominio."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "Campo válido para el contrato pero inválido para el negocio"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.1 Constraints estándar"
+        }
+      ],
+      "conocimiento": "Un dato bien formado pero inválido para el negocio supera el DTO y lo rechaza el modelo con una excepción de negocio que el manejador traduce al error del contrato.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-2b9587bf",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En el monolito modular de una tienda, el módulo de envíos necesita solicitar la cancelación de un pedido al módulo de pedidos. El flujo HTTP de pedidos pasa por un caso de uso que comprueba que la persona usuaria es la dueña del pedido. ¿Cómo debe llegar y tratarse esta solicitud?",
+      "opciones": {
+        "A": "Envíos invoca el caso de uso de cancelación, para reutilizar las mismas comprobaciones que se aplican a la persona usuaria",
+        "B": "Envíos llama directamente al servicio interno de pedidos, porque es el punto en el que confluyen todas las entradas",
+        "C": "El servicio interno comprueba que el módulo de envíos actúa como la persona dueña del pedido antes de cancelarlo",
+        "D": "Envíos usa la API pública de pedidos, que delega en su implementación y esta en el servicio, sin pasar por el caso de uso; las reglas e invariantes del servicio se aplican igualmente"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La entrada entre módulos sigue la ruta API pública → implementación del módulo → servicio (Module → ModuleImpl → Service) y no pasa por un caso de uso de usuario. Las políticas de acceso dependen de quién inicia el flujo y están en el caso de uso; las reglas e invariantes del servicio se cumplen siempre, venga la llamada de una persona usuaria o de otro módulo.",
+      "explicacionesDistractores": {
+        "A": "La wiki indica que un módulo no pasa por un caso de uso de usuario: los casos de uso representan flujos de entrada, no operaciones reutilizables, y arrastrarían decisiones de acceso propias de la persona usuaria.",
+        "B": "El servicio vive en el paquete internal del módulo; otro módulo debe depender del contrato (la API pública), no de la implementación interna.",
+        "C": "Es justo el problema que describe la wiki: aplicar indiscriminadamente en el servicio las comprobaciones de usuario haría evaluar una llamada legítima de envíos con una identidad que no le corresponde, ya que envíos puede cancelar sin actuar como dueña del pedido."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "3. Separar los flujos de entrada con casos de uso"
+        }
+      ],
+      "conocimiento": "Una llamada de otro módulo entra por la API pública (Module → ModuleImpl → Service) sin pasar por el caso de uso de usuario, y el servicio aplica siempre sus reglas e invariantes.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-c1d3c56e",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En una aplicación con paquete base com.example.store, una clase de com.example.store.orders importa la clase pública CatalogService de com.example.store.catalog.internal.domain. El proyecto incluye en src/test/java un test que ejecuta ApplicationModules.of(Application.class).verify(). ¿Qué ocurre?",
+      "opciones": {
+        "A": "El código no compila, porque Spring Modulith convierte los subpaquetes internos de cada módulo en inaccesibles para el compilador",
+        "B": "El código compila, pero el test falla al detectar un acceso a un paquete interno de otro módulo, analizando paquetes y dependencias sin arrancar el contexto de Spring",
+        "C": "El test no detecta el problema, porque verify() solo comprueba ciclos entre módulos y los accesos a internal requieren una regla de ArchUnit",
+        "D": "El problema solo se detecta al arrancar la aplicación, cuando Spring Modulith levanta el contexto y comprueba las dependencias de cada bean"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Los paquetes hijos directos de com.example.store son módulos y sus subpaquetes son internos salvo exposición explícita. En Java una clase pública de internal sigue siendo accesible, así que compila; el test con verify() analiza la estructura de paquetes sin arrancar el contexto y detecta ciclos, accesos a paquetes internos y dependencias no permitidas.",
+      "explicacionesDistractores": {
+        "A": "La wiki insiste en que es una verificación automatizada, no una protección en tiempo de compilación; estar en internal no hace inaccesible una clase pública.",
+        "C": "verify() detecta ciclos entre módulos, accesos a paquetes internos y dependencias no permitidas; ArchUnit sigue siendo útil para reglas más específicas dentro de un módulo.",
+        "D": "La verificación es un test JUnit en el código de pruebas y no necesita arrancar el contexto de Spring."
+      },
+      "dificultad": "dificil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "Test de verificación"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "API pública y subpaquetes internos"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "2.1 Verificar los límites entre módulos"
+        }
+      ],
+      "conocimiento": "Un acceso a un paquete internal de otro módulo compila, pero ApplicationModules.verify() lo detecta en un test sin arrancar el contexto de Spring.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-bb299f79",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En el monolito modular, la clase Order de orders.internal necesita relacionarse con la persona usuaria que hizo el pedido, cuyo modelo User vive en users.internal. Cuando el módulo de pedidos necesita más datos de esa persona, ¿cómo debe modelarse y resolverse la relación?",
+      "opciones": {
+        "A": "Order guarda un campo de tipo User, ya que al ser una clase pública el límite entre módulos no se ve afectado",
+        "B": "Order guarda un identificador cuyo tipo se define en users.internal, para que ambos módulos compartan exactamente la misma clase",
+        "C": "Order guarda userId de tipo UUID y, si necesita más datos, los consulta a través de la API pública del módulo de usuarios",
+        "D": "Order guarda userId y, si necesita más datos, consulta directamente el repositorio interno del módulo de usuarios"
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Los modelos de dominio de cada módulo son privados porque viven en internal. Por eso Order guarda userId: UUID en lugar de una referencia a User, y si hace falta consultar más datos se usa la API pública del módulo propietario.",
+      "explicacionesDistractores": {
+        "A": "Un campo User obligaría a importar users.internal.User y dependería de un modelo interno de otro módulo, lo que viola el límite; que la clase sea pública no lo evita.",
+        "B": "La wiki indica que el tipo del identificador tampoco debe importar clases de users.internal; puede ser UUID, un tipo local del módulo consumidor o uno de un contrato público.",
+        "D": "El repositorio forma parte de la implementación interna del módulo de usuarios; los datos adicionales se obtienen mediante la API pública del módulo propietario."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "4. Modelos privados y relaciones mediante identificadores"
+        }
+      ],
+      "conocimiento": "Los modelos de distintos módulos se relacionan mediante identificadores que no importan clases internas, y los datos adicionales se piden a la API pública del módulo propietario.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-f513bf02",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "La clase IbanFormatValidator, que implementa la constraint personalizada @ValidIban, devuelve true cuando el valor recibido es null. ¿Por qué?",
+      "opciones": {
+        "A": "Porque el constructor compacto del value object Iban ya rechaza el valor null, de modo que la validadora no necesita comprobarlo.",
+        "B": "Porque Spring no invoca la validadora sobre campos nulos cuando el parámetro del controller no lleva @Valid.",
+        "C": "Porque la obligatoriedad del campo corresponde a @NotBlank y no a la constraint de formato.",
+        "D": "Porque un valor nulo debe rechazarse como error de negocio y traducirse a un 409 o 422 en lugar de a un 400."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki explica que, si value es null, isValid devuelve true porque la obligatoriedad corresponde a @NotBlank, no a esta constraint; en otro caso comprueba que el valor sea ES seguido de 22 dígitos.",
+      "explicacionesDistractores": {
+        "A": "Aunque el constructor compacto de Iban rechaza null, la wiki no justifica así el comportamiento de la validadora: lo atribuye a que la obligatoriedad es responsabilidad de @NotBlank. Además, DTO y value object protegen decisiones distintas.",
+        "B": "Sin @Valid el DTO no se valida en absoluto, así que no tiene sentido hablar de que la validadora reciba null en ese caso; no es el motivo que da la wiki.",
+        "D": "La ausencia de valor es una cuestión de formato del contrato que cubre @NotBlank con un 400; los 409 o 422 son para excepciones de dominio traducidas por el manejador."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.3 Constraints personalizadas"
+        }
+      ],
+      "conocimiento": "Una clase validadora de constraint personalizada devuelve true ante null porque la obligatoriedad se delega en @NotBlank.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-c7e607fd",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Sobre la validación con Jakarta Validation y las invariantes del dominio, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "Sin @Valid en el parámetro del controller, el DTO de entrada no se valida aunque sus campos lleven anotaciones.",
+        "B": "springdoc-openapi refleja en el esquema las constraints estándar como @NotBlank o @Size, pero las personalizadas hay que documentarlas, por ejemplo con @Schema.",
+        "C": "Si la validación del DTO falla, Spring lanza la excepción antes de que el controller ejecute su cuerpo.",
+        "D": "Anotar con Jakarta Validation el campo del value object Iban garantiza la invariante también cuando un caso de uso lo crea con new Iban(...)."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki explica que las anotaciones de Jakarta Validation solo se aplican donde un framework valida (una petición HTTP); un new Iban(\"…\") directo se salta la validación, de modo que no garantizan nada. Además, la dependencia de jakarta.validation en el dominio está prohibida. Solo el código de invariante en el constructor compacto protege en todas las vías.",
+      "explicacionesDistractores": {
+        "A": "Es correcta: la wiki indica que sin @Valid el DTO no se valida aunque lleve anotaciones; es una decisión explícita, operación por operación.",
+        "B": "Es correcta: las constraints estándar se reflejan solas en el esquema y las personalizadas hay que documentarlas en la operación o en el esquema, por ejemplo con @Schema.",
+        "C": "Es correcta: si la validación falla, Spring lanza la excepción antes de que el controller ejecute su cuerpo, y el rechazo ocurre antes de tocar el dominio o la base de datos."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "3.1 Por qué no Jakarta Validation en el dominio"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.2 Validación automática y en cascada"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.5 Del código al contrato: OpenAPI"
+        }
+      ],
+      "conocimiento": "Las anotaciones de Jakarta Validation no protegen la invariante de un value object construido directamente, porque solo se aplican donde un framework valida.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-9adfcac6",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Según la wiki, ¿qué es un value object?",
+      "opciones": {
+        "A": "Un tipo pequeño e inmutable, comparado por identidad, que delega la comprobación de sus invariantes en el manejador central de errores.",
+        "B": "Un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su propia construcción.",
+        "C": "Un DTO de entrada inmutable cuyos campos se anotan con Jakarta Validation para representar un concepto de negocio en la frontera HTTP.",
+        "D": "Un tipo de dominio mutable que comprueba sus invariantes en cada método modificador antes de que el objeto se persista."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki define el value object como un tipo pequeño, inmutable y comparado por valor, que representa un concepto de negocio y protege sus invariantes en su propia construcción: si los datos no son válidos, el objeto no existe.",
+      "explicacionesDistractores": {
+        "A": "Se compara por valor, no por identidad, y protege sus invariantes en su propia construcción, no en el manejador central.",
+        "C": "Confunde el value object con el DTO de entrada: el value object pertenece al dominio y no usa anotaciones de Jakarta Validation, reservadas a los DTO de las fronteras.",
+        "D": "El value object es inmutable y valida en su construcción, de modo que nunca llega a existir en estado inválido."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "3. Invariancias con value objects"
+        }
+      ],
+      "conocimiento": "Un value object es un tipo pequeño, inmutable y comparado por valor que representa un concepto de negocio y protege sus invariantes en su construcción.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-096910c9",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "Sobre Spring Modulith y la verificación de módulos, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "Por defecto, los paquetes hijos directos del paquete base de la aplicación se detectan como módulos.",
+        "B": "El paquete raíz de cada módulo constituye su API pública y sus subpaquetes son internos salvo que se expongan explícitamente.",
+        "C": "ApplicationModules.of(Application.class).verify() impide compilar el proyecto cuando un módulo accede a los paquetes internos de otro.",
+        "D": "La verificación con ApplicationModules no necesita arrancar el contexto de Spring, porque analiza la estructura de paquetes y sus dependencias."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki insiste en que la verificación de Spring Modulith se añade como test JUnit y es una verificación automatizada del modelo modular, no una protección en tiempo de compilación: detecta los accesos a paquetes internos al ejecutar el test, pero no impide compilar.",
+      "explicacionesDistractores": {
+        "A": "Es correcta: por defecto, los paquetes hijos directos del paquete base (por ejemplo, com.example.store.catalog) se detectan como módulos.",
+        "B": "Es correcta: el paquete raíz de cada módulo constituye su API pública y sus subpaquetes son internos salvo que se expongan explícitamente, por ejemplo con @NamedInterface.",
+        "D": "Es correcta: la wiki indica que no hace falta arrancar el contexto de Spring porque la prueba analiza la estructura de paquetes y sus dependencias."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "Test de verificación"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "API pública y subpaquetes internos"
+        }
+      ],
+      "conocimiento": "La verificación de Spring Modulith con ApplicationModules.verify() es un test automatizado y no una protección en tiempo de compilación.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-1c640d69",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En Spring Modulith, ¿qué función cumple la anotación @NamedInterface(\"dto\") en el package-info.java del paquete com.example.store.catalog.dto?",
+      "opciones": {
+        "A": "Exponer explícitamente el subpaquete catalog.dto como interfaz con nombre dto del módulo catalog, de modo que deje de ser interno.",
+        "B": "Declarar que el módulo catalog tiene permitido depender de las interfaces llamadas dto de los demás módulos.",
+        "C": "Convertir catalog.dto en un módulo independiente que Spring Modulith detecta al mismo nivel que catalog y orders.",
+        "D": "Impedir en tiempo de compilación que los módulos que no la declaren importen las clases de catalog.dto."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Los subpaquetes de un módulo son internos salvo que se expongan explícitamente. Para hacer público catalog.dto se añade un package-info.java con @NamedInterface(\"dto\"); así otro módulo puede referirse a él como \"catalog::dto\".",
+      "explicacionesDistractores": {
+        "B": "Declarar dependencias permitidas es la función de @ApplicationModule(allowedDependencies = …) en el paquete raíz del módulo consumidor, no de @NamedInterface.",
+        "C": "No crea un módulo nuevo: por defecto solo los paquetes hijos directos del paquete base son módulos; catalog.dto sigue siendo parte del módulo catalog, ahora expuesta con un nombre.",
+        "D": "Spring Modulith no ofrece protección en tiempo de compilación; su verificación se hace con un test. @NamedInterface expone el subpaquete, no restringe importaciones."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "API pública y subpaquetes internos"
+        }
+      ],
+      "conocimiento": "@NamedInterface en el package-info.java de un subpaquete lo expone explícitamente como interfaz con nombre del módulo.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-7075b553",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En el monolito modular de la tienda, una persona usuaria puede cancelar su pedido por HTTP y el módulo de envíos también puede solicitar cancelar un pedido sin actuar como su dueña. ¿Dónde debe comprobarse que quien cancela por HTTP es la dueña del pedido?",
+      "opciones": {
+        "A": "En el servicio interno, porque ahí confluyen ambas entradas y las comprobaciones deben cumplirse siempre, venga la llamada de una persona usuaria o de otro módulo.",
+        "B": "En el controlador, junto al tratamiento de la petición HTTP, para no añadir una capa adicional entre el controlador y el servicio.",
+        "C": "En el caso de uso de usuario, por el que también debe pasar la llamada del módulo de envíos para que se evalúe la misma autorización.",
+        "D": "En el caso de uso del flujo HTTP, antes de llamar al servicio, porque es una política de acceso que depende de quién inicia el flujo."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "Las políticas de acceso de la persona usuaria dependen de quién inicia el flujo, así que se comprueban en el caso de uso (capa usecase) antes de llamar al servicio. La entrada entre módulos sigue la ruta Module → ModuleImpl → Service y no pasa por casos de uso de usuario.",
+      "explicacionesDistractores": {
+        "A": "En el servicio van las reglas e invariantes que deben cumplirse siempre. Si la comprobación de propiedad se aplicara indiscriminadamente en el servicio, la llamada legítima del módulo de envíos se evaluaría con una identidad o un contexto que no le corresponden.",
+        "B": "La wiki advierte que, en el controlador, estas comprobaciones quedan mezcladas con HTTP y habría que repetirlas cuando existan más controladores o entradas.",
+        "C": "Un módulo no pasa por un caso de uso de usuario: las llamadas entre módulos usan la API pública del módulo y no los casos de uso."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "3. Separar los flujos de entrada con casos de uso"
+        }
+      ],
+      "conocimiento": "Las políticas de acceso que dependen de quién inicia el flujo se comprueban en el caso de uso, no en el servicio ni en el controlador, y la entrada entre módulos no pasa por casos de uso.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  ],
+  "similitud": [
+    {
+      "id": "dws-03-b782b085",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-68cd5ce1",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-83710a09",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-991406eb",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-9c6b7be2",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-261ddcd1",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "dws-04-bb299f79",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.72)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dws-03-55b44631",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-73b94256",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-d8c42aad",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-2b9587bf",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-c1d3c56e",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-bb299f79",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "dws-04-261ddcd1",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.72)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dws-03-f513bf02",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-c7e607fd",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-03-9adfcac6",
+      "tema": "dws-03",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-096910c9",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-1c640d69",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-04-7075b553",
+      "tema": "dws-04",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    }
+  ]
+}

@@ -1,0 +1,784 @@
+{
+  "preguntas": [
+    {
+      "id": "prog-10-79777f8d",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Según la wiki, ¿qué diferencia correctamente un filtro HTTP de una clase anotada con @RestControllerAdvice en Spring Boot?",
+      "opciones": {
+        "A": "El filtro se ejecuta dentro del contexto de Spring después del DispatcherServlet, mientras que el @RestControllerAdvice intercepta la petición antes de que llegue a Tomcat.",
+        "B": "El @RestControllerAdvice se ejecuta exactamente una vez por cada petición gracias a OncePerRequestFilter, mientras que el filtro solo se activa cuando se produce una excepción.",
+        "C": "Ambos actúan antes del controlador: el filtro deserializa el JSON de entrada y el @RestControllerAdvice valida las cabeceras de autenticación.",
+        "D": "El filtro intercepta la petición antes de que alcance el DispatcherServlet para tratar aspectos transversales, mientras que el @RestControllerAdvice actúa cuando una excepción escapa de un controlador para traducirla a una respuesta HTTP."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki sitúa los filtros, que forman la Filter Chain, antes del DispatcherServlet y los usa para aspectos transversales (auditoría, cabeceras de seguridad, CORS). El @RestControllerAdvice centraliza la traducción a respuestas HTTP de las excepciones que escapan de cualquier controlador.",
+      "explicacionesDistractores": {
+        "A": "Según el diagrama, la cadena de filtros está dentro de Tomcat pero fuera del contexto de Spring y actúa antes del DispatcherServlet; el advice no intercepta peticiones antes de Tomcat.",
+        "B": "OncePerRequestFilter es la clase de la que se extiende un filtro para que se ejecute una vez por petición; los métodos del advice se invocan solo cuando escapa una excepción.",
+        "C": "La deserialización del JSON la hace el DispatcherServlet con el Http Message Converter, y la verificación de cabeceras de autenticación es un uso de los filtros, no del advice."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "3. Interceptación de peticiones: Filtros HTTP"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler"
+        }
+      ],
+      "conocimiento": "Los filtros HTTP actúan antes del DispatcherServlet para aspectos transversales, y el @RestControllerAdvice actúa cuando una excepción escapa de un controlador para traducirla a respuesta HTTP.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-0c5409a1",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Tres equipos tratan de forma distinta una BookNotFoundException lanzada por el Service: el primero no hace nada, el segundo envuelve cada llamada al Service en un try-catch dentro del @RestController y el tercero usa un manejador global con @RestControllerAdvice. Según la wiki, ¿qué valoración es correcta?",
+      "opciones": {
+        "A": "Sin manejador, Spring Boot deduce el estado a partir del tipo de la excepción y responde con 404 Not Found, aunque sin un cuerpo útil para el cliente.",
+        "B": "El try-catch en el controlador es preferible si la API es pública, porque permite ocultar las trazas técnicas, algo que el manejador global no puede hacer.",
+        "C": "El try-catch puede dar respuestas correctas, pero duplica código en todos los endpoints y mezcla la presentación con la gestión de errores, que el manejador global centraliza en un único punto.",
+        "D": "El manejador global hace innecesario registrar logs de los errores, porque la traza completa viaja al cliente dentro del ApiErrorResponse."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki califica el try-catch en el controlador de antipatrón porque duplica código en todos los endpoints y mezcla la responsabilidad de presentación con la gestión de errores; el manejador global con @RestControllerAdvice traduce las excepciones en un único punto.",
+      "explicacionesDistractores": {
+        "A": "Sin manejador, el DispatcherServlet intercepta la excepción y Spring Boot genera la Whitelabel Error Page con estado 500 Internal Server Error, no 404.",
+        "B": "El manejador global termina con un @ExceptionHandler(Exception.class) que devuelve un mensaje genérico con 500, precisamente para no exponer trazas técnicas en una API pública.",
+        "D": "La wiki dice lo contrario: el detalle técnico nunca viaja al cliente, que recibe un mensaje genérico, y la traza completa se registra con log.error en el servidor."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Comportamiento por defecto"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "El problema de los try-catch en el controlador"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Ejemplo práctico: GlobalExceptionHandler"
+        }
+      ],
+      "conocimiento": "Comparación entre no tratar la excepción (Whitelabel 500), el antipatrón try-catch en el controlador (duplica código y mezcla responsabilidades) y el manejador global centralizado.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-dafd5ce8",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Según la wiki, ¿qué afirmación describe correctamente el reparto de papeles entre SLF4J, Logback y Log4j2 en un proyecto Spring Boot?",
+      "opciones": {
+        "A": "SLF4J es la fachada con la que escribe el código y Logback la implementación incluida por defecto; cambiar a Log4j2 se hace por configuración, sin retocar ninguna clase.",
+        "B": "Logback es la fachada con la que escribe el código y SLF4J la implementación que decide el formato y el destino de cada evento.",
+        "C": "Log4j2 es la implementación incluida por defecto en Spring Boot y Logback una alternativa que se activa añadiendo su dependencia.",
+        "D": "SLF4J es la fachada, pero para usarla hay que añadir Logback como dependencia, porque Spring Boot solo incluye java.util.logging."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que la fachada estándar es SLF4J (la API con la que el código emite eventos) y que Spring Boot incluye por defecto Logback como implementación; Log4j2 es una implementación alternativa sustituible por configuración, y el código solo conoce la fachada.",
+      "explicacionesDistractores": {
+        "B": "Invierte los papeles: SLF4J es la fachada y Logback la implementación que decide formato y destino.",
+        "C": "La implementación por defecto en Spring Boot es Logback; Log4j2 es la alternativa sustituible por configuración.",
+        "D": "Spring Boot ya incluye Logback detrás de SLF4J, de modo que se puede registrar desde el primer proyecto sin añadir dependencias; java.util.logging es la opción que incluye el JDK."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Fachada e implementación"
+        }
+      ],
+      "conocimiento": "SLF4J es la fachada de logging y Logback la implementación por defecto de Spring Boot; Log4j2 es una alternativa sustituible por configuración sin tocar el código.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-ac147b70",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Según la wiki, ¿qué diferencia correctamente el token de acceso del refresh token devueltos por el login?",
+      "opciones": {
+        "A": "Ambos se envían en cada petición protegida para que el servidor pueda renovar la sesión en cuanto caduque el token de acceso.",
+        "B": "El token de acceso, de duración corta, se envía en cada petición protegida, normalmente en la cabecera Authorization con el esquema Bearer; el refresh token, más duradero, solo se envía para renovar el par.",
+        "C": "El token de acceso tiene una duración típica más larga que el refresh token, porque se usa con más frecuencia que este.",
+        "D": "El cliente conserva solo el refresh token y obtiene un token de acceso nuevo antes de cada petición protegida."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica que el token de acceso se envía en cada petición protegida, normalmente en la cabecera Authorization con el esquema Bearer, y tiene una duración típica corta; el refresh token tiene una duración más larga, se envía solo para renovar el par y no se incluye en las peticiones normales.",
+      "explicacionesDistractores": {
+        "A": "El refresh token no se incluye en las peticiones normales; solo se envía para renovar el par.",
+        "C": "Es al revés: la duración típica del token de acceso es corta y la del refresh token más larga.",
+        "D": "El cliente conserva ambos tokens y solo renueva cuando caduca el token de acceso, no antes de cada petición."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "3. Token de acceso y refresh token"
+        }
+      ],
+      "conocimiento": "El token de acceso es de duración corta y se envía en cada petición protegida (Bearer); el refresh token dura más y solo se envía para renovar el par.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-e34d667f",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Según la wiki, ¿qué consigue, y qué no, la rotación del refresh token en cada renovación?",
+      "opciones": {
+        "A": "Impide que un refresh token robado pueda utilizarse, porque el servidor distingue al atacante del cliente legítimo y solo revoca los tokens del atacante.",
+        "B": "Al detectar que se presenta de nuevo un refresh token consumido, el servidor invalida solo ese token y mantiene el par más reciente para no perjudicar al cliente legítimo.",
+        "C": "Solo protege si el cliente legítimo renueva antes que el atacante; si el atacante usa primero el token robado, el reuso posterior no tiene consecuencias.",
+        "D": "No impide el robo de una credencial, pero permite detectar que se vuelve a presentar un refresh token ya consumido y responder revocando la sesión completa, aunque el cliente legítimo también la pierda."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki explica que la rotación no impide el robo; permite detectar la reutilización de un refresh token anterior y responder revocando toda la familia de tokens, incluido el par más reciente, de modo que el cliente legítimo también pierde la sesión y debe autenticarse de nuevo.",
+      "explicacionesDistractores": {
+        "A": "La wiki indica que la rotación no impide el robo y que el servidor no puede saber cuál de los dos (atacante o cliente legítimo) es el legítimo.",
+        "B": "Ante el reuso se revoca toda la familia, incluido el par más reciente; no se conserva ningún token de esa sesión.",
+        "C": "Si el atacante usa primero el token robado, el reuso posterior por el cliente legítimo también se detecta y revoca los tokens nuevos que obtuvo el atacante."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Detección del reuso y revocación de la familia"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Qué consigue (y qué no) la rotación"
+        }
+      ],
+      "conocimiento": "La rotación del refresh token no impide el robo, pero permite detectar su reutilización y revocar toda la familia, aunque el cliente legítimo pierda también la sesión.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-1b3e136a",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Según la wiki, al comparar dónde guardar el Principal mientras se procesa una petición web síncrona, ¿qué afirmación es correcta?",
+      "opciones": {
+        "A": "Un campo static mutable equivale al SecurityContext del ejemplo, ya que su campo CURRENT también es static y guarda un único Principal global para todas las peticiones.",
+        "B": "Una variable local es la opción preferible, porque no hay que limpiarla y queda disponible para todos los componentes que invoca el método.",
+        "C": "Un ThreadLocal asocia el valor al hilo actual, lo que evita mezclar identidades de distintos clientes, pero hay que limpiarlo en finally porque Tomcat reutiliza los hilos.",
+        "D": "Un ThreadLocal no necesita limpieza, porque cada petición se atiende en un hilo nuevo que se destruye al terminar."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki indica que ThreadLocal asocia el valor al hilo actual y permite consultar un contexto común sin pasar el Principal por cada llamada; como Tomcat reutiliza hilos, debe limpiarse en finally para que una petición posterior no herede el Principal de otra.",
+      "explicacionesDistractores": {
+        "A": "Aunque CURRENT es static, lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente por hilo; un campo static mutable sí se comparte entre peticiones y puede mezclar identidades.",
+        "B": "Una variable local solo está disponible en ese método; habría que pasarla explícitamente por todos los componentes invocados.",
+        "D": "La wiki advierte de que el hilo puede reutilizarse (Tomcat reutiliza hilos), por lo que el ThreadLocal debe limpiarse."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Dónde guardar el Principal"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Clase SecurityContext"
+        }
+      ],
+      "conocimiento": "Frente a una variable local o un campo static mutable, ThreadLocal guarda el Principal por hilo sin mezclar identidades, pero debe limpiarse porque los hilos se reutilizan.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-04c47f60",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Llega a una aplicación Spring Boot una petición POST /api/v1/books con un cuerpo JSON y hay un filtro de auditoría registrado. ¿En qué orden se procesa la petición según la wiki?",
+      "opciones": {
+        "A": "DispatcherServlet recibe la petición, la cadena de filtros la audita, el Handler Mapping localiza el método, se invoca el controlador y este deserializa el JSON.",
+        "B": "Cadena de filtros, DispatcherServlet, Handler Mapping localiza el controlador y método, deserialización del JSON a DTO, invocación del método y serialización del resultado.",
+        "C": "Cadena de filtros, DispatcherServlet, deserialización del JSON a DTO, Handler Mapping elige el método según el tipo del DTO, invocación y serialización.",
+        "D": "Cadena de filtros, Handler Mapping localiza el controlador, DispatcherServlet deserializa el JSON, invocación del método y serialización del resultado."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Los filtros actúan antes del DispatcherServlet; este intercepta la petición, consulta el Handler Mapping para localizar el @RestController y el método según ruta y verbo, deserializa el cuerpo JSON a Record/DTO, invoca el método y serializa a JSON el resultado devuelto.",
+      "explicacionesDistractores": {
+        "A": "Los filtros interceptan la petición antes de que alcance el DispatcherServlet, y la deserialización la realiza el framework antes de invocar al controlador, que recibe los argumentos ya procesados.",
+        "C": "El enrutamiento se hace según la ruta y el verbo HTTP, no según el tipo del DTO, y ocurre antes de la deserialización.",
+        "D": "Es el DispatcherServlet quien recibe la petición tras los filtros y consulta después el Handler Mapping; el Handler Mapping no actúa antes que el Front Controller."
+      },
+      "dificultad": "dificil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Flujo de ejecución de una petición"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "3. Interceptación de peticiones: Filtros HTTP"
+        }
+      ],
+      "conocimiento": "Orden de procesamiento en Spring Boot: filtros, DispatcherServlet, Handler Mapping (ruta y verbo), deserialización JSON a DTO, invocación del controlador y serialización de la respuesta.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-d73a2856",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Una API tiene un GlobalExceptionHandler con @ExceptionHandler para BookNotFoundException, IllegalArgumentException y Exception. Un cliente pide GET /api/v1/books/99 y ese libro no existe. ¿Qué ocurre?",
+      "opciones": {
+        "A": "El controlador captura la excepción con un try-catch y construye él mismo la respuesta 404 con el mensaje de error.",
+        "B": "Como también hay un manejador para Exception, este captura la excepción y devuelve un 500 con el mensaje genérico de error interno.",
+        "C": "El servicio lanza BookNotFoundException, el controlador la deja pasar y el DispatcherServlet recurre al manejador específico, que devuelve un 404 con el mensaje.",
+        "D": "El DispatcherServlet intercepta la excepción y genera la Whitelabel Error Page con estado 500, porque la excepción ha salido del controlador."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Según el flujo descrito, findById lanza BookNotFoundException, el controlador propaga la excepción, el DispatcherServlet busca el @ExceptionHandler y Spring invoca el más específico según la jerarquía de clases, que devuelve un ResponseEntity 404 con un ApiErrorResponse.",
+      "explicacionesDistractores": {
+        "A": "En el flujo del manejador global el controlador no captura la excepción; envolver cada llamada en try-catch es el antipatrón que se evita.",
+        "B": "Spring invoca siempre el manejador más específico: una BookNotFoundException activa su propio manejador y no el genérico de Exception.",
+        "D": "La Whitelabel Error Page es el comportamiento por defecto cuando no hay manejador; con @RestControllerAdvice el DispatcherServlet recurre al @ExceptionHandler adecuado."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Flujo de una excepción no controlada"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler"
+        }
+      ],
+      "conocimiento": "Con un manejador global, una BookNotFoundException lanzada por el servicio se propaga sin capturar y el DispatcherServlet invoca el @ExceptionHandler más específico, que devuelve 404.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-520c798d",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "En producción, el paquete del proyecto está configurado con nivel INFO y una clase ejecuta log.debug(\"Libro {} recuperado\", id) con un logger de SLF4J. ¿Qué ocurre con ese evento según la wiki?",
+      "opciones": {
+        "A": "Se registra igualmente, porque el nivel solo sirve para destacar visualmente el mensaje en la consola.",
+        "B": "Se construye el texto sustituyendo el marcador por el id y después se descarta por no alcanzar el nivel configurado.",
+        "C": "Se registra solo en el fichero indicado en logging.file.name, porque la consola únicamente muestra el nivel INFO.",
+        "D": "No se registra, y gracias al marcador {} el texto del mensaje ni siquiera llega a formatearse."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "DEBUG es menos severo que INFO, de modo que con el paquete en INFO ese evento no se registra (DEBUG se usa para desarrollo e INFO para producción). Los mensajes de SLF4J con marcadores {} se formatean solo si el nivel está activo, lo que evita construir cadenas para eventos que no se van a registrar.",
+      "explicacionesDistractores": {
+        "A": "El nivel permite filtrar o destacar cada mensaje; la configuración por paquete decide qué se registra, de modo que el mismo código muestra más o menos detalle.",
+        "B": "Con marcadores {} el texto se formatea solo si el nivel está activo; precisamente se evita construir la cadena de un evento que no se va a registrar.",
+        "C": "logging.file.name añade una salida a fichero además de la consola; no cambia qué niveles se registran."
+      },
+      "dificultad": "dificil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Registrar eventos en el código"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Configuración de niveles y destinos"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "El evento de log y sus niveles"
+        }
+      ],
+      "conocimiento": "Un evento DEBUG con el paquete en INFO no se registra y, al usar marcadores {} de SLF4J, su texto no se formatea porque el nivel no está activo.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-f88444da",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Un atacante roba el refresh token R1 y lo usa para renovar antes que el cliente legítimo, obteniendo un nuevo par. Después, el cliente legítimo presenta R1. Con rotación y detección de reuso, ¿qué ocurre según la wiki?",
+      "opciones": {
+        "A": "El servidor detecta que R1 ya se consumió y revoca toda la familia, incluidos los tokens obtenidos por el atacante; el cliente legítimo debe autenticarse de nuevo.",
+        "B": "El servidor rechaza la renovación del cliente legítimo, pero mantiene válidos los tokens del atacante porque se emitieron en una renovación correcta.",
+        "C": "El servidor identifica al cliente legítimo por ser el titular original de la sesión y revoca solo el par que obtuvo el atacante.",
+        "D": "La situación no puede darse, porque la rotación del refresh token impide que una credencial robada llegue a usarse."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Si se presenta otra vez un refresh token ya consumido, el servidor revoca toda la familia, incluido el par más reciente. La wiki precisa que si el atacante usa primero el token robado, el reuso posterior por el cliente legítimo revoca también los tokens nuevos, y el cliente legítimo pierde la sesión.",
+      "explicacionesDistractores": {
+        "B": "Al detectar el reuso se revoca toda la familia, incluido el par más reciente, que en este caso es el del atacante.",
+        "C": "El servidor no puede saber cuál de los dos es legítimo; por eso revoca la familia completa en lugar de una parte.",
+        "D": "La rotación no impide el robo de una credencial; lo que permite es detectar la reutilización y responder revocando la sesión completa."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Qué consigue (y qué no) la rotación"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Detección del reuso y revocación de la familia"
+        }
+      ],
+      "conocimiento": "Si el atacante usa primero un refresh token robado, su reuso posterior por el cliente legítimo hace que se revoque toda la familia, incluidos los tokens del atacante.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-df994dd7",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "El filtro AccessTokenFilter guarda el Principal en SecurityContext, que usa un campo static de tipo ThreadLocal, y lo limpia en un bloque finally. ¿Por qué es imprescindible esa limpieza según la wiki?",
+      "opciones": {
+        "A": "Porque el campo static hace que todas las peticiones compartan el mismo Principal y hay que vaciarlo para que no lo use otro cliente simultáneo.",
+        "B": "Porque el token de acceso caduca al terminar cada petición y el Principal asociado dejaría de ser válido en la siguiente.",
+        "C": "Porque Tomcat reutiliza hilos y, si no se elimina el valor, una petición posterior atendida por el mismo hilo podría heredar el Principal de otra.",
+        "D": "Porque OncePerRequestFilter ejecuta el filtro dos veces por petición y la segunda ejecución encontraría el contexto ocupado."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "ThreadLocal asocia el valor al hilo actual y hay que limpiarlo porque el hilo puede reutilizarse; la wiki avisa de que todo contexto guardado en ThreadLocal debe limpiarse en finally porque Tomcat reutiliza hilos y una petición posterior podría heredar el Principal de otra.",
+      "explicacionesDistractores": {
+        "A": "Aunque CURRENT es static, lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente para cada hilo; no guarda un Principal global para todos.",
+        "B": "La limpieza no se debe a la caducidad del token: el token de acceso tiene una duración corta pero se envía en cada petición protegida; el motivo es la reutilización de hilos.",
+        "D": "OncePerRequestFilter garantiza precisamente que el filtro se ejecute exactamente una vez por cada petición HTTP."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Clase SecurityContext"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Rutas públicas y protegidas"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Dónde guardar el Principal"
+        }
+      ],
+      "conocimiento": "El SecurityContext basado en ThreadLocal debe limpiarse en finally porque Tomcat reutiliza hilos y otra petición podría heredar el Principal.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-4a5ea9ab",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Una petición llega a una ruta protegida sin cabecera Authorization. Según el funcionamiento de AccessTokenFilter y del controlador descritos en la wiki, ¿qué ocurre?",
+      "opciones": {
+        "A": "El filtro detecta que falta el token, corta la cadena sin llamar a doFilter y responde directamente al cliente.",
+        "B": "El filtro no obtiene token, continúa la cadena sin Principal y el controlador, al encontrar el contexto vacío, lanza AuthenticationRequiredException.",
+        "C": "El filtro guarda en el contexto un Principal anónimo sin roles, y el controlador deniega la operación al comprobar los permisos.",
+        "D": "El filtro intenta renovar la sesión con el refresh token del cliente y, si lo consigue, guarda el nuevo Principal en el contexto."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "extractBearerToken devuelve null si la cabecera Authorization es null; sin token no se autentica nada y el filtro continúa la cadena con chain.doFilter. En una ruta protegida, el controlador consulta SecurityContext.get() y, si es null, lanza AuthenticationRequiredException.",
+      "explicacionesDistractores": {
+        "A": "El filtro de ejemplo siempre continúa la cadena con chain.doFilter; es el controlador de la ruta protegida quien rechaza la operación si no hay identidad autenticada.",
+        "C": "El filtro solo guarda un Principal si authService.authenticate devuelve uno (ifPresent); sin token el contexto queda vacío, no con un Principal anónimo.",
+        "D": "El refresh token no se incluye en las peticiones normales; solo se envía para renovar el par, y el filtro no realiza la renovación."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "El filtro AccessTokenFilter"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Rutas públicas y protegidas"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "3. Token de acceso y refresh token"
+        }
+      ],
+      "conocimiento": "Sin cabecera Authorization, AccessTokenFilter continúa la cadena sin Principal y es el controlador de la ruta protegida quien lanza AuthenticationRequiredException.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-0d0e6253",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Sobre el procesamiento de una petición HTTP en Spring Boot según el diagrama de componentes del tema, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "La cadena de filtros forma parte del contexto de Spring (IoC Container), junto al DispatcherServlet y los controladores.",
+        "B": "El DispatcherServlet consulta el Handler Mapping para localizar qué @RestController y qué método responden a la ruta y al verbo HTTP.",
+        "C": "El Http Message Converter transforma el cuerpo JSON de la petición en un DTO y el resultado del controlador en JSON.",
+        "D": "La cadena de filtros actúa antes de que la petición llegue al DispatcherServlet."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki señala que la cadena de filtros está dentro del servidor Tomcat pero fuera del contexto de Spring (IoC Container), que agrupa DispatcherServlet, Handler Mapping, Http Message Converter, BookController y BookService.",
+      "explicacionesDistractores": {
+        "B": "Es cierta: el Handler Mapping asocia la URI con el método, localizando el @RestController y el método configurados para esa ruta y verbo HTTP.",
+        "C": "Es cierta: el Http Message Converter transforma JSON <-> Java DTO en ambos sentidos.",
+        "D": "Es cierta: los filtros interceptan la petición antes de que alcance el DispatcherServlet."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Diagrama de componentes (descripción)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Flujo de ejecución de una petición"
+        }
+      ],
+      "conocimiento": "La cadena de filtros está en Tomcat pero fuera del contexto de Spring, y actúa antes del DispatcherServlet, que usa Handler Mapping y Http Message Converter.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-2827c08b",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Un GlobalExceptionHandler anotado con @RestControllerAdvice tiene métodos @ExceptionHandler para BookNotFoundException (404), IllegalArgumentException (400) y Exception (500). Si el servicio lanza una BookNotFoundException, ¿qué ocurre según el tema?",
+      "opciones": {
+        "A": "Se invoca el manejador de Exception, porque es la captura final y tiene prioridad sobre los demás.",
+        "B": "Se invocan en orden el manejador de BookNotFoundException y después el de Exception.",
+        "C": "Spring invoca el manejador más específico, el de BookNotFoundException, que devuelve un 404.",
+        "D": "La excepción llega al manejador solo si el controlador la captura con try-catch y la vuelve a lanzar."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki indica que Spring invoca siempre el manejador más específico disponible según la jerarquía de clases: una BookNotFoundException activa su propio manejador y no el genérico de Exception; ese manejador devuelve 404 con un ApiErrorResponse.",
+      "explicacionesDistractores": {
+        "A": "El manejador de Exception es la captura final para errores no previstos; no tiene prioridad sobre uno más específico.",
+        "B": "Solo se activa el manejador más específico; la wiki dice expresamente que no se activa el genérico de Exception.",
+        "D": "El controlador no captura la excepción: la deja pasar y el DispatcherServlet recurre al manejador global; el try-catch en el controlador es un antipatrón."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Flujo de una excepción no controlada"
+        }
+      ],
+      "conocimiento": "Ante una excepción, Spring invoca el @ExceptionHandler más específico según la jerarquía de clases, no el genérico de Exception.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-194929e5",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Según el tema, ¿qué papel cumple SLF4J en el registro (logs) de una aplicación Spring Boot?",
+      "opciones": {
+        "A": "Es la implementación por defecto que decide el formato y el destino de cada evento, mientras que Logback es la fachada con la que escribe el código.",
+        "B": "Es la fachada: la API con la que el código emite los eventos, mientras que la implementación, Logback por defecto, decide su formato y destino.",
+        "C": "Es una implementación alternativa a Logback que hay que añadir como dependencia para poder registrar eventos con niveles.",
+        "D": "Es la sucesora de la antigua Log4j, igual que Log4j2, y sustituye por configuración a java.util.logging como implementación."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki divide el registro en fachada (la API con la que el código emite eventos; la estándar es SLF4J) e implementación (decide formato y destino; Logback por defecto en Spring Boot). El código solo conoce la fachada.",
+      "explicacionesDistractores": {
+        "A": "Intercambia los papeles: SLF4J es la fachada y Logback la implementación por defecto.",
+        "C": "La implementación alternativa es Log4j2; además, Spring Boot ya incluye SLF4J y Logback por defecto, sin añadir dependencias.",
+        "D": "Las sucesoras de la antigua Log4j son Logback y Log4j2, que son implementaciones; SLF4J es la fachada."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Fachada e implementación"
+        }
+      ],
+      "conocimiento": "SLF4J es la fachada de logging con la que escribe el código; Logback es la implementación por defecto en Spring Boot y Log4j2 la alternativa.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-e2b7be77",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Sobre la renovación de la sesión con rotación del refresh token, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "El consumo del refresh token presentado y la creación del nuevo par deben ser atómicos.",
+        "B": "Se renueva el par completo para que cada renovación cree credenciales nuevas asociadas a la misma sesión.",
+        "C": "Rotar el refresh token permite detectar si se vuelve a presentar uno ya consumido.",
+        "D": "La rotación del refresh token impide que un atacante pueda robar una credencial válida de la sesión."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki afirma expresamente que la rotación no impide el robo de una credencial; lo que permite es detectar la reutilización de un refresh token anterior y responder revocando la sesión completa.",
+      "explicacionesDistractores": {
+        "A": "Es cierta: el consumo de R1 y la creación del nuevo par deben ser atómicos.",
+        "B": "Es cierta: se renueva el par completo para que cada renovación cree credenciales nuevas asociadas a la misma sesión.",
+        "C": "Es cierta: rotar especialmente el refresh token permite detectar si se vuelve a presentar uno ya consumido."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "4. Renovación y rotación"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Qué consigue (y qué no) la rotación"
+        }
+      ],
+      "conocimiento": "La rotación del refresh token no impide el robo de credenciales; permite detectar la reutilización y revocar la sesión, y exige atomicidad al consumir y emitir el nuevo par.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-6dfc95b1",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "En la clase SecurityContext del tema, el campo CURRENT se declara como private static final ThreadLocal<Principal>. ¿Qué afirmación es exacta?",
+      "opciones": {
+        "A": "Lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente para cada hilo, y por eso hay que limpiarlo al terminar la petición.",
+        "B": "Al ser static, todas las peticiones comparten el mismo Principal, con el mismo riesgo de mezclar identidades que un campo static mutable.",
+        "C": "Al ser final, su valor no puede cambiar tras asignarse en la primera petición, por lo que no es necesario limpiarlo.",
+        "D": "Cada petición crea su propia instancia de ThreadLocal, por lo que el valor desaparece automáticamente al terminar la petición."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki precisa que, aunque CURRENT es static, lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente para cada hilo; y como Tomcat reutiliza hilos, el contexto debe limpiarse (en finally) para que una petición posterior no herede el Principal de otra.",
+      "explicacionesDistractores": {
+        "B": "ThreadLocal no guarda un mismo Principal global para todos: asocia el valor al hilo actual. El problema de mezclar identidades es propio de un campo static mutable.",
+        "C": "final afecta a la referencia al objeto ThreadLocal, no al valor que guarda cada hilo; la wiki exige limpiarlo porque el hilo puede reutilizarse.",
+        "D": "Hay un único ThreadLocal estático y el valor no desaparece solo: hay que eliminarlo con clear() en finally, porque Tomcat reutiliza hilos."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Clase SecurityContext"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Dónde guardar el Principal"
+        }
+      ],
+      "conocimiento": "Un ThreadLocal estático es un único objeto compartido que guarda un valor independiente por hilo, y debe limpiarse porque los hilos se reutilizan.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-2adb68ca",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Según el tema, ¿qué caracteriza a un token opaco?",
+      "opciones": {
+        "A": "Es una cadena que lleva codificados la identidad y los roles, de modo que el servidor la valida sin consultar ningún estado propio.",
+        "B": "Es una cadena aleatoria cuyo contenido no interpreta el cliente; el servidor la valida consultando el estado que conserva sobre ella, como su vencimiento o revocación.",
+        "C": "Es una cadena aleatoria que el servidor guarda en claro para compararla literalmente con la que recibe en cada petición protegida.",
+        "D": "Es una cadena cifrada que el cliente descifra para conocer su vencimiento y decidir cuándo debe renovarla."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki define el token opaco como una cadena aleatoria cuyo contenido no interpreta el cliente, que el servidor valida consultando el estado que conserva sobre él: su hash, su tipo, su vencimiento y su estado de revocación.",
+      "explicacionesDistractores": {
+        "A": "El token opaco es una cadena aleatoria, no codifica identidad ni roles, y el servidor lo valida precisamente consultando el estado que conserva.",
+        "C": "El servidor almacena el hash del token, no el valor reutilizable en claro.",
+        "D": "El cliente no interpreta el contenido de un token opaco; es una cadena aleatoria generada con SecureRandom."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "2. Tokens opacos"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Almacenamiento"
+        }
+      ],
+      "conocimiento": "Un token opaco es una cadena aleatoria que el cliente no interpreta y que el servidor valida consultando su estado (hash, tipo, vencimiento, revocación).",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  ],
+  "similitud": [
+    {
+      "id": "prog-10-79777f8d",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-0c5409a1",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-dafd5ce8",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-ac147b70",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-e34d667f",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-1b3e136a",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-04c47f60",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-d73a2856",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-520c798d",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-f88444da",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-df994dd7",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-4a5ea9ab",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-0d0e6253",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-2827c08b",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-10-194929e5",
+      "tema": "prog-10",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-e2b7be77",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-6dfc95b1",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-12-2adb68ca",
+      "tema": "prog-12",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    }
+  ]
+}

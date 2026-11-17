@@ -1,0 +1,1506 @@
+{
+  "id": "EX-20261117-1",
+  "fechaCreacion": "2026-11-17T15:13:53.560Z",
+  "preguntas": [
+    {
+      "id": "prog-08-e7b44471",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Un BookRepositoryImpl tenía el atributo private BookDao bookDao y, en su constructor sin parámetros, hacía this.bookDao = new BookDaoMySql(). Se refactoriza para recibir el BookDao por constructor en un atributo private final BookDao bookDao. ¿Qué consecuencia de este cambio se deduce de la wiki?",
+      "opciones": {
+        "A": "El repositorio sigue eligiendo internamente la implementación concreta de BookDao, pero ahora el atributo es inmutable y la clase se crea en un estado válido.",
+        "B": "Pasar de BookDaoMySql a BookDaoJson solo requiere modificar una línea en el ensamblado, sin tocar el código interno del repositorio ni del servicio.",
+        "C": "El acoplamiento no cambia, ya que en ambas versiones el atributo se declara con el tipo de la interfaz BookDao; la única mejora es la inmutabilidad.",
+        "D": "Las pruebas unitarias aisladas siguen sin ser posibles, porque un objeto simulado solo puede entregarse a través de un contenedor de IoC como Spring."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Con la inyección por constructor el repositorio ya no decide qué implementación usa: la elige un elemento externo. Entre las ventajas de IoC/DI, la wiki indica que cambiar la implementación de una capa solo requiere modificar una línea en el ensamblado, sin tocar el código del Servicio ni del Controlador (ni el interno del repositorio, que ya no nombra la clase concreta).",
+      "explicacionesDistractores": {
+        "A": "La wiki señala precisamente que, tras la refactorización, el repositorio ya no decide qué implementación concreta de BookDao usa.",
+        "C": "El alto acoplamiento de la versión errónea procede de crear con new la clase concreta BookDaoMySql, no del tipo declarado del atributo; con la inyección la clase depende solo de la interfaz y el acoplamiento baja.",
+        "D": "La wiki indica que con DI es posible pasar al constructor un objeto simulado (Mock) para probar la lógica aisladamente; no exige un contenedor."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Inyección por constructor (Buena práctica)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Ventajas de IoC / DI"
+        }
+      ],
+      "conocimiento": "Al pasar de crear la dependencia con new a recibirla por constructor, la clase deja de elegir la implementación y cambiar de persistencia solo requiere modificar una línea del ensamblado.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-08-1cc1670d",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Llega una petición para dar de alta un libro con isbn, title y basePrice, y la respuesta debe devolver el precio final calculado. ¿Qué reparto de responsabilidades es coherente con la arquitectura por capas y los DTO descritos en la wiki?",
+      "opciones": {
+        "A": "El DAO calcula el precio final al leer los datos, porque la persistencia convierte la información en objetos manejables por el dominio.",
+        "B": "El controlador calcula el precio final antes de llamar al servicio, ya que es la capa que devuelve el resultado formateado al cliente.",
+        "C": "El BookCreateRequest incluye el ID del libro para que el repositorio sepa dónde guardarlo, y el dominio calcula el precio final.",
+        "D": "El controlador valida formalmente los datos recibidos, el dominio aplica la regla que obtiene el precio final y el mapper lo traslada al BookResponse."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La capa de presentación solo hace validaciones formales; las reglas de negocio (cálculos) pertenecen al dominio. En el ejemplo, BookMapper.toResponse crea el BookResponse con domain.getFinalPrice(), que es donde se aplica la regla del dominio.",
+      "explicacionesDistractores": {
+        "A": "La persistencia se limita a leer y escribir datos y convertirlos en objetos; aplicar reglas de negocio como los cálculos corresponde al dominio.",
+        "B": "La capa de presentación no contiene lógica de negocio; los cálculos son reglas de negocio de la capa de dominio.",
+        "C": "El Request DTO de creación transporta solo los campos requeridos y va sin ID, porque el ID lo asigna el sistema."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Principales Capas del Sistema"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Conversión entre objetos: Mapeadores (Mappers)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "3. DTOs (Data Transfer Objects) y Java Records"
+        }
+      ],
+      "conocimiento": "En el alta de un libro, la presentación valida formalmente, el dominio aplica el cálculo del precio final y el mapper lo traslada al Response DTO; el Request DTO de creación no lleva ID.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "En el contenedor de IoC casero (IoCContainer) construido con el patrón Factoría, ¿cómo se crean y conectan los componentes y qué hace la clase Main?",
+      "opciones": {
+        "A": "El contenedor crea primero el BookController, que a su vez instancia su BookService, y Main pide el controlador y llama a run().",
+        "B": "Main instancia el DAO concreto y se lo entrega al contenedor, que crea el resto de capas y devuelve el controlador listo.",
+        "C": "El contenedor crea el DAO, lo inyecta en el repositorio, este en el servicio y este en el controlador; Main solo crea el contenedor, le pide el controlador y llama a run().",
+        "D": "El contenedor crea los componentes de arriba abajo, del controlador al DAO, y Main recorre cada uno para conectarlos antes de ejecutar."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki describe que IoCContainer, en su constructor, crea BookDaoMySql, se lo pasa a BookRepositoryImpl, este a BookServiceImpl y este a BookController (el mismo orden de abajo arriba que el ensamblado manual). Main se simplifica: crea el contenedor, llama a getBookController() y ejecuta run().",
+      "explicacionesDistractores": {
+        "A": "En el contenedor ninguna clase instancia a sus colaboradores; es el contenedor quien asume la responsabilidad de crear e inyectar, empezando por el DAO.",
+        "B": "Con el contenedor, Main ya no necesita saber cómo se construyen ni conectan las capas; es el propio contenedor quien crea new BookDaoMySql().",
+        "D": "El orden es de abajo arriba (DAO, repositorio, servicio, controlador) y la conexión la hace el contenedor, no Main."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "El contenedor de IoC (IoC Container)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Ensamblado manual del sistema"
+        }
+      ],
+      "conocimiento": "El IoCContainer casero crea e inyecta los componentes de abajo arriba (DAO, repositorio, servicio, controlador) y Main solo crea el contenedor, le pide el controlador y lo ejecuta.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z",
+      "id": "prog-08-799f6038"
+    },
+    {
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Según el tema, ¿qué afirmación describe con precisión la relación entre la Inyección de Dependencias (DI) y la Inversión de Control (IoC)?",
+      "opciones": {
+        "A": "La IoC es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior; la DI es un principio más amplio en el que el control del flujo y de la creación de objetos se delega a un componente externo.",
+        "B": "La DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior; la IoC es un principio más amplio en el que el control del flujo y de la creación de objetos se delega a un componente externo.",
+        "C": "Son dos nombres del mismo patrón: se habla de DI cuando las capas se ensamblan a mano en el método main y de IoC cuando lo hace un framework como Spring.",
+        "D": "La IoC consiste en invertir el sentido de las llamadas entre capas, de modo que la persistencia llame al dominio, y la DI es la forma de implementar esa inversión."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki distingue ambos términos: la DI es un patrón de diseño (la clase recibe sus dependencias desde fuera) y la IoC es un principio de diseño más amplio (el control de la creación de objetos y del flujo se delega a un componente externo, el ensamblador o contenedor).",
+      "explicacionesDistractores": {
+        "A": "Intercambia las definiciones: según la wiki la DI es el patrón y la IoC el principio más amplio.",
+        "C": "La wiki no los presenta como sinónimos, sino como patrón frente a principio; además, el ensamblado manual en main también es inyección de dependencias desde el exterior.",
+        "D": "La IoC invierte quién crea los colaboradores (un elemento externo en lugar de la propia clase), no el sentido de las llamadas: la regla de aislamiento prohíbe que una capa inferior llame a las superiores."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Inversión de Control (IoC)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Inyección de Dependencias (DI)"
+        }
+      ],
+      "conocimiento": "La DI es un patrón de diseño (recibir dependencias desde fuera) y la IoC un principio más amplio (delegar el control del flujo y de la creación de objetos a un componente externo).",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z",
+      "id": "prog-08-cc607ddc"
+    },
+    {
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Sobre los Java Records que se usan como DTO, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "Sus componentes son implícitamente private final, por lo que sus valores no pueden modificarse una vez instanciado el record.",
+        "B": "El compilador genera accesores con el mismo nombre que el campo, como isbn(), en lugar de getIsbn().",
+        "C": "Los métodos equals() y hashCode() se basan en el valor de sus campos, de modo que dos records con los mismos datos se consideran iguales.",
+        "D": "El compilador genera un constructor canónico y, para cada campo, un método de acceso y otro de modificación."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que el compilador genera el constructor canónico, accesores con el nombre del campo, equals()/hashCode() basados en valor y toString(), pero no métodos de modificación: los componentes son private final y el record es inmutable (no tiene estado mutable).",
+      "explicacionesDistractores": {
+        "A": "Es cierta: la wiki dice que todos sus componentes son implícitamente private final y que, una vez instanciado, sus valores no pueden ser modificados.",
+        "B": "Es cierta: los métodos de acceso tienen el mismo nombre que el campo, por ejemplo isbn() en lugar de getIsbn().",
+        "C": "Es cierta: equals() y hashCode() se basan en el valor de sus campos y dos records con los mismos datos se consideran iguales."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Java Records"
+        }
+      ],
+      "conocimiento": "Un Java Record genera constructor canónico, accesores sin prefijo get, equals/hashCode por valor y toString, pero no métodos de modificación porque es inmutable.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z",
+      "id": "prog-08-db5b957b"
+    },
+    {
+      "id": "prog-09-03d34db7",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un cliente envía una petición POST a /api/v1/books con un objeto JSON que contiene isbn, title y basePrice. Según la wiki, ¿qué describe correctamente lo que ocurre en el servidor?",
+      "opciones": {
+        "A": "El parser convierte el objeto JSON en un DTO, que debe incluir el ID del libro para que el servidor pueda crear el recurso.",
+        "B": "El parser convierte el objeto JSON en un DTO y, si falla su validación, el servidor responde 500 Internal Server Error por ser un fallo interno.",
+        "C": "El parser convierte el objeto JSON en un DTO y, al ser una creación correcta, el servidor responde 204 No Content sin cuerpo.",
+        "D": "El parser convierte el objeto JSON en un DTO, el servidor asigna el ID al nuevo recurso y, si todo va bien, responde 201 Created."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La librería del servidor (parser) convierte automáticamente el objeto JSON en un DTO record; en POST el cliente no indica el ID porque lo asigna el servidor, y el código para un recurso creado con éxito es 201 Created.",
+      "explicacionesDistractores": {
+        "A": "En POST el cliente no indica el ID: lo asigna el servidor.",
+        "B": "Si falla la validación de un DTO, los datos de la petición son incorrectos y la respuesta es 400 Bad Request, un error del cliente; el 500 se reserva para excepciones o fallos no controlados del código del servidor.",
+        "C": "El 204 No Content es común en DELETE; para un POST que crea el recurso con éxito se usa 201 Created."
+      },
+      "dificultad": "dificil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "4. Formato de Intercambio: JSON"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Matices que conviene retener"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "5. Códigos de Estado HTTP"
+        }
+      ],
+      "conocimiento": "En un POST, el parser convierte el JSON en un DTO, el servidor asigna el ID y responde 201 Created; un fallo de validación del DTO es 400, no 500.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-a8de2fa1",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un cliente quiere cambiar únicamente el precio del libro con ID 12, sin enviar el resto de sus campos. Siguiendo las buenas prácticas de la wiki, ¿qué petición debe hacer y qué código de éxito es el habitual?",
+      "opciones": {
+        "A": "PUT /books/12 con solo el precio en el cuerpo, y respuesta 200 OK.",
+        "B": "PATCH /books/12 con el precio en el cuerpo de la petición, y respuesta 200 OK.",
+        "C": "GET /books/12?price=20 con el nuevo precio como parámetro de consulta, y respuesta 200 OK.",
+        "D": "POST /updateBook con el ID y el precio en el cuerpo, y respuesta 201 Created."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "PATCH es la modificación parcial: actualiza solo los campos indicados, los datos viajan en el cuerpo y su código de éxito habitual es 200 OK. El recurso se identifica con un sustantivo en plural en la ruta.",
+      "explicacionesDistractores": {
+        "A": "PUT reemplaza por completo el recurso existente; no es el método para modificar solo un campo.",
+        "C": "GET es un método de lectura; no sirve para modificar un recurso.",
+        "D": "Usar verbos en la URL es una mala práctica (la acción la determina el método HTTP) y POST con 201 Created corresponde a la creación de un recurso nuevo."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "3. Métodos HTTP y transmisión de datos"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Relación entre método y código de éxito habitual"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Buenas prácticas en el diseño de Endpoints"
+        }
+      ],
+      "conocimiento": "Para modificar solo algunos campos de un recurso se usa PATCH con los datos en el cuerpo, cuyo código de éxito habitual es 200 OK.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-d12e97f8",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Según la wiki, ¿cuál de las siguientes comparaciones entre métodos HTTP es correcta?",
+      "opciones": {
+        "A": "POST y PUT transmiten sus datos en el cuerpo y ambos responden habitualmente con 201 Created, porque los dos dejan un recurso nuevo en el servidor.",
+        "B": "DELETE, como GET, transmite sus datos en la URL (mediante un Path Param), y su respuesta habitual es 204 No Content, sin cuerpo.",
+        "C": "GET transmite normalmente sus datos en Query Parameters, pero puede enviarlos en el cuerpo cuando los filtros son numerosos.",
+        "D": "PATCH, a diferencia de PUT, envía los campos en la URL, porque al modificar solo unos pocos no necesita cuerpo."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica que GET y DELETE llevan los datos en la URL (DELETE mediante un Path Param) y que el código de éxito habitual de DELETE es 204 No Content, que es una respuesta correcta sin cuerpo.",
+      "explicacionesDistractores": {
+        "A": "PUT reemplaza un recurso existente y su código de éxito habitual es 200 OK; 201 Created se usa en POST.",
+        "C": "La wiki es tajante: GET no debe incluir cuerpo; sus datos viajan en la URL (Query o Path Params).",
+        "D": "PATCH, igual que PUT y POST, lleva los datos en el cuerpo de la petición."
+      },
+      "dificultad": "dificil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Matices que conviene retener"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Relación entre método y código de éxito habitual"
+        }
+      ],
+      "conocimiento": "GET y DELETE llevan los datos en la URL (DELETE con Path Param y respuesta habitual 204), mientras POST, PUT y PATCH los llevan en el cuerpo y PUT responde habitualmente 200.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-6754cd44",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Dos peticiones intentan acceder al mismo recurso restringido de una API: la primera llega sin que el cliente se haya autenticado; la segunda, de un cliente autenticado que no tiene permisos sobre ese recurso. ¿Qué códigos de estado corresponden, respectivamente, según la wiki?",
+      "opciones": {
+        "A": "401 Unauthorized para la primera y 403 Forbidden para la segunda.",
+        "B": "400 Bad Request para la primera y 403 Forbidden para la segunda.",
+        "C": "401 Unauthorized para la primera y 404 Not Found para la segunda.",
+        "D": "403 Forbidden para la primera y 401 Unauthorized para la segunda."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "401 Unauthorized indica que el cliente debe autenticarse, y 403 Forbidden que el cliente no tiene permisos para acceder al recurso.",
+      "explicacionesDistractores": {
+        "B": "400 Bad Request indica datos de la petición incorrectos sintáctica o semánticamente, no la falta de autenticación.",
+        "C": "404 Not Found indica que la URL o el recurso no existe; la falta de permisos sobre un recurso existente es 403.",
+        "D": "Invierte los significados: 401 es la falta de autenticación y 403 la falta de permisos."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "5. Códigos de Estado HTTP"
+        }
+      ],
+      "conocimiento": "Una petición sin autenticar recibe 401 Unauthorized y una petición autenticada sin permisos recibe 403 Forbidden.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-a292c6d6",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "En la URL https://api.miservidor.com/api/v1/books?page=2&limit=10, ¿qué es /api/v1/books según la anatomía de una URL descrita en el tema?",
+      "opciones": {
+        "A": "El dominio o host, que identifica el servidor al que se dirige la petición.",
+        "B": "Los parámetros de consulta, que aportan información adicional sobre el recurso.",
+        "C": "La parte de la URL que indica la acción que se realiza sobre el recurso.",
+        "D": "La ruta (Path / URI), que identifica el recurso concreto dentro del servidor."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki define la ruta (Path / URI) como la parte de la URL que identifica el recurso concreto dentro del servidor, con el ejemplo /api/v1/books.",
+      "explicacionesDistractores": {
+        "A": "El dominio o host es api.miservidor.com, la parte que identifica el servidor.",
+        "B": "Los parámetros de consulta son page=2&limit=10, que van después del símbolo ?.",
+        "C": "Según las buenas prácticas de diseño de endpoints, la acción la determina el método HTTP, no la URL."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Anatomía de una URL / URI"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Buenas prácticas en el diseño de Endpoints"
+        }
+      ],
+      "conocimiento": "La ruta (Path / URI) de una URL identifica el recurso concreto dentro del servidor, distinta del host y de los parámetros de consulta.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-520c798d",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "En producción, el paquete del proyecto está configurado con nivel INFO y una clase ejecuta log.debug(\"Libro {} recuperado\", id) con un logger de SLF4J. ¿Qué ocurre con ese evento según la wiki?",
+      "opciones": {
+        "A": "No se registra, y gracias al marcador {} el texto del mensaje ni siquiera llega a formatearse.",
+        "B": "Se construye el texto sustituyendo el marcador por el id y después se descarta por no alcanzar el nivel configurado.",
+        "C": "Se registra solo en el fichero indicado en logging.file.name, porque la consola únicamente muestra el nivel INFO.",
+        "D": "Se registra igualmente, porque el nivel solo sirve para destacar visualmente el mensaje en la consola."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "DEBUG es menos severo que INFO, de modo que con el paquete en INFO ese evento no se registra (DEBUG se usa para desarrollo e INFO para producción). Los mensajes de SLF4J con marcadores {} se formatean solo si el nivel está activo, lo que evita construir cadenas para eventos que no se van a registrar.",
+      "explicacionesDistractores": {
+        "B": "Con marcadores {} el texto se formatea solo si el nivel está activo; precisamente se evita construir la cadena de un evento que no se va a registrar.",
+        "C": "logging.file.name añade una salida a fichero además de la consola; no cambia qué niveles se registran.",
+        "D": "El nivel permite filtrar o destacar cada mensaje; la configuración por paquete decide qué se registra, de modo que el mismo código muestra más o menos detalle."
+      },
+      "dificultad": "dificil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Registrar eventos en el código"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Configuración de niveles y destinos"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "El evento de log y sus niveles"
+        }
+      ],
+      "conocimiento": "Un evento DEBUG con el paquete en INFO no se registra y, al usar marcadores {} de SLF4J, su texto no se formatea porque el nivel no está activo.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-04c47f60",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Llega a una aplicación Spring Boot una petición POST /api/v1/books con un cuerpo JSON y hay un filtro de auditoría registrado. ¿En qué orden se procesa la petición según la wiki?",
+      "opciones": {
+        "A": "Cadena de filtros, DispatcherServlet, Handler Mapping localiza el controlador y método, deserialización del JSON a DTO, invocación del método y serialización del resultado.",
+        "B": "DispatcherServlet recibe la petición, la cadena de filtros la audita, el Handler Mapping localiza el método, se invoca el controlador y este deserializa el JSON.",
+        "C": "Cadena de filtros, DispatcherServlet, deserialización del JSON a DTO, Handler Mapping elige el método según el tipo del DTO, invocación y serialización.",
+        "D": "Cadena de filtros, Handler Mapping localiza el controlador, DispatcherServlet deserializa el JSON, invocación del método y serialización del resultado."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Los filtros actúan antes del DispatcherServlet; este intercepta la petición, consulta el Handler Mapping para localizar el @RestController y el método según ruta y verbo, deserializa el cuerpo JSON a Record/DTO, invoca el método y serializa a JSON el resultado devuelto.",
+      "explicacionesDistractores": {
+        "B": "Los filtros interceptan la petición antes de que alcance el DispatcherServlet, y la deserialización la realiza el framework antes de invocar al controlador, que recibe los argumentos ya procesados.",
+        "C": "El enrutamiento se hace según la ruta y el verbo HTTP, no según el tipo del DTO, y ocurre antes de la deserialización.",
+        "D": "Es el DispatcherServlet quien recibe la petición tras los filtros y consulta después el Handler Mapping; el Handler Mapping no actúa antes que el Front Controller."
+      },
+      "dificultad": "dificil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Flujo de ejecución de una petición"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "3. Interceptación de peticiones: Filtros HTTP"
+        }
+      ],
+      "conocimiento": "Orden de procesamiento en Spring Boot: filtros, DispatcherServlet, Handler Mapping (ruta y verbo), deserialización JSON a DTO, invocación del controlador y serialización de la respuesta.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-0c5409a1",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Tres equipos tratan de forma distinta una BookNotFoundException lanzada por el Service: el primero no hace nada, el segundo envuelve cada llamada al Service en un try-catch dentro del @RestController y el tercero usa un manejador global con @RestControllerAdvice. Según la wiki, ¿qué valoración es correcta?",
+      "opciones": {
+        "A": "Sin manejador, Spring Boot deduce el estado a partir del tipo de la excepción y responde con 404 Not Found, aunque sin un cuerpo útil para el cliente.",
+        "B": "El try-catch puede dar respuestas correctas, pero duplica código en todos los endpoints y mezcla la presentación con la gestión de errores, que el manejador global centraliza en un único punto.",
+        "C": "El try-catch en el controlador es preferible si la API es pública, porque permite ocultar las trazas técnicas, algo que el manejador global no puede hacer.",
+        "D": "El manejador global hace innecesario registrar logs de los errores, porque la traza completa viaja al cliente dentro del ApiErrorResponse."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki califica el try-catch en el controlador de antipatrón porque duplica código en todos los endpoints y mezcla la responsabilidad de presentación con la gestión de errores; el manejador global con @RestControllerAdvice traduce las excepciones en un único punto.",
+      "explicacionesDistractores": {
+        "A": "Sin manejador, el DispatcherServlet intercepta la excepción y Spring Boot genera la Whitelabel Error Page con estado 500 Internal Server Error, no 404.",
+        "C": "El manejador global termina con un @ExceptionHandler(Exception.class) que devuelve un mensaje genérico con 500, precisamente para no exponer trazas técnicas en una API pública.",
+        "D": "La wiki dice lo contrario: el detalle técnico nunca viaja al cliente, que recibe un mensaje genérico, y la traza completa se registra con log.error en el servidor."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Comportamiento por defecto"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "El problema de los try-catch en el controlador"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Ejemplo práctico: GlobalExceptionHandler"
+        }
+      ],
+      "conocimiento": "Comparación entre no tratar la excepción (Whitelabel 500), el antipatrón try-catch en el controlador (duplica código y mezcla responsabilidades) y el manejador global centralizado.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-0d0e6253",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Sobre el procesamiento de una petición HTTP en Spring Boot según el diagrama de componentes del tema, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "El DispatcherServlet consulta el Handler Mapping para localizar qué @RestController y qué método responden a la ruta y al verbo HTTP.",
+        "B": "La cadena de filtros forma parte del contexto de Spring (IoC Container), junto al DispatcherServlet y los controladores.",
+        "C": "El Http Message Converter transforma el cuerpo JSON de la petición en un DTO y el resultado del controlador en JSON.",
+        "D": "La cadena de filtros actúa antes de que la petición llegue al DispatcherServlet."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki señala que la cadena de filtros está dentro del servidor Tomcat pero fuera del contexto de Spring (IoC Container), que agrupa DispatcherServlet, Handler Mapping, Http Message Converter, BookController y BookService.",
+      "explicacionesDistractores": {
+        "A": "Es cierta: el Handler Mapping asocia la URI con el método, localizando el @RestController y el método configurados para esa ruta y verbo HTTP.",
+        "C": "Es cierta: el Http Message Converter transforma JSON <-> Java DTO en ambos sentidos.",
+        "D": "Es cierta: los filtros interceptan la petición antes de que alcance el DispatcherServlet."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Diagrama de componentes (descripción)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Flujo de ejecución de una petición"
+        }
+      ],
+      "conocimiento": "La cadena de filtros está en Tomcat pero fuera del contexto de Spring, y actúa antes del DispatcherServlet, que usa Handler Mapping y Http Message Converter.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-10-79777f8d",
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Según la wiki, ¿qué diferencia correctamente un filtro HTTP de una clase anotada con @RestControllerAdvice en Spring Boot?",
+      "opciones": {
+        "A": "El filtro se ejecuta dentro del contexto de Spring después del DispatcherServlet, mientras que el @RestControllerAdvice intercepta la petición antes de que llegue a Tomcat.",
+        "B": "El @RestControllerAdvice se ejecuta exactamente una vez por cada petición gracias a OncePerRequestFilter, mientras que el filtro solo se activa cuando se produce una excepción.",
+        "C": "Ambos actúan antes del controlador: el filtro deserializa el JSON de entrada y el @RestControllerAdvice valida las cabeceras de autenticación.",
+        "D": "El filtro intercepta la petición antes de que alcance el DispatcherServlet para tratar aspectos transversales, mientras que el @RestControllerAdvice actúa cuando una excepción escapa de un controlador para traducirla a una respuesta HTTP."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki sitúa los filtros, que forman la Filter Chain, antes del DispatcherServlet y los usa para aspectos transversales (auditoría, cabeceras de seguridad, CORS). El @RestControllerAdvice centraliza la traducción a respuestas HTTP de las excepciones que escapan de cualquier controlador.",
+      "explicacionesDistractores": {
+        "A": "Según el diagrama, la cadena de filtros está dentro de Tomcat pero fuera del contexto de Spring y actúa antes del DispatcherServlet; el advice no intercepta peticiones antes de Tomcat.",
+        "B": "OncePerRequestFilter es la clase de la que se extiende un filtro para que se ejecute una vez por petición; los métodos del advice se invocan solo cuando escapa una excepción.",
+        "C": "La deserialización del JSON la hace el DispatcherServlet con el Http Message Converter, y la verificación de cabeceras de autenticación es un uso de los filtros, no del advice."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "3. Interceptación de peticiones: Filtros HTTP"
+        },
+        {
+          "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md",
+          "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler"
+        }
+      ],
+      "conocimiento": "Los filtros HTTP actúan antes del DispatcherServlet para aspectos transversales, y el @RestControllerAdvice actúa cuando una excepción escapa de un controlador para traducirla a respuesta HTTP.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-4a5ea9ab",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Una petición llega a una ruta protegida sin cabecera Authorization. Según el funcionamiento de AccessTokenFilter y del controlador descritos en la wiki, ¿qué ocurre?",
+      "opciones": {
+        "A": "El filtro no obtiene token, continúa la cadena sin Principal y el controlador, al encontrar el contexto vacío, lanza AuthenticationRequiredException.",
+        "B": "El filtro detecta que falta el token, corta la cadena sin llamar a doFilter y responde directamente al cliente.",
+        "C": "El filtro guarda en el contexto un Principal anónimo sin roles, y el controlador deniega la operación al comprobar los permisos.",
+        "D": "El filtro intenta renovar la sesión con el refresh token del cliente y, si lo consigue, guarda el nuevo Principal en el contexto."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "extractBearerToken devuelve null si la cabecera Authorization es null; sin token no se autentica nada y el filtro continúa la cadena con chain.doFilter. En una ruta protegida, el controlador consulta SecurityContext.get() y, si es null, lanza AuthenticationRequiredException.",
+      "explicacionesDistractores": {
+        "B": "El filtro de ejemplo siempre continúa la cadena con chain.doFilter; es el controlador de la ruta protegida quien rechaza la operación si no hay identidad autenticada.",
+        "C": "El filtro solo guarda un Principal si authService.authenticate devuelve uno (ifPresent); sin token el contexto queda vacío, no con un Principal anónimo.",
+        "D": "El refresh token no se incluye en las peticiones normales; solo se envía para renovar el par, y el filtro no realiza la renovación."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "El filtro AccessTokenFilter"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Rutas públicas y protegidas"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "3. Token de acceso y refresh token"
+        }
+      ],
+      "conocimiento": "Sin cabecera Authorization, AccessTokenFilter continúa la cadena sin Principal y es el controlador de la ruta protegida quien lanza AuthenticationRequiredException.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-e34d667f",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Según la wiki, ¿qué consigue, y qué no, la rotación del refresh token en cada renovación?",
+      "opciones": {
+        "A": "Impide que un refresh token robado pueda utilizarse, porque el servidor distingue al atacante del cliente legítimo y solo revoca los tokens del atacante.",
+        "B": "Al detectar que se presenta de nuevo un refresh token consumido, el servidor invalida solo ese token y mantiene el par más reciente para no perjudicar al cliente legítimo.",
+        "C": "No impide el robo de una credencial, pero permite detectar que se vuelve a presentar un refresh token ya consumido y responder revocando la sesión completa, aunque el cliente legítimo también la pierda.",
+        "D": "Solo protege si el cliente legítimo renueva antes que el atacante; si el atacante usa primero el token robado, el reuso posterior no tiene consecuencias."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki explica que la rotación no impide el robo; permite detectar la reutilización de un refresh token anterior y responder revocando toda la familia de tokens, incluido el par más reciente, de modo que el cliente legítimo también pierde la sesión y debe autenticarse de nuevo.",
+      "explicacionesDistractores": {
+        "A": "La wiki indica que la rotación no impide el robo y que el servidor no puede saber cuál de los dos (atacante o cliente legítimo) es el legítimo.",
+        "B": "Ante el reuso se revoca toda la familia, incluido el par más reciente; no se conserva ningún token de esa sesión.",
+        "D": "Si el atacante usa primero el token robado, el reuso posterior por el cliente legítimo también se detecta y revoca los tokens nuevos que obtuvo el atacante."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Detección del reuso y revocación de la familia"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Qué consigue (y qué no) la rotación"
+        }
+      ],
+      "conocimiento": "La rotación del refresh token no impide el robo, pero permite detectar su reutilización y revocar toda la familia, aunque el cliente legítimo pierda también la sesión.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-1b3e136a",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Según la wiki, al comparar dónde guardar el Principal mientras se procesa una petición web síncrona, ¿qué afirmación es correcta?",
+      "opciones": {
+        "A": "Un ThreadLocal asocia el valor al hilo actual, lo que evita mezclar identidades de distintos clientes, pero hay que limpiarlo en finally porque Tomcat reutiliza los hilos.",
+        "B": "Una variable local es la opción preferible, porque no hay que limpiarla y queda disponible para todos los componentes que invoca el método.",
+        "C": "Un campo static mutable equivale al SecurityContext del ejemplo, ya que su campo CURRENT también es static y guarda un único Principal global para todas las peticiones.",
+        "D": "Un ThreadLocal no necesita limpieza, porque cada petición se atiende en un hilo nuevo que se destruye al terminar."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que ThreadLocal asocia el valor al hilo actual y permite consultar un contexto común sin pasar el Principal por cada llamada; como Tomcat reutiliza hilos, debe limpiarse en finally para que una petición posterior no herede el Principal de otra.",
+      "explicacionesDistractores": {
+        "B": "Una variable local solo está disponible en ese método; habría que pasarla explícitamente por todos los componentes invocados.",
+        "C": "Aunque CURRENT es static, lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente por hilo; un campo static mutable sí se comparte entre peticiones y puede mezclar identidades.",
+        "D": "La wiki advierte de que el hilo puede reutilizarse (Tomcat reutiliza hilos), por lo que el ThreadLocal debe limpiarse."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Dónde guardar el Principal"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Clase SecurityContext"
+        }
+      ],
+      "conocimiento": "Frente a una variable local o un campo static mutable, ThreadLocal guarda el Principal por hilo sin mezclar identidades, pero debe limpiarse porque los hilos se reutilizan.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-ac147b70",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Según la wiki, ¿qué diferencia correctamente el token de acceso del refresh token devueltos por el login?",
+      "opciones": {
+        "A": "Ambos se envían en cada petición protegida para que el servidor pueda renovar la sesión en cuanto caduque el token de acceso.",
+        "B": "El token de acceso tiene una duración típica más larga que el refresh token, porque se usa con más frecuencia que este.",
+        "C": "El token de acceso, de duración corta, se envía en cada petición protegida, normalmente en la cabecera Authorization con el esquema Bearer; el refresh token, más duradero, solo se envía para renovar el par.",
+        "D": "El cliente conserva solo el refresh token y obtiene un token de acceso nuevo antes de cada petición protegida."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki indica que el token de acceso se envía en cada petición protegida, normalmente en la cabecera Authorization con el esquema Bearer, y tiene una duración típica corta; el refresh token tiene una duración más larga, se envía solo para renovar el par y no se incluye en las peticiones normales.",
+      "explicacionesDistractores": {
+        "A": "El refresh token no se incluye en las peticiones normales; solo se envía para renovar el par.",
+        "B": "Es al revés: la duración típica del token de acceso es corta y la del refresh token más larga.",
+        "D": "El cliente conserva ambos tokens y solo renueva cuando caduca el token de acceso, no antes de cada petición."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "3. Token de acceso y refresh token"
+        }
+      ],
+      "conocimiento": "El token de acceso es de duración corta y se envía en cada petición protegida (Bearer); el refresh token dura más y solo se envía para renovar el par.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-12-2adb68ca",
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Según el tema, ¿qué caracteriza a un token opaco?",
+      "opciones": {
+        "A": "Es una cadena aleatoria cuyo contenido no interpreta el cliente; el servidor la valida consultando el estado que conserva sobre ella, como su vencimiento o revocación.",
+        "B": "Es una cadena que lleva codificados la identidad y los roles, de modo que el servidor la valida sin consultar ningún estado propio.",
+        "C": "Es una cadena aleatoria que el servidor guarda en claro para compararla literalmente con la que recibe en cada petición protegida.",
+        "D": "Es una cadena cifrada que el cliente descifra para conocer su vencimiento y decidir cuándo debe renovarla."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki define el token opaco como una cadena aleatoria cuyo contenido no interpreta el cliente, que el servidor valida consultando el estado que conserva sobre él: su hash, su tipo, su vencimiento y su estado de revocación.",
+      "explicacionesDistractores": {
+        "B": "El token opaco es una cadena aleatoria, no codifica identidad ni roles, y el servidor lo valida precisamente consultando el estado que conserva.",
+        "C": "El servidor almacena el hash del token, no el valor reutilizable en claro.",
+        "D": "El cliente no interpreta el contenido de un token opaco; es una cadena aleatoria generada con SecureRandom."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "2. Tokens opacos"
+        },
+        {
+          "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md",
+          "seccion": "Almacenamiento"
+        }
+      ],
+      "conocimiento": "Un token opaco es una cadena aleatoria que el cliente no interpreta y que el servidor valida consultando su estado (hash, tipo, vencimiento, revocación).",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Un equipo empaqueta su aplicación como un único artefacto desplegable dividido en módulos que colaboran en el mismo proceso a través de sus APIs públicas. Dentro de cada módulo, el núcleo define interfaces de entrada, que invocan los controladores, e interfaces de salida, que implementan componentes conectados a la base de datos y al correo. ¿Cómo se clasifica correctamente esta aplicación?",
+      "opciones": {
+        "A": "Como microservicios, porque cada módulo tiene límites explícitos y una API propia con la que lo invocan los demás",
+        "B": "Como monolito modular por su despliegue y como arquitectura hexagonal por su organización interna, dos criterios independientes que se combinan",
+        "C": "Como arquitectura de cebolla, porque el despliegue único obliga a organizar el código en anillos alrededor del dominio",
+        "D": "Como monolito por su despliegue, lo que impide aplicar principios de arquitectura limpia como los puertos y adaptadores"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki distingue cómo se despliega (monolito, monolito modular, microservicios) de cómo se organiza el código (capas, hexagonal, cebolla) y los presenta como criterios independientes que se combinan. Un único despliegue con módulos que colaboran en el mismo proceso mediante APIs públicas es un monolito modular; un núcleo que define puertos de entrada (invocados por adaptadores de entrada) y de salida (implementados por adaptadores tecnológicos) es arquitectura hexagonal.",
+      "explicacionesDistractores": {
+        "A": "Los microservicios son varios servicios desplegables que se comunican por red; la wiki advierte que no son simplemente módulos separados en carpetas o proyectos. Aquí hay un único despliegue y comunicación en el mismo proceso.",
+        "C": "La cebolla es una forma de organizar el código, no una consecuencia del despliegue; además, lo descrito (puertos de entrada y de salida definidos por el núcleo, con adaptadores que los usan o implementan) corresponde a puertos y adaptadores.",
+        "D": "Hay módulos con APIs públicas, por lo que es un monolito modular, y en cualquier caso la wiki afirma que un monolito puede aplicar principios de arquitectura limpia."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.1 Monolito, monolito modular y microservicios"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.2 Arquitectura hexagonal (Ports and Adapters)"
+        }
+      ],
+      "conocimiento": "La arquitectura de despliegue (monolito modular) y la organización interna (hexagonal) son criterios independientes que se combinan en una misma aplicación.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z",
+      "id": "dws-01-b0a4a7c3"
+    },
+    {
+      "id": "dws-01-2da6cdb3",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Al comparar el monolito modular con los microservicios como estilos de despliegue, ¿qué afirmación describe correctamente sus diferencias y sus costes?",
+      "opciones": {
+        "A": "El monolito modular exige que cada módulo tenga su propia base de datos, igual que los microservicios, pero los despliega todos juntos en una única aplicación.",
+        "B": "Basta con separar los módulos de un monolito modular en proyectos distintos para obtener microservicios, ya que el código queda aislado igual que con un despliegue independiente.",
+        "C": "El monolito modular aporta modularidad sin multiplicar despliegues, mientras que los microservicios ganan despliegue independiente a costa de más complejidad operativa y de comunicarse por red.",
+        "D": "Si los módulos de un monolito modular se comunican mediante eventos, obtienen el mismo aislamiento y las mismas transacciones independientes que los microservicios conectados por un broker."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La tabla de estilos de despliegue de la wiki atribuye al monolito modular «modularidad sin multiplicar despliegues» y a los microservicios «despliegue independiente; más complejidad operativa», con servicios que se comunican por red.",
+      "explicacionesDistractores": {
+        "A": "En el monolito modular la base de datos puede ser compartida; lo que se exige es que cada módulo solo acceda a los datos de los que es propietario. Cada base de datos propia aparece en los microservicios.",
+        "B": "La wiki advierte que los microservicios no son simplemente módulos separados en carpetas o proyectos: cada servicio debe poder desplegarse y evolucionar de forma autónoma, y la comunicación pasa por la red.",
+        "D": "Según la wiki, los eventos entre módulos no implican comunicación de red ni crean por sí solos aislamiento o una transacción independiente."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.1 Monolito, monolito modular y microservicios"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.2 Tipos de comunicación"
+        }
+      ],
+      "conocimiento": "El monolito modular da modularidad sin multiplicar despliegues; los microservicios dan despliegue independiente con más complejidad operativa, y separar módulos en proyectos o usar eventos no equivale a microservicios.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-3f0b4e77",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "En el diagrama de puertos y adaptadores de la arquitectura hexagonal, ¿qué es NotificationPort?",
+      "opciones": {
+        "A": "Una interfaz definida en el núcleo que expresa qué necesita el núcleo (puerto de salida) y que EmailAdapter implementa.",
+        "B": "Un adaptador de salida que conecta BusinessService con el servicio de correo y forma parte del núcleo de la aplicación.",
+        "C": "Una interfaz definida por el adaptador de servicio externo que BusinessService implementa para poder enviar correos.",
+        "D": "Un puerto de entrada que indica cómo se usa el núcleo y que RestController invoca para notificar al cliente."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Los puertos son interfaces que definen cómo se usa o qué necesita el núcleo. NotificationPort está en el núcleo, BusinessService lo utiliza como puerto de salida (qué necesita el núcleo) y EmailAdapter, fuera del núcleo, lo implementa y accede al servicio de correo. La wiki señala que el núcleo define todos los puertos.",
+      "explicacionesDistractores": {
+        "B": "NotificationPort no es un adaptador sino un puerto (una interfaz). El adaptador que conecta con el servicio de correo es EmailAdapter, que está fuera del núcleo.",
+        "C": "Invierte la relación: el núcleo define todos los puertos y los adaptadores dependen de ellos; es EmailAdapter quien implementa NotificationPort, no BusinessService.",
+        "D": "El puerto de entrada del diagrama es InputPort, al que invoca RestController; NotificationPort es un puerto de salida que utiliza BusinessService."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.2 Arquitectura hexagonal (Ports and Adapters)"
+        }
+      ],
+      "conocimiento": "En la arquitectura hexagonal los puertos de salida, como NotificationPort, son interfaces definidas por el núcleo e implementadas por adaptadores externos.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-86b82494",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "¿Qué afirmación distingue correctamente la comunicación asíncrona mediante eventos de la comunicación síncrona?",
+      "opciones": {
+        "A": "En la asíncrona el emisor publica el evento en el broker sin esperar respuesta del consumidor, y como la mensajería no garantiza un procesamiento exactamente una vez, los consumidores deben tolerar entregas duplicadas.",
+        "B": "En la síncrona el emisor queda desacoplado temporalmente del receptor, mientras que en la asíncrona depende de la disponibilidad y el tiempo de respuesta del consumidor.",
+        "C": "En la asíncrona la confirmación de procesamiento que el consumidor envía al broker garantiza que cada mensaje se procese exactamente una vez, a diferencia de la síncrona.",
+        "D": "La asíncrona exige siempre comunicación por red mediante un intermediario como RabbitMQ o Kafka, mientras que la síncrona solo es posible entre módulos del mismo proceso."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que en la comunicación asíncrona el emisor publica un mensaje o evento para que se procese después (el servicio A solo publica en el broker y no espera respuesta) y advierte que la mensajería no garantiza que cada mensaje se procese exactamente una vez, por lo que los consumidores deben tolerar duplicados.",
+      "explicacionesDistractores": {
+        "B": "Está invertido: la síncrona depende de la disponibilidad y el tiempo de respuesta del receptor, y es la asíncrona la que desacopla temporalmente.",
+        "C": "Aunque el consumidor confirma el procesamiento, la wiki dice expresamente que la mensajería no garantiza un procesamiento exactamente una vez y que puede haber entregas duplicadas.",
+        "D": "Los módulos de una aplicación pueden comunicarse mediante eventos sin red, y la comunicación síncrona también se da entre microservicios mediante peticiones HTTP."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.2 Tipos de comunicación"
+        }
+      ],
+      "conocimiento": "En la comunicación asíncrona el emisor publica sin esperar respuesta y los consumidores deben tolerar entregas duplicadas; la síncrona depende de la disponibilidad del receptor.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-d89ede9e",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "En la arquitectura por capas de referencia, la capa de persistencia contiene tanto un repositorio como un DAO. ¿Qué diferencia hay entre ambos en cuanto a dónde se sitúan su interfaz y su implementación?",
+      "opciones": {
+        "A": "La interfaz Repository se define en domain y la implementa RepositoryImpl en persistence, mientras que el DAO tiene interfaz e implementación dentro de persistence.",
+        "B": "Las interfaces Repository y DAO se definen ambas en domain, y sus implementaciones RepositoryImpl y DAOImpl están en persistence.",
+        "C": "La interfaz DAO se define en domain para invertir la dependencia, mientras que Repository tiene interfaz e implementación dentro de persistence.",
+        "D": "Repository y DAO tienen interfaz e implementación dentro de persistence, y domain solo conoce la interfaz Service que los coordina."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que domain contiene las interfaces de repositorio y persistence sus implementaciones y los DAO; Service y Repository son interfaces implementadas por ServiceImpl y RepositoryImpl, y el DAO también se separa en interfaz e implementación, ambas dentro de persistence. Que domain defina Repository y persistence lo implemente es la inversión de dependencias.",
+      "explicacionesDistractores": {
+        "B": "La interfaz DAO no está en domain: la wiki indica que la interfaz DAO y DAOImpl están ambas dentro de persistence.",
+        "C": "Se invierte al revés: la interfaz que define domain es Repository; el DAO queda entero en persistence y es RepositoryImpl quien lo utiliza.",
+        "D": "La interfaz Repository está en domain (ServiceImpl la utiliza desde el propio dominio); si estuviera en persistence, el dominio dependería de la tecnología de persistencia."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.1 Arquitectura por capas"
+        }
+      ],
+      "conocimiento": "En la arquitectura por capas, la interfaz Repository está en domain y su implementación en persistence, mientras que el DAO tiene interfaz e implementación en persistence.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-5c909ffa",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un equipo declara su contrato en la interfaz OrderHttpApi con anotaciones (springdoc-openapi genera el documento) y, en paralelo, mantiene a mano un orders-api.yaml que comparte con los consumidores. Para dar por buena una entrega abren Swagger UI y comprueban que la operación aparece. ¿Qué valoración es correcta?",
+      "opciones": {
+        "A": "Es suficiente, porque el documento que genera springdoc-openapi es una especificación independiente del código y por tanto coincidirá con orders-api.yaml",
+        "B": "Deberían usar OpenAPI Generator para generar orders-api.yaml a partir de OrderHttpApi y así eliminar el archivo escrito a mano",
+        "C": "Basta con añadir la validación de sintaxis de orders-api.yaml, porque si el archivo es un OpenAPI válido la implementación lo cumple",
+        "D": "Mantienen dos contratos manuales que pueden divergir, por lo que deberían elegir una fuente de verdad, y ver la operación en Swagger UI no demuestra por sí solo la conformidad"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que elegir una fuente de verdad evita mantener dos contratos manuales que puedan divergir, y que abrir Swagger UI no demuestra por sí solo la conformidad: las pruebas HTTP de controller verifican el comportamiento integrado y, si se usa un archivo OpenAPI como fuente, hay que comprobar que la implementación se ajusta a él.",
+      "explicacionesDistractores": {
+        "A": "La wiki afirma lo contrario: con la interfaz Java el contrato queda ligado al código y el documento generado no es una especificación independiente del código.",
+        "B": "OpenAPI Generator hace el camino contrario: genera código Java (interfaces y DTO) a partir del archivo OpenAPI, no un archivo OpenAPI a partir de una interfaz Java.",
+        "C": "Validar la sintaxis OpenAPI es una comprobación posible, pero no verifica que la implementación se ajuste al archivo; para eso hay que comprobar solicitudes y respuestas de la implementación."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Comparativa de fuentes del contrato"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "4. Cambios y comprobaciones"
+        }
+      ],
+      "conocimiento": "Mantener a la vez una interfaz anotada y un archivo OpenAPI manual crea dos contratos que pueden divergir, y Swagger UI no demuestra la conformidad de la implementación.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-b169a728",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un equipo quiere revisar el contrato HTTP con los consumidores antes de implementar y que cliente y servidor trabajen en paralelo a partir de un contrato que no dependa del código Java. ¿Qué opción se ajusta mejor y qué precaución implica?",
+      "opciones": {
+        "A": "Mantener a mano tanto orders-api.yaml como la interfaz OrderHttpApi anotada, porque disponer de dos contratos manuales permite contrastarlos y detectar divergencias.",
+        "B": "Declarar el contrato en la interfaz OrderHttpApi, ya que el documento que genera springdoc-openapi es una especificación independiente del código que no requiere revisiones posteriores.",
+        "C": "Mantener orders-api.yaml como fuente de verdad y generar interfaces y DTO con OpenAPI Generator, teniendo que configurar el generador y comprobar que la implementación sigue la especificación.",
+        "D": "Mantener orders-api.yaml como fuente de verdad y ajustar directamente las clases generadas en target/generated-sources/openapi cuando el contrato cambie, para no tener que regenerarlas."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki presenta el archivo OpenAPI como fuente de verdad antes de implementar, útil para revisar el contrato con consumidores y trabajar en paralelo; su ventaja es un contrato independiente que permite generar interfaces API y DTO, y su precaución, configurar el generador y comprobar que la implementación sigue la especificación.",
+      "explicacionesDistractores": {
+        "A": "La wiki indica que elegir una única fuente de verdad evita mantener dos contratos manuales que puedan divergir.",
+        "B": "La interfaz Java queda ligada al código: el documento generado no es una especificación independiente, y sus cambios requieren revisar el contrato resultante.",
+        "D": "Las clases generadas se pueden consultar pero no se deben modificar directamente; si cambia el contrato, se vuelve a generar el código."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "3. Contrato e implementación en Spring"
+        }
+      ],
+      "conocimiento": "El archivo OpenAPI como fuente de verdad da un contrato independiente para revisar con consumidores y trabajar en paralelo, a cambio de configurar el generador y comprobar la implementación; no se mantienen dos contratos manuales ni se editan las clases generadas.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-26a7af0d",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un proyecto usa orders-api.yaml como fuente de verdad y tiene configurado el plugin de Maven de OpenAPI Generator de la forma habitual. Un desarrollador ejecuta mvn compile en un proyecto recién clonado. ¿Qué ocurre?",
+      "opciones": {
+        "A": "Maven compila primero el código escrito a mano y después springdoc-openapi genera orders-api.yaml a partir de las anotaciones de los controladores",
+        "B": "Maven recorre las fases anteriores a la compilación y, en generate-sources, el plugin genera a partir de orders-api.yaml las interfaces de la API y los DTO antes de compilar",
+        "C": "OpenAPI Generator genera los controladores completos con su lógica, de modo que el equipo solo tiene que revisar la documentación en Swagger UI",
+        "D": "La generación no se ejecuta con mvn compile, porque las clases solo se generan cuando el IDE actualiza el proyecto y las muestra entre los archivos escritos a mano"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Según la wiki, el plugin de Maven suele ejecutar la generación en la fase generate-sources, antes de compilar; al ejecutar mvn compile Maven recorre las fases anteriores e invoca la generación si el plugin está configurado. OpenAPI Generator produce las interfaces de la API y las clases de modelo (DTO) del contrato.",
+      "explicacionesDistractores": {
+        "A": "Eso describe el camino inverso: springdoc-openapi obtiene documentación OpenAPI a partir del código Spring. En este flujo el archivo OpenAPI es la entrada y se genera código Java antes de compilar.",
+        "C": "OpenAPI Generator genera interfaces y DTO; el equipo implementa las operaciones de las interfaces generadas en sus Controller.",
+        "D": "La generación la ejecuta Maven; lo que puede requerir actualizar el IDE es que se muestren las clases generadas, que no siempre aparecen entre los archivos escritos a mano."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "OpenAPI Generator y Maven"
+        }
+      ],
+      "conocimiento": "Al ejecutar mvn compile, el plugin de OpenAPI Generator suele generar interfaces y DTO desde el archivo OpenAPI en la fase generate-sources, antes de compilar.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-5a91be94",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Sobre las dos formas de mantener el contrato HTTP en Spring, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "El plugin de Maven de OpenAPI Generator suele ejecutar la generación en la fase generate-sources, antes de compilar el proyecto.",
+        "B": "Las clases generadas por OpenAPI Generator se pueden consultar, pero no se deben modificar directamente: si cambia el contrato, se vuelve a generar el código.",
+        "C": "Declarar el contrato en una interfaz Java como OrderHttpApi y documentarlo con springdoc-openapi produce una especificación OpenAPI independiente del código Java.",
+        "D": "springdoc-openapi obtiene documentación OpenAPI a partir del código Spring, mientras que OpenAPI Generator obtiene código Java a partir del archivo OpenAPI."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki advierte que la interfaz Java puede formar parte de un flujo API First, pero queda ligada al código Java: el documento que genera springdoc-openapi no es una especificación independiente del código. La especificación independiente corresponde al archivo OpenAPI (por ejemplo, orders-api.yaml).",
+      "explicacionesDistractores": {
+        "A": "Es correcta: el plugin de Maven suele ejecutar la generación en la fase generate-sources, antes de compilar el proyecto.",
+        "B": "Es correcta: la wiki dice que las clases generadas se pueden consultar, pero no se deben modificar directamente; si cambia el contrato, se vuelve a generar el código.",
+        "D": "Es correcta: es el resumen literal de la wiki sobre la dirección de cada herramienta (documentación desde el código frente a código desde el archivo)."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Opción 1: interfaz Java como contrato"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "OpenAPI Generator y Maven"
+        }
+      ],
+      "conocimiento": "El documento OpenAPI que springdoc-openapi genera a partir de una interfaz Java queda ligado al código y no es una especificación independiente.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-8980dc53",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "En un proyecto Spring se mencionan dos herramientas: springdoc-openapi y OpenAPI Generator. ¿Qué diferencia hay entre ellas?",
+      "opciones": {
+        "A": "springdoc-openapi genera interfaces API y DTO a partir de un archivo OpenAPI, mientras que OpenAPI Generator produce la documentación OpenAPI y Swagger UI a partir de las anotaciones del código.",
+        "B": "springdoc-openapi produce una especificación independiente del código Java, mientras que el contrato obtenido con OpenAPI Generator queda ligado a las interfaces Java escritas a mano.",
+        "C": "springdoc-openapi obtiene documentación OpenAPI a partir del código Spring, mientras que OpenAPI Generator obtiene código Java, como interfaces API y DTO, a partir del archivo OpenAPI.",
+        "D": "Ambas parten del archivo orders-api.yaml: springdoc-openapi lo publica como Swagger UI al ejecutar la aplicación y OpenAPI Generator lo valida en la fase generate-sources."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "El resumen de la wiki es literal: con springdoc-openapi se obtiene documentación OpenAPI a partir del código Spring; con OpenAPI Generator se obtiene código Java (interfaces de la API y clases de modelo) a partir del archivo OpenAPI.",
+      "explicacionesDistractores": {
+        "A": "Intercambia las herramientas: es OpenAPI Generator quien genera interfaces y DTO desde el archivo, y springdoc-openapi quien genera el documento y Swagger UI desde las anotaciones.",
+        "B": "Es al revés: el documento generado por springdoc-openapi queda ligado al código Java y no es una especificación independiente; el archivo usado por OpenAPI Generator es el contrato independiente.",
+        "D": "springdoc-openapi no parte del archivo YAML sino de las anotaciones del código, y OpenAPI Generator no se limita a validar: genera interfaces API y DTO."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "3. Contrato e implementación en Spring"
+        }
+      ],
+      "conocimiento": "springdoc-openapi genera documentación OpenAPI desde el código Spring; OpenAPI Generator genera código Java (interfaces y DTO) desde el archivo OpenAPI.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-55b44631",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "El parámetro del controller está declarado como @Valid @RequestBody CreateOrderRequest request. En CreateOrderRequest el campo items se declara como @NotEmpty List<ItemRequest> items, sin @Valid, e ItemRequest tiene @Positive int quantity. Llega una petición con un único elemento cuya quantity es -3. ¿Qué ocurre en la validación de formato?",
+      "opciones": {
+        "A": "Se rechaza con 400, porque el @Valid del parámetro del controller valida en cascada todos los DTO anidados, lleven o no @Valid en el campo",
+        "B": "La anotación @Positive de ItemRequest lanza una excepción de dominio que el manejador traduce al error de negocio del contrato",
+        "C": "Se ejecuta el cuerpo del controller y después Spring lanza MethodArgumentNotValidException al detectar la cantidad negativa",
+        "D": "La lista supera @NotEmpty, pero sus elementos no se validan, porque es el @Valid sobre la lista lo que hace que se validen también los elementos"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki explica que en CreateOrderRequest la lista se declara @NotEmpty @Valid List<ItemRequest> items y que el @Valid sobre la lista es lo que hace que se validen también los elementos. Sin él, el DTO de primer nivel se valida (la lista no está vacía), pero los ItemRequest no.",
+      "explicacionesDistractores": {
+        "A": "La cascada no es automática: la wiki atribuye la validación de los elementos al @Valid sobre la lista, y en general la validación es una decisión explícita.",
+        "B": "@Positive es una constraint de Jakarta Validation sobre un DTO de entrada, que produce un 400 de formato; las excepciones de dominio proceden de las invariantes de los value objects.",
+        "C": "Cuando la validación falla, Spring lanza la excepción antes de que el controller ejecute su cuerpo, no después."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.2 Validación automática y en cascada"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.4 El resultado: 400 coherente con la API"
+        }
+      ],
+      "conocimiento": "Los elementos de una lista de DTO anidados solo se validan en cascada si el campo de la lista lleva @Valid.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-73b94256",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Para no duplicar la regla del IBAN, un equipo propone quitar la comprobación del constructor compacto del record Iban y anotar su campo value con @ValidIban, ya que el DTO de entrada también usa esa constraint. Más adelante, un mapeador crea un Iban a partir de datos que no llegan por una petición HTTP. ¿Qué consecuencia tiene la propuesta?",
+      "opciones": {
+        "A": "Ninguna en cuanto a protección: la constraint se evalúa en toda construcción del record igual que el cuerpo del constructor compacto, y solo cambia el estilo del código",
+        "B": "El mapeador recibe un 400 con un ProblemDetail que indica el campo value, porque el manejador central intercepta la constraint fallida",
+        "C": "Se podría crear un Iban con contenido incorrecto, porque las anotaciones solo se aplican donde un framework valida, y además el dominio pasaría a depender de jakarta.validation",
+        "D": "IbanFormatValidator se ejecuta al construir el objeto y lanza InvalidIbanException, por lo que el comportamiento se mantiene aunque cambie el mecanismo"
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki explica que las anotaciones de Jakarta Validation solo se aplican donde un framework valida (una petición HTTP): un new Iban(...) directo se salta la validación. Además, introducen una dependencia de jakarta.validation en el dominio, prohibida en la verificación de módulos. Solo el código de invariante del constructor compacto protege en todas las vías de creación.",
+      "explicacionesDistractores": {
+        "A": "La wiki subraya que la pureza del dominio no es estética: la anotación no garantiza nada ante una construcción directa, mientras que el constructor compacto se ejecuta en toda vía de creación.",
+        "B": "El 400 con ProblemDetail se produce cuando Spring valida un DTO con @Valid en una petición; un mapeador que construye el objeto no pasa por esa validación ni por el manejador.",
+        "D": "La validadora solo se invoca cuando el framework aplica la validación, y devuelve true o false; InvalidIbanException la lanza el constructor compacto del value object."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "3.1 Por qué no Jakarta Validation en el dominio"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "3. Invariancias con value objects"
+        }
+      ],
+      "conocimiento": "Sustituir la invariante del constructor compacto por anotaciones de Jakarta en el value object deja sin protección las vías de creación que no pasan por el framework y acopla el dominio a jakarta.validation.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-03-83710a09",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "¿Qué diferencia hay entre una constraint estándar de Jakarta Validation y una constraint personalizada como @ValidIban?",
+      "opciones": {
+        "A": "Las estándar solo comprueban presencia y rango, mientras que las personalizadas son las únicas que pueden comprobar el formato de una cadena mediante una expresión regular.",
+        "B": "Las estándar delegan en una clase validadora que hay que probar directamente, mientras que en las personalizadas la lógica de validación se escribe en el método message() de la anotación.",
+        "C": "Las estándar se reflejan solas en el esquema OpenAPI, mientras que la restricción de una personalizada hay que documentarla en la operación o en el esquema, por ejemplo con @Schema.",
+        "D": "En las estándar la obligatoriedad se declara aparte con @NotBlank, mientras que la clase validadora de una personalizada debe devolver false ante un valor null para hacer el campo obligatorio."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki aconseja que, como las constraints estándar se reflejan solas en el esquema OpenAPI, para las personalizadas hay que documentar su restricción en la operación o en el esquema (por ejemplo con @Schema); si no, el contrato miente en ese punto.",
+      "explicacionesDistractores": {
+        "A": "El catálogo estándar incluye @Email y @Pattern para comprobar formatos; la personalizada se usa cuando el formato propio no encaja con ninguna anotación estándar.",
+        "B": "Es la personalizada la que delega en una clase validadora (ConstraintValidator) que se prueba directamente; la anotación solo declara el mensaje y dónde aplica.",
+        "D": "IbanFormatValidator devuelve true ante null porque la obligatoriedad corresponde a @NotBlank, no a la constraint personalizada."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.5 Del código al contrato: OpenAPI"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.3 Constraints personalizadas"
+        }
+      ],
+      "conocimiento": "Las constraints estándar se reflejan solas en el esquema OpenAPI, mientras que las personalizadas deben documentarse a mano (p. ej. con @Schema).",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "CreateAccountRequest declara balance como BigDecimal con @Positive @Digits(integer = 8, fraction = 2). Las reglas del dominio no admiten un saldo inicial tan bajo como 0.02, y llega una solicitud de alta con ese saldo inicial. Según la wiki, ¿cómo se gestiona esta petición?",
+      "opciones": {
+        "A": "Supera la validación del DTO; el caso de uso invoca al modelo, salta la excepción de negocio y el manejador de la API la traduce al error documentado en el contrato",
+        "B": "La rechaza Jakarta Validation con 400, porque @Digits(integer = 8, fraction = 2) no admite importes inferiores a una unidad",
+        "C": "El controller comprueba la regla de negocio antes de llamar al caso de uso y devuelve el ProblemDetail de «Solicitud inválida»",
+        "D": "Llega hasta la base de datos, donde la restricción falla y se devuelve un error del servidor, porque el formato ya fue aceptado"
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Es el ejemplo de la wiki de campo válido para el contrato pero inválido para el negocio: 0.02 es positivo y tiene dos decimales, así que pasa el DTO. Después el caso de uso invoca al modelo, salta la excepción de negocio y el manejador de la API la traduce al error documentado en el contrato.",
+      "explicacionesDistractores": {
+        "B": "@Positive y @Digits(integer = 8, fraction = 2) comprueban rango y precisión: 0.02 es positivo y tiene como máximo 2 decimales, por lo que cumple el formato; la wiki lo presenta como un valor bien formado.",
+        "C": "Escribir reglas de negocio en el controller es uno de los errores clásicos que señala la wiki; además, el ProblemDetail «Solicitud inválida» corresponde a los fallos de validación de formato (400).",
+        "D": "Que datos inválidos lleguen al dominio y se conviertan en errores del servidor es el otro error clásico; la invariante del modelo debe detectarlo y producir una excepción de dominio."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "Campo válido para el contrato pero inválido para el negocio"
+        },
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "2.1 Constraints estándar"
+        }
+      ],
+      "conocimiento": "Un dato bien formado pero inválido para el negocio supera el DTO y lo rechaza el modelo con una excepción de negocio que el manejador traduce al error del contrato.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z",
+      "id": "dws-03-1655eb3f"
+    },
+    {
+      "id": "dws-03-b782b085",
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Una petición puede rechazarse por incumplir el formato del contrato o por proponer un estado inválido para el negocio. ¿Qué diferencia hay entre ambos rechazos?",
+      "opciones": {
+        "A": "El formato lo comprueba el value object en su construcción y responde 400; la validez de negocio la comprueba Jakarta Validation en el DTO y lanza una excepción de dominio.",
+        "B": "El formato se comprueba en la capa de presentación con Jakarta Validation y la validez de negocio también, pero mediante constraints personalizadas que delegan en clases validadoras.",
+        "C": "Ambos se comprueban en el controller antes de llamar al caso de uso, y se distinguen solo por el código HTTP que devuelve el manejador central.",
+        "D": "El formato se comprueba en el DTO de entrada con Jakarta Validation y produce un 400 con campo y motivo; la validez de negocio la protegen invariantes del dominio, cuya excepción se mapea al error del contrato."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La tabla «Dos preguntas, dos fronteras» de la wiki sitúa el formato del contrato en la capa de presentación (DTO de entrada) con Jakarta Validation y respuesta típica 400 indicando campo y motivo, y la validez para el negocio en el dominio con invariantes expresadas en código, cuya excepción de dominio se mapea al error del contrato.",
+      "explicacionesDistractores": {
+        "A": "Invierte los mecanismos: Jakarta Validation se usa en el DTO para el formato, y las invariantes del value object protegen la validez de negocio.",
+        "B": "Las constraints personalizadas siguen siendo validación de formato del contrato; las reglas de negocio se expresan como invariantes en código del dominio, no con anotaciones.",
+        "C": "La wiki señala como error clásico escribir reglas de negocio en el controller, porque otra vía de entrada las omite; la validez de negocio vive en el dominio."
+      },
+      "dificultad": "facil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-03-validacion/contenido.md",
+          "seccion": "1. Dos preguntas, dos fronteras"
+        }
+      ],
+      "conocimiento": "El formato del contrato se valida en el DTO con Jakarta Validation (400 con campo y motivo) y la validez de negocio con invariantes del dominio cuya excepción se mapea al error del contrato.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-991406eb",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En un monolito modular, un pedido puede cancelarse desde una petición HTTP de la persona dueña o desde el módulo de envíos, que actúa sin ser dueño del pedido. ¿Dónde deben ubicarse la comprobación de propiedad y las reglas de la cancelación?",
+      "opciones": {
+        "A": "Ambas en el controlador, para que la comprobación de acceso quede junto a la petición HTTP y el módulo de envíos llame directamente al servicio sin pasar por ellas.",
+        "B": "La comprobación de propiedad en el caso de uso del flujo HTTP y las reglas e invariantes en el servicio, al que envíos llega por la API pública sin pasar por el caso de uso.",
+        "C": "La comprobación de propiedad en el caso de uso, y el módulo de envíos debe invocar ese mismo caso de uso para reutilizar la lógica de cancelación y sus reglas.",
+        "D": "Ambas en el servicio interno, de modo que toda llamada, venga de la persona usuaria o de otro módulo, pase por las mismas comprobaciones de acceso y de negocio."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki distingue las políticas de acceso, que dependen de quién inicia el flujo y se comprueban en el caso de uso antes de llamar al servicio, de las reglas e invariantes del servicio, que deben cumplirse siempre. La entrada entre módulos sigue Module → ModuleImpl → Service y no pasa por un caso de uso de usuario.",
+      "explicacionesDistractores": {
+        "A": "En el controlador las comprobaciones quedan mezcladas con HTTP y habría que repetirlas con más entradas; además, las reglas de negocio deben cumplirse también en las llamadas de otros módulos.",
+        "C": "Un módulo no pasa por un caso de uso de usuario: los casos de uso son flujos de entrada, no operaciones reutilizables; lo compartido se comparte mediante el servicio.",
+        "D": "Aplicar las políticas de acceso indiscriminadamente en el servicio haría que una llamada legítima de envíos se evaluara con una identidad o contexto que no le corresponde."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "3. Separar los flujos de entrada con casos de uso"
+        }
+      ],
+      "conocimiento": "Las políticas de acceso que dependen de quién inicia el flujo van en el caso de uso, y las reglas e invariantes en el servicio, al que otros módulos llegan por la API pública sin caso de uso.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-9c6b7be2",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "¿Qué afirmación describe correctamente la relación entre ArchUnit y Spring Modulith para verificar los límites de un monolito modular?",
+      "opciones": {
+        "A": "Spring Modulith sustituye todas las reglas de ArchUnit, ya que deriva el modelo modular de los paquetes y detecta ciclos, accesos a paquetes internos y dependencias no permitidas.",
+        "B": "ArchUnit analiza las dependencias sin arrancar Spring, mientras que la verificación de Spring Modulith necesita levantar el contexto de la aplicación para descubrir los módulos.",
+        "C": "Spring Modulith impide compilar el código que accede a paquetes internos de otro módulo, mientras que ArchUnit solo detecta esas dependencias al ejecutar sus tests.",
+        "D": "Spring Modulith deriva el modelo modular de los paquetes y usa por debajo el análisis de ArchUnit, pero ArchUnit sigue siendo útil para reglas específicas dentro de un módulo, como Controller → UseCase → Service."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que Spring Modulith deriva el modelo modular a partir de los paquetes y usa por debajo el análisis de dependencias de ArchUnit, y que ArchUnit sigue siendo útil para reglas más específicas dentro de un módulo, como exigir Controller → UseCase → Service; Modulith no sustituye todas sus reglas.",
+      "explicacionesDistractores": {
+        "A": "Aunque Modulith detecta ciclos, accesos internos y dependencias no permitidas, la wiki afirma expresamente que no sustituye todas las reglas de ArchUnit.",
+        "B": "La verificación de Spring Modulith no necesita arrancar el contexto de Spring: analiza la estructura de paquetes y sus dependencias.",
+        "C": "Ninguno protege en tiempo de compilación: el test de ArchUnit no impide escribir la importación ni compilar, y la verificación de Modulith es automatizada, no una protección en compilación."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "5. Spring Modulith: detección y verificación de módulos"
+        }
+      ],
+      "conocimiento": "Spring Modulith usa por debajo ArchUnit para verificar el modelo modular, pero no sustituye todas sus reglas; ArchUnit sigue siendo útil para reglas internas de un módulo.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-c1d3c56e",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En una aplicación con paquete base com.example.store, una clase de com.example.store.orders importa la clase pública CatalogService de com.example.store.catalog.internal.domain. El proyecto incluye en src/test/java un test que ejecuta ApplicationModules.of(Application.class).verify(). ¿Qué ocurre?",
+      "opciones": {
+        "A": "El código no compila, porque Spring Modulith convierte los subpaquetes internos de cada módulo en inaccesibles para el compilador",
+        "B": "El test no detecta el problema, porque verify() solo comprueba ciclos entre módulos y los accesos a internal requieren una regla de ArchUnit",
+        "C": "El código compila, pero el test falla al detectar un acceso a un paquete interno de otro módulo, analizando paquetes y dependencias sin arrancar el contexto de Spring",
+        "D": "El problema solo se detecta al arrancar la aplicación, cuando Spring Modulith levanta el contexto y comprueba las dependencias de cada bean"
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Los paquetes hijos directos de com.example.store son módulos y sus subpaquetes son internos salvo exposición explícita. En Java una clase pública de internal sigue siendo accesible, así que compila; el test con verify() analiza la estructura de paquetes sin arrancar el contexto y detecta ciclos, accesos a paquetes internos y dependencias no permitidas.",
+      "explicacionesDistractores": {
+        "A": "La wiki insiste en que es una verificación automatizada, no una protección en tiempo de compilación; estar en internal no hace inaccesible una clase pública.",
+        "B": "verify() detecta ciclos entre módulos, accesos a paquetes internos y dependencias no permitidas; ArchUnit sigue siendo útil para reglas más específicas dentro de un módulo.",
+        "D": "La verificación es un test JUnit en el código de pruebas y no necesita arrancar el contexto de Spring."
+      },
+      "dificultad": "dificil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "Test de verificación"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "API pública y subpaquetes internos"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "2.1 Verificar los límites entre módulos"
+        }
+      ],
+      "conocimiento": "Un acceso a un paquete internal de otro módulo compila, pero ApplicationModules.verify() lo detecta en un test sin arrancar el contexto de Spring.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-1c640d69",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "En Spring Modulith, ¿qué función cumple la anotación @NamedInterface(\"dto\") en el package-info.java del paquete com.example.store.catalog.dto?",
+      "opciones": {
+        "A": "Impedir en tiempo de compilación que los módulos que no la declaren importen las clases de catalog.dto.",
+        "B": "Declarar que el módulo catalog tiene permitido depender de las interfaces llamadas dto de los demás módulos.",
+        "C": "Convertir catalog.dto en un módulo independiente que Spring Modulith detecta al mismo nivel que catalog y orders.",
+        "D": "Exponer explícitamente el subpaquete catalog.dto como interfaz con nombre dto del módulo catalog, de modo que deje de ser interno."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "Los subpaquetes de un módulo son internos salvo que se expongan explícitamente. Para hacer público catalog.dto se añade un package-info.java con @NamedInterface(\"dto\"); así otro módulo puede referirse a él como \"catalog::dto\".",
+      "explicacionesDistractores": {
+        "A": "Spring Modulith no ofrece protección en tiempo de compilación; su verificación se hace con un test. @NamedInterface expone el subpaquete, no restringe importaciones.",
+        "B": "Declarar dependencias permitidas es la función de @ApplicationModule(allowedDependencies = …) en el paquete raíz del módulo consumidor, no de @NamedInterface.",
+        "C": "No crea un módulo nuevo: por defecto solo los paquetes hijos directos del paquete base son módulos; catalog.dto sigue siendo parte del módulo catalog, ahora expuesta con un nombre."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "API pública y subpaquetes internos"
+        }
+      ],
+      "conocimiento": "@NamedInterface en el package-info.java de un subpaquete lo expone explícitamente como interfaz con nombre del módulo.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-04-261ddcd1",
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "Al pasar de una organización por capas sin módulos a un monolito modular, la clase Order del módulo orders deja de tener un campo de tipo User y guarda userId: UUID. ¿Qué motivo y qué consecuencia tiene este cambio?",
+      "opciones": {
+        "A": "Evita que orders dependa de users.internal, aunque obliga a desplegar orders y users por separado para que cada uno gestione sus datos.",
+        "B": "Evita que orders dependa del modelo interno de users, y si orders necesita más datos del usuario los consulta mediante la API pública del módulo propietario.",
+        "C": "Es necesario porque User no es una clase pública en Java; si lo fuera, Order podría seguir referenciándola directamente sin violar el límite entre módulos.",
+        "D": "Evita la referencia directa, aunque el tipo del identificador puede ser una clase de users.internal siempre que solo contenga el UUID del usuario."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki explica que los modelos de dominio de cada módulo son privados de su paquete internal; un campo User obligaría a importar users.internal.User y violaría el límite. Por eso se guardan identificadores y, si hace falta consultar más datos, se usa la API pública del módulo propietario.",
+      "explicacionesDistractores": {
+        "A": "El monolito modular mantiene un único despliegue; relacionar modelos mediante identificadores no obliga a desplegar los módulos por separado.",
+        "C": "Estar en internal no hace inaccesible una clase pública en Java; el límite lo marcan las reglas de arquitectura, que prohíben depender de users.internal sea la clase pública o no.",
+        "D": "La wiki indica que el tipo del identificador tampoco debe importar clases de users.internal: puede ser UUID, un tipo local del módulo consumidor o uno de un contrato público."
+      },
+      "dificultad": "media",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "4. Modelos privados y relaciones mediante identificadores"
+        },
+        {
+          "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md",
+          "seccion": "6. Qué cambia y qué permanece"
+        }
+      ],
+      "conocimiento": "En el monolito modular los modelos de otros módulos se relacionan mediante identificadores que no importan clases internas, y los datos adicionales se consultan por la API pública del módulo propietario.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  ],
+  "proceso": {
+    "candidatas": 72,
+    "elegibles": 71,
+    "excluidas": 1,
+    "correcciones": [
+      {
+        "idOriginal": "dws-03-68cd5ce1",
+        "id": "dws-03-68cd5ce1",
+        "evaluador": "ev-4",
+        "cambios": [
+          "dificultad: 'dificil' -> 'media', porque la respuesta sale directamente de la tabla de 3.1 sin necesidad de relacionar conceptos."
+        ]
+      },
+      {
+        "idOriginal": "dws-01-f32832a8",
+        "id": "dws-01-b0a4a7c3",
+        "evaluador": "ev-3",
+        "cambios": [
+          "Enunciado: se precisa que las interfaces de entrada las invocan los controladores y que solo las de salida las implementan componentes conectados a la base de datos y al correo, para que encaje con el diagrama de puertos y adaptadores de la wiki.",
+          "Explicación de C: se ajusta la descripción de lo que se describe en el enunciado para que coincida con la nueva redacción."
+        ]
+      },
+      {
+        "idOriginal": "dws-03-d8c42aad",
+        "id": "dws-03-1655eb3f",
+        "evaluador": "ev-4",
+        "cambios": [
+          "enunciado: se elimina «bien formado pero no admitido por las reglas del negocio» y se indica solo que las reglas del dominio no admiten ese saldo inicial, para que el alumno tenga que razonar que 0.02 cumple @Positive y @Digits y que B sea un distractor real; así la etiqueta 'media' pasa a corresponder."
+        ]
+      },
+      {
+        "idOriginal": "dws-01-370f431d",
+        "id": "dws-01-370f431d",
+        "evaluador": "ev-3",
+        "cambios": [
+          "dificultad: media -> facil, porque es la definición directa de la tabla de principios."
+        ]
+      },
+      {
+        "idOriginal": "dws-02-b4aa4901",
+        "id": "dws-02-b4aa4901",
+        "evaluador": "ev-3",
+        "cambios": [
+          "dificultad: media -> facil, porque es una definición directa de la sección 4.",
+          "explicacionCorrecta: se matiza que los ejemplos «pueden» romper clientes, como dice la wiki."
+        ]
+      },
+      {
+        "idOriginal": "dws-03-f513bf02",
+        "id": "dws-03-f513bf02",
+        "evaluador": "ev-4",
+        "cambios": [
+          "opción B: se sustituye por una afirmación falsa según la wiki (que la validadora asume también la obligatoriedad y hace innecesario @NotBlank), porque la original era cierta en su contenido.",
+          "explicacionesDistractores.B: se reescribe de acuerdo con la nueva opción B.",
+          "dificultad: 'media' -> 'facil', porque la respuesta es la definición directa que da la wiki."
+        ]
+      },
+      {
+        "idOriginal": "dws-03-c7e607fd",
+        "id": "dws-03-c7e607fd",
+        "evaluador": "ev-4",
+        "cambios": [
+          "dificultad: 'dificil' -> 'media', porque cada afirmación es un hecho literal de la wiki y la falsa es fácil de identificar."
+        ]
+      },
+      {
+        "idOriginal": "dws-04-096910c9",
+        "id": "dws-04-096910c9",
+        "evaluador": "ev-4",
+        "cambios": [
+          "dificultad: 'dificil' -> 'media', porque cada afirmación se reconoce directamente en la wiki."
+        ]
+      },
+      {
+        "idOriginal": "prog-08-0b54a9a3",
+        "id": "prog-08-0b54a9a3",
+        "evaluador": "ev-1",
+        "cambios": [
+          "dificultad: media -> facil, porque la respuesta es la definición literal que da la wiki de ambos términos."
+        ]
+      },
+      {
+        "idOriginal": "prog-08-799f6038",
+        "id": "prog-08-799f6038",
+        "evaluador": "ev-1",
+        "cambios": [
+          "Opción D: «Main solo pide el controlador y llama a run()» -> «Main solo crea el contenedor, le pide el controlador y llama a run()», para ajustarla a la wiki (Main crea el contenedor)."
+        ]
+      },
+      {
+        "idOriginal": "prog-08-db5b957b",
+        "id": "prog-08-db5b957b",
+        "evaluador": "ev-1",
+        "cambios": [
+          "dificultad: dificil -> media, porque basta con aplicar la inmutabilidad del record para descartar los métodos de modificación."
+        ]
+      },
+      {
+        "idOriginal": "prog-08-cc607ddc",
+        "id": "prog-08-cc607ddc",
+        "evaluador": "ev-1",
+        "cambios": [
+          "dificultad: media -> facil, porque se resuelve con la definición directa de DI e IoC que da la wiki."
+        ]
+      },
+      {
+        "idOriginal": "prog-08-616b967a",
+        "id": "prog-08-616b967a",
+        "evaluador": "ev-1",
+        "cambios": [
+          "dificultad: media -> facil, porque la correcta es la definición literal de la capa de presentación en la tabla de la wiki."
+        ]
+      },
+      {
+        "idOriginal": "prog-09-27f2ca81",
+        "id": "prog-09-27f2ca81",
+        "evaluador": "ev-1",
+        "cambios": [
+          "dificultad: dificil -> media, porque se resuelve aplicando la tabla de métodos sin relacionar conceptos distintos."
+        ]
+      },
+      {
+        "idOriginal": "prog-09-61fc44b9",
+        "id": "prog-09-61fc44b9",
+        "evaluador": "ev-1",
+        "cambios": [
+          "dificultad: media -> facil, porque la respuesta es la correspondencia literal que enuncia la wiki."
+        ]
+      },
+      {
+        "idOriginal": "prog-10-194929e5",
+        "id": "prog-10-194929e5",
+        "evaluador": "ev-2",
+        "cambios": [
+          "dificultad: media -> facil, porque se resuelve con la definición directa de fachada e implementación."
+        ]
+      },
+      {
+        "idOriginal": "prog-12-e2b7be77",
+        "id": "prog-12-e2b7be77",
+        "evaluador": "ev-2",
+        "cambios": [
+          "dificultad: dificil -> media, porque se resuelve reconociendo una afirmación literal de la wiki sobre el mecanismo de rotación."
+        ]
+      }
+    ],
+    "sustituciones": []
+  },
+  "falsador": {
+    "veredicto": "APROBADO",
+    "huella": "1a44a086c73f7f6980763270b3804bc5e54023d730db0226cf39a4a1ad1d45dd",
+    "rondas": [
+      {
+        "ronda": 1,
+        "fecha": "2026-11-17T15:15:58.462Z",
+        "huella": "1a44a086c73f7f6980763270b3804bc5e54023d730db0226cf39a4a1ad1d45dd",
+        "directorio": "examenes/EX-20261117-1/trabajo/falsador/ronda-1",
+        "veredicto": "APROBADO",
+        "problemas": [],
+        "rechazadas": [],
+        "lineasSistemaFallidas": []
+      }
+    ]
+  }
+}

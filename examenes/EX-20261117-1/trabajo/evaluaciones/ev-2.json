@@ -1,0 +1,296 @@
+[
+  {
+    "id": "prog-10-79777f8d",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["La opción correcta es claramente la más larga y detallada, lo que facilita adivinarla; los distractores A y B son poco plausibles."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-0c5409a1",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["La explicación de D menciona log.error, que aparece en la sección 'Registrar eventos en el código' (no citada); la nota de 'Ejemplo práctico: GlobalExceptionHandler' ('los detalles reales quedan en el log del servidor') basta para resolverla."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-dafd5ce8",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Evalúa el mismo conocimiento (SLF4J fachada, Logback implementación por defecto, Log4j2 alternativa) que prog-10-194929e5; B de esta pregunta es casi idéntica a A de aquella."],
+    "duplicadaDe": ["prog-10-194929e5"],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-ac147b70",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["La opción correcta destaca por su longitud y detalle (Bearer), lo que la delata; el nivel media está en el límite con facil."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-e34d667f",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["Comparte conocimiento central con prog-12-f88444da (revocación de toda la familia cuando el atacante usa primero el token) y con prog-12-e2b7be77 (la rotación no impide el robo)."],
+    "duplicadaDe": ["prog-12-f88444da", "prog-12-e2b7be77"],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-1b3e136a",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Evalúa el mismo conocimiento (ThreadLocal guarda un valor por hilo y hay que limpiarlo porque Tomcat reutiliza hilos; el static de CURRENT no equivale a un static mutable) que prog-12-df994dd7 y prog-12-6dfc95b1."],
+    "duplicadaDe": ["prog-12-df994dd7", "prog-12-6dfc95b1"],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-04c47f60",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-d73a2856",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Evalúa el mismo conocimiento que prog-10-2827c08b (con manejador global, BookNotFoundException activa su manejador específico y devuelve 404, no el de Exception ni un try-catch). Esta versión es algo más rica porque incluye el flujo de propagación y el contraste con la Whitelabel Error Page."],
+    "duplicadaDe": ["prog-10-2827c08b"],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-520c798d",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 9,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-f88444da",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["Evalúa el mismo conocimiento que prog-12-e34d667f (sus opciones A y C son casi las de C y A de aquella) y solapa con prog-12-e2b7be77 en que la rotación no impide el robo."],
+    "duplicadaDe": ["prog-12-e34d667f", "prog-12-e2b7be77"],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-df994dd7",
+    "evaluador": "ev-2",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": false, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "El distractor D y su explicación se apoyan en que OncePerRequestFilter ejecuta el filtro exactamente una vez por petición, algo que solo dice el tema 10 (sección 'Ejemplo: Creación de un filtro personalizado'); las secciones citadas del tema 12 no lo afirman.",
+      "Evalúa el mismo conocimiento que prog-12-1b3e136a y prog-12-6dfc95b1."
+    ],
+    "duplicadaDe": ["prog-12-1b3e136a", "prog-12-6dfc95b1"],
+    "cambios": [
+      "wikiRef: se añade wiki/programacion/tema-10-spring-boot/contenido.md, sección 'Ejemplo: Creación de un filtro personalizado', que respalda que OncePerRequestFilter ejecuta el filtro exactamente una vez por petición (necesario para descartar D)."
+    ],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "El filtro AccessTokenFilter guarda el Principal en SecurityContext, que usa un campo static de tipo ThreadLocal, y lo limpia en un bloque finally. ¿Por qué es imprescindible esa limpieza según la wiki?",
+      "opciones": {
+        "A": "Porque el campo static hace que todas las peticiones compartan el mismo Principal y hay que vaciarlo para que no lo use otro cliente simultáneo.",
+        "B": "Porque el token de acceso caduca al terminar cada petición y el Principal asociado dejaría de ser válido en la siguiente.",
+        "C": "Porque Tomcat reutiliza hilos y, si no se elimina el valor, una petición posterior atendida por el mismo hilo podría heredar el Principal de otra.",
+        "D": "Porque OncePerRequestFilter ejecuta el filtro dos veces por petición y la segunda ejecución encontraría el contexto ocupado."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "ThreadLocal asocia el valor al hilo actual y hay que limpiarlo porque el hilo puede reutilizarse; la wiki avisa de que todo contexto guardado en ThreadLocal debe limpiarse en finally porque Tomcat reutiliza hilos y una petición posterior podría heredar el Principal de otra.",
+      "explicacionesDistractores": {
+        "A": "Aunque CURRENT es static, lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente para cada hilo; no guarda un Principal global para todos.",
+        "B": "La limpieza no se debe a la caducidad del token: el token de acceso tiene una duración corta pero se envía en cada petición protegida; el motivo es la reutilización de hilos.",
+        "D": "OncePerRequestFilter garantiza precisamente que el filtro se ejecute exactamente una vez por cada petición HTTP."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Clase SecurityContext" },
+        { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Rutas públicas y protegidas" },
+        { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Dónde guardar el Principal" },
+        { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Ejemplo: Creación de un filtro personalizado" }
+      ],
+      "conocimiento": "El SecurityContext basado en ThreadLocal debe limpiarse en finally porque Tomcat reutiliza hilos y otra petición podría heredar el Principal.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "prog-12-4a5ea9ab",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 9,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-0d0e6253",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["El matiz evaluado (filtros fuera del contexto de Spring) aparece también como distractor A de prog-10-79777f8d, aunque el conocimiento principal de ambas es distinto."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-2827c08b",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Evalúa el mismo conocimiento que prog-10-d73a2856 (manejador más específico, 404), que es más completa."],
+    "duplicadaDe": ["prog-10-d73a2856"],
+    "cambios": []
+  },
+  {
+    "id": "prog-10-194929e5",
+    "evaluador": "ev-2",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 5,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "Es una pregunta de definición directa (tipo 'definicion') que se resuelve leyendo la tabla de 'Fachada e implementación'; la etiqueta media no corresponde.",
+      "Evalúa el mismo conocimiento que prog-10-dafd5ce8; su distractor A es casi idéntico a B de aquella."
+    ],
+    "duplicadaDe": ["prog-10-dafd5ce8"],
+    "cambios": ["dificultad: media -> facil, porque se resuelve con la definición directa de fachada e implementación."],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-10",
+      "enunciado": "Según el tema, ¿qué papel cumple SLF4J en el registro (logs) de una aplicación Spring Boot?",
+      "opciones": {
+        "A": "Es la implementación por defecto que decide el formato y el destino de cada evento, mientras que Logback es la fachada con la que escribe el código.",
+        "B": "Es la fachada: la API con la que el código emite los eventos, mientras que la implementación, Logback por defecto, decide su formato y destino.",
+        "C": "Es una implementación alternativa a Logback que hay que añadir como dependencia para poder registrar eventos con niveles.",
+        "D": "Es la sucesora de la antigua Log4j, igual que Log4j2, y sustituye por configuración a java.util.logging como implementación."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki divide el registro en fachada (la API con la que el código emite eventos; la estándar es SLF4J) e implementación (decide formato y destino; Logback por defecto en Spring Boot). El código solo conoce la fachada.",
+      "explicacionesDistractores": {
+        "A": "Intercambia los papeles: SLF4J es la fachada y Logback la implementación por defecto.",
+        "C": "La implementación alternativa es Log4j2; además, Spring Boot ya incluye SLF4J y Logback por defecto, sin añadir dependencias.",
+        "D": "Las sucesoras de la antigua Log4j son Logback y Log4j2, que son implementaciones; SLF4J es la fachada."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Fachada e implementación" }
+      ],
+      "conocimiento": "SLF4J es la fachada de logging con la que escribe el código; Logback es la implementación por defecto en Spring Boot y Log4j2 la alternativa.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "prog-12-e2b7be77",
+    "evaluador": "ev-2",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Las opciones A, B y C son copias literales de frases de la wiki y D es la negación literal de otra ('La rotación no impide el robo'); basta con recordar una afirmación explícita, sin relacionar conceptos ni distractores muy próximos, por lo que dificil está sobrevalorada.",
+      "Comparte el conocimiento 'la rotación no impide el robo' con prog-12-e34d667f y prog-12-f88444da (opción D de ambas)."
+    ],
+    "duplicadaDe": ["prog-12-e34d667f", "prog-12-f88444da"],
+    "cambios": ["dificultad: dificil -> media, porque se resuelve reconociendo una afirmación literal de la wiki sobre el mecanismo de rotación."],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-12",
+      "enunciado": "Sobre la renovación de la sesión con rotación del refresh token, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "El consumo del refresh token presentado y la creación del nuevo par deben ser atómicos.",
+        "B": "Se renueva el par completo para que cada renovación cree credenciales nuevas asociadas a la misma sesión.",
+        "C": "Rotar el refresh token permite detectar si se vuelve a presentar uno ya consumido.",
+        "D": "La rotación del refresh token impide que un atacante pueda robar una credencial válida de la sesión."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki afirma expresamente que la rotación no impide el robo de una credencial; lo que permite es detectar la reutilización de un refresh token anterior y responder revocando la sesión completa.",
+      "explicacionesDistractores": {
+        "A": "Es cierta: el consumo de R1 y la creación del nuevo par deben ser atómicos.",
+        "B": "Es cierta: se renueva el par completo para que cada renovación cree credenciales nuevas asociadas a la misma sesión.",
+        "C": "Es cierta: rotar especialmente el refresh token permite detectar si se vuelve a presentar uno ya consumido."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "4. Renovación y rotación" },
+        { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Qué consigue (y qué no) la rotación" }
+      ],
+      "conocimiento": "La rotación del refresh token no impide el robo de credenciales; permite detectar la reutilización y revocar la sesión, y exige atomicidad al consumir y emitir el nuevo par.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "prog-12-6dfc95b1",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La explicación de C (final afecta a la referencia, no al valor por hilo) es una inferencia de Java que la wiki no formula literalmente, aunque se deduce del matiz sobre CURRENT y de la existencia de set/clear.",
+      "Evalúa el mismo conocimiento que prog-12-1b3e136a y prog-12-df994dd7."
+    ],
+    "duplicadaDe": ["prog-12-1b3e136a", "prog-12-df994dd7"],
+    "cambios": []
+  },
+  {
+    "id": "prog-12-2adb68ca",
+    "evaluador": "ev-2",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["La explicación de D menciona SecureRandom, de la sección 'Generación del token', no citada en wikiRef; no es necesaria para resolver la pregunta."],
+    "duplicadaDe": [],
+    "cambios": []
+  }
+]

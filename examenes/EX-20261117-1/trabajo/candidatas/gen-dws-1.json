@@ -1,0 +1,319 @@
+[
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "En la arquitectura por capas de referencia, la capa de persistencia contiene tanto un repositorio como un DAO. ¿Qué diferencia hay entre ambos en cuanto a dónde se sitúan su interfaz y su implementación?",
+    "opciones": {
+      "A": "Las interfaces Repository y DAO se definen ambas en domain, y sus implementaciones RepositoryImpl y DAOImpl están en persistence.",
+      "B": "La interfaz Repository se define en domain y la implementa RepositoryImpl en persistence, mientras que el DAO tiene interfaz e implementación dentro de persistence.",
+      "C": "La interfaz DAO se define en domain para invertir la dependencia, mientras que Repository tiene interfaz e implementación dentro de persistence.",
+      "D": "Repository y DAO tienen interfaz e implementación dentro de persistence, y domain solo conoce la interfaz Service que los coordina."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki indica que domain contiene las interfaces de repositorio y persistence sus implementaciones y los DAO; Service y Repository son interfaces implementadas por ServiceImpl y RepositoryImpl, y el DAO también se separa en interfaz e implementación, ambas dentro de persistence. Que domain defina Repository y persistence lo implemente es la inversión de dependencias.",
+    "explicacionesDistractores": {
+      "A": "La interfaz DAO no está en domain: la wiki indica que la interfaz DAO y DAOImpl están ambas dentro de persistence.",
+      "C": "Se invierte al revés: la interfaz que define domain es Repository; el DAO queda entero en persistence y es RepositoryImpl quien lo utiliza.",
+      "D": "La interfaz Repository está en domain (ServiceImpl la utiliza desde el propio dominio); si estuviera en persistence, el dominio dependería de la tecnología de persistencia."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "2.1 Arquitectura por capas" }
+    ],
+    "conocimiento": "En la arquitectura por capas, la interfaz Repository está en domain y su implementación en persistence, mientras que el DAO tiene interfaz e implementación en persistence.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "Al comparar el monolito modular con los microservicios como estilos de despliegue, ¿qué afirmación describe correctamente sus diferencias y sus costes?",
+    "opciones": {
+      "A": "El monolito modular exige que cada módulo tenga su propia base de datos, igual que los microservicios, pero los despliega todos juntos en una única aplicación.",
+      "B": "Basta con separar los módulos de un monolito modular en proyectos distintos para obtener microservicios, ya que el código queda aislado igual que con un despliegue independiente.",
+      "C": "Si los módulos de un monolito modular se comunican mediante eventos, obtienen el mismo aislamiento y las mismas transacciones independientes que los microservicios conectados por un broker.",
+      "D": "El monolito modular aporta modularidad sin multiplicar despliegues, mientras que los microservicios ganan despliegue independiente a costa de más complejidad operativa y de comunicarse por red."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La tabla de estilos de despliegue de la wiki atribuye al monolito modular «modularidad sin multiplicar despliegues» y a los microservicios «despliegue independiente; más complejidad operativa», con servicios que se comunican por red.",
+    "explicacionesDistractores": {
+      "A": "En el monolito modular la base de datos puede ser compartida; lo que se exige es que cada módulo solo acceda a los datos de los que es propietario. Cada base de datos propia aparece en los microservicios.",
+      "B": "La wiki advierte que los microservicios no son simplemente módulos separados en carpetas o proyectos: cada servicio debe poder desplegarse y evolucionar de forma autónoma, y la comunicación pasa por la red.",
+      "C": "Según la wiki, los eventos entre módulos no implican comunicación de red ni crean por sí solos aislamiento o una transacción independiente."
+    },
+    "dificultad": "dificil",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.1 Monolito, monolito modular y microservicios" },
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.2 Tipos de comunicación" }
+    ],
+    "conocimiento": "El monolito modular da modularidad sin multiplicar despliegues; los microservicios dan despliegue independiente con más complejidad operativa, y separar módulos en proyectos o usar eventos no equivale a microservicios.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "¿Qué afirmación distingue correctamente la comunicación asíncrona mediante eventos de la comunicación síncrona?",
+    "opciones": {
+      "A": "En la asíncrona el emisor publica el evento en el broker sin esperar respuesta del consumidor, y como la mensajería no garantiza un procesamiento exactamente una vez, los consumidores deben tolerar entregas duplicadas.",
+      "B": "En la síncrona el emisor queda desacoplado temporalmente del receptor, mientras que en la asíncrona depende de la disponibilidad y el tiempo de respuesta del consumidor.",
+      "C": "En la asíncrona la confirmación de procesamiento que el consumidor envía al broker garantiza que cada mensaje se procese exactamente una vez, a diferencia de la síncrona.",
+      "D": "La asíncrona exige siempre comunicación por red mediante un intermediario como RabbitMQ o Kafka, mientras que la síncrona solo es posible entre módulos del mismo proceso."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki indica que en la comunicación asíncrona el emisor publica un mensaje o evento para que se procese después (el servicio A solo publica en el broker y no espera respuesta) y advierte que la mensajería no garantiza que cada mensaje se procese exactamente una vez, por lo que los consumidores deben tolerar duplicados.",
+    "explicacionesDistractores": {
+      "B": "Está invertido: la síncrona depende de la disponibilidad y el tiempo de respuesta del receptor, y es la asíncrona la que desacopla temporalmente.",
+      "C": "Aunque el consumidor confirma el procesamiento, la wiki dice expresamente que la mensajería no garantiza un procesamiento exactamente una vez y que puede haber entregas duplicadas.",
+      "D": "Los módulos de una aplicación pueden comunicarse mediante eventos sin red, y la comunicación síncrona también se da entre microservicios mediante peticiones HTTP."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.2 Tipos de comunicación" }
+    ],
+    "conocimiento": "En la comunicación asíncrona el emisor publica sin esperar respuesta y los consumidores deben tolerar entregas duplicadas; la síncrona depende de la disponibilidad del receptor.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "En un proyecto Spring se mencionan dos herramientas: springdoc-openapi y OpenAPI Generator. ¿Qué diferencia hay entre ellas?",
+    "opciones": {
+      "A": "springdoc-openapi genera interfaces API y DTO a partir de un archivo OpenAPI, mientras que OpenAPI Generator produce la documentación OpenAPI y Swagger UI a partir de las anotaciones del código.",
+      "B": "springdoc-openapi produce una especificación independiente del código Java, mientras que el contrato obtenido con OpenAPI Generator queda ligado a las interfaces Java escritas a mano.",
+      "C": "springdoc-openapi obtiene documentación OpenAPI a partir del código Spring, mientras que OpenAPI Generator obtiene código Java, como interfaces API y DTO, a partir del archivo OpenAPI.",
+      "D": "Ambas parten del archivo orders-api.yaml: springdoc-openapi lo publica como Swagger UI al ejecutar la aplicación y OpenAPI Generator lo valida en la fase generate-sources."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "El resumen de la wiki es literal: con springdoc-openapi se obtiene documentación OpenAPI a partir del código Spring; con OpenAPI Generator se obtiene código Java (interfaces de la API y clases de modelo) a partir del archivo OpenAPI.",
+    "explicacionesDistractores": {
+      "A": "Intercambia las herramientas: es OpenAPI Generator quien genera interfaces y DTO desde el archivo, y springdoc-openapi quien genera el documento y Swagger UI desde las anotaciones.",
+      "B": "Es al revés: el documento generado por springdoc-openapi queda ligado al código Java y no es una especificación independiente; el archivo usado por OpenAPI Generator es el contrato independiente.",
+      "D": "springdoc-openapi no parte del archivo YAML sino de las anotaciones del código, y OpenAPI Generator no se limita a validar: genera interfaces API y DTO."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "3. Contrato e implementación en Spring" }
+    ],
+    "conocimiento": "springdoc-openapi genera documentación OpenAPI desde el código Spring; OpenAPI Generator genera código Java (interfaces y DTO) desde el archivo OpenAPI.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "Un equipo quiere revisar el contrato HTTP con los consumidores antes de implementar y que cliente y servidor trabajen en paralelo a partir de un contrato que no dependa del código Java. ¿Qué opción se ajusta mejor y qué precaución implica?",
+    "opciones": {
+      "A": "Mantener orders-api.yaml como fuente de verdad y generar interfaces y DTO con OpenAPI Generator, teniendo que configurar el generador y comprobar que la implementación sigue la especificación.",
+      "B": "Declarar el contrato en la interfaz OrderHttpApi, ya que el documento que genera springdoc-openapi es una especificación independiente del código que no requiere revisiones posteriores.",
+      "C": "Mantener a mano tanto orders-api.yaml como la interfaz OrderHttpApi anotada, porque disponer de dos contratos manuales permite contrastarlos y detectar divergencias.",
+      "D": "Mantener orders-api.yaml como fuente de verdad y ajustar directamente las clases generadas en target/generated-sources/openapi cuando el contrato cambie, para no tener que regenerarlas."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki presenta el archivo OpenAPI como fuente de verdad antes de implementar, útil para revisar el contrato con consumidores y trabajar en paralelo; su ventaja es un contrato independiente que permite generar interfaces API y DTO, y su precaución, configurar el generador y comprobar que la implementación sigue la especificación.",
+    "explicacionesDistractores": {
+      "B": "La interfaz Java queda ligada al código: el documento generado no es una especificación independiente, y sus cambios requieren revisar el contrato resultante.",
+      "C": "La wiki indica que elegir una única fuente de verdad evita mantener dos contratos manuales que puedan divergir.",
+      "D": "Las clases generadas se pueden consultar pero no se deben modificar directamente; si cambia el contrato, se vuelve a generar el código."
+    },
+    "dificultad": "dificil",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "3. Contrato e implementación en Spring" }
+    ],
+    "conocimiento": "El archivo OpenAPI como fuente de verdad da un contrato independiente para revisar con consumidores y trabajar en paralelo, a cambio de configurar el generador y comprobar la implementación; no se mantienen dos contratos manuales ni se editan las clases generadas.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "Tras implementar una API, un equipo abre Swagger UI y comprueba que todas las operaciones aparecen documentadas. ¿Qué afirmación diferencia correctamente el papel de OpenAPI, Swagger UI y las pruebas?",
+    "opciones": {
+      "A": "OpenAPI es el conjunto de herramientas para trabajar con APIs y Swagger UI es la especificación en YAML o JSON que describe rutas, parámetros y respuestas.",
+      "B": "Si Swagger UI muestra todas las operaciones, la implementación es conforme al contrato y las pruebas HTTP de controller solo serían necesarias en un enfoque Code First.",
+      "C": "Swagger UI valida la sintaxis OpenAPI y compara versiones, por lo que sustituye la revisión de compatibilidad, aunque no las pruebas de rendimiento.",
+      "D": "OpenAPI describe el contrato y Swagger UI ayuda a explorarlo, pero abrirlo no demuestra por sí solo la conformidad: las pruebas HTTP de controller verifican el comportamiento integrado."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki destaca que OpenAPI describe el contrato y Swagger UI ayuda a explorarlo; abrir Swagger UI no demuestra por sí solo la conformidad, y las pruebas HTTP de controller verifican el comportamiento integrado. La documentación no sustituye el diseño, la revisión de compatibilidad ni las pruebas.",
+    "explicacionesDistractores": {
+      "A": "Están intercambiados: OpenAPI es la especificación en YAML o JSON y Swagger es el conjunto de herramientas, del que Swagger UI presenta el contrato como documentación interactiva.",
+      "B": "Swagger UI no demuestra por sí solo la conformidad, y la wiki no limita las pruebas a Code First: si se usa un archivo OpenAPI como fuente también hay que comprobar que la implementación se ajusta a él.",
+      "C": "Validar la sintaxis y comparar versiones son comprobaciones posibles que la wiki no atribuye a Swagger UI, y la documentación no sustituye la revisión de compatibilidad."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "4. Cambios y comprobaciones" },
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "2. OpenAPI y Swagger" }
+    ],
+    "conocimiento": "OpenAPI describe el contrato y Swagger UI lo explora, pero Swagger UI no demuestra la conformidad; las pruebas HTTP de controller verifican el comportamiento integrado.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "Una petición puede rechazarse por incumplir el formato del contrato o por proponer un estado inválido para el negocio. ¿Qué diferencia hay entre ambos rechazos?",
+    "opciones": {
+      "A": "El formato lo comprueba el value object en su construcción y responde 400; la validez de negocio la comprueba Jakarta Validation en el DTO y lanza una excepción de dominio.",
+      "B": "El formato se comprueba en el DTO de entrada con Jakarta Validation y produce un 400 con campo y motivo; la validez de negocio la protegen invariantes del dominio, cuya excepción se mapea al error del contrato.",
+      "C": "Ambos se comprueban en el controller antes de llamar al caso de uso, y se distinguen solo por el código HTTP que devuelve el manejador central.",
+      "D": "El formato se comprueba en la capa de presentación con Jakarta Validation y la validez de negocio también, pero mediante constraints personalizadas que delegan en clases validadoras."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La tabla «Dos preguntas, dos fronteras» de la wiki sitúa el formato del contrato en la capa de presentación (DTO de entrada) con Jakarta Validation y respuesta típica 400 indicando campo y motivo, y la validez para el negocio en el dominio con invariantes expresadas en código, cuya excepción de dominio se mapea al error del contrato.",
+    "explicacionesDistractores": {
+      "A": "Invierte los mecanismos: Jakarta Validation se usa en el DTO para el formato, y las invariantes del value object protegen la validez de negocio.",
+      "C": "La wiki señala como error clásico escribir reglas de negocio en el controller, porque otra vía de entrada las omite; la validez de negocio vive en el dominio.",
+      "D": "Las constraints personalizadas siguen siendo validación de formato del contrato; las reglas de negocio se expresan como invariantes en código del dominio, no con anotaciones."
+    },
+    "dificultad": "facil",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "1. Dos preguntas, dos fronteras" }
+    ],
+    "conocimiento": "El formato del contrato se valida en el DTO con Jakarta Validation (400 con campo y motivo) y la validez de negocio con invariantes del dominio cuya excepción se mapea al error del contrato.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "¿Por qué se protege la invariante del IBAN en el constructor compacto del value object Iban en lugar de anotar su campo con Jakarta Validation dentro del dominio?",
+    "opciones": {
+      "A": "Porque las anotaciones de Jakarta Validation se ejecutan en toda vía de creación del objeto, pero añaden un coste de rendimiento que el constructor compacto evita.",
+      "B": "Porque las anotaciones en el dominio también garantizarían la invariante, pero repetirían la regla del DTO, y tener la misma regla en dos sitios es una redundancia que debe evitarse.",
+      "C": "Porque las anotaciones solo se aplican donde un framework valida, de modo que un new Iban directo se las salta, y además meten en el dominio una dependencia de jakarta.validation prohibida por la verificación de módulos.",
+      "D": "Porque el constructor compacto solo se ejecuta al deserializar la petición HTTP, que es el único momento en el que puede llegar un IBAN mal formado al dominio."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "Según la wiki, las anotaciones de Jakarta Validation se aplican solo donde un framework valida (una petición HTTP) y no garantizan nada ante un new Iban directo; además suponen una dependencia de jakarta.validation en el dominio, prohibida en la verificación de módulos. La invariante del value object se aplica en toda construcción y no tiene coste para el dominio.",
+    "explicacionesDistractores": {
+      "A": "Es al revés: las anotaciones no se aplican en toda vía de creación, sino solo donde el framework decide aplicarlas; la wiki no menciona costes de rendimiento.",
+      "B": "Las anotaciones en el dominio no garantizan la invariante, y la wiki explica que duplicar la regla en el DTO y en el value object no es una redundancia porque respaldan decisiones distintas.",
+      "D": "El cuerpo del constructor compacto se ejecuta en toda vía de creación (deserialización, mapeador, caso de uso, otro módulo), precisamente porque el dato puede llegar por vías que no pasan por la frontera HTTP."
+    },
+    "dificultad": "dificil",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "3.1 Por qué no Jakarta Validation en el dominio" },
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "3. Invariancias con value objects" }
+    ],
+    "conocimiento": "Las anotaciones de Jakarta Validation solo actúan donde valida un framework y añaden una dependencia prohibida al dominio, mientras que la invariante en el constructor del value object se aplica en toda vía de creación.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "¿Qué diferencia hay entre una constraint estándar de Jakarta Validation y una constraint personalizada como @ValidIban?",
+    "opciones": {
+      "A": "Las estándar se reflejan solas en el esquema OpenAPI, mientras que la restricción de una personalizada hay que documentarla en la operación o en el esquema, por ejemplo con @Schema.",
+      "B": "Las estándar delegan en una clase validadora que hay que probar directamente, mientras que en las personalizadas la lógica de validación se escribe en el método message() de la anotación.",
+      "C": "Las estándar solo comprueban presencia y rango, mientras que las personalizadas son las únicas que pueden comprobar el formato de una cadena mediante una expresión regular.",
+      "D": "En las estándar la obligatoriedad se declara aparte con @NotBlank, mientras que la clase validadora de una personalizada debe devolver false ante un valor null para hacer el campo obligatorio."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki aconseja que, como las constraints estándar se reflejan solas en el esquema OpenAPI, para las personalizadas hay que documentar su restricción en la operación o en el esquema (por ejemplo con @Schema); si no, el contrato miente en ese punto.",
+    "explicacionesDistractores": {
+      "B": "Es la personalizada la que delega en una clase validadora (ConstraintValidator) que se prueba directamente; la anotación solo declara el mensaje y dónde aplica.",
+      "C": "El catálogo estándar incluye @Email y @Pattern para comprobar formatos; la personalizada se usa cuando el formato propio no encaja con ninguna anotación estándar.",
+      "D": "IbanFormatValidator devuelve true ante null porque la obligatoriedad corresponde a @NotBlank, no a la constraint personalizada."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.5 Del código al contrato: OpenAPI" },
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.3 Constraints personalizadas" }
+    ],
+    "conocimiento": "Las constraints estándar se reflejan solas en el esquema OpenAPI, mientras que las personalizadas deben documentarse a mano (p. ej. con @Schema).",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "En un monolito modular, un pedido puede cancelarse desde una petición HTTP de la persona dueña o desde el módulo de envíos, que actúa sin ser dueño del pedido. ¿Dónde deben ubicarse la comprobación de propiedad y las reglas de la cancelación?",
+    "opciones": {
+      "A": "Ambas en el controlador, para que la comprobación de acceso quede junto a la petición HTTP y el módulo de envíos llame directamente al servicio sin pasar por ellas.",
+      "B": "Ambas en el servicio interno, de modo que toda llamada, venga de la persona usuaria o de otro módulo, pase por las mismas comprobaciones de acceso y de negocio.",
+      "C": "La comprobación de propiedad en el caso de uso, y el módulo de envíos debe invocar ese mismo caso de uso para reutilizar la lógica de cancelación y sus reglas.",
+      "D": "La comprobación de propiedad en el caso de uso del flujo HTTP y las reglas e invariantes en el servicio, al que envíos llega por la API pública sin pasar por el caso de uso."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki distingue las políticas de acceso, que dependen de quién inicia el flujo y se comprueban en el caso de uso antes de llamar al servicio, de las reglas e invariantes del servicio, que deben cumplirse siempre. La entrada entre módulos sigue Module → ModuleImpl → Service y no pasa por un caso de uso de usuario.",
+    "explicacionesDistractores": {
+      "A": "En el controlador las comprobaciones quedan mezcladas con HTTP y habría que repetirlas con más entradas; además, las reglas de negocio deben cumplirse también en las llamadas de otros módulos.",
+      "B": "Aplicar las políticas de acceso indiscriminadamente en el servicio haría que una llamada legítima de envíos se evaluara con una identidad o contexto que no le corresponde.",
+      "C": "Un módulo no pasa por un caso de uso de usuario: los casos de uso son flujos de entrada, no operaciones reutilizables; lo compartido se comparte mediante el servicio."
+    },
+    "dificultad": "dificil",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "3. Separar los flujos de entrada con casos de uso" }
+    ],
+    "conocimiento": "Las políticas de acceso que dependen de quién inicia el flujo van en el caso de uso, y las reglas e invariantes en el servicio, al que otros módulos llegan por la API pública sin caso de uso.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "¿Qué afirmación describe correctamente la relación entre ArchUnit y Spring Modulith para verificar los límites de un monolito modular?",
+    "opciones": {
+      "A": "Spring Modulith sustituye todas las reglas de ArchUnit, ya que deriva el modelo modular de los paquetes y detecta ciclos, accesos a paquetes internos y dependencias no permitidas.",
+      "B": "Spring Modulith deriva el modelo modular de los paquetes y usa por debajo el análisis de ArchUnit, pero ArchUnit sigue siendo útil para reglas específicas dentro de un módulo, como Controller → UseCase → Service.",
+      "C": "Spring Modulith impide compilar el código que accede a paquetes internos de otro módulo, mientras que ArchUnit solo detecta esas dependencias al ejecutar sus tests.",
+      "D": "ArchUnit analiza las dependencias sin arrancar Spring, mientras que la verificación de Spring Modulith necesita levantar el contexto de la aplicación para descubrir los módulos."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki indica que Spring Modulith deriva el modelo modular a partir de los paquetes y usa por debajo el análisis de dependencias de ArchUnit, y que ArchUnit sigue siendo útil para reglas más específicas dentro de un módulo, como exigir Controller → UseCase → Service; Modulith no sustituye todas sus reglas.",
+    "explicacionesDistractores": {
+      "A": "Aunque Modulith detecta ciclos, accesos internos y dependencias no permitidas, la wiki afirma expresamente que no sustituye todas las reglas de ArchUnit.",
+      "C": "Ninguno protege en tiempo de compilación: el test de ArchUnit no impide escribir la importación ni compilar, y la verificación de Modulith es automatizada, no una protección en compilación.",
+      "D": "La verificación de Spring Modulith no necesita arrancar el contexto de Spring: analiza la estructura de paquetes y sus dependencias."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "5. Spring Modulith: detección y verificación de módulos" }
+    ],
+    "conocimiento": "Spring Modulith usa por debajo ArchUnit para verificar el modelo modular, pero no sustituye todas sus reglas; ArchUnit sigue siendo útil para reglas internas de un módulo.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "Al pasar de una organización por capas sin módulos a un monolito modular, la clase Order del módulo orders deja de tener un campo de tipo User y guarda userId: UUID. ¿Qué motivo y qué consecuencia tiene este cambio?",
+    "opciones": {
+      "A": "Evita que orders dependa de users.internal, aunque obliga a desplegar orders y users por separado para que cada uno gestione sus datos.",
+      "B": "Es necesario porque User no es una clase pública en Java; si lo fuera, Order podría seguir referenciándola directamente sin violar el límite entre módulos.",
+      "C": "Evita que orders dependa del modelo interno de users, y si orders necesita más datos del usuario los consulta mediante la API pública del módulo propietario.",
+      "D": "Evita la referencia directa, aunque el tipo del identificador puede ser una clase de users.internal siempre que solo contenga el UUID del usuario."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki explica que los modelos de dominio de cada módulo son privados de su paquete internal; un campo User obligaría a importar users.internal.User y violaría el límite. Por eso se guardan identificadores y, si hace falta consultar más datos, se usa la API pública del módulo propietario.",
+    "explicacionesDistractores": {
+      "A": "El monolito modular mantiene un único despliegue; relacionar modelos mediante identificadores no obliga a desplegar los módulos por separado.",
+      "B": "Estar en internal no hace inaccesible una clase pública en Java; el límite lo marcan las reglas de arquitectura, que prohíben depender de users.internal sea la clase pública o no.",
+      "D": "La wiki indica que el tipo del identificador tampoco debe importar clases de users.internal: puede ser UUID, un tipo local del módulo consumidor o uno de un contrato público."
+    },
+    "dificultad": "media",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "4. Modelos privados y relaciones mediante identificadores" },
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "6. Qué cambia y qué permanece" }
+    ],
+    "conocimiento": "En el monolito modular los modelos de otros módulos se relacionan mediante identificadores que no importan clases internas, y los datos adicionales se consultan por la API pública del módulo propietario.",
+    "autor": "gen-dws-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  }
+]

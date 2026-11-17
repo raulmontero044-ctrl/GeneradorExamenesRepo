@@ -1,0 +1,320 @@
+[
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Sobre los Java Records que se usan como DTO, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+    "opciones": {
+      "A": "Sus componentes son implícitamente private final, por lo que sus valores no pueden modificarse una vez instanciado el record.",
+      "B": "El compilador genera accesores con el mismo nombre que el campo, como isbn(), en lugar de getIsbn().",
+      "C": "El compilador genera un constructor canónico y, para cada campo, un método de acceso y otro de modificación.",
+      "D": "Los métodos equals() y hashCode() se basan en el valor de sus campos, de modo que dos records con los mismos datos se consideran iguales."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki indica que el compilador genera el constructor canónico, accesores con el nombre del campo, equals()/hashCode() basados en valor y toString(), pero no métodos de modificación: los componentes son private final y el record es inmutable (no tiene estado mutable).",
+    "explicacionesDistractores": {
+      "A": "Es cierta: la wiki dice que todos sus componentes son implícitamente private final y que, una vez instanciado, sus valores no pueden ser modificados.",
+      "B": "Es cierta: los métodos de acceso tienen el mismo nombre que el campo, por ejemplo isbn() en lugar de getIsbn().",
+      "D": "Es cierta: equals() y hashCode() se basan en el valor de sus campos y dos records con los mismos datos se consideran iguales."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [{ "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Java Records" }],
+    "conocimiento": "Un Java Record genera constructor canónico, accesores sin prefijo get, equals/hashCode por valor y toString, pero no métodos de modificación porque es inmutable.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Según el tema, ¿qué afirmación describe con precisión la relación entre la Inyección de Dependencias (DI) y la Inversión de Control (IoC)?",
+    "opciones": {
+      "A": "La DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior; la IoC es un principio más amplio en el que el control del flujo y de la creación de objetos se delega a un componente externo.",
+      "B": "La IoC es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior; la DI es un principio más amplio en el que el control del flujo y de la creación de objetos se delega a un componente externo.",
+      "C": "Son dos nombres del mismo patrón: se habla de DI cuando las capas se ensamblan a mano en el método main y de IoC cuando lo hace un framework como Spring.",
+      "D": "La IoC consiste en invertir el sentido de las llamadas entre capas, de modo que la persistencia llame al dominio, y la DI es la forma de implementar esa inversión."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki distingue ambos términos: la DI es un patrón de diseño (la clase recibe sus dependencias desde fuera) y la IoC es un principio de diseño más amplio (el control de la creación de objetos y del flujo se delega a un componente externo, el ensamblador o contenedor).",
+    "explicacionesDistractores": {
+      "B": "Intercambia las definiciones: según la wiki la DI es el patrón y la IoC el principio más amplio.",
+      "C": "La wiki no los presenta como sinónimos, sino como patrón frente a principio; además, el ensamblado manual en main también es inyección de dependencias desde el exterior.",
+      "D": "La IoC invierte quién crea los colaboradores (un elemento externo en lugar de la propia clase), no el sentido de las llamadas: la regla de aislamiento prohíbe que una capa inferior llame a las superiores."
+    },
+    "dificultad": "media",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Inversión de Control (IoC)" },
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Inyección de Dependencias (DI)" }
+    ],
+    "conocimiento": "La DI es un patrón de diseño (recibir dependencias desde fuera) y la IoC un principio más amplio (delegar el control del flujo y de la creación de objetos a un componente externo).",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "En la arquitectura por capas del tema, ¿qué describe con exactitud la responsabilidad de la capa de presentación (controller)?",
+    "opciones": {
+      "A": "Recibe los datos del usuario, aplica las validaciones complejas y los permisos del negocio y delega en la persistencia el almacenamiento.",
+      "B": "Recibe los datos del usuario, los valida formalmente y, en las consultas sencillas, accede directamente al repositorio para evitar una llamada intermedia.",
+      "C": "Se comunica con el soporte físico y convierte la información obtenida en objetos manejables por el dominio antes de devolverla formateada.",
+      "D": "Recibe los datos del usuario, los valida formalmente, llama a la capa de dominio y devuelve el resultado formateado, sin lógica de negocio ni acceso a datos."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La tabla de capas de la wiki dice que la capa de presentación recibe los datos del usuario, los valida formalmente, llama a la capa de dominio y devuelve el resultado formateado, y que no contiene lógica de negocio ni accede a datos.",
+    "explicacionesDistractores": {
+      "A": "Las validaciones complejas y los permisos son reglas de negocio que corresponden a la capa de dominio; la presentación solo hace validaciones formales.",
+      "B": "Las reglas de comunicación prohíben el salto de capas: el controlador nunca debe comunicarse directamente con la capa de persistencia.",
+      "C": "Comunicarse con el soporte físico y convertir la información en objetos del dominio es la responsabilidad de la capa de persistencia."
+    },
+    "dificultad": "media",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Principales Capas del Sistema" },
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Reglas de Comunicación entre Capas" }
+    ],
+    "conocimiento": "La capa de presentación solo valida formalmente, llama al dominio y formatea el resultado; no tiene lógica de negocio, no accede a datos y no puede saltar a la persistencia.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Sobre los métodos HTTP y la forma en que transmiten los datos, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+    "opciones": {
+      "A": "GET lleva los datos en la URL, mediante Query o Path Params, y no debe incluir cuerpo.",
+      "B": "DELETE envía en el cuerpo de la petición el identificador del recurso que se elimina, y su código de éxito habitual es 204 No Content.",
+      "C": "En POST el cliente no indica el ID del nuevo recurso, porque lo asigna el servidor.",
+      "D": "PATCH envía los datos en el cuerpo de la petición y actualiza solo los campos indicados del recurso."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "Según la tabla de métodos, DELETE lleva los datos en la URL mediante un Path Param, no en el cuerpo; solo POST, PUT y PATCH envían los datos en el cuerpo. Lo de 204 No Content sí es correcto, lo falso es dónde viaja el identificador.",
+    "explicacionesDistractores": {
+      "A": "Es cierta: GET lleva los datos en la URL (Query o Path Params) y no debe incluir cuerpo.",
+      "C": "Es cierta: en POST el cliente no indica el ID, lo asigna el servidor.",
+      "D": "Es cierta: PATCH lleva los datos en el cuerpo y modifica solo los campos indicados."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "3. Métodos HTTP y transmisión de datos" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Matices que conviene retener" }
+    ],
+    "conocimiento": "DELETE transmite el identificador en la URL como Path Param, mientras que POST, PUT y PATCH envían los datos en el cuerpo.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "En la URL https://api.miservidor.com/api/v1/books?page=2&limit=10, ¿qué es /api/v1/books según la anatomía de una URL descrita en el tema?",
+    "opciones": {
+      "A": "El dominio o host, que identifica el servidor al que se dirige la petición.",
+      "B": "Los parámetros de consulta, que aportan información adicional sobre el recurso.",
+      "C": "La ruta (Path / URI), que identifica el recurso concreto dentro del servidor.",
+      "D": "La parte de la URL que indica la acción que se realiza sobre el recurso."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki define la ruta (Path / URI) como la parte de la URL que identifica el recurso concreto dentro del servidor, con el ejemplo /api/v1/books.",
+    "explicacionesDistractores": {
+      "A": "El dominio o host es api.miservidor.com, la parte que identifica el servidor.",
+      "B": "Los parámetros de consulta son page=2&limit=10, que van después del símbolo ?.",
+      "D": "Según las buenas prácticas de diseño de endpoints, la acción la determina el método HTTP, no la URL."
+    },
+    "dificultad": "facil",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Anatomía de una URL / URI" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Buenas prácticas en el diseño de Endpoints" }
+    ],
+    "conocimiento": "La ruta (Path / URI) de una URL identifica el recurso concreto dentro del servidor, distinta del host y de los parámetros de consulta.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Según el tema, cuando el controlador recibe una colección JSON (un array entre corchetes con varios objetos de la misma estructura), ¿con qué se corresponde en Java?",
+    "opciones": {
+      "A": "Con un único DTO cuyos campos son arrays que agrupan los valores de todos los objetos.",
+      "B": "Con un Map de pares clave-valor en el que cada clave es el nombre de un campo del JSON.",
+      "C": "Con un array de entidades de dominio que el parser crea directamente, sin pasar por DTOs.",
+      "D": "Con un List de DTOs, a los que el parser convierte automáticamente cada objeto JSON."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki indica que un objeto JSON entre llaves se corresponde con un DTO y que una colección JSON entre corchetes se corresponde con un List de DTOs; el parser convierte automáticamente el texto JSON en clases Java Record (DTOs) y al revés.",
+    "explicacionesDistractores": {
+      "A": "Cada objeto JSON se corresponde con un DTO; la colección se corresponde con un List de DTOs, no con un único DTO.",
+      "B": "Los pares clave-valor son la estructura de un objeto JSON, que se corresponde con un DTO; la colección se mapea con un List.",
+      "C": "El parser convierte el JSON en clases Java Record (DTOs), no directamente en entidades de dominio."
+    },
+    "dificultad": "media",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "4. Formato de Intercambio: JSON" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Colección JSON (Mapea con un List)" }
+    ],
+    "conocimiento": "Una colección JSON entre corchetes se corresponde con un List de DTOs, y el parser convierte el JSON en Records/DTOs automáticamente.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Sobre el procesamiento de una petición HTTP en Spring Boot según el diagrama de componentes del tema, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+    "opciones": {
+      "A": "La cadena de filtros forma parte del contexto de Spring (IoC Container), junto al DispatcherServlet y los controladores.",
+      "B": "El DispatcherServlet consulta el Handler Mapping para localizar qué @RestController y qué método responden a la ruta y al verbo HTTP.",
+      "C": "El Http Message Converter transforma el cuerpo JSON de la petición en un DTO y el resultado del controlador en JSON.",
+      "D": "La cadena de filtros actúa antes de que la petición llegue al DispatcherServlet."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki señala que la cadena de filtros está dentro del servidor Tomcat pero fuera del contexto de Spring (IoC Container), que agrupa DispatcherServlet, Handler Mapping, Http Message Converter, BookController y BookService.",
+    "explicacionesDistractores": {
+      "B": "Es cierta: el Handler Mapping asocia la URI con el método, localizando el @RestController y el método configurados para esa ruta y verbo HTTP.",
+      "C": "Es cierta: el Http Message Converter transforma JSON <-> Java DTO en ambos sentidos.",
+      "D": "Es cierta: los filtros interceptan la petición antes de que alcance el DispatcherServlet."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Diagrama de componentes (descripción)" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Flujo de ejecución de una petición" }
+    ],
+    "conocimiento": "La cadena de filtros está en Tomcat pero fuera del contexto de Spring, y actúa antes del DispatcherServlet, que usa Handler Mapping y Http Message Converter.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Un GlobalExceptionHandler anotado con @RestControllerAdvice tiene métodos @ExceptionHandler para BookNotFoundException (404), IllegalArgumentException (400) y Exception (500). Si el servicio lanza una BookNotFoundException, ¿qué ocurre según el tema?",
+    "opciones": {
+      "A": "Se invoca el manejador de Exception, porque es la captura final y tiene prioridad sobre los demás.",
+      "B": "Se invocan en orden el manejador de BookNotFoundException y después el de Exception.",
+      "C": "Spring invoca el manejador más específico, el de BookNotFoundException, que devuelve un 404.",
+      "D": "La excepción llega al manejador solo si el controlador la captura con try-catch y la vuelve a lanzar."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki indica que Spring invoca siempre el manejador más específico disponible según la jerarquía de clases: una BookNotFoundException activa su propio manejador y no el genérico de Exception; ese manejador devuelve 404 con un ApiErrorResponse.",
+    "explicacionesDistractores": {
+      "A": "El manejador de Exception es la captura final para errores no previstos; no tiene prioridad sobre uno más específico.",
+      "B": "Solo se activa el manejador más específico; la wiki dice expresamente que no se activa el genérico de Exception.",
+      "D": "El controlador no captura la excepción: la deja pasar y el DispatcherServlet recurre al manejador global; el try-catch en el controlador es un antipatrón."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Flujo de una excepción no controlada" }
+    ],
+    "conocimiento": "Ante una excepción, Spring invoca el @ExceptionHandler más específico según la jerarquía de clases, no el genérico de Exception.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Según el tema, ¿qué papel cumple SLF4J en el registro (logs) de una aplicación Spring Boot?",
+    "opciones": {
+      "A": "Es la implementación por defecto que decide el formato y el destino de cada evento, mientras que Logback es la fachada con la que escribe el código.",
+      "B": "Es la fachada: la API con la que el código emite los eventos, mientras que la implementación, Logback por defecto, decide su formato y destino.",
+      "C": "Es una implementación alternativa a Logback que hay que añadir como dependencia para poder registrar eventos con niveles.",
+      "D": "Es la sucesora de la antigua Log4j, igual que Log4j2, y sustituye por configuración a java.util.logging como implementación."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki divide el registro en fachada (la API con la que el código emite eventos; la estándar es SLF4J) e implementación (decide formato y destino; Logback por defecto en Spring Boot). El código solo conoce la fachada.",
+    "explicacionesDistractores": {
+      "A": "Intercambia los papeles: SLF4J es la fachada y Logback la implementación por defecto.",
+      "C": "La implementación alternativa es Log4j2; además, Spring Boot ya incluye SLF4J y Logback por defecto, sin añadir dependencias.",
+      "D": "Las sucesoras de la antigua Log4j son Logback y Log4j2, que son implementaciones; SLF4J es la fachada."
+    },
+    "dificultad": "media",
+    "tipo": "definicion",
+    "wikiRef": [{ "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Fachada e implementación" }],
+    "conocimiento": "SLF4J es la fachada de logging con la que escribe el código; Logback es la implementación por defecto en Spring Boot y Log4j2 la alternativa.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Sobre la renovación de la sesión con rotación del refresh token, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+    "opciones": {
+      "A": "El consumo del refresh token presentado y la creación del nuevo par deben ser atómicos.",
+      "B": "Se renueva el par completo para que cada renovación cree credenciales nuevas asociadas a la misma sesión.",
+      "C": "Rotar el refresh token permite detectar si se vuelve a presentar uno ya consumido.",
+      "D": "La rotación del refresh token impide que un atacante pueda robar una credencial válida de la sesión."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki afirma expresamente que la rotación no impide el robo de una credencial; lo que permite es detectar la reutilización de un refresh token anterior y responder revocando la sesión completa.",
+    "explicacionesDistractores": {
+      "A": "Es cierta: el consumo de R1 y la creación del nuevo par deben ser atómicos.",
+      "B": "Es cierta: se renueva el par completo para que cada renovación cree credenciales nuevas asociadas a la misma sesión.",
+      "C": "Es cierta: rotar especialmente el refresh token permite detectar si se vuelve a presentar uno ya consumido."
+    },
+    "dificultad": "dificil",
+    "tipo": "afirmaciones",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "4. Renovación y rotación" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Qué consigue (y qué no) la rotación" }
+    ],
+    "conocimiento": "La rotación del refresh token no impide el robo de credenciales; permite detectar la reutilización y revocar la sesión, y exige atomicidad al consumir y emitir el nuevo par.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "En la clase SecurityContext del tema, el campo CURRENT se declara como private static final ThreadLocal<Principal>. ¿Qué afirmación es exacta?",
+    "opciones": {
+      "A": "Lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente para cada hilo, y por eso hay que limpiarlo al terminar la petición.",
+      "B": "Al ser static, todas las peticiones comparten el mismo Principal, con el mismo riesgo de mezclar identidades que un campo static mutable.",
+      "C": "Al ser final, su valor no puede cambiar tras asignarse en la primera petición, por lo que no es necesario limpiarlo.",
+      "D": "Cada petición crea su propia instancia de ThreadLocal, por lo que el valor desaparece automáticamente al terminar la petición."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki precisa que, aunque CURRENT es static, lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente para cada hilo; y como Tomcat reutiliza hilos, el contexto debe limpiarse (en finally) para que una petición posterior no herede el Principal de otra.",
+    "explicacionesDistractores": {
+      "B": "ThreadLocal no guarda un mismo Principal global para todos: asocia el valor al hilo actual. El problema de mezclar identidades es propio de un campo static mutable.",
+      "C": "final afecta a la referencia al objeto ThreadLocal, no al valor que guarda cada hilo; la wiki exige limpiarlo porque el hilo puede reutilizarse.",
+      "D": "Hay un único ThreadLocal estático y el valor no desaparece solo: hay que eliminarlo con clear() en finally, porque Tomcat reutiliza hilos."
+    },
+    "dificultad": "media",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Clase SecurityContext" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Dónde guardar el Principal" }
+    ],
+    "conocimiento": "Un ThreadLocal estático es un único objeto compartido que guarda un valor independiente por hilo, y debe limpiarse porque los hilos se reutilizan.",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Según el tema, ¿qué caracteriza a un token opaco?",
+    "opciones": {
+      "A": "Es una cadena que lleva codificados la identidad y los roles, de modo que el servidor la valida sin consultar ningún estado propio.",
+      "B": "Es una cadena aleatoria cuyo contenido no interpreta el cliente; el servidor la valida consultando el estado que conserva sobre ella, como su vencimiento o revocación.",
+      "C": "Es una cadena aleatoria que el servidor guarda en claro para compararla literalmente con la que recibe en cada petición protegida.",
+      "D": "Es una cadena cifrada que el cliente descifra para conocer su vencimiento y decidir cuándo debe renovarla."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki define el token opaco como una cadena aleatoria cuyo contenido no interpreta el cliente, que el servidor valida consultando el estado que conserva sobre él: su hash, su tipo, su vencimiento y su estado de revocación.",
+    "explicacionesDistractores": {
+      "A": "El token opaco es una cadena aleatoria, no codifica identidad ni roles, y el servidor lo valida precisamente consultando el estado que conserva.",
+      "C": "El servidor almacena el hash del token, no el valor reutilizable en claro.",
+      "D": "El cliente no interpreta el contenido de un token opaco; es una cadena aleatoria generada con SecureRandom."
+    },
+    "dificultad": "facil",
+    "tipo": "definicion",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "2. Tokens opacos" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Almacenamiento" }
+    ],
+    "conocimiento": "Un token opaco es una cadena aleatoria que el cliente no interpreta y que el servidor valida consultando su estado (hash, tipo, vencimiento, revocación).",
+    "autor": "gen-prog-3",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  }
+]

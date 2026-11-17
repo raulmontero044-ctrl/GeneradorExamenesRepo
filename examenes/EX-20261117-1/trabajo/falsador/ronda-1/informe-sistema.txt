@@ -1,0 +1,43 @@
+Línea: 1
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node tools/examen.mjs validar --examen-id EX-20261117-1` → "EXAMEN VÁLIDO", EXIT=0. validarExamen (tools/examen.mjs:25-28) exige exactamente temario.totalPreguntas preguntas y preguntasPorTema por cada tema del temario. La salida de banco comparar lista 40 ids, 5 de cada uno de 8 temas (prog-08, prog-09, prog-10, prog-12, dws-01 a dws-04).
+
+Línea: 2
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: El mismo comando → "EXAMEN VÁLIDO", EXIT=0. validarPregunta (tools/lib/esquema.mjs:57-90) exige opciones exactamente A-D, correcta en A-D, explicacionCorrecta, explicacionesDistractores con exactamente los tres distractores, y que la sección de wikiRef exista en la wiki del tema.
+
+Línea: 3
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node tools/banco.mjs comparar examenes/EX-20261117-1/examen.json` → EXIT=0. Las 40 preguntas dan banco.nivel "distinta" y candidatas [] (sin parecidas dentro del examen). banco/preguntas.jsonl tiene 0 líneas, así que no hay exámenes anteriores registrados. tools/lib/similitud.mjs:64 detecta la reordenación de opciones ("mismas opciones y misma respuesta").
+
+Línea: 4
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node tools/examen.mjs validar --examen-id EX-20261117-1` → "EXAMEN VÁLIDO", EXIT=0. tools/examen.mjs:61-65 exige como máximo 10 fáciles, al menos una pregunta de cada nivel, que media + difícil supere a fácil y al menos una pregunta de cada uno de los 6 TIPOS.
+
+Línea: 5
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node tools/probar-html.mjs --examen-id EX-20261117-1` → "OK plan mix: nota 2.43 (14 aciertos, 13 errores, 13 en blanco)", "OK plan correctas: nota 10 (40 aciertos…)", "OK plan errores: nota 0", "OK plan blanco: nota 0", "HTML FUNCIONAL", EXIT=0.
+
+Línea: 6
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node --test tests/puntuacion.test.mjs` → 4 pass, 0 fail, EXIT=0. Tests: "todo correcto da 10 y todo en blanco da 0", "la penalización de −0,33 se aplica y la nota no baja de 0", "fórmula exacta: (puntuación / 40) × 10…".
+
+Línea: 7
+Id: NINGUNO
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: `node --test tests/historial.test.mjs` → 4 pass, 0 fail, EXIT=0. Tests: "validarResultado recalcula y rechaza resultados manipulados o incompletos", "cada intento es un fichero nuevo y nunca se sobrescribe", "servidor: … resultado inválido (400)…", "de punta a punta: el HTML servido guarda cada intento en el historial".
+
+Veredicto: APROBADO

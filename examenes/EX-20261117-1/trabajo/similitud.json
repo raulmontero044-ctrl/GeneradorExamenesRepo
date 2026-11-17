@@ -1,0 +1,684 @@
+[
+  {
+    "id": "dws-01-d89ede9e",
+    "tema": "dws-01",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-01-2da6cdb3",
+    "tema": "dws-01",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-01-86b82494",
+    "tema": "dws-01",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-02-8980dc53",
+    "tema": "dws-02",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-02-b169a728",
+    "tema": "dws-02",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-02-9d451b3d",
+    "tema": "dws-02",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-03-b782b085",
+    "tema": "dws-03",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-03-68cd5ce1",
+    "tema": "dws-03",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-03-83710a09",
+    "tema": "dws-03",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-04-991406eb",
+    "tema": "dws-04",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-04-9c6b7be2",
+    "tema": "dws-04",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-04-261ddcd1",
+    "tema": "dws-04",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": [
+      {
+        "id": "dws-04-bb299f79",
+        "nivel": "similar",
+        "motivos": [
+          "mismo conocimiento evaluado (0.72)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dws-01-f32832a8",
+    "tema": "dws-01",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-01-f6528928",
+    "tema": "dws-01",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-01-dc81d8a5",
+    "tema": "dws-01",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-02-26a7af0d",
+    "tema": "dws-02",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-02-e6cc6747",
+    "tema": "dws-02",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-02-5c909ffa",
+    "tema": "dws-02",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-03-55b44631",
+    "tema": "dws-03",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-03-73b94256",
+    "tema": "dws-03",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-03-d8c42aad",
+    "tema": "dws-03",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-04-2b9587bf",
+    "tema": "dws-04",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-04-c1d3c56e",
+    "tema": "dws-04",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-04-bb299f79",
+    "tema": "dws-04",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": [
+      {
+        "id": "dws-04-261ddcd1",
+        "nivel": "similar",
+        "motivos": [
+          "mismo conocimiento evaluado (0.72)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dws-01-6a85cffb",
+    "tema": "dws-01",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-01-370f431d",
+    "tema": "dws-01",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-01-3f0b4e77",
+    "tema": "dws-01",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-02-64d30588",
+    "tema": "dws-02",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-02-5a91be94",
+    "tema": "dws-02",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-02-b4aa4901",
+    "tema": "dws-02",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-03-f513bf02",
+    "tema": "dws-03",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-03-c7e607fd",
+    "tema": "dws-03",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-03-9adfcac6",
+    "tema": "dws-03",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-04-096910c9",
+    "tema": "dws-04",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-04-1c640d69",
+    "tema": "dws-04",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "dws-04-7075b553",
+    "tema": "dws-04",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-08-0b54a9a3",
+    "tema": "prog-08",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": [
+      {
+        "id": "prog-08-cc607ddc",
+        "nivel": "similar",
+        "motivos": [
+          "mismo conocimiento evaluado (0.68)",
+          "misma respuesta correcta para una pregunta parecida"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "prog-08-e7b44471",
+    "tema": "prog-08",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-08-5208316a",
+    "tema": "prog-08",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-09-3e1ce128",
+    "tema": "prog-09",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-09-23abf193",
+    "tema": "prog-09",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-09-d12e97f8",
+    "tema": "prog-09",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-10-79777f8d",
+    "tema": "prog-10",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-10-0c5409a1",
+    "tema": "prog-10",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-10-dafd5ce8",
+    "tema": "prog-10",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-12-ac147b70",
+    "tema": "prog-12",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-12-e34d667f",
+    "tema": "prog-12",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-12-1b3e136a",
+    "tema": "prog-12",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-08-8869fbdf",
+    "tema": "prog-08",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-08-799f6038",
+    "tema": "prog-08",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-08-1cc1670d",
+    "tema": "prog-08",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-09-a8de2fa1",
+    "tema": "prog-09",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-09-03d34db7",
+    "tema": "prog-09",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-09-6754cd44",
+    "tema": "prog-09",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-10-04c47f60",
+    "tema": "prog-10",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-10-d73a2856",
+    "tema": "prog-10",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-10-520c798d",
+    "tema": "prog-10",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-12-f88444da",
+    "tema": "prog-12",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-12-df994dd7",
+    "tema": "prog-12",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-12-4a5ea9ab",
+    "tema": "prog-12",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-08-db5b957b",
+    "tema": "prog-08",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-08-cc607ddc",
+    "tema": "prog-08",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": [
+      {
+        "id": "prog-08-0b54a9a3",
+        "nivel": "similar",
+        "motivos": [
+          "mismo conocimiento evaluado (0.68)",
+          "misma respuesta correcta para una pregunta parecida"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "prog-08-616b967a",
+    "tema": "prog-08",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-09-27f2ca81",
+    "tema": "prog-09",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-09-a292c6d6",
+    "tema": "prog-09",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-09-61fc44b9",
+    "tema": "prog-09",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-10-0d0e6253",
+    "tema": "prog-10",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-10-2827c08b",
+    "tema": "prog-10",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-10-194929e5",
+    "tema": "prog-10",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-12-e2b7be77",
+    "tema": "prog-12",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-12-6dfc95b1",
+    "tema": "prog-12",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  },
+  {
+    "id": "prog-12-2adb68ca",
+    "tema": "prog-12",
+    "banco": {
+      "nivel": "distinta",
+      "parecidas": []
+    },
+    "candidatas": []
+  }
+]

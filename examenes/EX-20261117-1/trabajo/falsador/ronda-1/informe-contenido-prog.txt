@@ -1,0 +1,121 @@
+Línea: 1
+Id: prog-08-e7b44471
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-08-arquitectura/contenido.md líneas 125-130, 140-150, 191-195: con la inyección el repositorio ya no elige la implementación; la wiki dice que cambiarla requiere modificar una línea del ensamblado; el alto acoplamiento venía de usar new BookDaoMySql; se puede pasar un Mock al constructor.
+
+Línea: 2
+Id: prog-08-1cc1670d
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-08-arquitectura/contenido.md líneas 33-39 (la presentación solo valida formalmente y el dominio aplica los cálculos), 77 y 101-104 (Request sin ID), 115 (toResponse usa getFinalPrice).
+
+Línea: 3
+Id: prog-08-799f6038
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-08-arquitectura/contenido.md líneas 165-171 y 183-189: el IoCContainer crea DAO→repositorio→servicio→controlador de abajo arriba, y Main solo crea el contenedor, llama a getBookController() y ejecuta run().
+
+Línea: 4
+Id: prog-08-cc607ddc
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-08-arquitectura/contenido.md líneas 134, 154-159 (la DI es un patrón y la IoC un principio más amplio) y 45 (aislamiento entre capas).
+
+Línea: 5
+Id: prog-08-db5b957b
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-08-arquitectura/contenido.md líneas 87-95: componentes private final e inmutables, accesores isbn(), equals/hashCode por valor y constructor canónico. No genera métodos de modificación, así que D es la única opción incorrecta.
+
+Línea: 6
+Id: prog-09-03d34db7
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-09-api-rest-http/contenido.md líneas 54 (en POST el servidor asigna el ID), 61 (el parser convierte JSON a DTO) y 80-90 (201 en POST, 204 en DELETE, 400 si falla la validación del DTO, 500 para fallos no controlados).
+
+Línea: 7
+Id: prog-09-a8de2fa1
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-09-api-rest-http/contenido.md líneas 30-32 (sustantivos en plural, sin verbos en la URL), 42-55 (PUT reemplaza por completo y PATCH modifica parcialmente en el cuerpo) y 94-100 (PATCH → 200 OK).
+
+Línea: 8
+Id: prog-09-d12e97f8
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-09-api-rest-http/contenido.md líneas 52-53 (DELETE mediante Path Param, GET no debe incluir cuerpo, PATCH en el cuerpo) y 96-100 (PUT → 200, DELETE → 204).
+
+Línea: 9
+Id: prog-09-6754cd44
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-09-api-rest-http/contenido.md líneas 85-88: 400 son datos incorrectos, 401 indica que hay que autenticarse, 403 que faltan permisos y 404 que el recurso no existe.
+
+Línea: 10
+Id: prog-09-a292c6d6
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-09-api-rest-http/contenido.md líneas 16-21 (host, ruta /api/v1/books y query tras ?) y 30 (la acción la determina el método HTTP).
+
+Línea: 11
+Id: prog-10-520c798d
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-10-spring-boot/contenido.md líneas 265 y 270-278 (niveles y orden de severidad), 309 (con {} el texto se formatea solo si el nivel está activo) y 326-330 (INFO en producción; logging.file.name añade un fichero además de la consola).
+
+Línea: 12
+Id: prog-10-04c47f60
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-10-spring-boot/contenido.md líneas 72-81 y 85: el orden es filtros → DispatcherServlet → Handler Mapping (ruta y verbo) → deserialización → invocación → serialización.
+
+Línea: 13
+Id: prog-10-0c5409a1
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-10-spring-boot/contenido.md líneas 179 (sin manejador, Whitelabel con 500), 183-186 (el try-catch es un antipatrón que duplica y mezcla responsabilidades), 228-230 (mensaje genérico con 500) y 307 (log.error en el servidor; el detalle técnico no viaja al cliente).
+
+Línea: 14
+Id: prog-10-0d0e6253
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-10-spring-boot/contenido.md líneas 61-72: la cadena de filtros está dentro de Tomcat pero fuera del Spring Context y actúa antes del DispatcherServlet. Handler Mapping asocia la URI con el método y el Http Message Converter transforma JSON <-> DTO.
+
+Línea: 15
+Id: prog-10-79777f8d
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-10-spring-boot/contenido.md líneas 72, 85-95 (los filtros van antes del DispatcherServlet, tratan aspectos transversales y OncePerRequestFilter es para filtros) y 192 (los @ExceptionHandler del advice se invocan cuando una excepción escapa de un controlador).
+
+Línea: 16
+Id: prog-12-4a5ea9ab
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-12-login-tokens/contenido.md líneas 190-196 (sin cabecera, extractBearerToken devuelve null; solo se usa ifPresent(SecurityContext::set); siempre se llama a chain.doFilter), 201 (si es null, el controlador lanza AuthenticationRequiredException) y 71 (el refresh token no va en las peticiones normales).
+
+Línea: 17
+Id: prog-12-e34d667f
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-12-login-tokens/contenido.md líneas 114 (el servidor no puede saber quién es el legítimo), 119-120 (se revoca toda la familia, incluido el par más reciente, y el cliente legítimo pierde la sesión) y 139-141.
+
+Línea: 18
+Id: prog-12-1b3e136a
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-12-login-tokens/contenido.md líneas 159-165 (tabla de variable local, static mutable y ThreadLocal), 175 (se comparte el objeto ThreadLocal, con un valor por hilo) y 203 (limpiar en finally porque Tomcat reutiliza hilos).
+
+Línea: 19
+Id: prog-12-ac147b70
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-12-login-tokens/contenido.md líneas 64-71 (el token de acceso es corto y va en cada petición con Bearer; el refresh token es más largo y solo sirve para renovar; el cliente conserva ambos) y 77 (se renueva cuando caduca el token de acceso).
+
+Línea: 20
+Id: prog-12-2adb68ca
+Resultado: NO DETECTADA
+Afirmación falsa: NINGUNA
+Evidencia: wiki/programacion/tema-12-login-tokens/contenido.md líneas 38-43 (cadena aleatoria que el cliente no interpreta; el servidor consulta hash, tipo, vencimiento y revocación), 47 (SecureRandom) y 57 (se guarda el hash, no el valor en claro).
+
+Veredicto: APROBADO

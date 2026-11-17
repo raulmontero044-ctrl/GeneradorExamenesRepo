@@ -1,0 +1,388 @@
+[
+  {
+    "id": "prog-08-0b54a9a3",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["La wiki enuncia literalmente la distinción DI (patrón) / IoC (principio más amplio) en la sección de IoC: es una definición directa, no la comprensión de un mecanismo; la etiqueta media no corresponde.", "Evalúa el mismo conocimiento que prog-08-cc607ddc."],
+    "duplicadaDe": ["prog-08-cc607ddc"],
+    "cambios": ["dificultad: media -> facil, porque la respuesta es la definición literal que da la wiki de ambos términos."],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Según la wiki, ¿qué afirmación describe correctamente la diferencia entre la Inyección de Dependencias (DI) y la Inversión de Control (IoC)?",
+      "opciones": {
+        "A": "La IoC es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior, y la DI es el principio más amplio que delega la creación de objetos en un contenedor.",
+        "B": "La DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior, y la IoC es un principio más amplio que delega en un componente externo el control del flujo y de la creación de objetos.",
+        "C": "La DI solo es posible cuando existe un contenedor de IoC como el de Spring; sin él, cada clase debe seguir creando sus dependencias con el operador new.",
+        "D": "Son dos nombres para el mismo mecanismo: ambos designan la inyección por constructor con atributos final que apuntan a interfaces."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki distingue ambos términos: la DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior en lugar de instanciarlas, y la IoC es un principio de diseño más amplio en el que el control del flujo de ejecución y de la creación de objetos se delega a un componente externo (ensamblador o contenedor).",
+      "explicacionesDistractores": {
+        "A": "Invierte los términos: según la wiki, la DI es el patrón y la IoC el principio más amplio.",
+        "C": "La wiki muestra que la DI puede aplicarse sin framework mediante el ensamblado manual en el método main, inyectando cada dependencia por constructor.",
+        "D": "La wiki no los trata como sinónimos: la DI es un patrón concreto y la IoC un principio más amplio; la inyección por constructor es solo la forma recomendada de DI."
+      },
+      "dificultad": "facil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Inversión de Control (IoC)" },
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Ensamblado manual del sistema" }
+      ],
+      "conocimiento": "La DI es un patrón (la clase recibe sus dependencias desde fuera) y la IoC un principio más amplio (se delega a un componente externo el control del flujo y la creación de objetos).",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "prog-08-e7b44471",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 9,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["Comparte el conocimiento central (cambiar la persistencia solo exige tocar una línea del ensamblado) con prog-08-8869fbdf; esta es la versión más exigente gracias al distractor C (el tipo del atributo ya era la interfaz)."],
+    "duplicadaDe": ["prog-08-8869fbdf"],
+    "cambios": []
+  },
+  {
+    "id": "prog-08-5208316a",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Se solapa con prog-08-616b967a (validación formal en presentación frente a validaciones complejas y permisos en dominio) y con prog-08-1cc1670d (reparto presentación valida / dominio aplica la regla)."],
+    "duplicadaDe": ["prog-08-616b967a", "prog-08-1cc1670d"],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-3e1ce128",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Escenario prácticamente idéntico al de prog-09-a8de2fa1 (cambiar solo el precio de un libro con PATCH en el cuerpo); la otra es más completa porque añade el código de éxito y el diseño de la URL."],
+    "duplicadaDe": ["prog-09-a8de2fa1"],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-23abf193",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 5,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["Pregunta correcta pero de poca profundidad; evalúa el mismo conocimiento (401 frente a 403) que prog-09-6754cd44, que lo hace de forma más completa."],
+    "duplicadaDe": ["prog-09-6754cd44"],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-d12e97f8",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["Evalúa esencialmente lo mismo que prog-09-27f2ca81 (DELETE lleva el identificador en la URL como Path Param y responde 204; GET sin cuerpo; PATCH en el cuerpo)."],
+    "duplicadaDe": ["prog-09-27f2ca81"],
+    "cambios": []
+  },
+  {
+    "id": "prog-08-8869fbdf",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Mismo conocimiento que prog-08-e7b44471 (cambiar la persistencia solo requiere modificar la línea del ensamblado)."],
+    "duplicadaDe": ["prog-08-e7b44471"],
+    "cambios": []
+  },
+  {
+    "id": "prog-08-799f6038",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": false, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["La opción correcta D dice que Main «solo pide el controlador y llama a run()», pero según la wiki Main también crea el contenedor (new IoCContainer()); el «solo» la hace inexacta frente al texto de la wiki."],
+    "duplicadaDe": [],
+    "cambios": ["Opción D: «Main solo pide el controlador y llama a run()» -> «Main solo crea el contenedor, le pide el controlador y llama a run()», para ajustarla a la wiki (Main crea el contenedor)."],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "En el contenedor de IoC casero (IoCContainer) construido con el patrón Factoría, ¿cómo se crean y conectan los componentes y qué hace la clase Main?",
+      "opciones": {
+        "A": "El contenedor crea primero el BookController, que a su vez instancia su BookService, y Main pide el controlador y llama a run().",
+        "B": "Main instancia el DAO concreto y se lo entrega al contenedor, que crea el resto de capas y devuelve el controlador listo.",
+        "C": "El contenedor crea los componentes de arriba abajo, del controlador al DAO, y Main recorre cada uno para conectarlos antes de ejecutar.",
+        "D": "El contenedor crea el DAO, lo inyecta en el repositorio, este en el servicio y este en el controlador; Main solo crea el contenedor, le pide el controlador y llama a run()."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki describe que IoCContainer, en su constructor, crea BookDaoMySql, se lo pasa a BookRepositoryImpl, este a BookServiceImpl y este a BookController (el mismo orden de abajo arriba que el ensamblado manual). Main se simplifica: crea el contenedor, llama a getBookController() y ejecuta run().",
+      "explicacionesDistractores": {
+        "A": "En el contenedor ninguna clase instancia a sus colaboradores; es el contenedor quien asume la responsabilidad de crear e inyectar, empezando por el DAO.",
+        "B": "Con el contenedor, Main ya no necesita saber cómo se construyen ni conectan las capas; es el propio contenedor quien crea new BookDaoMySql().",
+        "C": "El orden es de abajo arriba (DAO, repositorio, servicio, controlador) y la conexión la hace el contenedor, no Main."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "El contenedor de IoC (IoC Container)" },
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Ensamblado manual del sistema" }
+      ],
+      "conocimiento": "El IoCContainer casero crea e inyecta los componentes de abajo arriba (DAO, repositorio, servicio, controlador) y Main solo crea el contenedor, le pide el controlador y lo ejecuta.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "prog-08-1cc1670d",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["Se solapa parcialmente con prog-08-5208316a (presentación valida formalmente, el dominio aplica la regla de negocio), aunque añade el mapper y el Request DTO sin ID."],
+    "duplicadaDe": ["prog-08-5208316a"],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-a8de2fa1",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Mismo escenario y conocimiento que prog-09-3e1ce128; esta versión es preferible porque integra método, ubicación de los datos, diseño de la URL y código de éxito."],
+    "duplicadaDe": ["prog-09-3e1ce128"],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-03d34db7",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-6754cd44",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Mismo conocimiento (401 frente a 403) que prog-09-23abf193; esta versión es preferible porque obliga a distinguir ambos códigos."],
+    "duplicadaDe": ["prog-09-23abf193"],
+    "cambios": []
+  },
+  {
+    "id": "prog-08-db5b957b",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Las tres afirmaciones verdaderas son copia casi literal de la lista de la wiki y la falsa (métodos de modificación) choca de frente con la inmutabilidad, mencionada en la propia opción A: requiere aplicar la regla de inmutabilidad, pero no hay distractores muy próximos ni relación entre conceptos; corresponde a media, no a dificil."],
+    "duplicadaDe": [],
+    "cambios": ["dificultad: dificil -> media, porque basta con aplicar la inmutabilidad del record para descartar los métodos de modificación."],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Sobre los Java Records que se usan como DTO, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "Sus componentes son implícitamente private final, por lo que sus valores no pueden modificarse una vez instanciado el record.",
+        "B": "El compilador genera accesores con el mismo nombre que el campo, como isbn(), en lugar de getIsbn().",
+        "C": "El compilador genera un constructor canónico y, para cada campo, un método de acceso y otro de modificación.",
+        "D": "Los métodos equals() y hashCode() se basan en el valor de sus campos, de modo que dos records con los mismos datos se consideran iguales."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki indica que el compilador genera el constructor canónico, accesores con el nombre del campo, equals()/hashCode() basados en valor y toString(), pero no métodos de modificación: los componentes son private final y el record es inmutable (no tiene estado mutable).",
+      "explicacionesDistractores": {
+        "A": "Es cierta: la wiki dice que todos sus componentes son implícitamente private final y que, una vez instanciado, sus valores no pueden ser modificados.",
+        "B": "Es cierta: los métodos de acceso tienen el mismo nombre que el campo, por ejemplo isbn() en lugar de getIsbn().",
+        "D": "Es cierta: equals() y hashCode() se basan en el valor de sus campos y dos records con los mismos datos se consideran iguales."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Java Records" }
+      ],
+      "conocimiento": "Un Java Record genera constructor canónico, accesores sin prefijo get, equals/hashCode por valor y toString, pero no métodos de modificación porque es inmutable.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "prog-08-cc607ddc",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["La respuesta correcta es la definición literal de la wiki (patrón frente a principio más amplio) y el tipo declarado es «definicion»: corresponde a facil, no a media.", "Evalúa el mismo conocimiento que prog-08-0b54a9a3; esta versión es algo mejor por el distractor D (invertir el sentido de las llamadas)."],
+    "duplicadaDe": ["prog-08-0b54a9a3"],
+    "cambios": ["dificultad: media -> facil, porque se resuelve con la definición directa de DI e IoC que da la wiki."],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Según el tema, ¿qué afirmación describe con precisión la relación entre la Inyección de Dependencias (DI) y la Inversión de Control (IoC)?",
+      "opciones": {
+        "A": "La DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior; la IoC es un principio más amplio en el que el control del flujo y de la creación de objetos se delega a un componente externo.",
+        "B": "La IoC es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior; la DI es un principio más amplio en el que el control del flujo y de la creación de objetos se delega a un componente externo.",
+        "C": "Son dos nombres del mismo patrón: se habla de DI cuando las capas se ensamblan a mano en el método main y de IoC cuando lo hace un framework como Spring.",
+        "D": "La IoC consiste en invertir el sentido de las llamadas entre capas, de modo que la persistencia llame al dominio, y la DI es la forma de implementar esa inversión."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki distingue ambos términos: la DI es un patrón de diseño (la clase recibe sus dependencias desde fuera) y la IoC es un principio de diseño más amplio (el control de la creación de objetos y del flujo se delega a un componente externo, el ensamblador o contenedor).",
+      "explicacionesDistractores": {
+        "B": "Intercambia las definiciones: según la wiki la DI es el patrón y la IoC el principio más amplio.",
+        "C": "La wiki no los presenta como sinónimos, sino como patrón frente a principio; además, el ensamblado manual en main también es inyección de dependencias desde el exterior.",
+        "D": "La IoC invierte quién crea los colaboradores (un elemento externo en lugar de la propia clase), no el sentido de las llamadas: la regla de aislamiento prohíbe que una capa inferior llame a las superiores."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Inversión de Control (IoC)" },
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Inyección de Dependencias (DI)" }
+      ],
+      "conocimiento": "La DI es un patrón de diseño (recibir dependencias desde fuera) y la IoC un principio más amplio (delegar el control del flujo y de la creación de objetos a un componente externo).",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "prog-08-616b967a",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["La opción correcta reproduce literalmente la celda de la tabla de capas (tipo «definicion»): es una definición directa, por lo que la etiqueta media no corresponde.", "Se solapa con prog-08-5208316a (validación formal en presentación frente a validaciones complejas y permisos en dominio)."],
+    "duplicadaDe": ["prog-08-5208316a"],
+    "cambios": ["dificultad: media -> facil, porque la correcta es la definición literal de la capa de presentación en la tabla de la wiki."],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "En la arquitectura por capas del tema, ¿qué describe con exactitud la responsabilidad de la capa de presentación (controller)?",
+      "opciones": {
+        "A": "Recibe los datos del usuario, aplica las validaciones complejas y los permisos del negocio y delega en la persistencia el almacenamiento.",
+        "B": "Recibe los datos del usuario, los valida formalmente y, en las consultas sencillas, accede directamente al repositorio para evitar una llamada intermedia.",
+        "C": "Se comunica con el soporte físico y convierte la información obtenida en objetos manejables por el dominio antes de devolverla formateada.",
+        "D": "Recibe los datos del usuario, los valida formalmente, llama a la capa de dominio y devuelve el resultado formateado, sin lógica de negocio ni acceso a datos."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La tabla de capas de la wiki dice que la capa de presentación recibe los datos del usuario, los valida formalmente, llama a la capa de dominio y devuelve el resultado formateado, y que no contiene lógica de negocio ni accede a datos.",
+      "explicacionesDistractores": {
+        "A": "Las validaciones complejas y los permisos son reglas de negocio que corresponden a la capa de dominio; la presentación solo hace validaciones formales.",
+        "B": "Las reglas de comunicación prohíben el salto de capas: el controlador nunca debe comunicarse directamente con la capa de persistencia.",
+        "C": "Comunicarse con el soporte físico y convertir la información en objetos del dominio es la responsabilidad de la capa de persistencia."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Principales Capas del Sistema" },
+        { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Reglas de Comunicación entre Capas" }
+      ],
+      "conocimiento": "La capa de presentación solo valida formalmente, llama al dominio y formatea el resultado; no tiene lógica de negocio, no accede a datos y no puede saltar a la persistencia.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "prog-09-27f2ca81",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Las tres afirmaciones verdaderas son copia directa de «Matices que conviene retener» y la falsa solo exige aplicar la regla de la tabla (DELETE en la URL); la trampa de la media verdad (204) no basta para dificil: corresponde a media.", "Evalúa el mismo conocimiento que prog-09-d12e97f8 (DELETE con Path Param y 204, GET sin cuerpo, PATCH en el cuerpo)."],
+    "duplicadaDe": ["prog-09-d12e97f8"],
+    "cambios": ["dificultad: dificil -> media, porque se resuelve aplicando la tabla de métodos sin relacionar conceptos distintos."],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Sobre los métodos HTTP y la forma en que transmiten los datos, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "GET lleva los datos en la URL, mediante Query o Path Params, y no debe incluir cuerpo.",
+        "B": "DELETE envía en el cuerpo de la petición el identificador del recurso que se elimina, y su código de éxito habitual es 204 No Content.",
+        "C": "En POST el cliente no indica el ID del nuevo recurso, porque lo asigna el servidor.",
+        "D": "PATCH envía los datos en el cuerpo de la petición y actualiza solo los campos indicados del recurso."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Según la tabla de métodos, DELETE lleva los datos en la URL mediante un Path Param, no en el cuerpo; solo POST, PUT y PATCH envían los datos en el cuerpo. Lo de 204 No Content sí es correcto, lo falso es dónde viaja el identificador.",
+      "explicacionesDistractores": {
+        "A": "Es cierta: GET lleva los datos en la URL (Query o Path Params) y no debe incluir cuerpo.",
+        "C": "Es cierta: en POST el cliente no indica el ID, lo asigna el servidor.",
+        "D": "Es cierta: PATCH lleva los datos en el cuerpo y modifica solo los campos indicados."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "3. Métodos HTTP y transmisión de datos" },
+        { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Matices que conviene retener" }
+      ],
+      "conocimiento": "DELETE transmite el identificador en la URL como Path Param, mientras que POST, PUT y PATCH envían los datos en el cuerpo.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "prog-09-a292c6d6",
+    "evaluador": "ev-1",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "prog-09-61fc44b9",
+    "evaluador": "ev-1",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["La wiki lo dice literalmente («Una colección así se corresponde con un List de DTOs») y el tipo es «definicion»: es una definición directa, no la comprensión de un mecanismo; corresponde a facil."],
+    "duplicadaDe": [],
+    "cambios": ["dificultad: media -> facil, porque la respuesta es la correspondencia literal que enuncia la wiki."],
+    "correccion": {
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Según el tema, cuando el controlador recibe una colección JSON (un array entre corchetes con varios objetos de la misma estructura), ¿con qué se corresponde en Java?",
+      "opciones": {
+        "A": "Con un único DTO cuyos campos son arrays que agrupan los valores de todos los objetos.",
+        "B": "Con un Map de pares clave-valor en el que cada clave es el nombre de un campo del JSON.",
+        "C": "Con un array de entidades de dominio que el parser crea directamente, sin pasar por DTOs.",
+        "D": "Con un List de DTOs, a los que el parser convierte automáticamente cada objeto JSON."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que un objeto JSON entre llaves se corresponde con un DTO y que una colección JSON entre corchetes se corresponde con un List de DTOs; el parser convierte automáticamente el texto JSON en clases Java Record (DTOs) y al revés.",
+      "explicacionesDistractores": {
+        "A": "Cada objeto JSON se corresponde con un DTO; la colección se corresponde con un List de DTOs, no con un único DTO.",
+        "B": "Los pares clave-valor son la estructura de un objeto JSON, que se corresponde con un DTO; la colección se mapea con un List.",
+        "C": "El parser convierte el JSON en clases Java Record (DTOs), no directamente en entidades de dominio."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "4. Formato de Intercambio: JSON" },
+        { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Colección JSON (Mapea con un List)" }
+      ],
+      "conocimiento": "Una colección JSON entre corchetes se corresponde con un List de DTOs, y el parser convierte el JSON en Records/DTOs automáticamente.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  }
+]

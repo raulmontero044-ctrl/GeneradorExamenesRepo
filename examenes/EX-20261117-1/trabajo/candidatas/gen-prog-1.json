@@ -1,0 +1,323 @@
+[
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Según la wiki, ¿qué afirmación describe correctamente la diferencia entre la Inyección de Dependencias (DI) y la Inversión de Control (IoC)?",
+    "opciones": {
+      "A": "La IoC es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior, y la DI es el principio más amplio que delega la creación de objetos en un contenedor.",
+      "B": "La DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior, y la IoC es un principio más amplio que delega en un componente externo el control del flujo y de la creación de objetos.",
+      "C": "La DI solo es posible cuando existe un contenedor de IoC como el de Spring; sin él, cada clase debe seguir creando sus dependencias con el operador new.",
+      "D": "Son dos nombres para el mismo mecanismo: ambos designan la inyección por constructor con atributos final que apuntan a interfaces."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki distingue ambos términos: la DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior en lugar de instanciarlas, y la IoC es un principio de diseño más amplio en el que el control del flujo de ejecución y de la creación de objetos se delega a un componente externo (ensamblador o contenedor).",
+    "explicacionesDistractores": {
+      "A": "Invierte los términos: según la wiki, la DI es el patrón y la IoC el principio más amplio.",
+      "C": "La wiki muestra que la DI puede aplicarse sin framework mediante el ensamblado manual en el método main, inyectando cada dependencia por constructor.",
+      "D": "La wiki no los trata como sinónimos: la DI es un patrón concreto y la IoC un principio más amplio; la inyección por constructor es solo la forma recomendada de DI."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Inversión de Control (IoC)" },
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Ensamblado manual del sistema" }
+    ],
+    "conocimiento": "La DI es un patrón (la clase recibe sus dependencias desde fuera) y la IoC un principio más amplio (se delega a un componente externo el control del flujo y la creación de objetos).",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Un BookRepositoryImpl tenía el atributo private BookDao bookDao y, en su constructor sin parámetros, hacía this.bookDao = new BookDaoMySql(). Se refactoriza para recibir el BookDao por constructor en un atributo private final BookDao bookDao. ¿Qué consecuencia de este cambio se deduce de la wiki?",
+    "opciones": {
+      "A": "El repositorio sigue eligiendo internamente la implementación concreta de BookDao, pero ahora el atributo es inmutable y la clase se crea en un estado válido.",
+      "B": "Las pruebas unitarias aisladas siguen sin ser posibles, porque un objeto simulado solo puede entregarse a través de un contenedor de IoC como Spring.",
+      "C": "El acoplamiento no cambia, ya que en ambas versiones el atributo se declara con el tipo de la interfaz BookDao; la única mejora es la inmutabilidad.",
+      "D": "Pasar de BookDaoMySql a BookDaoJson solo requiere modificar una línea en el ensamblado, sin tocar el código interno del repositorio ni del servicio."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "Con la inyección por constructor el repositorio ya no decide qué implementación usa: la elige un elemento externo. Entre las ventajas de IoC/DI, la wiki indica que cambiar la implementación de una capa solo requiere modificar una línea en el ensamblado, sin tocar el código del Servicio ni del Controlador (ni el interno del repositorio, que ya no nombra la clase concreta).",
+    "explicacionesDistractores": {
+      "A": "La wiki señala precisamente que, tras la refactorización, el repositorio ya no decide qué implementación concreta de BookDao usa.",
+      "B": "La wiki indica que con DI es posible pasar al constructor un objeto simulado (Mock) para probar la lógica aisladamente; no exige un contenedor.",
+      "C": "El alto acoplamiento de la versión errónea procede de crear con new la clase concreta BookDaoMySql, no del tipo declarado del atributo; con la inyección la clase depende solo de la interfaz y el acoplamiento baja."
+    },
+    "dificultad": "dificil",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Inyección por constructor (Buena práctica)" },
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Ventajas de IoC / DI" }
+    ],
+    "conocimiento": "Al pasar de crear la dependencia con new a recibirla por constructor, la clase deja de elegir la implementación y cambiar de persistencia solo requiere modificar una línea del ensamblado.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "En una aplicación por capas hay que comprobar dos cosas al registrar un pedido: que el campo cantidad llegue informado con un número, y que un cliente sin rol de administrador no pueda aplicar descuentos superiores al 20 %. Según la wiki, ¿cómo se reparten estas comprobaciones entre las capas?",
+    "opciones": {
+      "A": "La comprobación del formato de la cantidad corresponde a la capa de presentación, y la regla del descuento según el rol, a la capa de dominio.",
+      "B": "Ambas corresponden a la capa de presentación, porque es la que recibe los datos del usuario y los valida antes de llamar al dominio.",
+      "C": "La comprobación del formato corresponde a la capa de presentación, y la regla del descuento, a la capa de persistencia, que garantiza la integridad de lo que se guarda.",
+      "D": "Ambas corresponden a la capa de dominio, ya que la capa de presentación se limita a reenviar los datos sin validarlos."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki indica que la capa de presentación valida los datos de entrada solo formalmente, mientras que las validaciones complejas y los permisos son reglas de negocio que aplica la capa de dominio.",
+    "explicacionesDistractores": {
+      "B": "La presentación solo hace validaciones formales y no contiene lógica de negocio; una regla que depende del rol es una regla de negocio (permisos) del dominio.",
+      "C": "La capa de persistencia solo gestiona la lectura y escritura de datos y su conversión a objetos; las reglas de negocio pertenecen al dominio.",
+      "D": "La wiki atribuye a la capa de presentación la validación formal de los datos que recibe del usuario; no se limita a reenviarlos."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Principales Capas del Sistema" }
+    ],
+    "conocimiento": "La capa de presentación hace solo validaciones formales; las validaciones complejas y los permisos son reglas de negocio de la capa de dominio.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Un cliente quiere cambiar únicamente el precio de un libro ya existente, sin enviar el resto de sus campos. Según la wiki, ¿qué método HTTP es el adecuado y dónde viaja el dato?",
+    "opciones": {
+      "A": "PUT, con el precio en el cuerpo de la petición, porque PUT actualiza solo los campos que se le envían.",
+      "B": "PATCH, con el precio como Query Parameter, ya que una modificación parcial no necesita cuerpo.",
+      "C": "PATCH, con el precio en el cuerpo de la petición, porque actualiza solo los campos indicados del recurso.",
+      "D": "POST, con el precio en el cuerpo de la petición, porque el servidor reasigna el recurso modificado."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki define PATCH como modificación parcial: actualiza solo los campos indicados del recurso, y sus datos viajan en el cuerpo de la petición (Request Body).",
+    "explicacionesDistractores": {
+      "A": "PUT reemplaza por completo un recurso existente; la actualización de solo los campos indicados corresponde a PATCH.",
+      "B": "En PATCH, como en POST y PUT, los datos viajan en el cuerpo; en la URL solo los llevan GET y DELETE.",
+      "D": "POST es el método de creación de un nuevo recurso (el servidor asigna el ID), no de modificación de uno existente."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "3. Métodos HTTP y transmisión de datos" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Matices que conviene retener" }
+    ],
+    "conocimiento": "PATCH modifica solo los campos indicados enviándolos en el cuerpo, mientras que PUT reemplaza el recurso completo.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Un cliente ya autenticado intenta acceder a un recurso para el que no tiene permisos. Según la wiki, ¿qué código de estado HTTP corresponde a esta situación?",
+    "opciones": {
+      "A": "401 Unauthorized, porque indica que el cliente debe autenticarse.",
+      "B": "403 Forbidden, porque indica que el cliente no tiene permisos para acceder al recurso.",
+      "C": "400 Bad Request, porque indica que los datos de la petición son incorrectos.",
+      "D": "404 Not Found, porque indica que el recurso solicitado no existe."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki define 403 Forbidden como el código que indica que el cliente no tiene permisos para acceder al recurso, a diferencia de 401, que indica que debe autenticarse.",
+    "explicacionesDistractores": {
+      "A": "401 Unauthorized se refiere a la falta de autenticación; aquí el cliente ya está autenticado y lo que le falta son permisos.",
+      "C": "400 Bad Request indica datos de la petición incorrectos sintáctica o semánticamente, por ejemplo un DTO que no supera la validación.",
+      "D": "404 Not Found indica que la URL o el recurso no existe; en el caso planteado el recurso existe pero el cliente no tiene permiso."
+    },
+    "dificultad": "facil",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "5. Códigos de Estado HTTP" }
+    ],
+    "conocimiento": "401 Unauthorized indica que el cliente debe autenticarse y 403 Forbidden que, aun identificado, no tiene permisos sobre el recurso.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Según la wiki, ¿cuál de las siguientes comparaciones entre métodos HTTP es correcta?",
+    "opciones": {
+      "A": "DELETE, como GET, transmite sus datos en la URL (mediante un Path Param), y su respuesta habitual es 204 No Content, sin cuerpo.",
+      "B": "POST y PUT transmiten sus datos en el cuerpo y ambos responden habitualmente con 201 Created, porque los dos dejan un recurso nuevo en el servidor.",
+      "C": "GET transmite normalmente sus datos en Query Parameters, pero puede enviarlos en el cuerpo cuando los filtros son numerosos.",
+      "D": "PATCH, a diferencia de PUT, envía los campos en la URL, porque al modificar solo unos pocos no necesita cuerpo."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki indica que GET y DELETE llevan los datos en la URL (DELETE mediante un Path Param) y que el código de éxito habitual de DELETE es 204 No Content, que es una respuesta correcta sin cuerpo.",
+    "explicacionesDistractores": {
+      "B": "PUT reemplaza un recurso existente y su código de éxito habitual es 200 OK; 201 Created se usa en POST.",
+      "C": "La wiki es tajante: GET no debe incluir cuerpo; sus datos viajan en la URL (Query o Path Params).",
+      "D": "PATCH, igual que PUT y POST, lleva los datos en el cuerpo de la petición."
+    },
+    "dificultad": "dificil",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Matices que conviene retener" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Relación entre método y código de éxito habitual" }
+    ],
+    "conocimiento": "GET y DELETE llevan los datos en la URL (DELETE con Path Param y respuesta habitual 204), mientras POST, PUT y PATCH los llevan en el cuerpo y PUT responde habitualmente 200.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Según la wiki, ¿qué diferencia correctamente un filtro HTTP de una clase anotada con @RestControllerAdvice en Spring Boot?",
+    "opciones": {
+      "A": "El filtro se ejecuta dentro del contexto de Spring después del DispatcherServlet, mientras que el @RestControllerAdvice intercepta la petición antes de que llegue a Tomcat.",
+      "B": "El @RestControllerAdvice se ejecuta exactamente una vez por cada petición gracias a OncePerRequestFilter, mientras que el filtro solo se activa cuando se produce una excepción.",
+      "C": "Ambos actúan antes del controlador: el filtro deserializa el JSON de entrada y el @RestControllerAdvice valida las cabeceras de autenticación.",
+      "D": "El filtro intercepta la petición antes de que alcance el DispatcherServlet para tratar aspectos transversales, mientras que el @RestControllerAdvice actúa cuando una excepción escapa de un controlador para traducirla a una respuesta HTTP."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki sitúa los filtros, que forman la Filter Chain, antes del DispatcherServlet y los usa para aspectos transversales (auditoría, cabeceras de seguridad, CORS). El @RestControllerAdvice centraliza la traducción a respuestas HTTP de las excepciones que escapan de cualquier controlador.",
+    "explicacionesDistractores": {
+      "A": "Según el diagrama, la cadena de filtros está dentro de Tomcat pero fuera del contexto de Spring y actúa antes del DispatcherServlet; el advice no intercepta peticiones antes de Tomcat.",
+      "B": "OncePerRequestFilter es la clase de la que se extiende un filtro para que se ejecute una vez por petición; los métodos del advice se invocan solo cuando escapa una excepción.",
+      "C": "La deserialización del JSON la hace el DispatcherServlet con el Http Message Converter, y la verificación de cabeceras de autenticación es un uso de los filtros, no del advice."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "3. Interceptación de peticiones: Filtros HTTP" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler" }
+    ],
+    "conocimiento": "Los filtros HTTP actúan antes del DispatcherServlet para aspectos transversales, y el @RestControllerAdvice actúa cuando una excepción escapa de un controlador para traducirla a respuesta HTTP.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Tres equipos tratan de forma distinta una BookNotFoundException lanzada por el Service: el primero no hace nada, el segundo envuelve cada llamada al Service en un try-catch dentro del @RestController y el tercero usa un manejador global con @RestControllerAdvice. Según la wiki, ¿qué valoración es correcta?",
+    "opciones": {
+      "A": "Sin manejador, Spring Boot deduce el estado a partir del tipo de la excepción y responde con 404 Not Found, aunque sin un cuerpo útil para el cliente.",
+      "B": "El try-catch en el controlador es preferible si la API es pública, porque permite ocultar las trazas técnicas, algo que el manejador global no puede hacer.",
+      "C": "El try-catch puede dar respuestas correctas, pero duplica código en todos los endpoints y mezcla la presentación con la gestión de errores, que el manejador global centraliza en un único punto.",
+      "D": "El manejador global hace innecesario registrar logs de los errores, porque la traza completa viaja al cliente dentro del ApiErrorResponse."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki califica el try-catch en el controlador de antipatrón porque duplica código en todos los endpoints y mezcla la responsabilidad de presentación con la gestión de errores; el manejador global con @RestControllerAdvice traduce las excepciones en un único punto.",
+    "explicacionesDistractores": {
+      "A": "Sin manejador, el DispatcherServlet intercepta la excepción y Spring Boot genera la Whitelabel Error Page con estado 500 Internal Server Error, no 404.",
+      "B": "El manejador global termina con un @ExceptionHandler(Exception.class) que devuelve un mensaje genérico con 500, precisamente para no exponer trazas técnicas en una API pública.",
+      "D": "La wiki dice lo contrario: el detalle técnico nunca viaja al cliente, que recibe un mensaje genérico, y la traza completa se registra con log.error en el servidor."
+    },
+    "dificultad": "dificil",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Comportamiento por defecto" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "El problema de los try-catch en el controlador" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Ejemplo práctico: GlobalExceptionHandler" }
+    ],
+    "conocimiento": "Comparación entre no tratar la excepción (Whitelabel 500), el antipatrón try-catch en el controlador (duplica código y mezcla responsabilidades) y el manejador global centralizado.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Según la wiki, ¿qué afirmación describe correctamente el reparto de papeles entre SLF4J, Logback y Log4j2 en un proyecto Spring Boot?",
+    "opciones": {
+      "A": "SLF4J es la fachada con la que escribe el código y Logback la implementación incluida por defecto; cambiar a Log4j2 se hace por configuración, sin retocar ninguna clase.",
+      "B": "Logback es la fachada con la que escribe el código y SLF4J la implementación que decide el formato y el destino de cada evento.",
+      "C": "Log4j2 es la implementación incluida por defecto en Spring Boot y Logback una alternativa que se activa añadiendo su dependencia.",
+      "D": "SLF4J es la fachada, pero para usarla hay que añadir Logback como dependencia, porque Spring Boot solo incluye java.util.logging."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki indica que la fachada estándar es SLF4J (la API con la que el código emite eventos) y que Spring Boot incluye por defecto Logback como implementación; Log4j2 es una implementación alternativa sustituible por configuración, y el código solo conoce la fachada.",
+    "explicacionesDistractores": {
+      "B": "Invierte los papeles: SLF4J es la fachada y Logback la implementación que decide formato y destino.",
+      "C": "La implementación por defecto en Spring Boot es Logback; Log4j2 es la alternativa sustituible por configuración.",
+      "D": "Spring Boot ya incluye Logback detrás de SLF4J, de modo que se puede registrar desde el primer proyecto sin añadir dependencias; java.util.logging es la opción que incluye el JDK."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Fachada e implementación" }
+    ],
+    "conocimiento": "SLF4J es la fachada de logging y Logback la implementación por defecto de Spring Boot; Log4j2 es una alternativa sustituible por configuración sin tocar el código.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Según la wiki, ¿qué diferencia correctamente el token de acceso del refresh token devueltos por el login?",
+    "opciones": {
+      "A": "Ambos se envían en cada petición protegida para que el servidor pueda renovar la sesión en cuanto caduque el token de acceso.",
+      "B": "El token de acceso, de duración corta, se envía en cada petición protegida, normalmente en la cabecera Authorization con el esquema Bearer; el refresh token, más duradero, solo se envía para renovar el par.",
+      "C": "El token de acceso tiene una duración típica más larga que el refresh token, porque se usa con más frecuencia que este.",
+      "D": "El cliente conserva solo el refresh token y obtiene un token de acceso nuevo antes de cada petición protegida."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki indica que el token de acceso se envía en cada petición protegida, normalmente en la cabecera Authorization con el esquema Bearer, y tiene una duración típica corta; el refresh token tiene una duración más larga, se envía solo para renovar el par y no se incluye en las peticiones normales.",
+    "explicacionesDistractores": {
+      "A": "El refresh token no se incluye en las peticiones normales; solo se envía para renovar el par.",
+      "C": "Es al revés: la duración típica del token de acceso es corta y la del refresh token más larga.",
+      "D": "El cliente conserva ambos tokens y solo renueva cuando caduca el token de acceso, no antes de cada petición."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "3. Token de acceso y refresh token" }
+    ],
+    "conocimiento": "El token de acceso es de duración corta y se envía en cada petición protegida (Bearer); el refresh token dura más y solo se envía para renovar el par.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Según la wiki, ¿qué consigue, y qué no, la rotación del refresh token en cada renovación?",
+    "opciones": {
+      "A": "Impide que un refresh token robado pueda utilizarse, porque el servidor distingue al atacante del cliente legítimo y solo revoca los tokens del atacante.",
+      "B": "Al detectar que se presenta de nuevo un refresh token consumido, el servidor invalida solo ese token y mantiene el par más reciente para no perjudicar al cliente legítimo.",
+      "C": "Solo protege si el cliente legítimo renueva antes que el atacante; si el atacante usa primero el token robado, el reuso posterior no tiene consecuencias.",
+      "D": "No impide el robo de una credencial, pero permite detectar que se vuelve a presentar un refresh token ya consumido y responder revocando la sesión completa, aunque el cliente legítimo también la pierda."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki explica que la rotación no impide el robo; permite detectar la reutilización de un refresh token anterior y responder revocando toda la familia de tokens, incluido el par más reciente, de modo que el cliente legítimo también pierde la sesión y debe autenticarse de nuevo.",
+    "explicacionesDistractores": {
+      "A": "La wiki indica que la rotación no impide el robo y que el servidor no puede saber cuál de los dos (atacante o cliente legítimo) es el legítimo.",
+      "B": "Ante el reuso se revoca toda la familia, incluido el par más reciente; no se conserva ningún token de esa sesión.",
+      "C": "Si el atacante usa primero el token robado, el reuso posterior por el cliente legítimo también se detecta y revoca los tokens nuevos que obtuvo el atacante."
+    },
+    "dificultad": "dificil",
+    "tipo": "ventajas-inconvenientes",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Detección del reuso y revocación de la familia" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Qué consigue (y qué no) la rotación" }
+    ],
+    "conocimiento": "La rotación del refresh token no impide el robo, pero permite detectar su reutilización y revocar toda la familia, aunque el cliente legítimo pierda también la sesión.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Según la wiki, al comparar dónde guardar el Principal mientras se procesa una petición web síncrona, ¿qué afirmación es correcta?",
+    "opciones": {
+      "A": "Un campo static mutable equivale al SecurityContext del ejemplo, ya que su campo CURRENT también es static y guarda un único Principal global para todas las peticiones.",
+      "B": "Una variable local es la opción preferible, porque no hay que limpiarla y queda disponible para todos los componentes que invoca el método.",
+      "C": "Un ThreadLocal asocia el valor al hilo actual, lo que evita mezclar identidades de distintos clientes, pero hay que limpiarlo en finally porque Tomcat reutiliza los hilos.",
+      "D": "Un ThreadLocal no necesita limpieza, porque cada petición se atiende en un hilo nuevo que se destruye al terminar."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki indica que ThreadLocal asocia el valor al hilo actual y permite consultar un contexto común sin pasar el Principal por cada llamada; como Tomcat reutiliza hilos, debe limpiarse en finally para que una petición posterior no herede el Principal de otra.",
+    "explicacionesDistractores": {
+      "A": "Aunque CURRENT es static, lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente por hilo; un campo static mutable sí se comparte entre peticiones y puede mezclar identidades.",
+      "B": "Una variable local solo está disponible en ese método; habría que pasarla explícitamente por todos los componentes invocados.",
+      "D": "La wiki advierte de que el hilo puede reutilizarse (Tomcat reutiliza hilos), por lo que el ThreadLocal debe limpiarse."
+    },
+    "dificultad": "media",
+    "tipo": "diferencias",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Dónde guardar el Principal" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Clase SecurityContext" }
+    ],
+    "conocimiento": "Frente a una variable local o un campo static mutable, ThreadLocal guarda el Principal por hilo sin mezclar identidades, pero debe limpiarse porque los hilos se reutilizan.",
+    "autor": "gen-prog-1",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  }
+]

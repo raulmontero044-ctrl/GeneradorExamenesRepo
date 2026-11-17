@@ -1,0 +1,279 @@
+[
+  {
+    "id": "dws-01-d89ede9e",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Evalúa el mismo conocimiento central que dws-01-dc81d8a5 (la interfaz Repository está en domain y el DAO entero en persistence); el distractor B de aquella es exactamente la confusión que aquí se pregunta."],
+    "duplicadaDe": ["dws-01-dc81d8a5"],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-2da6cdb3",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["La correcta reproduce casi literalmente la tabla de estilos de despliegue y es la opción más equilibrada, lo que la hace algo reconocible; la dificultad se sostiene en que los distractores A y C exigen conocer matices (base de datos compartida, eventos sin aislamiento).", "Se solapa con dws-01-6a85cffb: los distractores A y C de esta evalúan los mismos matices que las opciones A y B de aquella."],
+    "duplicadaDe": ["dws-01-6a85cffb"],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-86b82494",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Evalúa el mismo conocimiento central que dws-01-f6528928: el emisor asíncrono no espera al consumidor y la mensajería no garantiza un procesamiento exactamente una vez, por lo que hay que tolerar duplicados."],
+    "duplicadaDe": ["dws-01-f6528928"],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-8980dc53",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["La correcta es el resumen literal de la wiki; está en el límite entre fácil y media, pero los distractores A y B (intercambio de papeles e independencia) requieren entender el sentido de cada herramienta."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-b169a728",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["El enunciado ya adelanta que el contrato no debe depender del código Java, lo que descarta B con facilidad; aun así C y D exigen conocer dos matices distintos (una única fuente de verdad, no editar las clases generadas)."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-9d451b3d",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Su conocimiento central (abrir Swagger UI no demuestra la conformidad; las pruebas HTTP de controller verifican el comportamiento integrado) forma parte también de la respuesta correcta de dws-02-5c909ffa."],
+    "duplicadaDe": ["dws-02-5c909ffa"],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-f32832a8",
+    "evaluador": "ev-3",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": false, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["El enunciado dice que el núcleo define interfaces de entrada y de salida «que implementan componentes conectados a la base de datos y al correo». Según el diagrama de la wiki, el puerto de entrada (InputPort) no lo implementa un adaptador tecnológico: lo implementa BusinessService, dentro del núcleo, y lo invoca el adaptador de entrada (RestController). Solo los puertos de salida los implementan adaptadores conectados a la base de datos y al correo."],
+    "duplicadaDe": [],
+    "cambios": ["Enunciado: se precisa que las interfaces de entrada las invocan los controladores y que solo las de salida las implementan componentes conectados a la base de datos y al correo, para que encaje con el diagrama de puertos y adaptadores de la wiki.", "Explicación de C: se ajusta la descripción de lo que se describe en el enunciado para que coincida con la nueva redacción."],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Un equipo empaqueta su aplicación como un único artefacto desplegable dividido en módulos que colaboran en el mismo proceso a través de sus APIs públicas. Dentro de cada módulo, el núcleo define interfaces de entrada, que invocan los controladores, e interfaces de salida, que implementan componentes conectados a la base de datos y al correo. ¿Cómo se clasifica correctamente esta aplicación?",
+      "opciones": {
+        "A": "Como microservicios, porque cada módulo tiene límites explícitos y una API propia con la que lo invocan los demás",
+        "B": "Como monolito modular por su despliegue y como arquitectura hexagonal por su organización interna, dos criterios independientes que se combinan",
+        "C": "Como arquitectura de cebolla, porque el despliegue único obliga a organizar el código en anillos alrededor del dominio",
+        "D": "Como monolito por su despliegue, lo que impide aplicar principios de arquitectura limpia como los puertos y adaptadores"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki distingue cómo se despliega (monolito, monolito modular, microservicios) de cómo se organiza el código (capas, hexagonal, cebolla) y los presenta como criterios independientes que se combinan. Un único despliegue con módulos que colaboran en el mismo proceso mediante APIs públicas es un monolito modular; un núcleo que define puertos de entrada (invocados por adaptadores de entrada) y de salida (implementados por adaptadores tecnológicos) es arquitectura hexagonal.",
+      "explicacionesDistractores": {
+        "A": "Los microservicios son varios servicios desplegables que se comunican por red; la wiki advierte que no son simplemente módulos separados en carpetas o proyectos. Aquí hay un único despliegue y comunicación en el mismo proceso.",
+        "C": "La cebolla es una forma de organizar el código, no una consecuencia del despliegue; además, lo descrito (puertos de entrada y de salida definidos por el núcleo, con adaptadores que los usan o implementan) corresponde a puertos y adaptadores.",
+        "D": "Hay módulos con APIs públicas, por lo que es un monolito modular, y en cualquier caso la wiki afirma que un monolito puede aplicar principios de arquitectura limpia."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.1 Monolito, monolito modular y microservicios" },
+        { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "2.2 Arquitectura hexagonal (Ports and Adapters)" }
+      ],
+      "conocimiento": "La arquitectura de despliegue (monolito modular) y la organización interna (hexagonal) son criterios independientes que se combinan en una misma aplicación.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "dws-01-f6528928",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["El distractor C (solo en la comunicación síncrona pueden repetirse las respuestas) es débil y fácil de descartar.", "Evalúa el mismo conocimiento central que dws-01-86b82494."],
+    "duplicadaDe": ["dws-01-86b82494"],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-dc81d8a5",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["«Los cambios quedan confinados en la capa persistence» es una inferencia: la wiki dice que se puede cambiar la persistencia sin reescribir las reglas y que todas las dependencias apuntan hacia domain. La inferencia es razonable y ningún distractor compite con ella.", "La etiqueta dificil está en el límite: cada distractor se refuta con un solo hecho del diagrama. Se mantiene porque obliga a relacionar el principio DIP y la independencia de la base de datos con el diagrama.", "Se solapa en su conocimiento central con dws-01-d89ede9e (la interfaz Repository en domain frente al DAO en persistence)."],
+    "duplicadaDe": ["dws-01-d89ede9e"],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-26a7af0d",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-e6cc6747",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["La explicación de B dice que springdoc-openapi no actualiza orders-api.yaml; la wiki no lo dice literalmente, pero se deduce de que genera documentación a partir del código y no a partir del archivo."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-5c909ffa",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["La segunda mitad de la correcta (Swagger UI no demuestra por sí solo la conformidad) es el conocimiento central de dws-02-9d451b3d."],
+    "duplicadaDe": ["dws-02-9d451b3d"],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-6a85cffb",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["La afirmación incorrecta (B) es la negación directa de una frase de la wiki. Se mantiene como dificil porque hay que validar cuatro matices de dos secciones.", "Se solapa con dws-01-2da6cdb3 (base de datos compartida en el monolito modular, eventos sin aislamiento) y en parte con dws-01-86b82494 y dws-01-f6528928 (opción D)."],
+    "duplicadaDe": ["dws-01-2da6cdb3"],
+    "cambios": []
+  },
+  {
+    "id": "dws-01-370f431d",
+    "evaluador": "ev-3",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["Pide la idea clave de un principio tal como aparece en la tabla de la wiki: es una definición directa, así que corresponde a facil, no a media.", "D es una consecuencia del DIP; queda descartada solo porque el enunciado dice «exactamente». Es aceptable porque la tabla asigna D a otro principio, pero el distractor está en el límite."],
+    "duplicadaDe": [],
+    "cambios": ["dificultad: media -> facil, porque es la definición directa de la tabla de principios."],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Entre los principios de la arquitectura limpia, ¿qué idea clave corresponde exactamente al principio de inversión de dependencias (DIP)?",
+      "opciones": {
+        "A": "El framework es una herramienta y no el centro de la aplicación, por lo que el negocio no se construye alrededor de él.",
+        "B": "Los detalles externos definen las interfaces que necesitan y el núcleo de negocio las consume para comunicarse con ellos.",
+        "C": "El núcleo define las abstracciones que necesita y los detalles externos las implementan.",
+        "D": "Se puede cambiar la tecnología de persistencia sin reescribir las reglas del negocio."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La tabla de principios de la arquitectura limpia asigna al principio de inversión de dependencias (DIP) la idea «el núcleo define las abstracciones que necesita; los detalles externos las implementan». Es lo que ocurre cuando domain define la interfaz Repository y persistence la implementa.",
+      "explicacionesDistractores": {
+        "A": "Es la idea clave del principio de independencia de frameworks, no la del DIP.",
+        "B": "Invierte el sentido del principio: según la wiki es el núcleo quien define las abstracciones y son los detalles externos quienes las implementan, no al revés.",
+        "D": "Es la idea clave del principio de independencia de la base de datos; puede ser una consecuencia del DIP, pero no es la definición que la wiki da para él."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "1. Principios de arquitectura limpia" }
+      ],
+      "conocimiento": "El principio de inversión de dependencias establece que el núcleo define las abstracciones que necesita y los detalles externos las implementan.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "dws-01-3f0b4e77",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-64d30588",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["Pregunta de definición directa, bien construida pero de poca profundidad. El intercambio de papeles de la opción A también aparece como distractor en dws-02-9d451b3d, aunque allí no es el conocimiento central."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-5a91be94",
+    "evaluador": "ev-3",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["La opción D repite el conocimiento central de dws-02-8980dc53 como afirmación verdadera; no la convierte en duplicada porque lo que aquí se evalúa es la falta de independencia del documento de springdoc-openapi."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-02-b4aa4901",
+    "evaluador": "ev-3",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": false, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["Pide la definición literal de cambio incompatible: es una definición directa, así que corresponde a facil.", "La explicación de la correcta presenta eliminar un campo, cambiar su tipo o alterar el significado de una respuesta como ejemplos de cambio incompatible sin matiz; la wiki dice que son ejemplos que «pueden» romper clientes."],
+    "duplicadaDe": [],
+    "cambios": ["dificultad: media -> facil, porque es una definición directa de la sección 4.", "explicacionCorrecta: se matiza que los ejemplos «pueden» romper clientes, como dice la wiki."],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Según la wiki, ¿cuándo se considera incompatible un cambio en el contrato de una API?",
+      "opciones": {
+        "A": "Cuando modifica la implementación del controller, aunque las solicitudes y respuestas que ve el consumidor permanezcan iguales.",
+        "B": "Cuando obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas.",
+        "C": "Cuando, tras regenerar la documentación, el cambio no aparece reflejado en Swagger UI.",
+        "D": "Cuando modifica el archivo OpenAPI, aunque no afecte a cómo los consumidores construyen sus solicitudes ni interpretan las respuestas."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki define un cambio incompatible como aquel que obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas. Como ejemplos de cambios que pueden romper clientes cita eliminar un campo, cambiar su tipo o alterar el significado de una respuesta.",
+      "explicacionesDistractores": {
+        "A": "Un cambio interno que no altera solicitudes ni respuestas no obliga a los consumidores a cambiar nada, así que no encaja en la definición de cambio incompatible.",
+        "C": "La compatibilidad no se define por lo que muestra Swagger UI; además, la wiki señala que abrir Swagger UI no demuestra por sí solo la conformidad.",
+        "D": "Modificar el archivo no basta: lo que hace incompatible un cambio es que obligue a los consumidores a cambiar sus solicitudes o su interpretación de las respuestas."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "4. Cambios y comprobaciones" }
+      ],
+      "conocimiento": "Un cambio es incompatible si obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  }
+]

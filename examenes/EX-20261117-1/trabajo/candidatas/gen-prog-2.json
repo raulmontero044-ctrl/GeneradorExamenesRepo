@@ -1,0 +1,331 @@
+[
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Una aplicación de libros se ensambla manualmente en el método main e inyecta cada dependencia por constructor a través de interfaces. El equipo decide sustituir la persistencia BookDaoMySql por BookDaoJson. Según la wiki, ¿qué cambio es necesario?",
+    "opciones": {
+      "A": "Modificar el constructor de BookRepositoryImpl para que instancie BookDaoJson en lugar de BookDaoMySql.",
+      "B": "Cambiar únicamente la línea del ensamblado que instancia el DAO, sin tocar el servicio ni el controlador.",
+      "C": "Cambiar el tipo del atributo de BookRepositoryImpl a BookDaoJson para que acepte la nueva implementación.",
+      "D": "Modificar BookServiceImpl y BookController, porque dependen indirectamente de la implementación del DAO."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "Con DI e IoC cada capa depende de interfaces y la única línea del main que nombra la implementación concreta de persistencia es la que instancia el DAO; la wiki indica que cambiar la implementación de una capa solo requiere modificar una línea en el ensamblado, sin tocar el código del Servicio ni del Controlador.",
+    "explicacionesDistractores": {
+      "A": "Que el repositorio instancie su DAO con new es precisamente el error habitual que la wiki señala; con inyección por constructor el repositorio ya no decide qué implementación concreta usa.",
+      "C": "El atributo inyectado es private final BookDao, es decir, apunta a la interfaz; por eso admite cualquier implementación sin cambiar su tipo.",
+      "D": "La wiki afirma que el cambio de persistencia se hace sin tocar el código del Servicio ni del Controlador, porque cada capa depende de interfaces y no de implementaciones concretas."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Ensamblado manual del sistema" },
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Ventajas de IoC / DI" }
+    ],
+    "conocimiento": "Con inyección por constructor y ensamblado manual, cambiar la implementación de persistencia solo exige modificar la línea del ensamblado que instancia el DAO.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "En el contenedor de IoC casero (IoCContainer) construido con el patrón Factoría, ¿cómo se crean y conectan los componentes y qué hace la clase Main?",
+    "opciones": {
+      "A": "El contenedor crea primero el BookController, que a su vez instancia su BookService, y Main pide el controlador y llama a run().",
+      "B": "Main instancia el DAO concreto y se lo entrega al contenedor, que crea el resto de capas y devuelve el controlador listo.",
+      "C": "El contenedor crea los componentes de arriba abajo, del controlador al DAO, y Main recorre cada uno para conectarlos antes de ejecutar.",
+      "D": "El contenedor crea el DAO, lo inyecta en el repositorio, este en el servicio y este en el controlador; Main solo pide el controlador y llama a run()."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki describe que IoCContainer, en su constructor, crea BookDaoMySql, se lo pasa a BookRepositoryImpl, este a BookServiceImpl y este a BookController (el mismo orden de abajo arriba que el ensamblado manual). Main se simplifica: crea el contenedor, llama a getBookController() y ejecuta run().",
+    "explicacionesDistractores": {
+      "A": "En el contenedor ninguna clase instancia a sus colaboradores; es el contenedor quien asume la responsabilidad de crear e inyectar, empezando por el DAO.",
+      "B": "Con el contenedor, Main ya no necesita saber cómo se construyen ni conectan las capas; es el propio contenedor quien crea new BookDaoMySql().",
+      "C": "El orden es de abajo arriba (DAO, repositorio, servicio, controlador) y la conexión la hace el contenedor, no Main."
+    },
+    "dificultad": "media",
+    "tipo": "funcionamiento-interno",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "El contenedor de IoC (IoC Container)" },
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Ensamblado manual del sistema" }
+    ],
+    "conocimiento": "El IoCContainer casero crea e inyecta los componentes de abajo arriba (DAO, repositorio, servicio, controlador) y Main solo le pide el controlador y lo ejecuta.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-08",
+    "enunciado": "Llega una petición para dar de alta un libro con isbn, title y basePrice, y la respuesta debe devolver el precio final calculado. ¿Qué reparto de responsabilidades es coherente con la arquitectura por capas y los DTO descritos en la wiki?",
+    "opciones": {
+      "A": "El controlador valida formalmente los datos recibidos, el dominio aplica la regla que obtiene el precio final y el mapper lo traslada al BookResponse.",
+      "B": "El controlador calcula el precio final antes de llamar al servicio, ya que es la capa que devuelve el resultado formateado al cliente.",
+      "C": "El BookCreateRequest incluye el ID del libro para que el repositorio sepa dónde guardarlo, y el dominio calcula el precio final.",
+      "D": "El DAO calcula el precio final al leer los datos, porque la persistencia convierte la información en objetos manejables por el dominio."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La capa de presentación solo hace validaciones formales; las reglas de negocio (cálculos) pertenecen al dominio. En el ejemplo, BookMapper.toResponse crea el BookResponse con domain.getFinalPrice(), que es donde se aplica la regla del dominio.",
+    "explicacionesDistractores": {
+      "B": "La capa de presentación no contiene lógica de negocio; los cálculos son reglas de negocio de la capa de dominio.",
+      "C": "El Request DTO de creación transporta solo los campos requeridos y va sin ID, porque el ID lo asigna el sistema.",
+      "D": "La persistencia se limita a leer y escribir datos y convertirlos en objetos; aplicar reglas de negocio como los cálculos corresponde al dominio."
+    },
+    "dificultad": "dificil",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Principales Capas del Sistema" },
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "Conversión entre objetos: Mapeadores (Mappers)" },
+      { "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md", "seccion": "3. DTOs (Data Transfer Objects) y Java Records" }
+    ],
+    "conocimiento": "En el alta de un libro, la presentación valida formalmente, el dominio aplica el cálculo del precio final y el mapper lo traslada al Response DTO; el Request DTO de creación no lleva ID.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Un cliente quiere cambiar únicamente el precio del libro con ID 12, sin enviar el resto de sus campos. Siguiendo las buenas prácticas de la wiki, ¿qué petición debe hacer y qué código de éxito es el habitual?",
+    "opciones": {
+      "A": "PUT /books/12 con solo el precio en el cuerpo, y respuesta 200 OK.",
+      "B": "GET /books/12?price=20 con el nuevo precio como parámetro de consulta, y respuesta 200 OK.",
+      "C": "PATCH /books/12 con el precio en el cuerpo de la petición, y respuesta 200 OK.",
+      "D": "POST /updateBook con el ID y el precio en el cuerpo, y respuesta 201 Created."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "PATCH es la modificación parcial: actualiza solo los campos indicados, los datos viajan en el cuerpo y su código de éxito habitual es 200 OK. El recurso se identifica con un sustantivo en plural en la ruta.",
+    "explicacionesDistractores": {
+      "A": "PUT reemplaza por completo el recurso existente; no es el método para modificar solo un campo.",
+      "B": "GET es un método de lectura; no sirve para modificar un recurso.",
+      "D": "Usar verbos en la URL es una mala práctica (la acción la determina el método HTTP) y POST con 201 Created corresponde a la creación de un recurso nuevo."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "3. Métodos HTTP y transmisión de datos" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Relación entre método y código de éxito habitual" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Buenas prácticas en el diseño de Endpoints" }
+    ],
+    "conocimiento": "Para modificar solo algunos campos de un recurso se usa PATCH con los datos en el cuerpo, cuyo código de éxito habitual es 200 OK.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Un cliente envía una petición POST a /api/v1/books con un objeto JSON que contiene isbn, title y basePrice. Según la wiki, ¿qué describe correctamente lo que ocurre en el servidor?",
+    "opciones": {
+      "A": "El parser convierte el objeto JSON en un DTO, el servidor asigna el ID al nuevo recurso y, si todo va bien, responde 201 Created.",
+      "B": "El parser convierte el objeto JSON en un DTO y, si falla su validación, el servidor responde 500 Internal Server Error por ser un fallo interno.",
+      "C": "El parser convierte el objeto JSON en un DTO y, al ser una creación correcta, el servidor responde 204 No Content sin cuerpo.",
+      "D": "El parser convierte el objeto JSON en un DTO, que debe incluir el ID del libro para que el servidor pueda crear el recurso."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La librería del servidor (parser) convierte automáticamente el objeto JSON en un DTO record; en POST el cliente no indica el ID porque lo asigna el servidor, y el código para un recurso creado con éxito es 201 Created.",
+    "explicacionesDistractores": {
+      "B": "Si falla la validación de un DTO, los datos de la petición son incorrectos y la respuesta es 400 Bad Request, un error del cliente; el 500 se reserva para excepciones o fallos no controlados del código del servidor.",
+      "C": "El 204 No Content es común en DELETE; para un POST que crea el recurso con éxito se usa 201 Created.",
+      "D": "En POST el cliente no indica el ID: lo asigna el servidor."
+    },
+    "dificultad": "dificil",
+    "tipo": "funcionamiento-interno",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "4. Formato de Intercambio: JSON" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "Matices que conviene retener" },
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "5. Códigos de Estado HTTP" }
+    ],
+    "conocimiento": "En un POST, el parser convierte el JSON en un DTO, el servidor asigna el ID y responde 201 Created; un fallo de validación del DTO es 400, no 500.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-09",
+    "enunciado": "Dos peticiones intentan acceder al mismo recurso restringido de una API: la primera llega sin que el cliente se haya autenticado; la segunda, de un cliente autenticado que no tiene permisos sobre ese recurso. ¿Qué códigos de estado corresponden, respectivamente, según la wiki?",
+    "opciones": {
+      "A": "403 Forbidden para la primera y 401 Unauthorized para la segunda.",
+      "B": "400 Bad Request para la primera y 403 Forbidden para la segunda.",
+      "C": "401 Unauthorized para la primera y 404 Not Found para la segunda.",
+      "D": "401 Unauthorized para la primera y 403 Forbidden para la segunda."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "401 Unauthorized indica que el cliente debe autenticarse, y 403 Forbidden que el cliente no tiene permisos para acceder al recurso.",
+    "explicacionesDistractores": {
+      "A": "Invierte los significados: 401 es la falta de autenticación y 403 la falta de permisos.",
+      "B": "400 Bad Request indica datos de la petición incorrectos sintáctica o semánticamente, no la falta de autenticación.",
+      "C": "404 Not Found indica que la URL o el recurso no existe; la falta de permisos sobre un recurso existente es 403."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md", "seccion": "5. Códigos de Estado HTTP" }
+    ],
+    "conocimiento": "Una petición sin autenticar recibe 401 Unauthorized y una petición autenticada sin permisos recibe 403 Forbidden.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Llega a una aplicación Spring Boot una petición POST /api/v1/books con un cuerpo JSON y hay un filtro de auditoría registrado. ¿En qué orden se procesa la petición según la wiki?",
+    "opciones": {
+      "A": "DispatcherServlet recibe la petición, la cadena de filtros la audita, el Handler Mapping localiza el método, se invoca el controlador y este deserializa el JSON.",
+      "B": "Cadena de filtros, DispatcherServlet, Handler Mapping localiza el controlador y método, deserialización del JSON a DTO, invocación del método y serialización del resultado.",
+      "C": "Cadena de filtros, DispatcherServlet, deserialización del JSON a DTO, Handler Mapping elige el método según el tipo del DTO, invocación y serialización.",
+      "D": "Cadena de filtros, Handler Mapping localiza el controlador, DispatcherServlet deserializa el JSON, invocación del método y serialización del resultado."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "Los filtros actúan antes del DispatcherServlet; este intercepta la petición, consulta el Handler Mapping para localizar el @RestController y el método según ruta y verbo, deserializa el cuerpo JSON a Record/DTO, invoca el método y serializa a JSON el resultado devuelto.",
+    "explicacionesDistractores": {
+      "A": "Los filtros interceptan la petición antes de que alcance el DispatcherServlet, y la deserialización la realiza el framework antes de invocar al controlador, que recibe los argumentos ya procesados.",
+      "C": "El enrutamiento se hace según la ruta y el verbo HTTP, no según el tipo del DTO, y ocurre antes de la deserialización.",
+      "D": "Es el DispatcherServlet quien recibe la petición tras los filtros y consulta después el Handler Mapping; el Handler Mapping no actúa antes que el Front Controller."
+    },
+    "dificultad": "dificil",
+    "tipo": "funcionamiento-interno",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Flujo de ejecución de una petición" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "3. Interceptación de peticiones: Filtros HTTP" }
+    ],
+    "conocimiento": "Orden de procesamiento en Spring Boot: filtros, DispatcherServlet, Handler Mapping (ruta y verbo), deserialización JSON a DTO, invocación del controlador y serialización de la respuesta.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "Una API tiene un GlobalExceptionHandler con @ExceptionHandler para BookNotFoundException, IllegalArgumentException y Exception. Un cliente pide GET /api/v1/books/99 y ese libro no existe. ¿Qué ocurre?",
+    "opciones": {
+      "A": "El controlador captura la excepción con un try-catch y construye él mismo la respuesta 404 con el mensaje de error.",
+      "B": "Como también hay un manejador para Exception, este captura la excepción y devuelve un 500 con el mensaje genérico de error interno.",
+      "C": "El servicio lanza BookNotFoundException, el controlador la deja pasar y el DispatcherServlet recurre al manejador específico, que devuelve un 404 con el mensaje.",
+      "D": "El DispatcherServlet intercepta la excepción y genera la Whitelabel Error Page con estado 500, porque la excepción ha salido del controlador."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "Según el flujo descrito, findById lanza BookNotFoundException, el controlador propaga la excepción, el DispatcherServlet busca el @ExceptionHandler y Spring invoca el más específico según la jerarquía de clases, que devuelve un ResponseEntity 404 con un ApiErrorResponse.",
+    "explicacionesDistractores": {
+      "A": "En el flujo del manejador global el controlador no captura la excepción; envolver cada llamada en try-catch es el antipatrón que se evita.",
+      "B": "Spring invoca siempre el manejador más específico: una BookNotFoundException activa su propio manejador y no el genérico de Exception.",
+      "D": "La Whitelabel Error Page es el comportamiento por defecto cuando no hay manejador; con @RestControllerAdvice el DispatcherServlet recurre al @ExceptionHandler adecuado."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Flujo de una excepción no controlada" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Manejo centralizado: @RestControllerAdvice y @ExceptionHandler" }
+    ],
+    "conocimiento": "Con un manejador global, una BookNotFoundException lanzada por el servicio se propaga sin capturar y el DispatcherServlet invoca el @ExceptionHandler más específico, que devuelve 404.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-10",
+    "enunciado": "En producción, el paquete del proyecto está configurado con nivel INFO y una clase ejecuta log.debug(\"Libro {} recuperado\", id) con un logger de SLF4J. ¿Qué ocurre con ese evento según la wiki?",
+    "opciones": {
+      "A": "Se registra igualmente, porque el nivel solo sirve para destacar visualmente el mensaje en la consola.",
+      "B": "Se construye el texto sustituyendo el marcador por el id y después se descarta por no alcanzar el nivel configurado.",
+      "C": "Se registra solo en el fichero indicado en logging.file.name, porque la consola únicamente muestra el nivel INFO.",
+      "D": "No se registra, y gracias al marcador {} el texto del mensaje ni siquiera llega a formatearse."
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "DEBUG es menos severo que INFO, de modo que con el paquete en INFO ese evento no se registra (DEBUG se usa para desarrollo e INFO para producción). Los mensajes de SLF4J con marcadores {} se formatean solo si el nivel está activo, lo que evita construir cadenas para eventos que no se van a registrar.",
+    "explicacionesDistractores": {
+      "A": "El nivel permite filtrar o destacar cada mensaje; la configuración por paquete decide qué se registra, de modo que el mismo código muestra más o menos detalle.",
+      "B": "Con marcadores {} el texto se formatea solo si el nivel está activo; precisamente se evita construir la cadena de un evento que no se va a registrar.",
+      "C": "logging.file.name añade una salida a fichero además de la consola; no cambia qué niveles se registran."
+    },
+    "dificultad": "dificil",
+    "tipo": "funcionamiento-interno",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Registrar eventos en el código" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "Configuración de niveles y destinos" },
+      { "archivo": "wiki/programacion/tema-10-spring-boot/contenido.md", "seccion": "El evento de log y sus niveles" }
+    ],
+    "conocimiento": "Un evento DEBUG con el paquete en INFO no se registra y, al usar marcadores {} de SLF4J, su texto no se formatea porque el nivel no está activo.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Un atacante roba el refresh token R1 y lo usa para renovar antes que el cliente legítimo, obteniendo un nuevo par. Después, el cliente legítimo presenta R1. Con rotación y detección de reuso, ¿qué ocurre según la wiki?",
+    "opciones": {
+      "A": "El servidor detecta que R1 ya se consumió y revoca toda la familia, incluidos los tokens obtenidos por el atacante; el cliente legítimo debe autenticarse de nuevo.",
+      "B": "El servidor rechaza la renovación del cliente legítimo, pero mantiene válidos los tokens del atacante porque se emitieron en una renovación correcta.",
+      "C": "El servidor identifica al cliente legítimo por ser el titular original de la sesión y revoca solo el par que obtuvo el atacante.",
+      "D": "La situación no puede darse, porque la rotación del refresh token impide que una credencial robada llegue a usarse."
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "Si se presenta otra vez un refresh token ya consumido, el servidor revoca toda la familia, incluido el par más reciente. La wiki precisa que si el atacante usa primero el token robado, el reuso posterior por el cliente legítimo revoca también los tokens nuevos, y el cliente legítimo pierde la sesión.",
+    "explicacionesDistractores": {
+      "B": "Al detectar el reuso se revoca toda la familia, incluido el par más reciente, que en este caso es el del atacante.",
+      "C": "El servidor no puede saber cuál de los dos es legítimo; por eso revoca la familia completa en lugar de una parte.",
+      "D": "La rotación no impide el robo de una credencial; lo que permite es detectar la reutilización y responder revocando la sesión completa."
+    },
+    "dificultad": "dificil",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Qué consigue (y qué no) la rotación" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Detección del reuso y revocación de la familia" }
+    ],
+    "conocimiento": "Si el atacante usa primero un refresh token robado, su reuso posterior por el cliente legítimo hace que se revoque toda la familia, incluidos los tokens del atacante.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "El filtro AccessTokenFilter guarda el Principal en SecurityContext, que usa un campo static de tipo ThreadLocal, y lo limpia en un bloque finally. ¿Por qué es imprescindible esa limpieza según la wiki?",
+    "opciones": {
+      "A": "Porque el campo static hace que todas las peticiones compartan el mismo Principal y hay que vaciarlo para que no lo use otro cliente simultáneo.",
+      "B": "Porque el token de acceso caduca al terminar cada petición y el Principal asociado dejaría de ser válido en la siguiente.",
+      "C": "Porque Tomcat reutiliza hilos y, si no se elimina el valor, una petición posterior atendida por el mismo hilo podría heredar el Principal de otra.",
+      "D": "Porque OncePerRequestFilter ejecuta el filtro dos veces por petición y la segunda ejecución encontraría el contexto ocupado."
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "ThreadLocal asocia el valor al hilo actual y hay que limpiarlo porque el hilo puede reutilizarse; la wiki avisa de que todo contexto guardado en ThreadLocal debe limpiarse en finally porque Tomcat reutiliza hilos y una petición posterior podría heredar el Principal de otra.",
+    "explicacionesDistractores": {
+      "A": "Aunque CURRENT es static, lo que se comparte es el objeto ThreadLocal, que mantiene un valor independiente para cada hilo; no guarda un Principal global para todos.",
+      "B": "La limpieza no se debe a la caducidad del token: el token de acceso tiene una duración corta pero se envía en cada petición protegida; el motivo es la reutilización de hilos.",
+      "D": "OncePerRequestFilter garantiza precisamente que el filtro se ejecute exactamente una vez por cada petición HTTP."
+    },
+    "dificultad": "media",
+    "tipo": "funcionamiento-interno",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Clase SecurityContext" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Rutas públicas y protegidas" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Dónde guardar el Principal" }
+    ],
+    "conocimiento": "El SecurityContext basado en ThreadLocal debe limpiarse en finally porque Tomcat reutiliza hilos y otra petición podría heredar el Principal.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "prog",
+    "tema": "prog-12",
+    "enunciado": "Una petición llega a una ruta protegida sin cabecera Authorization. Según el funcionamiento de AccessTokenFilter y del controlador descritos en la wiki, ¿qué ocurre?",
+    "opciones": {
+      "A": "El filtro detecta que falta el token, corta la cadena sin llamar a doFilter y responde directamente al cliente.",
+      "B": "El filtro no obtiene token, continúa la cadena sin Principal y el controlador, al encontrar el contexto vacío, lanza AuthenticationRequiredException.",
+      "C": "El filtro guarda en el contexto un Principal anónimo sin roles, y el controlador deniega la operación al comprobar los permisos.",
+      "D": "El filtro intenta renovar la sesión con el refresh token del cliente y, si lo consigue, guarda el nuevo Principal en el contexto."
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "extractBearerToken devuelve null si la cabecera Authorization es null; sin token no se autentica nada y el filtro continúa la cadena con chain.doFilter. En una ruta protegida, el controlador consulta SecurityContext.get() y, si es null, lanza AuthenticationRequiredException.",
+    "explicacionesDistractores": {
+      "A": "El filtro de ejemplo siempre continúa la cadena con chain.doFilter; es el controlador de la ruta protegida quien rechaza la operación si no hay identidad autenticada.",
+      "C": "El filtro solo guarda un Principal si authService.authenticate devuelve uno (ifPresent); sin token el contexto queda vacío, no con un Principal anónimo.",
+      "D": "El refresh token no se incluye en las peticiones normales; solo se envía para renovar el par, y el filtro no realiza la renovación."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "El filtro AccessTokenFilter" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "Rutas públicas y protegidas" },
+      { "archivo": "wiki/programacion/tema-12-login-tokens/contenido.md", "seccion": "3. Token de acceso y refresh token" }
+    ],
+    "conocimiento": "Sin cabecera Authorization, AccessTokenFilter continúa la cadena sin Principal y es el controlador de la ruta protegida quien lanza AuthenticationRequiredException.",
+    "autor": "gen-prog-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  }
+]

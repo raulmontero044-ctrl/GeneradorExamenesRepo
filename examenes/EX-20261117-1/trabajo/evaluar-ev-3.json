@@ -1,0 +1,740 @@
+{
+  "preguntas": [
+    {
+      "id": "dws-01-d89ede9e",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "En la arquitectura por capas de referencia, la capa de persistencia contiene tanto un repositorio como un DAO. ¿Qué diferencia hay entre ambos en cuanto a dónde se sitúan su interfaz y su implementación?",
+      "opciones": {
+        "A": "Las interfaces Repository y DAO se definen ambas en domain, y sus implementaciones RepositoryImpl y DAOImpl están en persistence.",
+        "B": "La interfaz Repository se define en domain y la implementa RepositoryImpl en persistence, mientras que el DAO tiene interfaz e implementación dentro de persistence.",
+        "C": "La interfaz DAO se define en domain para invertir la dependencia, mientras que Repository tiene interfaz e implementación dentro de persistence.",
+        "D": "Repository y DAO tienen interfaz e implementación dentro de persistence, y domain solo conoce la interfaz Service que los coordina."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica que domain contiene las interfaces de repositorio y persistence sus implementaciones y los DAO; Service y Repository son interfaces implementadas por ServiceImpl y RepositoryImpl, y el DAO también se separa en interfaz e implementación, ambas dentro de persistence. Que domain defina Repository y persistence lo implemente es la inversión de dependencias.",
+      "explicacionesDistractores": {
+        "A": "La interfaz DAO no está en domain: la wiki indica que la interfaz DAO y DAOImpl están ambas dentro de persistence.",
+        "C": "Se invierte al revés: la interfaz que define domain es Repository; el DAO queda entero en persistence y es RepositoryImpl quien lo utiliza.",
+        "D": "La interfaz Repository está en domain (ServiceImpl la utiliza desde el propio dominio); si estuviera en persistence, el dominio dependería de la tecnología de persistencia."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.1 Arquitectura por capas"
+        }
+      ],
+      "conocimiento": "En la arquitectura por capas, la interfaz Repository está en domain y su implementación en persistence, mientras que el DAO tiene interfaz e implementación en persistence.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-2da6cdb3",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Al comparar el monolito modular con los microservicios como estilos de despliegue, ¿qué afirmación describe correctamente sus diferencias y sus costes?",
+      "opciones": {
+        "A": "El monolito modular exige que cada módulo tenga su propia base de datos, igual que los microservicios, pero los despliega todos juntos en una única aplicación.",
+        "B": "Basta con separar los módulos de un monolito modular en proyectos distintos para obtener microservicios, ya que el código queda aislado igual que con un despliegue independiente.",
+        "C": "Si los módulos de un monolito modular se comunican mediante eventos, obtienen el mismo aislamiento y las mismas transacciones independientes que los microservicios conectados por un broker.",
+        "D": "El monolito modular aporta modularidad sin multiplicar despliegues, mientras que los microservicios ganan despliegue independiente a costa de más complejidad operativa y de comunicarse por red."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La tabla de estilos de despliegue de la wiki atribuye al monolito modular «modularidad sin multiplicar despliegues» y a los microservicios «despliegue independiente; más complejidad operativa», con servicios que se comunican por red.",
+      "explicacionesDistractores": {
+        "A": "En el monolito modular la base de datos puede ser compartida; lo que se exige es que cada módulo solo acceda a los datos de los que es propietario. Cada base de datos propia aparece en los microservicios.",
+        "B": "La wiki advierte que los microservicios no son simplemente módulos separados en carpetas o proyectos: cada servicio debe poder desplegarse y evolucionar de forma autónoma, y la comunicación pasa por la red.",
+        "C": "Según la wiki, los eventos entre módulos no implican comunicación de red ni crean por sí solos aislamiento o una transacción independiente."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.1 Monolito, monolito modular y microservicios"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.2 Tipos de comunicación"
+        }
+      ],
+      "conocimiento": "El monolito modular da modularidad sin multiplicar despliegues; los microservicios dan despliegue independiente con más complejidad operativa, y separar módulos en proyectos o usar eventos no equivale a microservicios.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-86b82494",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "¿Qué afirmación distingue correctamente la comunicación asíncrona mediante eventos de la comunicación síncrona?",
+      "opciones": {
+        "A": "En la asíncrona el emisor publica el evento en el broker sin esperar respuesta del consumidor, y como la mensajería no garantiza un procesamiento exactamente una vez, los consumidores deben tolerar entregas duplicadas.",
+        "B": "En la síncrona el emisor queda desacoplado temporalmente del receptor, mientras que en la asíncrona depende de la disponibilidad y el tiempo de respuesta del consumidor.",
+        "C": "En la asíncrona la confirmación de procesamiento que el consumidor envía al broker garantiza que cada mensaje se procese exactamente una vez, a diferencia de la síncrona.",
+        "D": "La asíncrona exige siempre comunicación por red mediante un intermediario como RabbitMQ o Kafka, mientras que la síncrona solo es posible entre módulos del mismo proceso."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que en la comunicación asíncrona el emisor publica un mensaje o evento para que se procese después (el servicio A solo publica en el broker y no espera respuesta) y advierte que la mensajería no garantiza que cada mensaje se procese exactamente una vez, por lo que los consumidores deben tolerar duplicados.",
+      "explicacionesDistractores": {
+        "B": "Está invertido: la síncrona depende de la disponibilidad y el tiempo de respuesta del receptor, y es la asíncrona la que desacopla temporalmente.",
+        "C": "Aunque el consumidor confirma el procesamiento, la wiki dice expresamente que la mensajería no garantiza un procesamiento exactamente una vez y que puede haber entregas duplicadas.",
+        "D": "Los módulos de una aplicación pueden comunicarse mediante eventos sin red, y la comunicación síncrona también se da entre microservicios mediante peticiones HTTP."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.2 Tipos de comunicación"
+        }
+      ],
+      "conocimiento": "En la comunicación asíncrona el emisor publica sin esperar respuesta y los consumidores deben tolerar entregas duplicadas; la síncrona depende de la disponibilidad del receptor.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-8980dc53",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "En un proyecto Spring se mencionan dos herramientas: springdoc-openapi y OpenAPI Generator. ¿Qué diferencia hay entre ellas?",
+      "opciones": {
+        "A": "springdoc-openapi genera interfaces API y DTO a partir de un archivo OpenAPI, mientras que OpenAPI Generator produce la documentación OpenAPI y Swagger UI a partir de las anotaciones del código.",
+        "B": "springdoc-openapi produce una especificación independiente del código Java, mientras que el contrato obtenido con OpenAPI Generator queda ligado a las interfaces Java escritas a mano.",
+        "C": "springdoc-openapi obtiene documentación OpenAPI a partir del código Spring, mientras que OpenAPI Generator obtiene código Java, como interfaces API y DTO, a partir del archivo OpenAPI.",
+        "D": "Ambas parten del archivo orders-api.yaml: springdoc-openapi lo publica como Swagger UI al ejecutar la aplicación y OpenAPI Generator lo valida en la fase generate-sources."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "El resumen de la wiki es literal: con springdoc-openapi se obtiene documentación OpenAPI a partir del código Spring; con OpenAPI Generator se obtiene código Java (interfaces de la API y clases de modelo) a partir del archivo OpenAPI.",
+      "explicacionesDistractores": {
+        "A": "Intercambia las herramientas: es OpenAPI Generator quien genera interfaces y DTO desde el archivo, y springdoc-openapi quien genera el documento y Swagger UI desde las anotaciones.",
+        "B": "Es al revés: el documento generado por springdoc-openapi queda ligado al código Java y no es una especificación independiente; el archivo usado por OpenAPI Generator es el contrato independiente.",
+        "D": "springdoc-openapi no parte del archivo YAML sino de las anotaciones del código, y OpenAPI Generator no se limita a validar: genera interfaces API y DTO."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "3. Contrato e implementación en Spring"
+        }
+      ],
+      "conocimiento": "springdoc-openapi genera documentación OpenAPI desde el código Spring; OpenAPI Generator genera código Java (interfaces y DTO) desde el archivo OpenAPI.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-b169a728",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un equipo quiere revisar el contrato HTTP con los consumidores antes de implementar y que cliente y servidor trabajen en paralelo a partir de un contrato que no dependa del código Java. ¿Qué opción se ajusta mejor y qué precaución implica?",
+      "opciones": {
+        "A": "Mantener orders-api.yaml como fuente de verdad y generar interfaces y DTO con OpenAPI Generator, teniendo que configurar el generador y comprobar que la implementación sigue la especificación.",
+        "B": "Declarar el contrato en la interfaz OrderHttpApi, ya que el documento que genera springdoc-openapi es una especificación independiente del código que no requiere revisiones posteriores.",
+        "C": "Mantener a mano tanto orders-api.yaml como la interfaz OrderHttpApi anotada, porque disponer de dos contratos manuales permite contrastarlos y detectar divergencias.",
+        "D": "Mantener orders-api.yaml como fuente de verdad y ajustar directamente las clases generadas en target/generated-sources/openapi cuando el contrato cambie, para no tener que regenerarlas."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki presenta el archivo OpenAPI como fuente de verdad antes de implementar, útil para revisar el contrato con consumidores y trabajar en paralelo; su ventaja es un contrato independiente que permite generar interfaces API y DTO, y su precaución, configurar el generador y comprobar que la implementación sigue la especificación.",
+      "explicacionesDistractores": {
+        "B": "La interfaz Java queda ligada al código: el documento generado no es una especificación independiente, y sus cambios requieren revisar el contrato resultante.",
+        "C": "La wiki indica que elegir una única fuente de verdad evita mantener dos contratos manuales que puedan divergir.",
+        "D": "Las clases generadas se pueden consultar pero no se deben modificar directamente; si cambia el contrato, se vuelve a generar el código."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "3. Contrato e implementación en Spring"
+        }
+      ],
+      "conocimiento": "El archivo OpenAPI como fuente de verdad da un contrato independiente para revisar con consumidores y trabajar en paralelo, a cambio de configurar el generador y comprobar la implementación; no se mantienen dos contratos manuales ni se editan las clases generadas.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-9d451b3d",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Tras implementar una API, un equipo abre Swagger UI y comprueba que todas las operaciones aparecen documentadas. ¿Qué afirmación diferencia correctamente el papel de OpenAPI, Swagger UI y las pruebas?",
+      "opciones": {
+        "A": "OpenAPI es el conjunto de herramientas para trabajar con APIs y Swagger UI es la especificación en YAML o JSON que describe rutas, parámetros y respuestas.",
+        "B": "Si Swagger UI muestra todas las operaciones, la implementación es conforme al contrato y las pruebas HTTP de controller solo serían necesarias en un enfoque Code First.",
+        "C": "Swagger UI valida la sintaxis OpenAPI y compara versiones, por lo que sustituye la revisión de compatibilidad, aunque no las pruebas de rendimiento.",
+        "D": "OpenAPI describe el contrato y Swagger UI ayuda a explorarlo, pero abrirlo no demuestra por sí solo la conformidad: las pruebas HTTP de controller verifican el comportamiento integrado."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki destaca que OpenAPI describe el contrato y Swagger UI ayuda a explorarlo; abrir Swagger UI no demuestra por sí solo la conformidad, y las pruebas HTTP de controller verifican el comportamiento integrado. La documentación no sustituye el diseño, la revisión de compatibilidad ni las pruebas.",
+      "explicacionesDistractores": {
+        "A": "Están intercambiados: OpenAPI es la especificación en YAML o JSON y Swagger es el conjunto de herramientas, del que Swagger UI presenta el contrato como documentación interactiva.",
+        "B": "Swagger UI no demuestra por sí solo la conformidad, y la wiki no limita las pruebas a Code First: si se usa un archivo OpenAPI como fuente también hay que comprobar que la implementación se ajusta a él.",
+        "C": "Validar la sintaxis y comparar versiones son comprobaciones posibles que la wiki no atribuye a Swagger UI, y la documentación no sustituye la revisión de compatibilidad."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "4. Cambios y comprobaciones"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "2. OpenAPI y Swagger"
+        }
+      ],
+      "conocimiento": "OpenAPI describe el contrato y Swagger UI lo explora, pero Swagger UI no demuestra la conformidad; las pruebas HTTP de controller verifican el comportamiento integrado.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-f32832a8",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Un equipo empaqueta su aplicación como un único artefacto desplegable dividido en módulos que colaboran en el mismo proceso a través de sus APIs públicas. Dentro de cada módulo, el núcleo define interfaces de entrada y de salida que implementan componentes conectados a la base de datos y al correo. ¿Cómo se clasifica correctamente esta aplicación?",
+      "opciones": {
+        "A": "Como microservicios, porque cada módulo tiene límites explícitos y una API propia con la que lo invocan los demás",
+        "B": "Como monolito modular por su despliegue y como arquitectura hexagonal por su organización interna, dos criterios independientes que se combinan",
+        "C": "Como arquitectura de cebolla, porque el despliegue único obliga a organizar el código en anillos alrededor del dominio",
+        "D": "Como monolito por su despliegue, lo que impide aplicar principios de arquitectura limpia como los puertos y adaptadores"
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki distingue cómo se despliega (monolito, monolito modular, microservicios) de cómo se organiza el código (capas, hexagonal, cebolla) y los presenta como criterios independientes que se combinan. Un único despliegue con módulos que colaboran en el mismo proceso mediante APIs públicas es un monolito modular; un núcleo que define puertos implementados por adaptadores es arquitectura hexagonal.",
+      "explicacionesDistractores": {
+        "A": "Los microservicios son varios servicios desplegables que se comunican por red; la wiki advierte que no son simplemente módulos separados en carpetas o proyectos. Aquí hay un único despliegue y comunicación en el mismo proceso.",
+        "C": "La cebolla es una forma de organizar el código, no una consecuencia del despliegue; además lo descrito (interfaces de entrada y salida implementadas por componentes tecnológicos) son puertos y adaptadores.",
+        "D": "Hay módulos con APIs públicas, por lo que es un monolito modular, y en cualquier caso la wiki afirma que un monolito puede aplicar principios de arquitectura limpia."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.1 Monolito, monolito modular y microservicios"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.2 Arquitectura hexagonal (Ports and Adapters)"
+        }
+      ],
+      "conocimiento": "La arquitectura de despliegue (monolito modular) y la organización interna (hexagonal) son criterios independientes que se combinan en una misma aplicación.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-f6528928",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "En una comunicación asíncrona, el Servicio A publica un evento en un broker, el broker lo entrega a un consumidor y este confirma el procesamiento. En producción se observa que el consumidor ha procesado dos veces el mismo evento. ¿Qué conclusión es coherente con el funcionamiento descrito en la wiki?",
+      "opciones": {
+        "A": "El Servicio A no esperó la confirmación del consumidor antes de continuar, y debe hacerlo para que el broker garantice una única entrega",
+        "B": "El broker está mal configurado, ya que un intermediario de mensajes como RabbitMQ o Kafka asegura que cada evento se procese exactamente una vez",
+        "C": "Es un síntoma de que la comunicación se ha vuelto síncrona, porque solo en ese tipo de comunicación pueden repetirse las respuestas",
+        "D": "Es una situación esperable: la mensajería desacopla al emisor del momento del procesamiento pero no garantiza un único procesamiento, así que el consumidor debe tolerar duplicados"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que la comunicación asíncrona desacopla temporalmente y puede tener retrasos o entregas duplicadas, y que la mensajería no garantiza que cada mensaje se procese exactamente una vez: los consumidores deben tolerar entregas duplicadas.",
+      "explicacionesDistractores": {
+        "A": "En el flujo asíncrono el Servicio A no espera respuesta del consumidor: solo publica en el broker. Esperar la confirmación no forma parte del mecanismo ni garantiza una única entrega.",
+        "B": "La wiki cita RabbitMQ y Kafka como intermediarios, pero afirma expresamente que la mensajería no garantiza el procesamiento exactamente una vez.",
+        "C": "Las entregas duplicadas son una característica de la comunicación asíncrona según la wiki; la síncrona se caracteriza por depender de la disponibilidad y el tiempo de respuesta del receptor."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.2 Tipos de comunicación"
+        }
+      ],
+      "conocimiento": "En la comunicación asíncrona mediante broker el emisor no espera al consumidor y la mensajería no garantiza procesamiento exactamente una vez, por lo que el consumidor debe tolerar duplicados.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-dc81d8a5",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "En la arquitectura por capas de referencia (Controller, Service/ServiceImpl, Model, Repository, RepositoryImpl, DAO/DAOImpl), el equipo decide sustituir la tecnología de base de datos. Si la aplicación respeta la inversión de dependencias, ¿qué ocurre con el código afectado?",
+      "opciones": {
+        "A": "Los cambios quedan confinados en la capa persistence, porque domain define la interfaz Repository que necesita y ServiceImpl solo depende de esa interfaz",
+        "B": "Hay que modificar la interfaz Repository, porque se encuentra en persistence junto al DAO y refleja la tecnología de acceso a datos",
+        "C": "Hay que modificar ServiceImpl, porque utiliza directamente RepositoryImpl para aplicar las reglas sobre Model",
+        "D": "Hay que modificar Controller, porque invoca la implementación del servicio y esta se apoya en la base de datos"
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "En el diagrama de referencia domain define la interfaz Repository y persistence la implementa con RepositoryImpl, que usa el DAO (interfaz e implementación, ambos en persistence). Todas las dependencias apuntan hacia domain, de modo que se puede cambiar la persistencia sin reescribir las reglas (independencia de la base de datos).",
+      "explicacionesDistractores": {
+        "B": "La interfaz Repository está en domain, no en persistence; lo que está entero en persistence es el DAO. Precisamente por estar en domain el dominio no depende de la tecnología de persistencia.",
+        "C": "ServiceImpl utiliza la interfaz Repository definida en el propio dominio, no RepositoryImpl.",
+        "D": "Controller invoca la interfaz Service, no su implementación, y no tiene relación con la persistencia."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.1 Arquitectura por capas"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "1. Principios de arquitectura limpia"
+        }
+      ],
+      "conocimiento": "Con inversión de dependencias (Repository definido en domain e implementado en persistence) un cambio de base de datos solo afecta a la capa persistence.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-26a7af0d",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un proyecto usa orders-api.yaml como fuente de verdad y tiene configurado el plugin de Maven de OpenAPI Generator de la forma habitual. Un desarrollador ejecuta mvn compile en un proyecto recién clonado. ¿Qué ocurre?",
+      "opciones": {
+        "A": "Maven compila primero el código escrito a mano y después springdoc-openapi genera orders-api.yaml a partir de las anotaciones de los controladores",
+        "B": "OpenAPI Generator genera los controladores completos con su lógica, de modo que el equipo solo tiene que revisar la documentación en Swagger UI",
+        "C": "Maven recorre las fases anteriores a la compilación y, en generate-sources, el plugin genera a partir de orders-api.yaml las interfaces de la API y los DTO antes de compilar",
+        "D": "La generación no se ejecuta con mvn compile, porque las clases solo se generan cuando el IDE actualiza el proyecto y las muestra entre los archivos escritos a mano"
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Según la wiki, el plugin de Maven suele ejecutar la generación en la fase generate-sources, antes de compilar; al ejecutar mvn compile Maven recorre las fases anteriores e invoca la generación si el plugin está configurado. OpenAPI Generator produce las interfaces de la API y las clases de modelo (DTO) del contrato.",
+      "explicacionesDistractores": {
+        "A": "Eso describe el camino inverso: springdoc-openapi obtiene documentación OpenAPI a partir del código Spring. En este flujo el archivo OpenAPI es la entrada y se genera código Java antes de compilar.",
+        "B": "OpenAPI Generator genera interfaces y DTO; el equipo implementa las operaciones de las interfaces generadas en sus Controller.",
+        "D": "La generación la ejecuta Maven; lo que puede requerir actualizar el IDE es que se muestren las clases generadas, que no siempre aparecen entre los archivos escritos a mano."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "OpenAPI Generator y Maven"
+        }
+      ],
+      "conocimiento": "Al ejecutar mvn compile, el plugin de OpenAPI Generator suele generar interfaces y DTO desde el archivo OpenAPI en la fase generate-sources, antes de compilar.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-e6cc6747",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "En un proyecto que genera código con OpenAPI Generator a partir de orders-api.yaml, una consumidora pide un campo nuevo en la respuesta de un pedido. Un desarrollador propone añadirlo editando la clase DTO que aparece en target/generated-sources/openapi. ¿Cuál es la forma correcta de proceder?",
+      "opciones": {
+        "A": "Modificar el contrato en orders-api.yaml y volver a generar el código, ya que las clases generadas se pueden consultar pero no se deben modificar directamente",
+        "B": "Editar la clase generada y anotarla después para que springdoc-openapi actualice orders-api.yaml con el campo nuevo",
+        "C": "Copiar la clase generada a los archivos escritos a mano y editarla allí, manteniendo el archivo OpenAPI sin cambios como referencia original",
+        "D": "Editar la clase generada y documentar el campo en una interfaz Java de contrato para que ambas fuentes queden alineadas"
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que las clases generadas se pueden consultar pero no se deben modificar directamente: si cambia el contrato, se vuelve a generar el código. El archivo OpenAPI es la fuente de verdad del contrato.",
+      "explicacionesDistractores": {
+        "B": "springdoc-openapi genera documentación a partir del código Spring; no actualiza el archivo OpenAPI que actúa como fuente de verdad, y editar la clase generada contradice la indicación de no modificarla.",
+        "C": "Dejaría el archivo OpenAPI desalineado con la implementación; la wiki exige comprobar que la implementación se ajusta al archivo cuando este es la fuente.",
+        "D": "Supondría mantener dos contratos manuales que pueden divergir; la wiki recomienda elegir una única fuente de verdad."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "OpenAPI Generator y Maven"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Comparativa de fuentes del contrato"
+        }
+      ],
+      "conocimiento": "Las clases generadas por OpenAPI Generator no se modifican a mano: ante un cambio de contrato se edita el archivo OpenAPI y se regenera.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-5c909ffa",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Un equipo declara su contrato en la interfaz OrderHttpApi con anotaciones (springdoc-openapi genera el documento) y, en paralelo, mantiene a mano un orders-api.yaml que comparte con los consumidores. Para dar por buena una entrega abren Swagger UI y comprueban que la operación aparece. ¿Qué valoración es correcta?",
+      "opciones": {
+        "A": "Es suficiente, porque el documento que genera springdoc-openapi es una especificación independiente del código y por tanto coincidirá con orders-api.yaml",
+        "B": "Deberían usar OpenAPI Generator para generar orders-api.yaml a partir de OrderHttpApi y así eliminar el archivo escrito a mano",
+        "C": "Basta con añadir la validación de sintaxis de orders-api.yaml, porque si el archivo es un OpenAPI válido la implementación lo cumple",
+        "D": "Mantienen dos contratos manuales que pueden divergir, por lo que deberían elegir una fuente de verdad, y ver la operación en Swagger UI no demuestra por sí solo la conformidad"
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que elegir una fuente de verdad evita mantener dos contratos manuales que puedan divergir, y que abrir Swagger UI no demuestra por sí solo la conformidad: las pruebas HTTP de controller verifican el comportamiento integrado y, si se usa un archivo OpenAPI como fuente, hay que comprobar que la implementación se ajusta a él.",
+      "explicacionesDistractores": {
+        "A": "La wiki afirma lo contrario: con la interfaz Java el contrato queda ligado al código y el documento generado no es una especificación independiente del código.",
+        "B": "OpenAPI Generator hace el camino contrario: genera código Java (interfaces y DTO) a partir del archivo OpenAPI, no un archivo OpenAPI a partir de una interfaz Java.",
+        "C": "Validar la sintaxis OpenAPI es una comprobación posible, pero no verifica que la implementación se ajuste al archivo; para eso hay que comprobar solicitudes y respuestas de la implementación."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Comparativa de fuentes del contrato"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "4. Cambios y comprobaciones"
+        }
+      ],
+      "conocimiento": "Mantener a la vez una interfaz anotada y un archivo OpenAPI manual crea dos contratos que pueden divergir, y Swagger UI no demuestra la conformidad de la implementación.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-6a85cffb",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Sobre los estilos de despliegue y los tipos de comunicación, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "En un monolito modular la base de datos puede ser compartida, pero cada módulo solo accede a los datos de los que es propietario.",
+        "B": "Los eventos entre módulos de una misma aplicación proporcionan por sí solos aislamiento y una transacción independiente para cada módulo.",
+        "C": "Un monolito no implica código desordenado y puede ser adecuado para una aplicación pequeña, como un CRUD.",
+        "D": "La mensajería desacopla al emisor del momento en que se procesa el evento, pero los consumidores deben tolerar entregas duplicadas."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki indica expresamente que los eventos entre módulos no implican comunicación de red ni crean por sí solos aislamiento o una transacción independiente. Por eso esta afirmación es la incorrecta.",
+      "explicacionesDistractores": {
+        "A": "Es correcta: el matiz del diagrama de despliegue dice que en el monolito modular la base de datos puede ser compartida, pero cada módulo solo accede a los datos de los que es propietario («solo sus datos»).",
+        "C": "Es correcta: la wiki afirma que un monolito no implica código desordenado y puede ser adecuado para una aplicación pequeña, como un CRUD.",
+        "D": "Es correcta: según la wiki, la mensajería desacopla al emisor del momento en que se procesa el evento, no garantiza que cada mensaje se procese exactamente una vez y los consumidores deben tolerar entregas duplicadas."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.2 Tipos de comunicación"
+        },
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "3.1 Monolito, monolito modular y microservicios"
+        }
+      ],
+      "conocimiento": "Los eventos entre módulos de una misma aplicación no implican red ni crean por sí solos aislamiento ni una transacción independiente.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-370f431d",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "Entre los principios de la arquitectura limpia, ¿qué idea clave corresponde exactamente al principio de inversión de dependencias (DIP)?",
+      "opciones": {
+        "A": "El framework es una herramienta y no el centro de la aplicación, por lo que el negocio no se construye alrededor de él.",
+        "B": "Los detalles externos definen las interfaces que necesitan y el núcleo de negocio las consume para comunicarse con ellos.",
+        "C": "El núcleo define las abstracciones que necesita y los detalles externos las implementan.",
+        "D": "Se puede cambiar la tecnología de persistencia sin reescribir las reglas del negocio."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La tabla de principios de la arquitectura limpia asigna al principio de inversión de dependencias (DIP) la idea «el núcleo define las abstracciones que necesita; los detalles externos las implementan». Es lo que ocurre cuando domain define la interfaz Repository y persistence la implementa.",
+      "explicacionesDistractores": {
+        "A": "Es la idea clave del principio de independencia de frameworks, no la del DIP.",
+        "B": "Invierte el sentido del principio: según la wiki es el núcleo quien define las abstracciones y son los detalles externos quienes las implementan, no al revés.",
+        "D": "Es la idea clave del principio de independencia de la base de datos; puede ser una consecuencia del DIP, pero no es la definición que la wiki da para él."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "1. Principios de arquitectura limpia"
+        }
+      ],
+      "conocimiento": "El principio de inversión de dependencias establece que el núcleo define las abstracciones que necesita y los detalles externos las implementan.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-01-3f0b4e77",
+      "asignatura": "dws",
+      "tema": "dws-01",
+      "enunciado": "En el diagrama de puertos y adaptadores de la arquitectura hexagonal, ¿qué es NotificationPort?",
+      "opciones": {
+        "A": "Una interfaz definida en el núcleo que expresa qué necesita el núcleo (puerto de salida) y que EmailAdapter implementa.",
+        "B": "Un adaptador de salida que conecta BusinessService con el servicio de correo y forma parte del núcleo de la aplicación.",
+        "C": "Una interfaz definida por el adaptador de servicio externo que BusinessService implementa para poder enviar correos.",
+        "D": "Un puerto de entrada que indica cómo se usa el núcleo y que RestController invoca para notificar al cliente."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Los puertos son interfaces que definen cómo se usa o qué necesita el núcleo. NotificationPort está en el núcleo, BusinessService lo utiliza como puerto de salida (qué necesita el núcleo) y EmailAdapter, fuera del núcleo, lo implementa y accede al servicio de correo. La wiki señala que el núcleo define todos los puertos.",
+      "explicacionesDistractores": {
+        "B": "NotificationPort no es un adaptador sino un puerto (una interfaz). El adaptador que conecta con el servicio de correo es EmailAdapter, que está fuera del núcleo.",
+        "C": "Invierte la relación: el núcleo define todos los puertos y los adaptadores dependen de ellos; es EmailAdapter quien implementa NotificationPort, no BusinessService.",
+        "D": "El puerto de entrada del diagrama es InputPort, al que invoca RestController; NotificationPort es un puerto de salida que utiliza BusinessService."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md",
+          "seccion": "2.2 Arquitectura hexagonal (Ports and Adapters)"
+        }
+      ],
+      "conocimiento": "En la arquitectura hexagonal los puertos de salida, como NotificationPort, son interfaces definidas por el núcleo e implementadas por adaptadores externos.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-64d30588",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Según la wiki, ¿qué relación hay entre OpenAPI y Swagger?",
+      "opciones": {
+        "A": "Swagger es una especificación para describir APIs HTTP en YAML o JSON, y OpenAPI es el conjunto de herramientas que la presenta como documentación interactiva.",
+        "B": "OpenAPI es la herramienta de Spring que genera la documentación a partir de las anotaciones, y Swagger es el formato en que se guarda esa documentación.",
+        "C": "Swagger es la variante YAML del contrato y OpenAPI su variante JSON, de modo que ambas describen la misma API en formatos distintos.",
+        "D": "OpenAPI es una especificación para describir APIs HTTP en YAML o JSON, y Swagger es un conjunto de herramientas para trabajar con ella."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki define OpenAPI como una especificación para describir APIs HTTP en YAML o JSON y Swagger como un conjunto de herramientas para trabajar con OpenAPI; por ejemplo, Swagger UI presenta el contrato como documentación interactiva.",
+      "explicacionesDistractores": {
+        "A": "Intercambia los papeles: la especificación es OpenAPI y el conjunto de herramientas es Swagger.",
+        "B": "La herramienta de Spring que genera el documento a partir de las anotaciones es springdoc-openapi, no OpenAPI; y Swagger no es un formato, sino un conjunto de herramientas.",
+        "C": "OpenAPI puede escribirse tanto en YAML como en JSON; Swagger no es un formato del contrato, sino un conjunto de herramientas."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "2. OpenAPI y Swagger"
+        }
+      ],
+      "conocimiento": "OpenAPI es una especificación para describir APIs HTTP en YAML o JSON y Swagger es un conjunto de herramientas para trabajar con ella.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-5a91be94",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Sobre las dos formas de mantener el contrato HTTP en Spring, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "Declarar el contrato en una interfaz Java como OrderHttpApi y documentarlo con springdoc-openapi produce una especificación OpenAPI independiente del código Java.",
+        "B": "Las clases generadas por OpenAPI Generator se pueden consultar, pero no se deben modificar directamente: si cambia el contrato, se vuelve a generar el código.",
+        "C": "El plugin de Maven de OpenAPI Generator suele ejecutar la generación en la fase generate-sources, antes de compilar el proyecto.",
+        "D": "springdoc-openapi obtiene documentación OpenAPI a partir del código Spring, mientras que OpenAPI Generator obtiene código Java a partir del archivo OpenAPI."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki advierte que la interfaz Java puede formar parte de un flujo API First, pero queda ligada al código Java: el documento que genera springdoc-openapi no es una especificación independiente del código. La especificación independiente corresponde al archivo OpenAPI (por ejemplo, orders-api.yaml).",
+      "explicacionesDistractores": {
+        "B": "Es correcta: la wiki dice que las clases generadas se pueden consultar, pero no se deben modificar directamente; si cambia el contrato, se vuelve a generar el código.",
+        "C": "Es correcta: el plugin de Maven suele ejecutar la generación en la fase generate-sources, antes de compilar el proyecto.",
+        "D": "Es correcta: es el resumen literal de la wiki sobre la dirección de cada herramienta (documentación desde el código frente a código desde el archivo)."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "Opción 1: interfaz Java como contrato"
+        },
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "OpenAPI Generator y Maven"
+        }
+      ],
+      "conocimiento": "El documento OpenAPI que springdoc-openapi genera a partir de una interfaz Java queda ligado al código y no es una especificación independiente.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "dws-02-b4aa4901",
+      "asignatura": "dws",
+      "tema": "dws-02",
+      "enunciado": "Según la wiki, ¿cuándo se considera incompatible un cambio en el contrato de una API?",
+      "opciones": {
+        "A": "Cuando modifica la implementación del controller, aunque las solicitudes y respuestas que ve el consumidor permanezcan iguales.",
+        "B": "Cuando obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas.",
+        "C": "Cuando, tras regenerar la documentación, el cambio no aparece reflejado en Swagger UI.",
+        "D": "Cuando modifica el archivo OpenAPI, aunque no afecte a cómo los consumidores construyen sus solicitudes ni interpretan las respuestas."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki define un cambio incompatible como aquel que obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas; por ejemplo, eliminar un campo, cambiar su tipo o alterar el significado de una respuesta.",
+      "explicacionesDistractores": {
+        "A": "Un cambio interno que no altera solicitudes ni respuestas no obliga a los consumidores a cambiar nada, así que no encaja en la definición de cambio incompatible.",
+        "C": "La compatibilidad no se define por lo que muestra Swagger UI; además, la wiki señala que abrir Swagger UI no demuestra por sí solo la conformidad.",
+        "D": "Modificar el archivo no basta: lo que hace incompatible un cambio es que obligue a los consumidores a cambiar sus solicitudes o su interpretación de las respuestas."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/dws/tema-02-api-first/contenido.md",
+          "seccion": "4. Cambios y comprobaciones"
+        }
+      ],
+      "conocimiento": "Un cambio es incompatible si obliga a los consumidores a cambiar sus solicitudes o cómo interpretan las respuestas.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  ],
+  "similitud": [
+    {
+      "id": "dws-01-d89ede9e",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-2da6cdb3",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-86b82494",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-8980dc53",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-b169a728",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-9d451b3d",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-f32832a8",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-f6528928",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-dc81d8a5",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-26a7af0d",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-e6cc6747",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-5c909ffa",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-6a85cffb",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-370f431d",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-01-3f0b4e77",
+      "tema": "dws-01",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-64d30588",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-5a91be94",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "dws-02-b4aa4901",
+      "tema": "dws-02",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    }
+  ]
+}

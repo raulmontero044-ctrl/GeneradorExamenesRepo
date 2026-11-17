@@ -1,0 +1,794 @@
+{
+  "preguntas": [
+    {
+      "id": "prog-08-0b54a9a3",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Según la wiki, ¿qué afirmación describe correctamente la diferencia entre la Inyección de Dependencias (DI) y la Inversión de Control (IoC)?",
+      "opciones": {
+        "A": "La IoC es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior, y la DI es el principio más amplio que delega la creación de objetos en un contenedor.",
+        "B": "La DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior, y la IoC es un principio más amplio que delega en un componente externo el control del flujo y de la creación de objetos.",
+        "C": "La DI solo es posible cuando existe un contenedor de IoC como el de Spring; sin él, cada clase debe seguir creando sus dependencias con el operador new.",
+        "D": "Son dos nombres para el mismo mecanismo: ambos designan la inyección por constructor con atributos final que apuntan a interfaces."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki distingue ambos términos: la DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior en lugar de instanciarlas, y la IoC es un principio de diseño más amplio en el que el control del flujo de ejecución y de la creación de objetos se delega a un componente externo (ensamblador o contenedor).",
+      "explicacionesDistractores": {
+        "A": "Invierte los términos: según la wiki, la DI es el patrón y la IoC el principio más amplio.",
+        "C": "La wiki muestra que la DI puede aplicarse sin framework mediante el ensamblado manual en el método main, inyectando cada dependencia por constructor.",
+        "D": "La wiki no los trata como sinónimos: la DI es un patrón concreto y la IoC un principio más amplio; la inyección por constructor es solo la forma recomendada de DI."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Inversión de Control (IoC)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Ensamblado manual del sistema"
+        }
+      ],
+      "conocimiento": "La DI es un patrón (la clase recibe sus dependencias desde fuera) y la IoC un principio más amplio (se delega a un componente externo el control del flujo y la creación de objetos).",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-08-e7b44471",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Un BookRepositoryImpl tenía el atributo private BookDao bookDao y, en su constructor sin parámetros, hacía this.bookDao = new BookDaoMySql(). Se refactoriza para recibir el BookDao por constructor en un atributo private final BookDao bookDao. ¿Qué consecuencia de este cambio se deduce de la wiki?",
+      "opciones": {
+        "A": "El repositorio sigue eligiendo internamente la implementación concreta de BookDao, pero ahora el atributo es inmutable y la clase se crea en un estado válido.",
+        "B": "Las pruebas unitarias aisladas siguen sin ser posibles, porque un objeto simulado solo puede entregarse a través de un contenedor de IoC como Spring.",
+        "C": "El acoplamiento no cambia, ya que en ambas versiones el atributo se declara con el tipo de la interfaz BookDao; la única mejora es la inmutabilidad.",
+        "D": "Pasar de BookDaoMySql a BookDaoJson solo requiere modificar una línea en el ensamblado, sin tocar el código interno del repositorio ni del servicio."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "Con la inyección por constructor el repositorio ya no decide qué implementación usa: la elige un elemento externo. Entre las ventajas de IoC/DI, la wiki indica que cambiar la implementación de una capa solo requiere modificar una línea en el ensamblado, sin tocar el código del Servicio ni del Controlador (ni el interno del repositorio, que ya no nombra la clase concreta).",
+      "explicacionesDistractores": {
+        "A": "La wiki señala precisamente que, tras la refactorización, el repositorio ya no decide qué implementación concreta de BookDao usa.",
+        "B": "La wiki indica que con DI es posible pasar al constructor un objeto simulado (Mock) para probar la lógica aisladamente; no exige un contenedor.",
+        "C": "El alto acoplamiento de la versión errónea procede de crear con new la clase concreta BookDaoMySql, no del tipo declarado del atributo; con la inyección la clase depende solo de la interfaz y el acoplamiento baja."
+      },
+      "dificultad": "dificil",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Inyección por constructor (Buena práctica)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Ventajas de IoC / DI"
+        }
+      ],
+      "conocimiento": "Al pasar de crear la dependencia con new a recibirla por constructor, la clase deja de elegir la implementación y cambiar de persistencia solo requiere modificar una línea del ensamblado.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-08-5208316a",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "En una aplicación por capas hay que comprobar dos cosas al registrar un pedido: que el campo cantidad llegue informado con un número, y que un cliente sin rol de administrador no pueda aplicar descuentos superiores al 20 %. Según la wiki, ¿cómo se reparten estas comprobaciones entre las capas?",
+      "opciones": {
+        "A": "La comprobación del formato de la cantidad corresponde a la capa de presentación, y la regla del descuento según el rol, a la capa de dominio.",
+        "B": "Ambas corresponden a la capa de presentación, porque es la que recibe los datos del usuario y los valida antes de llamar al dominio.",
+        "C": "La comprobación del formato corresponde a la capa de presentación, y la regla del descuento, a la capa de persistencia, que garantiza la integridad de lo que se guarda.",
+        "D": "Ambas corresponden a la capa de dominio, ya que la capa de presentación se limita a reenviar los datos sin validarlos."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que la capa de presentación valida los datos de entrada solo formalmente, mientras que las validaciones complejas y los permisos son reglas de negocio que aplica la capa de dominio.",
+      "explicacionesDistractores": {
+        "B": "La presentación solo hace validaciones formales y no contiene lógica de negocio; una regla que depende del rol es una regla de negocio (permisos) del dominio.",
+        "C": "La capa de persistencia solo gestiona la lectura y escritura de datos y su conversión a objetos; las reglas de negocio pertenecen al dominio.",
+        "D": "La wiki atribuye a la capa de presentación la validación formal de los datos que recibe del usuario; no se limita a reenviarlos."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Principales Capas del Sistema"
+        }
+      ],
+      "conocimiento": "La capa de presentación hace solo validaciones formales; las validaciones complejas y los permisos son reglas de negocio de la capa de dominio.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-3e1ce128",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un cliente quiere cambiar únicamente el precio de un libro ya existente, sin enviar el resto de sus campos. Según la wiki, ¿qué método HTTP es el adecuado y dónde viaja el dato?",
+      "opciones": {
+        "A": "PUT, con el precio en el cuerpo de la petición, porque PUT actualiza solo los campos que se le envían.",
+        "B": "PATCH, con el precio como Query Parameter, ya que una modificación parcial no necesita cuerpo.",
+        "C": "PATCH, con el precio en el cuerpo de la petición, porque actualiza solo los campos indicados del recurso.",
+        "D": "POST, con el precio en el cuerpo de la petición, porque el servidor reasigna el recurso modificado."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki define PATCH como modificación parcial: actualiza solo los campos indicados del recurso, y sus datos viajan en el cuerpo de la petición (Request Body).",
+      "explicacionesDistractores": {
+        "A": "PUT reemplaza por completo un recurso existente; la actualización de solo los campos indicados corresponde a PATCH.",
+        "B": "En PATCH, como en POST y PUT, los datos viajan en el cuerpo; en la URL solo los llevan GET y DELETE.",
+        "D": "POST es el método de creación de un nuevo recurso (el servidor asigna el ID), no de modificación de uno existente."
+      },
+      "dificultad": "media",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "3. Métodos HTTP y transmisión de datos"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Matices que conviene retener"
+        }
+      ],
+      "conocimiento": "PATCH modifica solo los campos indicados enviándolos en el cuerpo, mientras que PUT reemplaza el recurso completo.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-23abf193",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un cliente ya autenticado intenta acceder a un recurso para el que no tiene permisos. Según la wiki, ¿qué código de estado HTTP corresponde a esta situación?",
+      "opciones": {
+        "A": "401 Unauthorized, porque indica que el cliente debe autenticarse.",
+        "B": "403 Forbidden, porque indica que el cliente no tiene permisos para acceder al recurso.",
+        "C": "400 Bad Request, porque indica que los datos de la petición son incorrectos.",
+        "D": "404 Not Found, porque indica que el recurso solicitado no existe."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "La wiki define 403 Forbidden como el código que indica que el cliente no tiene permisos para acceder al recurso, a diferencia de 401, que indica que debe autenticarse.",
+      "explicacionesDistractores": {
+        "A": "401 Unauthorized se refiere a la falta de autenticación; aquí el cliente ya está autenticado y lo que le falta son permisos.",
+        "C": "400 Bad Request indica datos de la petición incorrectos sintáctica o semánticamente, por ejemplo un DTO que no supera la validación.",
+        "D": "404 Not Found indica que la URL o el recurso no existe; en el caso planteado el recurso existe pero el cliente no tiene permiso."
+      },
+      "dificultad": "facil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "5. Códigos de Estado HTTP"
+        }
+      ],
+      "conocimiento": "401 Unauthorized indica que el cliente debe autenticarse y 403 Forbidden que, aun identificado, no tiene permisos sobre el recurso.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-d12e97f8",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Según la wiki, ¿cuál de las siguientes comparaciones entre métodos HTTP es correcta?",
+      "opciones": {
+        "A": "DELETE, como GET, transmite sus datos en la URL (mediante un Path Param), y su respuesta habitual es 204 No Content, sin cuerpo.",
+        "B": "POST y PUT transmiten sus datos en el cuerpo y ambos responden habitualmente con 201 Created, porque los dos dejan un recurso nuevo en el servidor.",
+        "C": "GET transmite normalmente sus datos en Query Parameters, pero puede enviarlos en el cuerpo cuando los filtros son numerosos.",
+        "D": "PATCH, a diferencia de PUT, envía los campos en la URL, porque al modificar solo unos pocos no necesita cuerpo."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki indica que GET y DELETE llevan los datos en la URL (DELETE mediante un Path Param) y que el código de éxito habitual de DELETE es 204 No Content, que es una respuesta correcta sin cuerpo.",
+      "explicacionesDistractores": {
+        "B": "PUT reemplaza un recurso existente y su código de éxito habitual es 200 OK; 201 Created se usa en POST.",
+        "C": "La wiki es tajante: GET no debe incluir cuerpo; sus datos viajan en la URL (Query o Path Params).",
+        "D": "PATCH, igual que PUT y POST, lleva los datos en el cuerpo de la petición."
+      },
+      "dificultad": "dificil",
+      "tipo": "diferencias",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Matices que conviene retener"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Relación entre método y código de éxito habitual"
+        }
+      ],
+      "conocimiento": "GET y DELETE llevan los datos en la URL (DELETE con Path Param y respuesta habitual 204), mientras POST, PUT y PATCH los llevan en el cuerpo y PUT responde habitualmente 200.",
+      "autor": "gen-prog-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-08-8869fbdf",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Una aplicación de libros se ensambla manualmente en el método main e inyecta cada dependencia por constructor a través de interfaces. El equipo decide sustituir la persistencia BookDaoMySql por BookDaoJson. Según la wiki, ¿qué cambio es necesario?",
+      "opciones": {
+        "A": "Modificar el constructor de BookRepositoryImpl para que instancie BookDaoJson en lugar de BookDaoMySql.",
+        "B": "Cambiar únicamente la línea del ensamblado que instancia el DAO, sin tocar el servicio ni el controlador.",
+        "C": "Cambiar el tipo del atributo de BookRepositoryImpl a BookDaoJson para que acepte la nueva implementación.",
+        "D": "Modificar BookServiceImpl y BookController, porque dependen indirectamente de la implementación del DAO."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Con DI e IoC cada capa depende de interfaces y la única línea del main que nombra la implementación concreta de persistencia es la que instancia el DAO; la wiki indica que cambiar la implementación de una capa solo requiere modificar una línea en el ensamblado, sin tocar el código del Servicio ni del Controlador.",
+      "explicacionesDistractores": {
+        "A": "Que el repositorio instancie su DAO con new es precisamente el error habitual que la wiki señala; con inyección por constructor el repositorio ya no decide qué implementación concreta usa.",
+        "C": "El atributo inyectado es private final BookDao, es decir, apunta a la interfaz; por eso admite cualquier implementación sin cambiar su tipo.",
+        "D": "La wiki afirma que el cambio de persistencia se hace sin tocar el código del Servicio ni del Controlador, porque cada capa depende de interfaces y no de implementaciones concretas."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Ensamblado manual del sistema"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Ventajas de IoC / DI"
+        }
+      ],
+      "conocimiento": "Con inyección por constructor y ensamblado manual, cambiar la implementación de persistencia solo exige modificar la línea del ensamblado que instancia el DAO.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-08-799f6038",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "En el contenedor de IoC casero (IoCContainer) construido con el patrón Factoría, ¿cómo se crean y conectan los componentes y qué hace la clase Main?",
+      "opciones": {
+        "A": "El contenedor crea primero el BookController, que a su vez instancia su BookService, y Main pide el controlador y llama a run().",
+        "B": "Main instancia el DAO concreto y se lo entrega al contenedor, que crea el resto de capas y devuelve el controlador listo.",
+        "C": "El contenedor crea los componentes de arriba abajo, del controlador al DAO, y Main recorre cada uno para conectarlos antes de ejecutar.",
+        "D": "El contenedor crea el DAO, lo inyecta en el repositorio, este en el servicio y este en el controlador; Main solo pide el controlador y llama a run()."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki describe que IoCContainer, en su constructor, crea BookDaoMySql, se lo pasa a BookRepositoryImpl, este a BookServiceImpl y este a BookController (el mismo orden de abajo arriba que el ensamblado manual). Main se simplifica: crea el contenedor, llama a getBookController() y ejecuta run().",
+      "explicacionesDistractores": {
+        "A": "En el contenedor ninguna clase instancia a sus colaboradores; es el contenedor quien asume la responsabilidad de crear e inyectar, empezando por el DAO.",
+        "B": "Con el contenedor, Main ya no necesita saber cómo se construyen ni conectan las capas; es el propio contenedor quien crea new BookDaoMySql().",
+        "C": "El orden es de abajo arriba (DAO, repositorio, servicio, controlador) y la conexión la hace el contenedor, no Main."
+      },
+      "dificultad": "media",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "El contenedor de IoC (IoC Container)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Ensamblado manual del sistema"
+        }
+      ],
+      "conocimiento": "El IoCContainer casero crea e inyecta los componentes de abajo arriba (DAO, repositorio, servicio, controlador) y Main solo le pide el controlador y lo ejecuta.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-08-1cc1670d",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Llega una petición para dar de alta un libro con isbn, title y basePrice, y la respuesta debe devolver el precio final calculado. ¿Qué reparto de responsabilidades es coherente con la arquitectura por capas y los DTO descritos en la wiki?",
+      "opciones": {
+        "A": "El controlador valida formalmente los datos recibidos, el dominio aplica la regla que obtiene el precio final y el mapper lo traslada al BookResponse.",
+        "B": "El controlador calcula el precio final antes de llamar al servicio, ya que es la capa que devuelve el resultado formateado al cliente.",
+        "C": "El BookCreateRequest incluye el ID del libro para que el repositorio sepa dónde guardarlo, y el dominio calcula el precio final.",
+        "D": "El DAO calcula el precio final al leer los datos, porque la persistencia convierte la información en objetos manejables por el dominio."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La capa de presentación solo hace validaciones formales; las reglas de negocio (cálculos) pertenecen al dominio. En el ejemplo, BookMapper.toResponse crea el BookResponse con domain.getFinalPrice(), que es donde se aplica la regla del dominio.",
+      "explicacionesDistractores": {
+        "B": "La capa de presentación no contiene lógica de negocio; los cálculos son reglas de negocio de la capa de dominio.",
+        "C": "El Request DTO de creación transporta solo los campos requeridos y va sin ID, porque el ID lo asigna el sistema.",
+        "D": "La persistencia se limita a leer y escribir datos y convertirlos en objetos; aplicar reglas de negocio como los cálculos corresponde al dominio."
+      },
+      "dificultad": "dificil",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Principales Capas del Sistema"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Conversión entre objetos: Mapeadores (Mappers)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "3. DTOs (Data Transfer Objects) y Java Records"
+        }
+      ],
+      "conocimiento": "En el alta de un libro, la presentación valida formalmente, el dominio aplica el cálculo del precio final y el mapper lo traslada al Response DTO; el Request DTO de creación no lleva ID.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-a8de2fa1",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un cliente quiere cambiar únicamente el precio del libro con ID 12, sin enviar el resto de sus campos. Siguiendo las buenas prácticas de la wiki, ¿qué petición debe hacer y qué código de éxito es el habitual?",
+      "opciones": {
+        "A": "PUT /books/12 con solo el precio en el cuerpo, y respuesta 200 OK.",
+        "B": "GET /books/12?price=20 con el nuevo precio como parámetro de consulta, y respuesta 200 OK.",
+        "C": "PATCH /books/12 con el precio en el cuerpo de la petición, y respuesta 200 OK.",
+        "D": "POST /updateBook con el ID y el precio en el cuerpo, y respuesta 201 Created."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "PATCH es la modificación parcial: actualiza solo los campos indicados, los datos viajan en el cuerpo y su código de éxito habitual es 200 OK. El recurso se identifica con un sustantivo en plural en la ruta.",
+      "explicacionesDistractores": {
+        "A": "PUT reemplaza por completo el recurso existente; no es el método para modificar solo un campo.",
+        "B": "GET es un método de lectura; no sirve para modificar un recurso.",
+        "D": "Usar verbos en la URL es una mala práctica (la acción la determina el método HTTP) y POST con 201 Created corresponde a la creación de un recurso nuevo."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "3. Métodos HTTP y transmisión de datos"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Relación entre método y código de éxito habitual"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Buenas prácticas en el diseño de Endpoints"
+        }
+      ],
+      "conocimiento": "Para modificar solo algunos campos de un recurso se usa PATCH con los datos en el cuerpo, cuyo código de éxito habitual es 200 OK.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-03d34db7",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Un cliente envía una petición POST a /api/v1/books con un objeto JSON que contiene isbn, title y basePrice. Según la wiki, ¿qué describe correctamente lo que ocurre en el servidor?",
+      "opciones": {
+        "A": "El parser convierte el objeto JSON en un DTO, el servidor asigna el ID al nuevo recurso y, si todo va bien, responde 201 Created.",
+        "B": "El parser convierte el objeto JSON en un DTO y, si falla su validación, el servidor responde 500 Internal Server Error por ser un fallo interno.",
+        "C": "El parser convierte el objeto JSON en un DTO y, al ser una creación correcta, el servidor responde 204 No Content sin cuerpo.",
+        "D": "El parser convierte el objeto JSON en un DTO, que debe incluir el ID del libro para que el servidor pueda crear el recurso."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La librería del servidor (parser) convierte automáticamente el objeto JSON en un DTO record; en POST el cliente no indica el ID porque lo asigna el servidor, y el código para un recurso creado con éxito es 201 Created.",
+      "explicacionesDistractores": {
+        "B": "Si falla la validación de un DTO, los datos de la petición son incorrectos y la respuesta es 400 Bad Request, un error del cliente; el 500 se reserva para excepciones o fallos no controlados del código del servidor.",
+        "C": "El 204 No Content es común en DELETE; para un POST que crea el recurso con éxito se usa 201 Created.",
+        "D": "En POST el cliente no indica el ID: lo asigna el servidor."
+      },
+      "dificultad": "dificil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "4. Formato de Intercambio: JSON"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Matices que conviene retener"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "5. Códigos de Estado HTTP"
+        }
+      ],
+      "conocimiento": "En un POST, el parser convierte el JSON en un DTO, el servidor asigna el ID y responde 201 Created; un fallo de validación del DTO es 400, no 500.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-6754cd44",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Dos peticiones intentan acceder al mismo recurso restringido de una API: la primera llega sin que el cliente se haya autenticado; la segunda, de un cliente autenticado que no tiene permisos sobre ese recurso. ¿Qué códigos de estado corresponden, respectivamente, según la wiki?",
+      "opciones": {
+        "A": "403 Forbidden para la primera y 401 Unauthorized para la segunda.",
+        "B": "400 Bad Request para la primera y 403 Forbidden para la segunda.",
+        "C": "401 Unauthorized para la primera y 404 Not Found para la segunda.",
+        "D": "401 Unauthorized para la primera y 403 Forbidden para la segunda."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "401 Unauthorized indica que el cliente debe autenticarse, y 403 Forbidden que el cliente no tiene permisos para acceder al recurso.",
+      "explicacionesDistractores": {
+        "A": "Invierte los significados: 401 es la falta de autenticación y 403 la falta de permisos.",
+        "B": "400 Bad Request indica datos de la petición incorrectos sintáctica o semánticamente, no la falta de autenticación.",
+        "C": "404 Not Found indica que la URL o el recurso no existe; la falta de permisos sobre un recurso existente es 403."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "5. Códigos de Estado HTTP"
+        }
+      ],
+      "conocimiento": "Una petición sin autenticar recibe 401 Unauthorized y una petición autenticada sin permisos recibe 403 Forbidden.",
+      "autor": "gen-prog-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-08-db5b957b",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Sobre los Java Records que se usan como DTO, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "Sus componentes son implícitamente private final, por lo que sus valores no pueden modificarse una vez instanciado el record.",
+        "B": "El compilador genera accesores con el mismo nombre que el campo, como isbn(), en lugar de getIsbn().",
+        "C": "El compilador genera un constructor canónico y, para cada campo, un método de acceso y otro de modificación.",
+        "D": "Los métodos equals() y hashCode() se basan en el valor de sus campos, de modo que dos records con los mismos datos se consideran iguales."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki indica que el compilador genera el constructor canónico, accesores con el nombre del campo, equals()/hashCode() basados en valor y toString(), pero no métodos de modificación: los componentes son private final y el record es inmutable (no tiene estado mutable).",
+      "explicacionesDistractores": {
+        "A": "Es cierta: la wiki dice que todos sus componentes son implícitamente private final y que, una vez instanciado, sus valores no pueden ser modificados.",
+        "B": "Es cierta: los métodos de acceso tienen el mismo nombre que el campo, por ejemplo isbn() en lugar de getIsbn().",
+        "D": "Es cierta: equals() y hashCode() se basan en el valor de sus campos y dos records con los mismos datos se consideran iguales."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Java Records"
+        }
+      ],
+      "conocimiento": "Un Java Record genera constructor canónico, accesores sin prefijo get, equals/hashCode por valor y toString, pero no métodos de modificación porque es inmutable.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-08-cc607ddc",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "Según el tema, ¿qué afirmación describe con precisión la relación entre la Inyección de Dependencias (DI) y la Inversión de Control (IoC)?",
+      "opciones": {
+        "A": "La DI es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior; la IoC es un principio más amplio en el que el control del flujo y de la creación de objetos se delega a un componente externo.",
+        "B": "La IoC es un patrón de diseño en el que una clase recibe sus dependencias desde el exterior; la DI es un principio más amplio en el que el control del flujo y de la creación de objetos se delega a un componente externo.",
+        "C": "Son dos nombres del mismo patrón: se habla de DI cuando las capas se ensamblan a mano en el método main y de IoC cuando lo hace un framework como Spring.",
+        "D": "La IoC consiste en invertir el sentido de las llamadas entre capas, de modo que la persistencia llame al dominio, y la DI es la forma de implementar esa inversión."
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "La wiki distingue ambos términos: la DI es un patrón de diseño (la clase recibe sus dependencias desde fuera) y la IoC es un principio de diseño más amplio (el control de la creación de objetos y del flujo se delega a un componente externo, el ensamblador o contenedor).",
+      "explicacionesDistractores": {
+        "B": "Intercambia las definiciones: según la wiki la DI es el patrón y la IoC el principio más amplio.",
+        "C": "La wiki no los presenta como sinónimos, sino como patrón frente a principio; además, el ensamblado manual en main también es inyección de dependencias desde el exterior.",
+        "D": "La IoC invierte quién crea los colaboradores (un elemento externo en lugar de la propia clase), no el sentido de las llamadas: la regla de aislamiento prohíbe que una capa inferior llame a las superiores."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Inversión de Control (IoC)"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Inyección de Dependencias (DI)"
+        }
+      ],
+      "conocimiento": "La DI es un patrón de diseño (recibir dependencias desde fuera) y la IoC un principio más amplio (delegar el control del flujo y de la creación de objetos a un componente externo).",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-08-616b967a",
+      "asignatura": "prog",
+      "tema": "prog-08",
+      "enunciado": "En la arquitectura por capas del tema, ¿qué describe con exactitud la responsabilidad de la capa de presentación (controller)?",
+      "opciones": {
+        "A": "Recibe los datos del usuario, aplica las validaciones complejas y los permisos del negocio y delega en la persistencia el almacenamiento.",
+        "B": "Recibe los datos del usuario, los valida formalmente y, en las consultas sencillas, accede directamente al repositorio para evitar una llamada intermedia.",
+        "C": "Se comunica con el soporte físico y convierte la información obtenida en objetos manejables por el dominio antes de devolverla formateada.",
+        "D": "Recibe los datos del usuario, los valida formalmente, llama a la capa de dominio y devuelve el resultado formateado, sin lógica de negocio ni acceso a datos."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La tabla de capas de la wiki dice que la capa de presentación recibe los datos del usuario, los valida formalmente, llama a la capa de dominio y devuelve el resultado formateado, y que no contiene lógica de negocio ni accede a datos.",
+      "explicacionesDistractores": {
+        "A": "Las validaciones complejas y los permisos son reglas de negocio que corresponden a la capa de dominio; la presentación solo hace validaciones formales.",
+        "B": "Las reglas de comunicación prohíben el salto de capas: el controlador nunca debe comunicarse directamente con la capa de persistencia.",
+        "C": "Comunicarse con el soporte físico y convertir la información en objetos del dominio es la responsabilidad de la capa de persistencia."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Principales Capas del Sistema"
+        },
+        {
+          "archivo": "wiki/programacion/tema-08-arquitectura/contenido.md",
+          "seccion": "Reglas de Comunicación entre Capas"
+        }
+      ],
+      "conocimiento": "La capa de presentación solo valida formalmente, llama al dominio y formatea el resultado; no tiene lógica de negocio, no accede a datos y no puede saltar a la persistencia.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-27f2ca81",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Sobre los métodos HTTP y la forma en que transmiten los datos, ¿cuál de las siguientes afirmaciones es INCORRECTA?",
+      "opciones": {
+        "A": "GET lleva los datos en la URL, mediante Query o Path Params, y no debe incluir cuerpo.",
+        "B": "DELETE envía en el cuerpo de la petición el identificador del recurso que se elimina, y su código de éxito habitual es 204 No Content.",
+        "C": "En POST el cliente no indica el ID del nuevo recurso, porque lo asigna el servidor.",
+        "D": "PATCH envía los datos en el cuerpo de la petición y actualiza solo los campos indicados del recurso."
+      },
+      "correcta": "B",
+      "explicacionCorrecta": "Según la tabla de métodos, DELETE lleva los datos en la URL mediante un Path Param, no en el cuerpo; solo POST, PUT y PATCH envían los datos en el cuerpo. Lo de 204 No Content sí es correcto, lo falso es dónde viaja el identificador.",
+      "explicacionesDistractores": {
+        "A": "Es cierta: GET lleva los datos en la URL (Query o Path Params) y no debe incluir cuerpo.",
+        "C": "Es cierta: en POST el cliente no indica el ID, lo asigna el servidor.",
+        "D": "Es cierta: PATCH lleva los datos en el cuerpo y modifica solo los campos indicados."
+      },
+      "dificultad": "dificil",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "3. Métodos HTTP y transmisión de datos"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Matices que conviene retener"
+        }
+      ],
+      "conocimiento": "DELETE transmite el identificador en la URL como Path Param, mientras que POST, PUT y PATCH envían los datos en el cuerpo.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-a292c6d6",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "En la URL https://api.miservidor.com/api/v1/books?page=2&limit=10, ¿qué es /api/v1/books según la anatomía de una URL descrita en el tema?",
+      "opciones": {
+        "A": "El dominio o host, que identifica el servidor al que se dirige la petición.",
+        "B": "Los parámetros de consulta, que aportan información adicional sobre el recurso.",
+        "C": "La ruta (Path / URI), que identifica el recurso concreto dentro del servidor.",
+        "D": "La parte de la URL que indica la acción que se realiza sobre el recurso."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki define la ruta (Path / URI) como la parte de la URL que identifica el recurso concreto dentro del servidor, con el ejemplo /api/v1/books.",
+      "explicacionesDistractores": {
+        "A": "El dominio o host es api.miservidor.com, la parte que identifica el servidor.",
+        "B": "Los parámetros de consulta son page=2&limit=10, que van después del símbolo ?.",
+        "D": "Según las buenas prácticas de diseño de endpoints, la acción la determina el método HTTP, no la URL."
+      },
+      "dificultad": "facil",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Anatomía de una URL / URI"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Buenas prácticas en el diseño de Endpoints"
+        }
+      ],
+      "conocimiento": "La ruta (Path / URI) de una URL identifica el recurso concreto dentro del servidor, distinta del host y de los parámetros de consulta.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    },
+    {
+      "id": "prog-09-61fc44b9",
+      "asignatura": "prog",
+      "tema": "prog-09",
+      "enunciado": "Según el tema, cuando el controlador recibe una colección JSON (un array entre corchetes con varios objetos de la misma estructura), ¿con qué se corresponde en Java?",
+      "opciones": {
+        "A": "Con un único DTO cuyos campos son arrays que agrupan los valores de todos los objetos.",
+        "B": "Con un Map de pares clave-valor en el que cada clave es el nombre de un campo del JSON.",
+        "C": "Con un array de entidades de dominio que el parser crea directamente, sin pasar por DTOs.",
+        "D": "Con un List de DTOs, a los que el parser convierte automáticamente cada objeto JSON."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki indica que un objeto JSON entre llaves se corresponde con un DTO y que una colección JSON entre corchetes se corresponde con un List de DTOs; el parser convierte automáticamente el texto JSON en clases Java Record (DTOs) y al revés.",
+      "explicacionesDistractores": {
+        "A": "Cada objeto JSON se corresponde con un DTO; la colección se corresponde con un List de DTOs, no con un único DTO.",
+        "B": "Los pares clave-valor son la estructura de un objeto JSON, que se corresponde con un DTO; la colección se mapea con un List.",
+        "C": "El parser convierte el JSON en clases Java Record (DTOs), no directamente en entidades de dominio."
+      },
+      "dificultad": "media",
+      "tipo": "definicion",
+      "wikiRef": [
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "4. Formato de Intercambio: JSON"
+        },
+        {
+          "archivo": "wiki/programacion/tema-09-api-rest-http/contenido.md",
+          "seccion": "Colección JSON (Mapea con un List)"
+        }
+      ],
+      "conocimiento": "Una colección JSON entre corchetes se corresponde con un List de DTOs, y el parser convierte el JSON en Records/DTOs automáticamente.",
+      "autor": "gen-prog-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  ],
+  "similitud": [
+    {
+      "id": "prog-08-0b54a9a3",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "prog-08-cc607ddc",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.68)",
+            "misma respuesta correcta para una pregunta parecida"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prog-08-e7b44471",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-5208316a",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-3e1ce128",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-23abf193",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-d12e97f8",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-8869fbdf",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-799f6038",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-1cc1670d",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-a8de2fa1",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-03d34db7",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-6754cd44",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-db5b957b",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-08-cc607ddc",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": [
+        {
+          "id": "prog-08-0b54a9a3",
+          "nivel": "similar",
+          "motivos": [
+            "mismo conocimiento evaluado (0.68)",
+            "misma respuesta correcta para una pregunta parecida"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prog-08-616b967a",
+      "tema": "prog-08",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-27f2ca81",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-a292c6d6",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    },
+    {
+      "id": "prog-09-61fc44b9",
+      "tema": "prog-09",
+      "banco": {
+        "nivel": "distinta",
+        "parecidas": []
+      },
+      "candidatas": []
+    }
+  ]
+}

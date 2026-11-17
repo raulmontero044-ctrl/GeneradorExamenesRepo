@@ -1,0 +1,357 @@
+[
+  {
+    "id": "dws-03-b782b085",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["La opción correcta es la más larga y detallada, lo que puede servir de pista; defecto menor."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-03-68cd5ce1",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "La respuesta se lee casi literalmente en la tabla de 3.1 (cuándo se aplica y coste para el dominio): es comprender un mecanismo, no relacionar conceptos con matices; corresponde a 'media', no a 'dificil'.",
+      "La opción correcta es la más larga y contiene dos motivos, lo que puede servir de pista.",
+      "Evalúa el mismo conocimiento que dws-03-73b94256 (la versión práctica, más rica) y que dws-03-c7e607fd (opción D)."
+    ],
+    "duplicadaDe": ["dws-03-73b94256", "dws-03-c7e607fd"],
+    "cambios": ["dificultad: 'dificil' -> 'media', porque la respuesta sale directamente de la tabla de 3.1 sin necesidad de relacionar conceptos."],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "¿Por qué se protege la invariante del IBAN en el constructor compacto del value object Iban en lugar de anotar su campo con Jakarta Validation dentro del dominio?",
+      "opciones": {
+        "A": "Porque las anotaciones de Jakarta Validation se ejecutan en toda vía de creación del objeto, pero añaden un coste de rendimiento que el constructor compacto evita.",
+        "B": "Porque las anotaciones en el dominio también garantizarían la invariante, pero repetirían la regla del DTO, y tener la misma regla en dos sitios es una redundancia que debe evitarse.",
+        "C": "Porque las anotaciones solo se aplican donde un framework valida, de modo que un new Iban directo se las salta, y además meten en el dominio una dependencia de jakarta.validation prohibida por la verificación de módulos.",
+        "D": "Porque el constructor compacto solo se ejecuta al deserializar la petición HTTP, que es el único momento en el que puede llegar un IBAN mal formado al dominio."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "Según la wiki, las anotaciones de Jakarta Validation se aplican solo donde un framework valida (una petición HTTP) y no garantizan nada ante un new Iban directo; además suponen una dependencia de jakarta.validation en el dominio, prohibida en la verificación de módulos. La invariante del value object se aplica en toda construcción y no tiene coste para el dominio.",
+      "explicacionesDistractores": {
+        "A": "Es al revés: las anotaciones no se aplican en toda vía de creación, sino solo donde el framework decide aplicarlas; la wiki no menciona costes de rendimiento.",
+        "B": "Las anotaciones en el dominio no garantizan la invariante, y la wiki explica que duplicar la regla en el DTO y en el value object no es una redundancia porque respaldan decisiones distintas.",
+        "D": "El cuerpo del constructor compacto se ejecuta en toda vía de creación (deserialización, mapeador, caso de uso, otro módulo), precisamente porque el dato puede llegar por vías que no pasan por la frontera HTTP."
+      },
+      "dificultad": "media",
+      "tipo": "ventajas-inconvenientes",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "3.1 Por qué no Jakarta Validation en el dominio" },
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "3. Invariancias con value objects" }
+      ],
+      "conocimiento": "Las anotaciones de Jakarta Validation solo actúan donde valida un framework y añaden una dependencia prohibida al dominio, mientras que la invariante en el constructor del value object se aplica en toda vía de creación.",
+      "autor": "gen-dws-1",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "dws-03-83710a09",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-991406eb",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["Plantea el mismo escenario (envíos cancela un pedido) y el mismo conocimiento que dws-04-2b9587bf y dws-04-7075b553; es la más completa de las tres porque exige ubicar a la vez la política de acceso y las reglas del servicio."],
+    "duplicadaDe": ["dws-04-2b9587bf", "dws-04-7075b553"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-9c6b7be2",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-261ddcd1",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Similitud confirmada: evalúa el mismo conocimiento que dws-04-bb299f79 (identificadores en lugar de referencias a modelos internos y consulta por la API pública), con distractores prácticamente equivalentes (clase pública, tipo de identificador en users.internal)."],
+    "duplicadaDe": ["dws-04-bb299f79"],
+    "cambios": []
+  },
+  {
+    "id": "dws-03-55b44631",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Las opciones no terminan en punto, a diferencia de otras candidatas; solo de estilo."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-03-73b94256",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["Evalúa el mismo conocimiento que dws-03-68cd5ce1 y dws-03-c7e607fd (anotaciones de Jakarta Validation en el value object frente a invariante en el constructor compacto); de las tres es la mejor construida por su carácter aplicado y el distractor D, muy próximo."],
+    "duplicadaDe": ["dws-03-68cd5ce1", "dws-03-c7e607fd"],
+    "cambios": []
+  },
+  {
+    "id": "dws-03-d8c42aad",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "El enunciado afirma que 0.02 está «bien formado», lo que descarta de entrada el distractor B (rechazo por formato) y convierte la pregunta en un recuerdo literal de los tres pasos de la wiki, más propio de 'facil' que de 'media'.",
+      "La opción A reproduce casi literalmente la wiki, lo que facilita reconocerla."
+    ],
+    "duplicadaDe": [],
+    "cambios": [
+      "enunciado: se elimina «bien formado pero no admitido por las reglas del negocio» y se indica solo que las reglas del dominio no admiten ese saldo inicial, para que el alumno tenga que razonar que 0.02 cumple @Positive y @Digits y que B sea un distractor real; así la etiqueta 'media' pasa a corresponder."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "CreateAccountRequest declara balance como BigDecimal con @Positive @Digits(integer = 8, fraction = 2). Las reglas del dominio no admiten un saldo inicial tan bajo como 0.02, y llega una solicitud de alta con ese saldo inicial. Según la wiki, ¿cómo se gestiona esta petición?",
+      "opciones": {
+        "A": "Supera la validación del DTO; el caso de uso invoca al modelo, salta la excepción de negocio y el manejador de la API la traduce al error documentado en el contrato",
+        "B": "La rechaza Jakarta Validation con 400, porque @Digits(integer = 8, fraction = 2) no admite importes inferiores a una unidad",
+        "C": "El controller comprueba la regla de negocio antes de llamar al caso de uso y devuelve el ProblemDetail de «Solicitud inválida»",
+        "D": "Llega hasta la base de datos, donde la restricción falla y se devuelve un error del servidor, porque el formato ya fue aceptado"
+      },
+      "correcta": "A",
+      "explicacionCorrecta": "Es el ejemplo de la wiki de campo válido para el contrato pero inválido para el negocio: 0.02 es positivo y tiene dos decimales, así que pasa el DTO. Después el caso de uso invoca al modelo, salta la excepción de negocio y el manejador de la API la traduce al error documentado en el contrato.",
+      "explicacionesDistractores": {
+        "B": "@Positive y @Digits(integer = 8, fraction = 2) comprueban rango y precisión: 0.02 es positivo y tiene como máximo 2 decimales, por lo que cumple el formato; la wiki lo presenta como un valor bien formado.",
+        "C": "Escribir reglas de negocio en el controller es uno de los errores clásicos que señala la wiki; además, el ProblemDetail «Solicitud inválida» corresponde a los fallos de validación de formato (400).",
+        "D": "Que datos inválidos lleguen al dominio y se conviertan en errores del servidor es el otro error clásico; la invariante del modelo debe detectarlo y producir una excepción de dominio."
+      },
+      "dificultad": "media",
+      "tipo": "situacion-practica",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "Campo válido para el contrato pero inválido para el negocio" },
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.1 Constraints estándar" }
+      ],
+      "conocimiento": "Un dato bien formado pero inválido para el negocio supera el DTO y lo rechaza el modelo con una excepción de negocio que el manejador traduce al error del contrato.",
+      "autor": "gen-dws-2",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "dws-04-2b9587bf",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["La opción correcta es notablemente más larga que las demás (pista menor).", "Mismo escenario y conocimiento que dws-04-991406eb y dws-04-7075b553."],
+    "duplicadaDe": ["dws-04-991406eb", "dws-04-7075b553"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-c1d3c56e",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 8,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "dificil",
+    "problemas": ["Evalúa el mismo conocimiento que dws-04-096910c9 (verify() es un test que detecta accesos a internos, no una protección en compilación, y no arranca el contexto); esta versión aplicada es la mejor de las dos."],
+    "duplicadaDe": ["dws-04-096910c9"],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-bb299f79",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Similitud confirmada con dws-04-261ddcd1: mismo conocimiento evaluado."],
+    "duplicadaDe": ["dws-04-261ddcd1"],
+    "cambios": []
+  },
+  {
+    "id": "dws-03-f513bf02",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": false, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": [
+      "El distractor B no es falso en su contenido: sin @Valid el DTO no se valida, luego Spring efectivamente no invoca la validadora (ni sobre campos nulos ni sobre ninguno). Solo es falso como motivo, y su propia explicación lo reconoce («no tiene sentido hablar de…»); es un distractor discutible.",
+      "La respuesta es una frase literal de 2.3 («la obligatoriedad corresponde a @NotBlank»): es recuerdo directo, 'facil' y no 'media'."
+    ],
+    "duplicadaDe": [],
+    "cambios": [
+      "opción B: se sustituye por una afirmación falsa según la wiki (que la validadora asume también la obligatoriedad y hace innecesario @NotBlank), porque la original era cierta en su contenido.",
+      "explicacionesDistractores.B: se reescribe de acuerdo con la nueva opción B.",
+      "dificultad: 'media' -> 'facil', porque la respuesta es la definición directa que da la wiki."
+    ],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "La clase IbanFormatValidator, que implementa la constraint personalizada @ValidIban, devuelve true cuando el valor recibido es null. ¿Por qué?",
+      "opciones": {
+        "A": "Porque el constructor compacto del value object Iban ya rechaza el valor null, de modo que la validadora no necesita comprobarlo.",
+        "B": "Porque así @ValidIban se encarga a la vez del formato y de la obligatoriedad del campo, sin necesidad de añadir @NotBlank.",
+        "C": "Porque la obligatoriedad del campo corresponde a @NotBlank y no a la constraint de formato.",
+        "D": "Porque un valor nulo debe rechazarse como error de negocio y traducirse a un 409 o 422 en lugar de a un 400."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki explica que, si value es null, isValid devuelve true porque la obligatoriedad corresponde a @NotBlank, no a esta constraint; en otro caso comprueba que el valor sea ES seguido de 22 dígitos.",
+      "explicacionesDistractores": {
+        "A": "Aunque el constructor compacto de Iban rechaza null, la wiki no justifica así el comportamiento de la validadora: lo atribuye a que la obligatoriedad es responsabilidad de @NotBlank. Además, DTO y value object protegen decisiones distintas.",
+        "B": "Es al contrario: devolver true ante null significa que @ValidIban no se ocupa de la obligatoriedad; para exigir el campo hace falta @NotBlank.",
+        "D": "La ausencia de valor es una cuestión de formato del contrato que cubre @NotBlank con un 400; los 409 o 422 son para excepciones de dominio traducidas por el manejador."
+      },
+      "dificultad": "facil",
+      "tipo": "funcionamiento-interno",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.3 Constraints personalizadas" }
+      ],
+      "conocimiento": "Una clase validadora de constraint personalizada devuelve true ante null porque la obligatoriedad se delega en @NotBlank.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "dws-03-c7e607fd",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Las cuatro afirmaciones son recuerdos directos de la wiki y la incorrecta (D) contradice el mensaje central del apartado 3.1; no hay distractores muy próximos ni matices: 'media', no 'dificil'.",
+      "Su opción D evalúa el mismo conocimiento que dws-03-68cd5ce1 y dws-03-73b94256."
+    ],
+    "duplicadaDe": ["dws-03-68cd5ce1", "dws-03-73b94256"],
+    "cambios": ["dificultad: 'dificil' -> 'media', porque cada afirmación es un hecho literal de la wiki y la falsa es fácil de identificar."],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-03",
+      "enunciado": "Sobre la validación con Jakarta Validation y las invariantes del dominio, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "Sin @Valid en el parámetro del controller, el DTO de entrada no se valida aunque sus campos lleven anotaciones.",
+        "B": "springdoc-openapi refleja en el esquema las constraints estándar como @NotBlank o @Size, pero las personalizadas hay que documentarlas, por ejemplo con @Schema.",
+        "C": "Si la validación del DTO falla, Spring lanza la excepción antes de que el controller ejecute su cuerpo.",
+        "D": "Anotar con Jakarta Validation el campo del value object Iban garantiza la invariante también cuando un caso de uso lo crea con new Iban(...)."
+      },
+      "correcta": "D",
+      "explicacionCorrecta": "La wiki explica que las anotaciones de Jakarta Validation solo se aplican donde un framework valida (una petición HTTP); un new Iban(\"…\") directo se salta la validación, de modo que no garantizan nada. Además, la dependencia de jakarta.validation en el dominio está prohibida. Solo el código de invariante en el constructor compacto protege en todas las vías.",
+      "explicacionesDistractores": {
+        "A": "Es correcta: la wiki indica que sin @Valid el DTO no se valida aunque lleve anotaciones; es una decisión explícita, operación por operación.",
+        "B": "Es correcta: las constraints estándar se reflejan solas en el esquema y las personalizadas hay que documentarlas en la operación o en el esquema, por ejemplo con @Schema.",
+        "C": "Es correcta: si la validación falla, Spring lanza la excepción antes de que el controller ejecute su cuerpo, y el rechazo ocurre antes de tocar el dominio o la base de datos."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "3.1 Por qué no Jakarta Validation en el dominio" },
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.2 Validación automática y en cascada" },
+        { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.5 Del código al contrato: OpenAPI" }
+      ],
+      "conocimiento": "Las anotaciones de Jakarta Validation no protegen la invariante de un value object construido directamente, porque solo se aplican donde un framework valida.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "dws-03-9adfcac6",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 5,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "facil",
+    "problemas": ["Definición literal de la wiki; correcta pero de poca profundidad."],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-096910c9",
+    "evaluador": "ev-4",
+    "veredicto": "MEJORABLE",
+    "puntuacion": 6,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": false, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [
+      "Las cuatro afirmaciones son hechos literales del apartado 5 y la incorrecta (C) contradice una idea que la wiki repite varias veces («no una protección en tiempo de compilación»); no hay matices ni distractores próximos: 'media', no 'dificil'.",
+      "Evalúa el mismo conocimiento que dws-04-c1d3c56e, que es la versión aplicada y mejor."
+    ],
+    "duplicadaDe": ["dws-04-c1d3c56e"],
+    "cambios": ["dificultad: 'dificil' -> 'media', porque cada afirmación se reconoce directamente en la wiki."],
+    "correccion": {
+      "asignatura": "dws",
+      "tema": "dws-04",
+      "enunciado": "Sobre Spring Modulith y la verificación de módulos, ¿qué afirmación es INCORRECTA?",
+      "opciones": {
+        "A": "Por defecto, los paquetes hijos directos del paquete base de la aplicación se detectan como módulos.",
+        "B": "El paquete raíz de cada módulo constituye su API pública y sus subpaquetes son internos salvo que se expongan explícitamente.",
+        "C": "ApplicationModules.of(Application.class).verify() impide compilar el proyecto cuando un módulo accede a los paquetes internos de otro.",
+        "D": "La verificación con ApplicationModules no necesita arrancar el contexto de Spring, porque analiza la estructura de paquetes y sus dependencias."
+      },
+      "correcta": "C",
+      "explicacionCorrecta": "La wiki insiste en que la verificación de Spring Modulith se añade como test JUnit y es una verificación automatizada del modelo modular, no una protección en tiempo de compilación: detecta los accesos a paquetes internos al ejecutar el test, pero no impide compilar.",
+      "explicacionesDistractores": {
+        "A": "Es correcta: por defecto, los paquetes hijos directos del paquete base (por ejemplo, com.example.store.catalog) se detectan como módulos.",
+        "B": "Es correcta: el paquete raíz de cada módulo constituye su API pública y sus subpaquetes son internos salvo que se expongan explícitamente, por ejemplo con @NamedInterface.",
+        "D": "Es correcta: la wiki indica que no hace falta arrancar el contexto de Spring porque la prueba analiza la estructura de paquetes y sus dependencias."
+      },
+      "dificultad": "media",
+      "tipo": "afirmaciones",
+      "wikiRef": [
+        { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "Test de verificación" },
+        { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "API pública y subpaquetes internos" }
+      ],
+      "conocimiento": "La verificación de Spring Modulith con ApplicationModules.verify() es un test automatizado y no una protección en tiempo de compilación.",
+      "autor": "gen-dws-3",
+      "fechaCreacion": "2026-11-17T13:00:00.000Z"
+    }
+  },
+  {
+    "id": "dws-04-1c640d69",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": [],
+    "duplicadaDe": [],
+    "cambios": []
+  },
+  {
+    "id": "dws-04-7075b553",
+    "evaluador": "ev-4",
+    "veredicto": "ACEPTADA",
+    "puntuacion": 7,
+    "criterios": { "correctaVerdadera": true, "distractoresFalsos": true, "unicaCorrecta": true, "respaldoWiki": true, "sinAmbiguedad": true, "dificultadAdecuada": true, "noRepetida": true, "explicacionesCorrectas": true, "teorica": true },
+    "dificultadPropuesta": "media",
+    "problemas": ["Mismo escenario y conocimiento que dws-04-991406eb y dws-04-2b9587bf."],
+    "duplicadaDe": ["dws-04-991406eb", "dws-04-2b9587bf"],
+    "cambios": []
+  }
+]

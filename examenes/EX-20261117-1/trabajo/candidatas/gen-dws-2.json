@@ -1,0 +1,323 @@
+[
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "Un equipo empaqueta su aplicación como un único artefacto desplegable dividido en módulos que colaboran en el mismo proceso a través de sus APIs públicas. Dentro de cada módulo, el núcleo define interfaces de entrada y de salida que implementan componentes conectados a la base de datos y al correo. ¿Cómo se clasifica correctamente esta aplicación?",
+    "opciones": {
+      "A": "Como microservicios, porque cada módulo tiene límites explícitos y una API propia con la que lo invocan los demás",
+      "B": "Como monolito modular por su despliegue y como arquitectura hexagonal por su organización interna, dos criterios independientes que se combinan",
+      "C": "Como arquitectura de cebolla, porque el despliegue único obliga a organizar el código en anillos alrededor del dominio",
+      "D": "Como monolito por su despliegue, lo que impide aplicar principios de arquitectura limpia como los puertos y adaptadores"
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki distingue cómo se despliega (monolito, monolito modular, microservicios) de cómo se organiza el código (capas, hexagonal, cebolla) y los presenta como criterios independientes que se combinan. Un único despliegue con módulos que colaboran en el mismo proceso mediante APIs públicas es un monolito modular; un núcleo que define puertos implementados por adaptadores es arquitectura hexagonal.",
+    "explicacionesDistractores": {
+      "A": "Los microservicios son varios servicios desplegables que se comunican por red; la wiki advierte que no son simplemente módulos separados en carpetas o proyectos. Aquí hay un único despliegue y comunicación en el mismo proceso.",
+      "C": "La cebolla es una forma de organizar el código, no una consecuencia del despliegue; además lo descrito (interfaces de entrada y salida implementadas por componentes tecnológicos) son puertos y adaptadores.",
+      "D": "Hay módulos con APIs públicas, por lo que es un monolito modular, y en cualquier caso la wiki afirma que un monolito puede aplicar principios de arquitectura limpia."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.1 Monolito, monolito modular y microservicios" },
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "2.2 Arquitectura hexagonal (Ports and Adapters)" }
+    ],
+    "conocimiento": "La arquitectura de despliegue (monolito modular) y la organización interna (hexagonal) son criterios independientes que se combinan en una misma aplicación.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "En una comunicación asíncrona, el Servicio A publica un evento en un broker, el broker lo entrega a un consumidor y este confirma el procesamiento. En producción se observa que el consumidor ha procesado dos veces el mismo evento. ¿Qué conclusión es coherente con el funcionamiento descrito en la wiki?",
+    "opciones": {
+      "A": "El Servicio A no esperó la confirmación del consumidor antes de continuar, y debe hacerlo para que el broker garantice una única entrega",
+      "B": "El broker está mal configurado, ya que un intermediario de mensajes como RabbitMQ o Kafka asegura que cada evento se procese exactamente una vez",
+      "C": "Es un síntoma de que la comunicación se ha vuelto síncrona, porque solo en ese tipo de comunicación pueden repetirse las respuestas",
+      "D": "Es una situación esperable: la mensajería desacopla al emisor del momento del procesamiento pero no garantiza un único procesamiento, así que el consumidor debe tolerar duplicados"
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki indica que la comunicación asíncrona desacopla temporalmente y puede tener retrasos o entregas duplicadas, y que la mensajería no garantiza que cada mensaje se procese exactamente una vez: los consumidores deben tolerar entregas duplicadas.",
+    "explicacionesDistractores": {
+      "A": "En el flujo asíncrono el Servicio A no espera respuesta del consumidor: solo publica en el broker. Esperar la confirmación no forma parte del mecanismo ni garantiza una única entrega.",
+      "B": "La wiki cita RabbitMQ y Kafka como intermediarios, pero afirma expresamente que la mensajería no garantiza el procesamiento exactamente una vez.",
+      "C": "Las entregas duplicadas son una característica de la comunicación asíncrona según la wiki; la síncrona se caracteriza por depender de la disponibilidad y el tiempo de respuesta del receptor."
+    },
+    "dificultad": "media",
+    "tipo": "funcionamiento-interno",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "3.2 Tipos de comunicación" }
+    ],
+    "conocimiento": "En la comunicación asíncrona mediante broker el emisor no espera al consumidor y la mensajería no garantiza procesamiento exactamente una vez, por lo que el consumidor debe tolerar duplicados.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-01",
+    "enunciado": "En la arquitectura por capas de referencia (Controller, Service/ServiceImpl, Model, Repository, RepositoryImpl, DAO/DAOImpl), el equipo decide sustituir la tecnología de base de datos. Si la aplicación respeta la inversión de dependencias, ¿qué ocurre con el código afectado?",
+    "opciones": {
+      "A": "Los cambios quedan confinados en la capa persistence, porque domain define la interfaz Repository que necesita y ServiceImpl solo depende de esa interfaz",
+      "B": "Hay que modificar la interfaz Repository, porque se encuentra en persistence junto al DAO y refleja la tecnología de acceso a datos",
+      "C": "Hay que modificar ServiceImpl, porque utiliza directamente RepositoryImpl para aplicar las reglas sobre Model",
+      "D": "Hay que modificar Controller, porque invoca la implementación del servicio y esta se apoya en la base de datos"
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "En el diagrama de referencia domain define la interfaz Repository y persistence la implementa con RepositoryImpl, que usa el DAO (interfaz e implementación, ambos en persistence). Todas las dependencias apuntan hacia domain, de modo que se puede cambiar la persistencia sin reescribir las reglas (independencia de la base de datos).",
+    "explicacionesDistractores": {
+      "B": "La interfaz Repository está en domain, no en persistence; lo que está entero en persistence es el DAO. Precisamente por estar en domain el dominio no depende de la tecnología de persistencia.",
+      "C": "ServiceImpl utiliza la interfaz Repository definida en el propio dominio, no RepositoryImpl.",
+      "D": "Controller invoca la interfaz Service, no su implementación, y no tiene relación con la persistencia."
+    },
+    "dificultad": "dificil",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "2.1 Arquitectura por capas" },
+      { "archivo": "wiki/dws/tema-01-arquitecturas/contenido.md", "seccion": "1. Principios de arquitectura limpia" }
+    ],
+    "conocimiento": "Con inversión de dependencias (Repository definido en domain e implementado en persistence) un cambio de base de datos solo afecta a la capa persistence.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "Un proyecto usa orders-api.yaml como fuente de verdad y tiene configurado el plugin de Maven de OpenAPI Generator de la forma habitual. Un desarrollador ejecuta mvn compile en un proyecto recién clonado. ¿Qué ocurre?",
+    "opciones": {
+      "A": "Maven compila primero el código escrito a mano y después springdoc-openapi genera orders-api.yaml a partir de las anotaciones de los controladores",
+      "B": "OpenAPI Generator genera los controladores completos con su lógica, de modo que el equipo solo tiene que revisar la documentación en Swagger UI",
+      "C": "Maven recorre las fases anteriores a la compilación y, en generate-sources, el plugin genera a partir de orders-api.yaml las interfaces de la API y los DTO antes de compilar",
+      "D": "La generación no se ejecuta con mvn compile, porque las clases solo se generan cuando el IDE actualiza el proyecto y las muestra entre los archivos escritos a mano"
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "Según la wiki, el plugin de Maven suele ejecutar la generación en la fase generate-sources, antes de compilar; al ejecutar mvn compile Maven recorre las fases anteriores e invoca la generación si el plugin está configurado. OpenAPI Generator produce las interfaces de la API y las clases de modelo (DTO) del contrato.",
+    "explicacionesDistractores": {
+      "A": "Eso describe el camino inverso: springdoc-openapi obtiene documentación OpenAPI a partir del código Spring. En este flujo el archivo OpenAPI es la entrada y se genera código Java antes de compilar.",
+      "B": "OpenAPI Generator genera interfaces y DTO; el equipo implementa las operaciones de las interfaces generadas en sus Controller.",
+      "D": "La generación la ejecuta Maven; lo que puede requerir actualizar el IDE es que se muestren las clases generadas, que no siempre aparecen entre los archivos escritos a mano."
+    },
+    "dificultad": "media",
+    "tipo": "funcionamiento-interno",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "OpenAPI Generator y Maven" }
+    ],
+    "conocimiento": "Al ejecutar mvn compile, el plugin de OpenAPI Generator suele generar interfaces y DTO desde el archivo OpenAPI en la fase generate-sources, antes de compilar.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "En un proyecto que genera código con OpenAPI Generator a partir de orders-api.yaml, una consumidora pide un campo nuevo en la respuesta de un pedido. Un desarrollador propone añadirlo editando la clase DTO que aparece en target/generated-sources/openapi. ¿Cuál es la forma correcta de proceder?",
+    "opciones": {
+      "A": "Modificar el contrato en orders-api.yaml y volver a generar el código, ya que las clases generadas se pueden consultar pero no se deben modificar directamente",
+      "B": "Editar la clase generada y anotarla después para que springdoc-openapi actualice orders-api.yaml con el campo nuevo",
+      "C": "Copiar la clase generada a los archivos escritos a mano y editarla allí, manteniendo el archivo OpenAPI sin cambios como referencia original",
+      "D": "Editar la clase generada y documentar el campo en una interfaz Java de contrato para que ambas fuentes queden alineadas"
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "La wiki indica que las clases generadas se pueden consultar pero no se deben modificar directamente: si cambia el contrato, se vuelve a generar el código. El archivo OpenAPI es la fuente de verdad del contrato.",
+    "explicacionesDistractores": {
+      "B": "springdoc-openapi genera documentación a partir del código Spring; no actualiza el archivo OpenAPI que actúa como fuente de verdad, y editar la clase generada contradice la indicación de no modificarla.",
+      "C": "Dejaría el archivo OpenAPI desalineado con la implementación; la wiki exige comprobar que la implementación se ajusta al archivo cuando este es la fuente.",
+      "D": "Supondría mantener dos contratos manuales que pueden divergir; la wiki recomienda elegir una única fuente de verdad."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "OpenAPI Generator y Maven" },
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "Comparativa de fuentes del contrato" }
+    ],
+    "conocimiento": "Las clases generadas por OpenAPI Generator no se modifican a mano: ante un cambio de contrato se edita el archivo OpenAPI y se regenera.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-02",
+    "enunciado": "Un equipo declara su contrato en la interfaz OrderHttpApi con anotaciones (springdoc-openapi genera el documento) y, en paralelo, mantiene a mano un orders-api.yaml que comparte con los consumidores. Para dar por buena una entrega abren Swagger UI y comprueban que la operación aparece. ¿Qué valoración es correcta?",
+    "opciones": {
+      "A": "Es suficiente, porque el documento que genera springdoc-openapi es una especificación independiente del código y por tanto coincidirá con orders-api.yaml",
+      "B": "Deberían usar OpenAPI Generator para generar orders-api.yaml a partir de OrderHttpApi y así eliminar el archivo escrito a mano",
+      "C": "Basta con añadir la validación de sintaxis de orders-api.yaml, porque si el archivo es un OpenAPI válido la implementación lo cumple",
+      "D": "Mantienen dos contratos manuales que pueden divergir, por lo que deberían elegir una fuente de verdad, y ver la operación en Swagger UI no demuestra por sí solo la conformidad"
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La wiki indica que elegir una fuente de verdad evita mantener dos contratos manuales que puedan divergir, y que abrir Swagger UI no demuestra por sí solo la conformidad: las pruebas HTTP de controller verifican el comportamiento integrado y, si se usa un archivo OpenAPI como fuente, hay que comprobar que la implementación se ajusta a él.",
+    "explicacionesDistractores": {
+      "A": "La wiki afirma lo contrario: con la interfaz Java el contrato queda ligado al código y el documento generado no es una especificación independiente del código.",
+      "B": "OpenAPI Generator hace el camino contrario: genera código Java (interfaces y DTO) a partir del archivo OpenAPI, no un archivo OpenAPI a partir de una interfaz Java.",
+      "C": "Validar la sintaxis OpenAPI es una comprobación posible, pero no verifica que la implementación se ajuste al archivo; para eso hay que comprobar solicitudes y respuestas de la implementación."
+    },
+    "dificultad": "dificil",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "Comparativa de fuentes del contrato" },
+      { "archivo": "wiki/dws/tema-02-api-first/contenido.md", "seccion": "4. Cambios y comprobaciones" }
+    ],
+    "conocimiento": "Mantener a la vez una interfaz anotada y un archivo OpenAPI manual crea dos contratos que pueden divergir, y Swagger UI no demuestra la conformidad de la implementación.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "El parámetro del controller está declarado como @Valid @RequestBody CreateOrderRequest request. En CreateOrderRequest el campo items se declara como @NotEmpty List<ItemRequest> items, sin @Valid, e ItemRequest tiene @Positive int quantity. Llega una petición con un único elemento cuya quantity es -3. ¿Qué ocurre en la validación de formato?",
+    "opciones": {
+      "A": "Se rechaza con 400, porque el @Valid del parámetro del controller valida en cascada todos los DTO anidados, lleven o no @Valid en el campo",
+      "B": "La lista supera @NotEmpty, pero sus elementos no se validan, porque es el @Valid sobre la lista lo que hace que se validen también los elementos",
+      "C": "Se ejecuta el cuerpo del controller y después Spring lanza MethodArgumentNotValidException al detectar la cantidad negativa",
+      "D": "La anotación @Positive de ItemRequest lanza una excepción de dominio que el manejador traduce al error de negocio del contrato"
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "La wiki explica que en CreateOrderRequest la lista se declara @NotEmpty @Valid List<ItemRequest> items y que el @Valid sobre la lista es lo que hace que se validen también los elementos. Sin él, el DTO de primer nivel se valida (la lista no está vacía), pero los ItemRequest no.",
+    "explicacionesDistractores": {
+      "A": "La cascada no es automática: la wiki atribuye la validación de los elementos al @Valid sobre la lista, y en general la validación es una decisión explícita.",
+      "C": "Cuando la validación falla, Spring lanza la excepción antes de que el controller ejecute su cuerpo, no después.",
+      "D": "@Positive es una constraint de Jakarta Validation sobre un DTO de entrada, que produce un 400 de formato; las excepciones de dominio proceden de las invariantes de los value objects."
+    },
+    "dificultad": "media",
+    "tipo": "funcionamiento-interno",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.2 Validación automática y en cascada" },
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.4 El resultado: 400 coherente con la API" }
+    ],
+    "conocimiento": "Los elementos de una lista de DTO anidados solo se validan en cascada si el campo de la lista lleva @Valid.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "Para no duplicar la regla del IBAN, un equipo propone quitar la comprobación del constructor compacto del record Iban y anotar su campo value con @ValidIban, ya que el DTO de entrada también usa esa constraint. Más adelante, un mapeador crea un Iban a partir de datos que no llegan por una petición HTTP. ¿Qué consecuencia tiene la propuesta?",
+    "opciones": {
+      "A": "Ninguna en cuanto a protección: la constraint se evalúa en toda construcción del record igual que el cuerpo del constructor compacto, y solo cambia el estilo del código",
+      "B": "El mapeador recibe un 400 con un ProblemDetail que indica el campo value, porque el manejador central intercepta la constraint fallida",
+      "C": "Se podría crear un Iban con contenido incorrecto, porque las anotaciones solo se aplican donde un framework valida, y además el dominio pasaría a depender de jakarta.validation",
+      "D": "IbanFormatValidator se ejecuta al construir el objeto y lanza InvalidIbanException, por lo que el comportamiento se mantiene aunque cambie el mecanismo"
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "La wiki explica que las anotaciones de Jakarta Validation solo se aplican donde un framework valida (una petición HTTP): un new Iban(...) directo se salta la validación. Además, introducen una dependencia de jakarta.validation en el dominio, prohibida en la verificación de módulos. Solo el código de invariante del constructor compacto protege en todas las vías de creación.",
+    "explicacionesDistractores": {
+      "A": "La wiki subraya que la pureza del dominio no es estética: la anotación no garantiza nada ante una construcción directa, mientras que el constructor compacto se ejecuta en toda vía de creación.",
+      "B": "El 400 con ProblemDetail se produce cuando Spring valida un DTO con @Valid en una petición; un mapeador que construye el objeto no pasa por esa validación ni por el manejador.",
+      "D": "La validadora solo se invoca cuando el framework aplica la validación, y devuelve true o false; InvalidIbanException la lanza el constructor compacto del value object."
+    },
+    "dificultad": "dificil",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "3.1 Por qué no Jakarta Validation en el dominio" },
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "3. Invariancias con value objects" }
+    ],
+    "conocimiento": "Sustituir la invariante del constructor compacto por anotaciones de Jakarta en el value object deja sin protección las vías de creación que no pasan por el framework y acopla el dominio a jakarta.validation.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-03",
+    "enunciado": "CreateAccountRequest declara balance como BigDecimal con @Positive @Digits(integer = 8, fraction = 2). Llega una solicitud con un saldo inicial de 0.02, bien formado pero no admitido por las reglas del negocio. Según la wiki, ¿cómo se gestiona esta petición?",
+    "opciones": {
+      "A": "Supera la validación del DTO; el caso de uso invoca al modelo, salta la excepción de negocio y el manejador de la API la traduce al error documentado en el contrato",
+      "B": "La rechaza Jakarta Validation con 400, porque @Digits(integer = 8, fraction = 2) no admite importes inferiores a una unidad",
+      "C": "El controller comprueba la regla de negocio antes de llamar al caso de uso y devuelve el ProblemDetail de «Solicitud inválida»",
+      "D": "Llega hasta la base de datos, donde la restricción falla y se devuelve un error del servidor, porque el formato ya fue aceptado"
+    },
+    "correcta": "A",
+    "explicacionCorrecta": "Es el ejemplo de campo válido para el contrato pero inválido para el negocio: 0.02 es positivo y tiene dos decimales, así que pasa el DTO. Después el caso de uso invoca al modelo, salta la excepción de negocio y el manejador de la API la traduce al error documentado en el contrato.",
+    "explicacionesDistractores": {
+      "B": "@Positive y @Digits(integer = 8, fraction = 2) comprueban rango y precisión: 0.02 es positivo y tiene como máximo 2 decimales, por lo que cumple el formato.",
+      "C": "Escribir reglas de negocio en el controller es uno de los errores clásicos que señala la wiki; además, el ProblemDetail «Solicitud inválida» corresponde a los fallos de validación de formato (400).",
+      "D": "Que datos inválidos lleguen al dominio y se conviertan en errores del servidor es el otro error clásico; la invariante del modelo debe detectarlo y producir una excepción de dominio."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "Campo válido para el contrato pero inválido para el negocio" },
+      { "archivo": "wiki/dws/tema-03-validacion/contenido.md", "seccion": "2.1 Constraints estándar" }
+    ],
+    "conocimiento": "Un dato bien formado pero inválido para el negocio supera el DTO y lo rechaza el modelo con una excepción de negocio que el manejador traduce al error del contrato.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "En el monolito modular de una tienda, el módulo de envíos necesita solicitar la cancelación de un pedido al módulo de pedidos. El flujo HTTP de pedidos pasa por un caso de uso que comprueba que la persona usuaria es la dueña del pedido. ¿Cómo debe llegar y tratarse esta solicitud?",
+    "opciones": {
+      "A": "Envíos invoca el caso de uso de cancelación, para reutilizar las mismas comprobaciones que se aplican a la persona usuaria",
+      "B": "Envíos llama directamente al servicio interno de pedidos, porque es el punto en el que confluyen todas las entradas",
+      "C": "El servicio interno comprueba que el módulo de envíos actúa como la persona dueña del pedido antes de cancelarlo",
+      "D": "Envíos usa la API pública de pedidos, que delega en su implementación y esta en el servicio, sin pasar por el caso de uso; las reglas e invariantes del servicio se aplican igualmente"
+    },
+    "correcta": "D",
+    "explicacionCorrecta": "La entrada entre módulos sigue la ruta API pública → implementación del módulo → servicio (Module → ModuleImpl → Service) y no pasa por un caso de uso de usuario. Las políticas de acceso dependen de quién inicia el flujo y están en el caso de uso; las reglas e invariantes del servicio se cumplen siempre, venga la llamada de una persona usuaria o de otro módulo.",
+    "explicacionesDistractores": {
+      "A": "La wiki indica que un módulo no pasa por un caso de uso de usuario: los casos de uso representan flujos de entrada, no operaciones reutilizables, y arrastrarían decisiones de acceso propias de la persona usuaria.",
+      "B": "El servicio vive en el paquete internal del módulo; otro módulo debe depender del contrato (la API pública), no de la implementación interna.",
+      "C": "Es justo el problema que describe la wiki: aplicar indiscriminadamente en el servicio las comprobaciones de usuario haría evaluar una llamada legítima de envíos con una identidad que no le corresponde, ya que envíos puede cancelar sin actuar como dueña del pedido."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "3. Separar los flujos de entrada con casos de uso" }
+    ],
+    "conocimiento": "Una llamada de otro módulo entra por la API pública (Module → ModuleImpl → Service) sin pasar por el caso de uso de usuario, y el servicio aplica siempre sus reglas e invariantes.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "En una aplicación con paquete base com.example.store, una clase de com.example.store.orders importa la clase pública CatalogService de com.example.store.catalog.internal.domain. El proyecto incluye en src/test/java un test que ejecuta ApplicationModules.of(Application.class).verify(). ¿Qué ocurre?",
+    "opciones": {
+      "A": "El código no compila, porque Spring Modulith convierte los subpaquetes internos de cada módulo en inaccesibles para el compilador",
+      "B": "El código compila, pero el test falla al detectar un acceso a un paquete interno de otro módulo, analizando paquetes y dependencias sin arrancar el contexto de Spring",
+      "C": "El test no detecta el problema, porque verify() solo comprueba ciclos entre módulos y los accesos a internal requieren una regla de ArchUnit",
+      "D": "El problema solo se detecta al arrancar la aplicación, cuando Spring Modulith levanta el contexto y comprueba las dependencias de cada bean"
+    },
+    "correcta": "B",
+    "explicacionCorrecta": "Los paquetes hijos directos de com.example.store son módulos y sus subpaquetes son internos salvo exposición explícita. En Java una clase pública de internal sigue siendo accesible, así que compila; el test con verify() analiza la estructura de paquetes sin arrancar el contexto y detecta ciclos, accesos a paquetes internos y dependencias no permitidas.",
+    "explicacionesDistractores": {
+      "A": "La wiki insiste en que es una verificación automatizada, no una protección en tiempo de compilación; estar en internal no hace inaccesible una clase pública.",
+      "C": "verify() detecta ciclos entre módulos, accesos a paquetes internos y dependencias no permitidas; ArchUnit sigue siendo útil para reglas más específicas dentro de un módulo.",
+      "D": "La verificación es un test JUnit en el código de pruebas y no necesita arrancar el contexto de Spring."
+    },
+    "dificultad": "dificil",
+    "tipo": "funcionamiento-interno",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "Test de verificación" },
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "API pública y subpaquetes internos" },
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "2.1 Verificar los límites entre módulos" }
+    ],
+    "conocimiento": "Un acceso a un paquete internal de otro módulo compila, pero ApplicationModules.verify() lo detecta en un test sin arrancar el contexto de Spring.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  },
+  {
+    "asignatura": "dws",
+    "tema": "dws-04",
+    "enunciado": "En el monolito modular, la clase Order de orders.internal necesita relacionarse con la persona usuaria que hizo el pedido, cuyo modelo User vive en users.internal. Cuando el módulo de pedidos necesita más datos de esa persona, ¿cómo debe modelarse y resolverse la relación?",
+    "opciones": {
+      "A": "Order guarda un campo de tipo User, ya que al ser una clase pública el límite entre módulos no se ve afectado",
+      "B": "Order guarda un identificador cuyo tipo se define en users.internal, para que ambos módulos compartan exactamente la misma clase",
+      "C": "Order guarda userId de tipo UUID y, si necesita más datos, los consulta a través de la API pública del módulo de usuarios",
+      "D": "Order guarda userId y, si necesita más datos, consulta directamente el repositorio interno del módulo de usuarios"
+    },
+    "correcta": "C",
+    "explicacionCorrecta": "Los modelos de dominio de cada módulo son privados porque viven en internal. Por eso Order guarda userId: UUID en lugar de una referencia a User, y si hace falta consultar más datos se usa la API pública del módulo propietario.",
+    "explicacionesDistractores": {
+      "A": "Un campo User obligaría a importar users.internal.User y dependería de un modelo interno de otro módulo, lo que viola el límite; que la clase sea pública no lo evita.",
+      "B": "La wiki indica que el tipo del identificador tampoco debe importar clases de users.internal; puede ser UUID, un tipo local del módulo consumidor o uno de un contrato público.",
+      "D": "El repositorio forma parte de la implementación interna del módulo de usuarios; los datos adicionales se obtienen mediante la API pública del módulo propietario."
+    },
+    "dificultad": "media",
+    "tipo": "situacion-practica",
+    "wikiRef": [
+      { "archivo": "wiki/dws/tema-04-monolito-modular/contenido.md", "seccion": "4. Modelos privados y relaciones mediante identificadores" }
+    ],
+    "conocimiento": "Los modelos de distintos módulos se relacionan mediante identificadores que no importan clases internas, y los datos adicionales se piden a la API pública del módulo propietario.",
+    "autor": "gen-dws-2",
+    "fechaCreacion": "2026-11-17T13:00:00.000Z"
+  }
+]
