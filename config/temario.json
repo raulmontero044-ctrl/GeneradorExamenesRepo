@@ -1,0 +1,85 @@
+{
+  "descripcion": "Temario oficial que entra en el examen. Fuente única de verdad para scripts y skills. No modificar la distribución sin autorización del usuario.",
+  "preguntasPorTema": 5,
+  "totalPreguntas": 40,
+  "asignaturas": [
+    {
+      "id": "prog",
+      "nombre": "Programación",
+      "indice": "https://cesguiro.es/doku.php/clase/daw/prog/start",
+      "carpeta": "programacion"
+    },
+    {
+      "id": "dws",
+      "nombre": "Desarrollo Web en Entorno Servidor",
+      "indice": "https://cesguiro.es/doku.php/clase/daw/dws/start",
+      "carpeta": "dws"
+    }
+  ],
+  "temas": [
+    {
+      "id": "prog-08",
+      "asignatura": "prog",
+      "numero": 8,
+      "titulo": "08 - Arquitectura de Software por Capas y Diseño de Componentes",
+      "url": "https://cesguiro.es/doku.php/clase/daw/prog/arquitectura",
+      "carpeta": "tema-08-arquitectura"
+    },
+    {
+      "id": "prog-09",
+      "asignatura": "prog",
+      "numero": 9,
+      "titulo": "09. APIs REST y Protocolo HTTP",
+      "url": "https://cesguiro.es/doku.php/clase/daw/prog/api",
+      "carpeta": "tema-09-api-rest-http"
+    },
+    {
+      "id": "prog-10",
+      "asignatura": "prog",
+      "numero": 10,
+      "titulo": "10. Frameworks Web: Spring Boot",
+      "url": "https://cesguiro.es/doku.php/clase/daw/prog/spring",
+      "carpeta": "tema-10-spring-boot"
+    },
+    {
+      "id": "prog-12",
+      "asignatura": "prog",
+      "numero": 12,
+      "titulo": "12 - Login con tokens",
+      "url": "https://cesguiro.es/doku.php/clase/daw/prog/login",
+      "carpeta": "tema-12-login-tokens"
+    },
+    {
+      "id": "dws-01",
+      "asignatura": "dws",
+      "numero": 1,
+      "titulo": "01 - Arquitecturas de software",
+      "url": "https://cesguiro.es/doku.php/clase/daw/dws/arquitecturas",
+      "carpeta": "tema-01-arquitecturas"
+    },
+    {
+      "id": "dws-02",
+      "asignatura": "dws",
+      "numero": 2,
+      "titulo": "02 - API First",
+      "url": "https://cesguiro.es/doku.php/clase/daw/dws/api_first",
+      "carpeta": "tema-02-api-first"
+    },
+    {
+      "id": "dws-03",
+      "asignatura": "dws",
+      "numero": 3,
+      "titulo": "03 - Validación e invariancias",
+      "url": "https://cesguiro.es/doku.php/clase/daw/dws/validacion",
+      "carpeta": "tema-03-validacion"
+    },
+    {
+      "id": "dws-04",
+      "asignatura": "dws",
+      "numero": 4,
+      "titulo": "04 - Monolito modular",
+      "url": "https://cesguiro.es/doku.php/clase/daw/dws/modulith",
+      "carpeta": "tema-04-monolito-modular"
+    }
+  ]
+}
