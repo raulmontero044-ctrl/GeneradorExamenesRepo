@@ -72,11 +72,13 @@ El `id` es `<tema>-<8 hex>` derivado de la huella del enunciado normalizado.
 
 ### 4.2 Examen (`examenes/<examenId>/examen.json`)
 
-`{ "id", "fechaCreacion", "preguntas": [40 × Pregunta], "proceso": { candidatas, aceptadas, rondasFalsador, … } }`
+`{ "id", "fechaCreacion", "preguntas": [40 × Pregunta], "proceso": { candidatas, elegibles, excluidas, correcciones[], sustituciones[] }, "falsador": { veredicto, huella, rondas[] } }`
+
+`correcciones` guarda cada cambio de un evaluador (`idOriginal`, `id`, `evaluador`, `cambios`); `sustituciones`, cada pregunta retirada por el falsador y su reemplazo. `falsador.huella` es la huella SHA-256 de las preguntas aprobadas.
 
 ### 4.3 Banco (`banco/preguntas.jsonl`)
 
-Pregunta + `fechaUso` + `examenId`. Una línea por pregunta. `tools/banco.mjs registrar` se niega a registrar un `id` o un enunciado normalizado ya presente.
+Pregunta + `fechaUso` + `examenId`. Una línea por pregunta. `tools/banco.mjs registrar` solo acepta exámenes con `falsador.veredicto = APROBADO` cuya huella coincide con la de las preguntas actuales, y se niega (todo o nada) si algún `id`, enunciado normalizado o pregunta reordenada ya está en el banco.
 
 ### 4.4 Resultado (`historial/resultados/<examenId>/<fecha>-<aleatorio>.json`)
 
@@ -84,7 +86,7 @@ Pregunta + `fechaUso` + `examenId`. Una línea por pregunta. `tools/banco.mjs re
 
 ## 5. Puntuación
 
-Acierto +1, error −0,33, blanco 0. `nota = clamp((puntuación / 40) × 10, 0, 10)`, redondeada a 2 decimales al mostrarse. Implementada una sola vez en `tools/lib/puntuacion.mjs` e incrustada en el HTML, para que tests y página usen el mismo código.
+Acierto +1, error −0,33, blanco 0. `nota = clamp((puntuación / 40) × 10, 0, 10)`, redondeada a centésimas con aritmética entera (en coma flotante, p. ej. 6 aciertos y 6 errores darían 1,00 en lugar de 1,01). Implementada una sola vez en `tools/lib/puntuacion.mjs` e incrustada en el HTML, para que tests y página usen el mismo código.
 
 ## 6. Diseño por skill
 
@@ -111,7 +113,7 @@ Acierto +1, error −0,33, blanco 0. `nota = clamp((puntuación / 40) × 10, 0, 
 
 - **Responsabilidad:** obtener candidatas de varios autores independientes por tema.
 - **Entradas:** examenId, temas (por defecto los 8), número por generador, preguntas a evitar (resumen del banco por tema).
-- **Salidas:** `examenes/<id>/trabajo/candidatas/<generador>.json` validados con `tools/examen.mjs candidatas`.
+- **Salidas:** `examenes/<id>/trabajo/candidatas/<generador>.json` validados con `tools/candidatas.mjs comprobar` (autocomprobación de cada generador) y reunidos con `tools/candidatas.mjs reunir`.
 - **Subagentes:** 6 `generador-preguntas` en paralelo: 3 por asignatura, cada uno con los 4 temas de su asignatura y 3 preguntas por tema (9 candidatas por tema y 3 autores distintos). Cada uno recibe un enfoque distinto para diversificar. Se eligió así porque los 4 temas de una asignatura caben con holgura en un contexto (≈60 KB de wiki) y 3 autores dan competición real sin disparar el coste.
 - **Aceptación:** cada fichero pasa la validación de esquema; cada tema tiene ≥ 7 candidatas válidas (si no, ronda adicional solo para ese tema).
 
@@ -128,6 +130,7 @@ Acierto +1, error −0,33, blanco 0. `nota = clamp((puntuación / 40) × 10, 0, 
 
 - **Responsabilidad:** buscar afirmaciones falsas. Modo `contenido`: cada pregunta (respuesta correcta verdadera, distractores falsos, explicaciones, pertenencia al temario) contra la wiki. Modo `sistema`: afirmaciones sobre el examen (40, 5 por tema, sin duplicados, HTML funcional, puntuación, historial) contra la ejecución real de los scripts y tests.
 - **Veredicto:** `MENTIRA`, `NO DETECTADA`, `INDETERMINADA` por línea; el examen solo se aprueba si todas las líneas son `NO DETECTADA`.
+- **Integración:** `tools/falsacion.mjs preparar` genera las líneas (`contenido-prog.jsonl`, `contenido-dws.jsonl`, `sistema.jsonl`) y fija la huella del examen; los tres agentes se lanzan en paralelo; `tools/falsacion.mjs registrar` analiza sus informes, exige un bloque por línea y **calcula** el veredicto (un «APROBADO» del informe no prevalece sobre sus líneas). Las preguntas refutadas pasan a `/k-corrector` modo `correccion` (`seleccionar.mjs sustituir` o `corregir`) y se repite la ronda.
 
 ### 6.6 `/k-examen` (HTML)
 
